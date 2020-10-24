@@ -29,7 +29,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 	JButton loginButton = new JButton("LOGIN");
 	JButton resetButton = new JButton("RESET");
 	JCheckBox showPassword = new JCheckBox("Password zeigen");
-//	Icon icon1;
+
 
 
 	ImageIcon logo = new ImageIcon("Logo1.PNG");
