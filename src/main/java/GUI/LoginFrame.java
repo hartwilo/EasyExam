@@ -32,7 +32,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
 
 
-	ImageIcon logo = new ImageIcon("Logo1.PNG");
+	ImageIcon logo = new ImageIcon("logo1.png");
 	private final JLabel lblPic = new JLabel("pic");
 
 	public LoginFrame() {
