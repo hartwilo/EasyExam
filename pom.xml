@@ -31,7 +31,6 @@
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
@@ -73,7 +72,26 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+	      <plugin>
+		      <groupId>org.jacoco</groupId>
+		      <artifactId>jacoco-maven-plugin</artifact>
+		      <version>0.8.6</version>
+		      <executions>
+			      <execution>
+				      <id>default-prepare-agent</id>
+				      <goals>
+					      <goal>prepare-agent</goal>
+				      </goals>
+			      </execution>
+			      <execution>
+				      <id>report</id>
+				      <goals>
+					      <goal>report</goal>
+				      </goals>
+				      <phase>verify</phase>
+			      </execution>
+		      </executions>
+	      </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 </project>
