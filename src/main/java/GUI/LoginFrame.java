@@ -30,8 +30,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 	JButton resetButton = new JButton("RESET");
 	JCheckBox showPassword = new JCheckBox("Password zeigen");
 
-
-
 	ImageIcon logo = new ImageIcon("logo1.png");
 	private final JLabel lblPic = new JLabel("pic");
 
@@ -39,7 +37,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 		setType(Type.UTILITY);
 		getContentPane().setBackground(new Color(153, 204, 204));
 		setTitle("EasyExam");
-		setLocationRelativeTo(null);
 		setLayoutManager();
 		setLocationAndSize();
 		addComponentsToContainer();
@@ -54,11 +51,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 	}
 
 	public void setLocationAndSize() {
-		userLabel.setBounds(50, 150, 100, 30);
-		passwordLabel.setBounds(50, 220, 100, 30);
-		userTextField.setBounds(150, 150, 150, 30);
-		passwordField.setBounds(150, 220, 150, 30);
-		showPassword.setBounds(150, 250, 150, 30);
+		userLabel.setBounds(33, 149, 100, 30);
+		passwordLabel.setBounds(33, 219, 100, 30);
+		userTextField.setBounds(132, 150, 150, 30);
+		passwordField.setBounds(132, 220, 150, 30);
+		showPassword.setBounds(132, 249, 150, 30);
 		loginButton.setBounds(50, 364, 100, 30);
 		resetButton.setBounds(200, 364, 100, 30);
 
@@ -72,7 +69,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		container.add(showPassword);
 		container.add(loginButton);
 		container.add(resetButton);
-		lblPic.setBounds(150, 10, 150, 130);
+		lblPic.setBounds(132, 10, 150, 130);
 
 		getContentPane().add(lblPic);
 	}
@@ -85,13 +82,18 @@ public class LoginFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
 		// Coding Part of LOGIN button
 		if (e.getSource() == loginButton) {
 			String userText;
 			String pwdText;
 			userText = userTextField.getText();
 			pwdText = passwordField.getText();
-			if (userText.equalsIgnoreCase("User") && pwdText.equalsIgnoreCase("12345")) {
+
+//			
+			boolean isLogin = tryLogin(userText, pwdText);
+
+			if (isLogin) {
 				JOptionPane.showMessageDialog(this, "Login ist erfolgreich");
 			} else {
 				JOptionPane.showMessageDialog(this,
@@ -113,6 +115,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			}
 
 		}
+
 	}
 
 	public static void main(String[] a) {
@@ -123,5 +126,19 @@ public class LoginFrame extends JFrame implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 
+//      to start the interface in the middle of the screen.
+		frame.setLocationRelativeTo(null);
+
+	}
+
+	public boolean tryLogin(String userText, String pwdText) {
+
+		// (equalsIgnoreCase)= when it is not important if the first letter is upper or
+		// lower case
+		if (userText.equalsIgnoreCase("User") && pwdText.equals("Ba12345")) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
