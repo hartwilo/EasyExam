@@ -83,7 +83,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 		showPassword.addActionListener(this);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Coding Part of LOGIN button
 		if (e.getSource() == loginButton) {
@@ -93,6 +92,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 			pwdText = passwordField.getText();
 			if (userText.equalsIgnoreCase("User") && pwdText.equalsIgnoreCase("12345")) {
 				JOptionPane.showMessageDialog(this, "Login ist erfolgreich");
+				Startseite start = new Startseite();
+				start.setVisible(true);
+				start.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+				start.setLocationRelativeTo(null);
+				start.setTitle("EasyExam");
 			} else {
 				JOptionPane.showMessageDialog(this,
 						"falsche Username oder Password,Bitte richtige Username oder Password eingeben");
@@ -113,15 +117,5 @@ public class LoginFrame extends JFrame implements ActionListener {
 			}
 
 		}
-	}
-
-	public static void main(String[] a) {
-		LoginFrame frame = new LoginFrame();
-		frame.setTitle("EasyExam");
-		frame.setVisible(true);
-		frame.setBounds(10, 10, 370, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-
 	}
 }
