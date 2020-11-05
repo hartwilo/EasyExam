@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 
 public class Fragekatalog extends JFrame{
+	private JTextField tfPunktzahl;
 	public Fragekatalog() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{416, 0, 251, 266, 204, 0, 0};
@@ -26,7 +27,6 @@ public class Fragekatalog extends JFrame{
 		
 		JLabel lblFragestellungEingeben = new JLabel("Fragestellung eingeben:");
 		GridBagConstraints gbc_lblFragestellungEingeben = new GridBagConstraints();
-		gbc_lblFragestellungEingeben.anchor = GridBagConstraints.EAST;
 		gbc_lblFragestellungEingeben.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFragestellungEingeben.gridx = 0;
 		gbc_lblFragestellungEingeben.gridy = 1;
@@ -81,7 +81,6 @@ public class Fragekatalog extends JFrame{
 		
 		JLabel lblMusterloesung = new JLabel("Musterlösung:");
 		GridBagConstraints gbc_lblMusterloesung = new GridBagConstraints();
-		gbc_lblMusterloesung.anchor = GridBagConstraints.EAST;
 		gbc_lblMusterloesung.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMusterloesung.gridx = 0;
 		gbc_lblMusterloesung.gridy = 4;
@@ -94,5 +93,22 @@ public class Fragekatalog extends JFrame{
 		gbc_taMusterloesung.gridx = 0;
 		gbc_taMusterloesung.gridy = 5;
 		getContentPane().add(taMusterloesung, gbc_taMusterloesung);
+		
+		JLabel lblPunktzahl = new JLabel("Punktzahl");
+		GridBagConstraints gbc_lblPunktzahl = new GridBagConstraints();
+		gbc_lblPunktzahl.anchor = GridBagConstraints.EAST;
+		gbc_lblPunktzahl.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPunktzahl.gridx = 2;
+		gbc_lblPunktzahl.gridy = 6;
+		getContentPane().add(lblPunktzahl, gbc_lblPunktzahl);
+		
+		tfPunktzahl = new JTextField();
+		GridBagConstraints gbc_tfPunktzahl = new GridBagConstraints();
+		gbc_tfPunktzahl.insets = new Insets(0, 0, 5, 5);
+		gbc_tfPunktzahl.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPunktzahl.gridx = 3;
+		gbc_tfPunktzahl.gridy = 6;
+		getContentPane().add(tfPunktzahl, gbc_tfPunktzahl);
+		tfPunktzahl.setColumns(10);
 	}
 }
