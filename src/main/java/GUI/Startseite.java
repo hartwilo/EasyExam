@@ -22,6 +22,14 @@ public class Startseite extends JFrame{
 		getContentPane().setBackground(new Color(153, 204, 204));
 		
 		JButton btnFragekatalog = new JButton("Fragekatalog erstellen");
+		btnFragekatalog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Fragekatalog fk = new Fragekatalog();
+				fk.setVisible(true);
+				fk.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				fk.setTitle("Frage erstellen");
+			}
+		});
 		GridBagConstraints gbc_btnFragekatalog = new GridBagConstraints();
 		gbc_btnFragekatalog.insets = new Insets(0, 5, 5, 5);
 		gbc_btnFragekatalog.gridx = 1;
