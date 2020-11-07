@@ -35,6 +35,12 @@
       <version>[4.13.1,)</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-controls</artifactId>
+    <version>12.0.2</version>
+	</dependency>
 
   </dependencies>
 
@@ -100,6 +106,7 @@
 			      		</execution>
 		      		</executions>
 	      </plugin>
+	      
       </plugins>
   </build>
 </project>
