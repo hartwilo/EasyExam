@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="424.0" prefWidth="581.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controller">
+   <children>
+      <VBox prefHeight="441.0" prefWidth="650.0">
+        <children>
+          <MenuBar prefHeight="13.0" prefWidth="625.0" VBox.vgrow="NEVER">
+            <menus>
+              <Menu mnemonicParsing="false" text="File">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open…" />
+                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Save As…" />
+                  <MenuItem mnemonicParsing="false" text="Revert" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Preferences…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Cut" />
+                  <MenuItem mnemonicParsing="false" text="Copy" />
+                  <MenuItem mnemonicParsing="false" text="Paste" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Select All" />
+                  <MenuItem mnemonicParsing="false" text="Unselect All" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Help">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                </items>
+              </Menu>
+            </menus>
+          </MenuBar>
+          <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="393.0" prefWidth="650.0" VBox.vgrow="ALWAYS">
+            <children>
+                  <TextArea fx:id="frageStellungEingebenTF" layoutX="31.0" layoutY="44.0" prefHeight="130.0" prefWidth="298.0" />
+                  <TextArea fx:id="musterLoesungEingebenTF" layoutX="31.0" layoutY="212.0" prefHeight="130.0" prefWidth="298.0" />
+                  <RadioButton fx:id="niveauRadioButton1" layoutX="370.0" layoutY="219.0" mnemonicParsing="false" text="Niveau 1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Niveau" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <Slider fx:id="fragestellungSlider" layoutX="336.0" layoutY="44.0" orientation="VERTICAL" prefHeight="130.0" prefWidth="14.0" />
+                  <Slider fx:id="musterloesungSlider" layoutX="336.0" layoutY="212.0" orientation="VERTICAL" prefHeight="130.0" prefWidth="14.0" />
+                  <Button fx:id="frageSpeichernBN" layoutX="547.0" layoutY="321.0" mnemonicParsing="false" text="Speichern" />
+                  <Label fx:id="fragestellungEingebenLB" layoutX="31.0" layoutY="21.0" text="Fragestellung Eingeben" />
+                  <Label fx:id="musterloesungEingebenLB" layoutX="30.0" layoutY="185.0" text="Musterlösung Eingeben" />
+                  <ChoiceBox layoutX="370.0" layoutY="44.0" prefHeight="25.0" prefWidth="204.0" />
+                  <Button fx:id="themenGebietEingebenBN" layoutX="582.0" layoutY="44.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="+" />
+                  <TextField fx:id="punktzahlTF" layoutX="468.0" layoutY="321.0" prefHeight="25.0" prefWidth="49.0" />
+                  <Label fx:id="puntzahlLB" layoutX="374.0" layoutY="321.0" prefHeight="25.0" prefWidth="60.0" text="Puntkzahl" />
+                  <Label fx:id="themenGebietEingebenLB" layoutX="370.0" layoutY="21.0" text="Themengebiet eingeben" />
+                  <RadioButton fx:id="niveauRadioButton2" layoutX="458.0" layoutY="219.0" mnemonicParsing="false" text="Niveau 2" toggleGroup="$Niveau" />
+                  <RadioButton fx:id="niveauRadioButton3" layoutX="548.0" layoutY="219.0" mnemonicParsing="false" text="Niveau 3" toggleGroup="$Niveau" />
+            </children>
+          </AnchorPane>
+        </children>
+      </VBox>
+   </children>
+</AnchorPane>
