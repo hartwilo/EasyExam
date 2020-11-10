@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0" prefWidth="928.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controller">
+   <children>
+      <ScrollPane layoutX="48.0" layoutY="141.0" prefHeight="438.0" prefWidth="312.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="290.0">
+               <children>
+                  <TableView layoutX="10.0" layoutY="7.0" prefHeight="418.0" prefWidth="275.0">
+                    <columns>
+                      <TableColumn prefWidth="274.3999931335449" text="Fragestellung" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <ScrollPane layoutX="377.0" layoutY="143.0" prefHeight="438.0" prefWidth="507.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="445.0" prefWidth="521.0">
+               <children>
+                  <TextField layoutX="40.0" layoutY="50.0" prefHeight="166.0" prefWidth="432.0" />
+                  <TextField layoutX="43.0" layoutY="267.0" prefHeight="144.0" prefWidth="432.0" />
+                  <TextField layoutX="400.0" layoutY="424.0" prefHeight="26.0" prefWidth="74.0" />
+                  <Label layoutX="43.0" layoutY="27.0" text="Fragestellung" />
+                  <Label layoutX="43.0" layoutY="231.0" text="Musterlösung" />
+                  <Label layoutX="292.0" layoutY="442.0" text="Puntkzahl" />
+                  <Label layoutX="42.0" layoutY="428.0" text="Punktzahl" />
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <ComboBox layoutX="46.0" layoutY="97.0" prefHeight="26.0" prefWidth="312.0" />
+      <TextField layoutX="375.0" layoutY="97.0" prefHeight="26.0" prefWidth="146.0" />
+      <TextField layoutX="529.0" layoutY="97.0" prefHeight="26.0" prefWidth="81.0" />
+      <DatePicker layoutX="620.0" layoutY="97.0" prefHeight="26.0" prefWidth="74.0" />
+      <ProgressBar layoutX="737.0" layoutY="97.0" prefHeight="26.0" prefWidth="145.0" progress="0.0" />
+      <Label layoutX="46.0" layoutY="75.0" text="Fragekatalog" />
+      <Label layoutX="375.0" layoutY="75.0" text="Student" />
+      <Label layoutX="529.0" layoutY="75.0" text="Matr.Nr" />
+      <Label layoutX="620.0" layoutY="75.0" text="Datum" />
+      <CheckBox layoutX="204.0" layoutY="597.0" mnemonicParsing="false" text="1" />
+      <CheckBox layoutX="265.0" layoutY="597.0" mnemonicParsing="false" text="2" />
+      <CheckBox layoutX="322.0" layoutY="597.0" mnemonicParsing="false" text="3" />
+      <Label layoutX="48.0" layoutY="597.0" text="Schierwigkeitsniveau" />
+      <MenuBar layoutX="-1.0" layoutY="1.0" prefHeight="26.0" prefWidth="928.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open…" />
+                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Save As…" />
+                  <MenuItem mnemonicParsing="false" text="Revert" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Preferences…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Cut" />
+                  <MenuItem mnemonicParsing="false" text="Copy" />
+                  <MenuItem mnemonicParsing="false" text="Paste" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Select All" />
+                  <MenuItem mnemonicParsing="false" text="Unselect All" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Button layoutX="694.0" layoutY="593.0" mnemonicParsing="false" text="Start" />
+      <Button layoutX="742.0" layoutY="593.0" mnemonicParsing="false" text="Stop" />
+      <Button layoutX="792.0" layoutY="593.0" mnemonicParsing="false" text="Pause" />
+      <Button layoutX="848.0" layoutY="593.0" mnemonicParsing="false" text="End" />
+      <Button layoutX="706.0" layoutY="97.0" mnemonicParsing="false" text="+" />
+      <Button id="zueruckDurchfuehrung" fx:id="zueruckDurchfuehrung" layoutX="657.0" layoutY="593.0" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" text="&lt;" />
+   </children>
+</AnchorPane>
