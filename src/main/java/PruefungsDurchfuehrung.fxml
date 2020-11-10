@@ -16,16 +16,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0" prefWidth="928.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controller">
    <children>
       <ScrollPane layoutX="48.0" layoutY="141.0" prefHeight="438.0" prefWidth="312.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="290.0">
                <children>
-                  <TableView layoutX="10.0" layoutY="47.0" prefHeight="377.0" prefWidth="266.0">
+                  <TableView layoutX="10.0" layoutY="7.0" prefHeight="418.0" prefWidth="275.0">
                     <columns>
-                      <TableColumn prefWidth="260.79997634887695" text="Fragestellung" />
+                      <TableColumn prefWidth="274.3999931335449" text="Fragestellung" />
                     </columns>
                   </TableView>
                </children>
@@ -47,8 +46,7 @@
             </AnchorPane>
          </content>
       </ScrollPane>
-      <ComboBox layoutX="46.0" layoutY="97.0" prefHeight="26.0" prefWidth="284.0" />
-      <Button layoutX="339.0" layoutY="97.0" mnemonicParsing="false" text="+" />
+      <ComboBox layoutX="46.0" layoutY="97.0" prefHeight="26.0" prefWidth="312.0" />
       <TextField layoutX="375.0" layoutY="97.0" prefHeight="26.0" prefWidth="146.0" />
       <TextField layoutX="529.0" layoutY="97.0" prefHeight="26.0" prefWidth="81.0" />
       <DatePicker layoutX="620.0" layoutY="97.0" prefHeight="26.0" prefWidth="74.0" />
@@ -100,10 +98,11 @@
             </Menu>
          </menus>
       </MenuBar>
-      <Button layoutX="686.0" layoutY="593.0" mnemonicParsing="false" text="Start" />
+      <Button layoutX="694.0" layoutY="593.0" mnemonicParsing="false" text="Start" />
       <Button layoutX="742.0" layoutY="593.0" mnemonicParsing="false" text="Stop" />
       <Button layoutX="792.0" layoutY="593.0" mnemonicParsing="false" text="Pause" />
       <Button layoutX="848.0" layoutY="593.0" mnemonicParsing="false" text="End" />
       <Button layoutX="706.0" layoutY="97.0" mnemonicParsing="false" text="+" />
+      <Button id="zueruckDurchfuehrung" fx:id="zueruckDurchfuehrung" layoutX="657.0" layoutY="593.0" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" text="&lt;" />
    </children>
 </AnchorPane>
