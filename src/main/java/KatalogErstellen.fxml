@@ -75,7 +75,8 @@
                     </columns>
                   </TableView>
                   <ChoiceBox id="KatalogAuswhal" layoutX="9.0" layoutY="35.0" prefHeight="25.0" prefWidth="982.0" />
-                  <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="945.0" layoutY="544.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="12.0" prefWidth="78.0" text="Neue Frage" />
+                  <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="859.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="12.0" prefWidth="78.0" text="Neue Frage" />
+                  <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="946.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
             </children>
           </AnchorPane>
         </children>

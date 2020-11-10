@@ -13,6 +13,7 @@ public class Main extends Application {
 	public static Scene scene;
 	public static FXMLLoader loader;
 	public static Controller controller;
+	public static String currentWindow;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -30,7 +31,9 @@ public class Main extends Application {
 		Main.scene.setRoot(root);
 		mainWindow.setScene(scene);
 		Main.mainWindow.setResizable(false); //Retardo Workaround NGL
+		Main.mainWindow.centerOnScreen();
 		mainWindow.show();
+		
 	}
 
 	public static void main(String[] args) {
