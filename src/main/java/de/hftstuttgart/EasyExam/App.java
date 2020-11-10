@@ -8,6 +8,9 @@ public class App
 {
     public static void main( String[] args )
     {
+    	
+    	DB.DBConn.buildConn();
+    	
         LoginFrame frame = new LoginFrame();
         frame.setVisible(true);
         frame.setSize(400, 600);
