@@ -21,7 +21,7 @@ public class DBConn {
 		try {
 		log.info("Loading application properties");
         Properties properties = new Properties();
-        properties.load(DBConn.class.getClassLoader().getResourceAsStream("application.properties"));
+        properties.load(DB.DBConn.class.getClassLoader().getResourceAsStream("application.properties"));
         
         log.info(properties.toString());
 
