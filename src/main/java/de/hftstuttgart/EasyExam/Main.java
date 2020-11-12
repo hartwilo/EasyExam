@@ -25,7 +25,7 @@ public class Main extends Application {
 
 	private void showMainView() throws IOException {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/AnfangsScreen.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/GUI/AnfangsScreen.fxml"));
 
 		Main.scene = new Scene(root);
 		Main.scene.setRoot(root);

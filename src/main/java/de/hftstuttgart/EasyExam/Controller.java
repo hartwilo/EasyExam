@@ -15,7 +15,7 @@ public class Controller {
 	
 	public void setWindow(String FXMLFile) throws IOException {
 
-		Parent root = FXMLLoader.load(getClass().getResource("/" + FXMLFile + ".fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/GUI/" + FXMLFile + ".fxml"));
 
 		Main.scene = new Scene(root);
 		Main.scene.setRoot(root);
