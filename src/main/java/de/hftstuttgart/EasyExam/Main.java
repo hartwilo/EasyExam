@@ -2,6 +2,7 @@ package de.hftstuttgart.EasyExam;
 
 import java.io.IOException;
 
+import de.hftstuttgart.EasyExam.Controllers.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
