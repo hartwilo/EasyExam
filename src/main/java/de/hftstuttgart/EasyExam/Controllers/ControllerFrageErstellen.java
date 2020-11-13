@@ -65,15 +65,12 @@ public class ControllerFrageErstellen {
 	@FXML
 	private TextField themengebietTextField;
 
-	// ObservableList<String> themengebiete = new ObservableList<String>();
-
 	@FXML
 	private ComboBox<String> themengebietComboBox;
 
 	// DB Related Variables
 	public PreparedStatement pst = null;
 	public String query = null;
-
 
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
@@ -98,7 +95,9 @@ public class ControllerFrageErstellen {
 		if (themengebiet == null) {
 			themengebiet = themengebietTextField.getText();
 		}
-		if (themengebietComboBox.getValue()!= null && themengebietTextField.getText()!= null ) { // Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert übernommen wird!
+		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
+			// Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert
+			// übernommen wird! Oder einen option ausblenden wenn die andere benutz
 			themengebiet = themengebietComboBox.getValue();
 		}
 		String stellung = frageStellungTextField.getText();
@@ -122,8 +121,6 @@ public class ControllerFrageErstellen {
 		} else {
 			System.out.print("Frage wurde nicht gespeichert"); // Must be changed to fx Error window
 		}
-		
-		System.out.print(themengebietComboBox.getValue());
 	}
 
 }
