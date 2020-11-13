@@ -1,60 +1,76 @@
 package de.hftstuttgart.EasyExam;
 
+import javafx.beans.property.*;
+
 public class Frage {
 
-	private int id;
-	private String fragestellung;
-	private int niveau;
-	private double punkte;
-	private Themengebiet themengebiet;
+	//private int id;
+	private String frageStellung;
+	private String niveau;
+	private int punkte; //muss evtll auf double geändert werden
+	private String themengebiet;
 	private boolean gestellt;
-	private Musterloesung[] loesungen;
+	private String musterLoesung;
 	
-	public Frage(int pId, String pFragestellung, int pNiveau, Themengebiet pThemengebiet)
+	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, int punkte, Boolean gestellt )
 	{
-		id = pId;
-		fragestellung = pFragestellung;
-		niveau = pNiveau;
-		themengebiet = pThemengebiet;
+		//id = pId;
+		this.themengebiet = themengebiet;
+		this.frageStellung = frageStellung;
+		this.musterLoesung = musterLoesung;
+		this.niveau = niveau;
+		this.punkte = punkte;		
+		this.gestellt = gestellt;
+		
 	}
-	
-	public int getId() {
-		return id;
-	}
+
 	public String getFragestellung() {
-		return fragestellung;
+		return frageStellung;
 	}
+
 	public void setFragestellung(String fragestellung) {
-		this.fragestellung = fragestellung;
+		this.frageStellung = fragestellung;
 	}
-	public int getNiveau() {
+
+	public String getNiveau() {
 		return niveau;
 	}
-	public void setNiveau(int niveau) {
+
+	public void setNiveau(String niveau) {
 		this.niveau = niveau;
 	}
-	public double getPunkte() {
+
+	public int getPunkte() {
 		return punkte;
 	}
-	public void setPunkte(double punkte) {
+
+	public void setPunkte(int punkte) {
 		this.punkte = punkte;
 	}
-	public Themengebiet getThemengebiet() {
+
+	public String getThemengebiet() {
 		return themengebiet;
 	}
-	public void setThemengebiet(Themengebiet themengebiet) {
+
+	public void setThemengebiet(String themengebiet) {
 		this.themengebiet = themengebiet;
 	}
+
 	public boolean isGestellt() {
 		return gestellt;
 	}
+
 	public void setGestellt(boolean gestellt) {
 		this.gestellt = gestellt;
 	}
-	public Musterloesung [] getLoesungen() {
-		return loesungen;
+
+	public String getMusterLoesung() {
+		return musterLoesung;
 	}
-	public void setLoesungen(Musterloesung[] loesungen) {
-		this.loesungen = loesungen;
+
+	public void setMusterLoesung(String musterLoesung) {
+		this.musterLoesung = musterLoesung;
 	}
+	
+	
 }

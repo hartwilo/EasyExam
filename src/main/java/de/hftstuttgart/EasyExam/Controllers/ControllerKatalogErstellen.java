@@ -1,13 +1,24 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import DB.DBConn;
+import de.hftstuttgart.EasyExam.Frage;
 import de.hftstuttgart.EasyExam.Main;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerKatalogErstellen {
@@ -30,19 +41,55 @@ public class ControllerKatalogErstellen {
 	private TableView<de.hftstuttgart.EasyExam.Frage> fragenTabelle;
 
 	@FXML
-	private TableColumn<?, ?> frageStellungCol;
+	private TableColumn<Frage, String> frageStellungCol;
 
 	@FXML
-	private TableColumn<?, ?> punkteCol;
+	private TableColumn<Frage, Number> punkteCol;
 
 	@FXML
-	private TableColumn<?, ?> themaCol;
+	private TableColumn<Frage, String> themaCol;
 
 	@FXML
-	private TableColumn<?, ?> niveauCol;
+	private TableColumn<Frage, String> niveauCol;
 
 	@FXML
-	private TableColumn<?, ?> musterloesungCol;
+	private TableColumn<Frage, String> musterloesungCol;
+
+	@FXML
+	private Button loadQuestions;
+
+	public static PreparedStatement pst = null;
+	public String query = null;
+
+	@FXML
+	public void fragenLaden(MouseEvent event) throws SQLException {
+		ObservableList<Frage> list = FXCollections.observableArrayList();
+
+		String query = "Select * from Fragen";
+		pst = DBConn.connection.prepareStatement(query);
+		ResultSet rs = pst.executeQuery();
+
+		while (rs.next()) {
+			list.add(new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
+					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getInt("punktZahl"),
+					rs.getBoolean("gestellt")));
+		}
+
+		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS IMPLEMENT JAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		// frageStellungCol.setCellValueFactory(new
+		// PropertyValueFactory<>("frageStellung"));
+		frageStellungCol
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
+		punkteCol.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getPunkte()));
+		// punkteCol.setCellValueFactory(new PropertyValueFactory<>("punktZahl"));
+		themaCol.setCellValueFactory(new PropertyValueFactory<>("themengebiet"));
+		niveauCol.setCellValueFactory(new PropertyValueFactory<>("niveau"));
+		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterLoesung"));
+
+		fragenTabelle.setItems(list);
+
+	}
 
 	@FXML
 	void katalogAnlegen(MouseEvent event) throws IOException {

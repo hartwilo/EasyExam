@@ -90,6 +90,7 @@
                         <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="946.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
                         <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="35.0" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
                         <Button layoutX="1002.0" layoutY="67.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0" text="-" />
+                        <Button fx:id="loadQuestions" layoutX="27.0" layoutY="541.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Load Questions" />
                   </children>
                 </AnchorPane>
               </children>
