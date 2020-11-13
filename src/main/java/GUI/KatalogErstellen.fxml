@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.Controller">
+<GridPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.ControllerKatalogErstellen">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -76,14 +76,13 @@
                       </font>
                     </Label>
                         <Button id="katalogAnlegen" fx:id="katalogAnlegen" layoutX="1003.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#katalogAnlegen" text="+" />
-                        <TableView layoutX="16.0" layoutY="101.0" prefHeight="429.0" prefWidth="1012.0">
+                        <TableView id="fragenTabelle" fx:id="fragenTabelle" layoutX="16.0" layoutY="101.0" prefHeight="429.0" prefWidth="1012.0">
                           <columns>
-                            <TableColumn id="frageStellung" prefWidth="259.0" text="Fragestellung" />
-                            <TableColumn id="Punkte" minWidth="0.0" prefWidth="46.0" text="Punkte" />
-                              <TableColumn id="Thema" minWidth="0.0" prefWidth="96.0" text="Thema" />
-                              <TableColumn id="Niveau" minWidth="0.0" prefWidth="57.0" text="Niveau" />
-                              <TableColumn id="Musterloesung" prefWidth="401.0" text="Musterlösung" />
-                              <TableColumn id="stichwörter" prefWidth="158.0" text="Stichwörter" />
+                            <TableColumn id="frageStellungCol" fx:id="frageStellungCol" prefWidth="259.0" text="Fragestellung" />
+                            <TableColumn id="punkteCol" fx:id="punkteCol" minWidth="0.0" prefWidth="46.0" text="Punkte" />
+                              <TableColumn id="themaCol" fx:id="themaCol" minWidth="0.0" prefWidth="96.0" text="Thema" />
+                              <TableColumn id="niveauCol" fx:id="niveauCol" minWidth="0.0" prefWidth="257.0" text="Niveau" />
+                              <TableColumn id="musterloesungCol" fx:id="musterloesungCol" minWidth="0.0" prefWidth="353.0" text="Musterlösung" />
                           </columns>
                         </TableView>
                         <ChoiceBox id="KatalogAuswhal" layoutX="16.0" layoutY="67.0" prefHeight="26.0" prefWidth="975.0" />

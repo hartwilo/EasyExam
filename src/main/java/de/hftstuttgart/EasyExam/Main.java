@@ -2,7 +2,7 @@ package de.hftstuttgart.EasyExam;
 
 import java.io.IOException;
 
-import de.hftstuttgart.EasyExam.Controllers.Controller;
+import de.hftstuttgart.EasyExam.Controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +13,7 @@ public class Main extends Application {
 	public static Stage mainWindow;
 	public static Scene scene;
 	public static FXMLLoader loader;
-	public static Controller controller;
+	public static MainController controller;
 	public static String currentWindow;
 
 	@Override
