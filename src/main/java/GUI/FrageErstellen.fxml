@@ -77,7 +77,7 @@
                         </Group>
                         <Group layoutX="356.0" layoutY="218.0">
                            <children>
-                              <RadioButton id="niveau1" fx:id="niveauRadioButton1" mnemonicParsing="false" text="Niveau 1">
+                              <RadioButton id="niveau1" fx:id="niveauRadioButton1" mnemonicParsing="false" selected="true" text="Niveau 1">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="Niveau" />
                                  </toggleGroup>
