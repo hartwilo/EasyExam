@@ -2,12 +2,18 @@ package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import DB.DBConn;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -55,53 +61,69 @@ public class ControllerFrageErstellen {
 
 	@FXML
 	public RadioButton niveauRadioButton3;
-	
-	
-	
+
+	@FXML
+	private TextField themengebietTextField;
+
+	// ObservableList<String> themengebiete = new ObservableList<String>();
+
+	@FXML
+	private ComboBox<String> themengebietComboBox;
 
 	// DB Related Variables
 	public PreparedStatement pst = null;
-	
+	public String query = null;
+
+
+	@FXML
+	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
+		ObservableList<String> themengebiete = FXCollections.observableArrayList();
+
+		query = "Select themengebiet from Fragen";
+		pst = DBConn.connection.prepareStatement(query);
+		ResultSet rs = pst.executeQuery(query);
+
+		while (rs.next()) {
+			themengebiete.add(rs.getString("themengebiet"));
+		}
+
+		themengebietComboBox.setItems(themengebiete);
+		return themengebiete;
+	}
+
 	@FXML
 	void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 
+		String themengebiet = themengebietComboBox.getValue();
+		if (themengebiet == null) {
+			themengebiet = themengebietTextField.getText();
+		}
+		if (themengebietComboBox.getValue()!= null && themengebietTextField.getText()!= null ) { // Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert übernommen wird!
+			themengebiet = themengebietComboBox.getValue();
+		}
 		String stellung = frageStellungTextField.getText();
 		String loesung = musterLoesungTextField.getText();
-		String niveau = null;
+		String punkte = punktzahl.getText();
+		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
+		String gestellt = "0";
 
-		if (Niveau.getSelectedToggle() != null) {
-			String selected = ((RadioButton) Niveau.getSelectedToggle()).getText();
-			niveau = selected;
-			System.out.print(niveau); // to-be-deleted
-		} else {
-			System.out.print("Select Niveau"); //// Must eventually be changed to warning output in fx
-		}
-		;
-
-		String punkte = punktzahl.getText(); // Eingabe muss eingeschränkt werden
-
-		String query = "insert into Fragen(frageStellung, musterLoesung, niveau, punktZahl) Values(?,?,?,?)";
+		query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, niveau, punktZahl, gestellt) Values(?,?,?,?,?,?)";
 		pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-		pst.setString(1, stellung);
-		pst.setString(2, loesung);
-		pst.setString(3, niveau);
-		pst.setString(4, punkte);
-		
-		pst.addBatch();
-		pst.executeBatch();
+		pst.setString(1, themengebiet);
+		pst.setString(2, stellung);
+		pst.setString(3, loesung);
+		pst.setString(4, niveau);
+		pst.setString(5, punkte);
+		pst.setString(6, gestellt);
 
 		int status = pst.executeUpdate();
-
 		if (status == 1) {
-			System.out.print("Frage erfolgreich gespeichert");
-			frageStellungTextField.setText("");
-			musterLoesungTextField.setText("");
-			punktzahl.setText("");
 			MainController.setWindow("KatalogErstellen");
-
 		} else {
-			System.out.print("Computers hate you!");
+			System.out.print("Frage wurde nicht gespeichert"); // Must be changed to fx Error window
 		}
+		
+		System.out.print(themengebietComboBox.getValue());
 	}
 
 }

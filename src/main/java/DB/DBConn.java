@@ -21,19 +21,12 @@ public class DBConn {
 	public static void buildConn() {
 		
 		try {
-		log.info("Loading application properties");
-
-       // Properties properties = new Properties();
-       // properties.load(DB.DBConn.class.getClassLoader().getResourceAsStream("application.properties"));
-
-        
-        //log.info(properties.toString());
+		
 
         log.info("Connecting to the database");
-        //Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
+        //"jdbc:mysql://localhost:3306/easyexam","root",""
         String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
-        //"jdbc:mysql://localhost:3306/easyexam","root",""
         log.info("Database connection test: " + connection.getCatalog());
 
         /*log.info("Create database schema");
@@ -41,11 +34,7 @@ public class DBConn {
         Statement statement = connection.createStatement();
         while (scanner.hasNextLine()) {
             statement.execute(scanner.nextLine());*/
-            
-
-        log.info("Closing database connection");
-        //connection.close();
-        
+     
 		}
         catch (Exception e) {
         	e.printStackTrace();
