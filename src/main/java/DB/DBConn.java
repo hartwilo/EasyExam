@@ -31,8 +31,9 @@ public class DBConn {
 
         log.info("Connecting to the database");
         //Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
-        //String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+        String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
+        //"jdbc:mysql://localhost:3306/easyexam","root",""
         log.info("Database connection test: " + connection.getCatalog());
 
         /*log.info("Create database schema");

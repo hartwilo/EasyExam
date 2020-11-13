@@ -12,56 +12,54 @@ import javafx.scene.input.MouseEvent;
 
 public class ControllerKatalogErstellen {
 	// Katalog
-		// Anlegen...........................................................................................................................
+	// Anlegen...........................................................................................................................
 
-		@FXML
-		public Button frageAnlegen;
+	@FXML
+	public Button frageAnlegen;
 
-		@FXML
-		public Button katalogSpeichern;
+	@FXML
+	public Button katalogSpeichern;
 
-		@FXML
-		public Button katalogAnlegen;
+	@FXML
+	public Button katalogAnlegen;
 
-		@FXML
-		private TextField katalogNameTextField;
-		
-		@FXML
-	    private TableView<de.hftstuttgart.EasyExam.Frage> fragenTabelle;
+	@FXML
+	private TextField katalogNameTextField;
 
-	    @FXML
-	    private TableColumn<?, ?> frageStellungCol;
+	@FXML
+	private TableView<de.hftstuttgart.EasyExam.Frage> fragenTabelle;
 
-	    @FXML
-	    private TableColumn<?, ?> punkteCol;
+	@FXML
+	private TableColumn<?, ?> frageStellungCol;
 
-	    @FXML
-	    private TableColumn<?, ?> themaCol;
+	@FXML
+	private TableColumn<?, ?> punkteCol;
 
-	    @FXML
-	    private TableColumn<?, ?> niveauCol;
+	@FXML
+	private TableColumn<?, ?> themaCol;
 
-	    @FXML
-	    private TableColumn<?, ?> musterloesungCol;
+	@FXML
+	private TableColumn<?, ?> niveauCol;
 
+	@FXML
+	private TableColumn<?, ?> musterloesungCol;
 
-		@FXML
-		void katalogAnlegen(MouseEvent event) throws IOException {
+	@FXML
+	void katalogAnlegen(MouseEvent event) throws IOException {
 
-			MainController.setWindow("KatalogErstellen");
-		}
+		MainController.setWindow("KatalogErstellen");
+	}
 
-		@FXML
-		void frageAnlegen(MouseEvent event) throws IOException {
+	@FXML
+	void frageAnlegen(MouseEvent event) throws IOException {
 
-			MainController.setWindow("FrageErstellen");
-		}
+		MainController.setWindow("FrageErstellen");
+	}
 
-		@FXML
-		void katalogSpeichern(MouseEvent event) throws IOException {
+	@FXML
+	void katalogSpeichern(MouseEvent event) throws IOException {
 
-			MainController.setWindow("AnfangsScreen");
-		}
-	
+		MainController.setWindow("AnfangsScreen");
+	}
 
 }
