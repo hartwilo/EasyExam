@@ -47,9 +47,9 @@ public class ControllerDurchfuehrung {
 
 	@FXML
 	private TextField musterLoesungDetailliert;
-	
-	 @FXML
-	    private TextField punktZahlDetail;
+
+	@FXML
+	private TextField punktZahlDetail;
 
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
@@ -87,24 +87,15 @@ public class ControllerDurchfuehrung {
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 
-		String query = "Select * from Fragen";
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery();
+		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
+		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
+		String punktzahl = Integer.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 
-		if (rs.next()) {
-			String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
-			String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
-			String punktzahl = Integer.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
-			
-			//String musterloesungdetailliert = rs.getString("musterLoesung");
-			//String punktzahl = Integer.toString(rs.getInt("punktZahl"));
+		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
-			if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-
-				frageStellungDetail.setText(fragestellungdetailliert);
-				musterLoesungDetailliert.setText(musterloesungdetailliert);
-				punktZahlDetail.setText(punktzahl);
-			}
+			frageStellungDetail.setText(fragestellungdetailliert);
+			musterLoesungDetailliert.setText(musterloesungdetailliert);
+			punktZahlDetail.setText(punktzahl);
 		}
 	}
 
