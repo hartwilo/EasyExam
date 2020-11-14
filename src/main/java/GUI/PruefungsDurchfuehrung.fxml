@@ -11,8 +11,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -24,30 +22,16 @@
    <children>
       <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fragenLaden" prefHeight="764.0" prefWidth="1316.0">
          <children>
-            <TabPane layoutX="45.0" layoutY="165.0" prefHeight="487.0" prefWidth="541.0" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab fx:id="themaTab1" text="Thema 1" />
-                <Tab text="Thema 2" />
-                  <Tab text="Thema 3" />
-                  <Tab text="Thema 4" />
-                  <Tab text="Thema 5" />
-                  <Tab text="Thema 6" />
-                  <Tab text="Thema 7" />
-                  <Tab text="Thema 8" />
-                  <Tab text="Thema 9" />
-                  <Tab text="Thema 10" />
-              </tabs>
-            </TabPane>
             <Group layoutX="45.0" layoutY="167.0">
                <children>
-                  <TableView fx:id="frageTabelle" layoutY="27.0" onMousePressed="#detailsAnzeigen" prefHeight="459.0" prefWidth="541.0">
+                  <TableView fx:id="frageTabelle" layoutX="-6.0" layoutY="51.0" onMousePressed="#detailsAnzeigen" prefHeight="439.0" prefWidth="558.0">
                     <columns>
-                      <TableColumn fx:id="frageStellung" prefWidth="542.0" text="Fragestellung" />
+                      <TableColumn fx:id="frageStellung" prefWidth="557.0" text="Fragestellung" />
                     </columns>
                   </TableView>
-                  <CheckBox layoutX="165.0" layoutY="496.0" mnemonicParsing="false" text="Niveau 1" />
-                  <CheckBox layoutX="320.0" layoutY="496.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="81.0" text="Niveau 2" />
-                  <CheckBox layoutX="471.0" layoutY="496.0" mnemonicParsing="false" text="Niveau 3" />
+                  <CheckBox fx:id="niv1" layoutX="165.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#prepareWhereClausel" text="Niveau 1" />
+                  <CheckBox fx:id="niv2" layoutX="309.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#prepareWhereClausel" prefHeight="17.0" prefWidth="81.0" text="Niveau 2" />
+                  <CheckBox fx:id="niv3" layoutX="473.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#prepareWhereClausel" text="Niveau 3" />
                   <Label layoutX="2.0" layoutY="496.0" text="Schierwigkeitsniveau" />
                </children>
             </Group>
@@ -63,9 +47,9 @@
             </Group>
             <Group layoutX="48.0" layoutY="86.0">
                <children>
-                  <ComboBox layoutY="36.0" prefHeight="26.0" prefWidth="543.0" />
-                  <TextField layoutX="562.0" layoutY="35.0" prefHeight="26.0" prefWidth="146.0" />
-                  <TextField layoutX="716.0" layoutY="35.0" prefHeight="26.0" prefWidth="81.0" />
+                  <ComboBox layoutX="-8.0" layoutY="35.0" prefHeight="26.0" prefWidth="557.0" />
+                  <TextField fx:id="studName" layoutX="562.0" layoutY="35.0" prefHeight="26.0" prefWidth="146.0" />
+                  <TextField fx:id="matNr" layoutX="716.0" layoutY="35.0" prefHeight="26.0" prefWidth="81.0" />
                   <DatePicker layoutX="807.0" layoutY="35.0" prefHeight="26.0" prefWidth="74.0" />
                   <ProgressBar layoutX="930.0" layoutY="35.0" prefHeight="26.0" prefWidth="286.0" progress="0.0" />
                   <Label layoutX="3.0" text="Fragekatalog">
@@ -88,7 +72,7 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Button layoutX="893.0" layoutY="35.0" mnemonicParsing="false" text="+" />
+                  <Button fx:id="studentenLaden" layoutX="893.0" layoutY="35.0" mnemonicParsing="false" text="+" />
                </children>
             </Group>
             <MenuBar layoutX="-1.0" layoutY="1.0" prefHeight="26.0" prefWidth="1316.0">
@@ -139,6 +123,8 @@
                   <Button id="zueruckDurchfuehrung" fx:id="zueruckDurchfuehrung" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" prefHeight="25.0" prefWidth="36.0" text="&lt;" />
                </children>
             </Group>
+            <ComboBox fx:id="themen" layoutX="40.0" layoutY="167.0" onMouseClicked="#themengebieteLaden" prefHeight="26.0" prefWidth="486.0" />
+            <Button fx:id="refreshQuestions" layoutX="535.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
          </children>
       </AnchorPane>
    </children>

@@ -68,7 +68,7 @@
                     </Menu>
                   </menus>
                 </MenuBar>
-                <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="573.0" prefWidth="1052.0" VBox.vgrow="ALWAYS">
+                <AnchorPane maxHeight="-1.0" maxWidth="-1.0" onMouseEntered="#fragenLaden" prefHeight="573.0" prefWidth="1052.0" VBox.vgrow="ALWAYS">
                   <children>
                     <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
                       <font>
@@ -90,7 +90,6 @@
                         <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="946.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
                         <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="35.0" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
                         <Button layoutX="1002.0" layoutY="67.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0" text="-" />
-                        <Button fx:id="loadQuestions" layoutX="27.0" layoutY="541.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Load Questions" />
                   </children>
                 </AnchorPane>
               </children>

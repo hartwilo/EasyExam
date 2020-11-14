@@ -7,12 +7,10 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
-import de.hftstuttgart.EasyExam.Main;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -22,8 +20,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerKatalogErstellen {
-	// Katalog
-	// Anlegen...........................................................................................................................
 
 	@FXML
 	public Button frageAnlegen;
@@ -55,9 +51,6 @@ public class ControllerKatalogErstellen {
 	@FXML
 	private TableColumn<Frage, String> musterloesungCol;
 
-	@FXML
-	private Button loadQuestions;
-
 	public static PreparedStatement pst = null;
 	public String query = null;
 
@@ -75,14 +68,12 @@ public class ControllerKatalogErstellen {
 					rs.getBoolean("gestellt")));
 		}
 
-		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS
+		// IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
 
-		// frageStellungCol.setCellValueFactory(new
-		// PropertyValueFactory<>("frageStellung"));
 		frageStellungCol
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		punkteCol.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getPunkte()));
-		// punkteCol.setCellValueFactory(new PropertyValueFactory<>("punktZahl"));
 		themaCol.setCellValueFactory(new PropertyValueFactory<>("themengebiet"));
 		niveauCol.setCellValueFactory(new PropertyValueFactory<>("niveau"));
 		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterLoesung"));
