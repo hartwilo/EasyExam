@@ -65,6 +65,8 @@ public class ControllerFrageErstellen {
 	@FXML
 	private TextField themengebietTextField;
 
+	// ObservableList<String> themengebiete = new ObservableList<String>();
+
 	@FXML
 	private ComboBox<String> themengebietComboBox;
 
@@ -96,8 +98,7 @@ public class ControllerFrageErstellen {
 			themengebiet = themengebietTextField.getText();
 		}
 		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
-			// Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert
-			// übernommen wird! Oder einen option ausblenden wenn die andere benutz
+// Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert übernommen wird! Oder einen option ausblenden wenn die andere benutzt wird
 			themengebiet = themengebietComboBox.getValue();
 		}
 		String stellung = frageStellungTextField.getText();
@@ -121,6 +122,8 @@ public class ControllerFrageErstellen {
 		} else {
 			System.out.print("Frage wurde nicht gespeichert"); // Must be changed to fx Error window
 		}
+
+		System.out.print(themengebietComboBox.getValue());
 	}
 
 }

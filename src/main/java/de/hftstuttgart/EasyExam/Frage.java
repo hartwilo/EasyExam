@@ -4,24 +4,24 @@ import javafx.beans.property.*;
 
 public class Frage {
 
-	//private int id;
+	// private int id;
 	private String frageStellung;
 	private String niveau;
-	private int punkte; //muss evtll auf double geändert werden
+	private int punkte; // muss evtll auf double geändert werden
 	private String themengebiet;
 	private boolean gestellt;
 	private String musterLoesung;
-	
-	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, int punkte, Boolean gestellt )
-	{
-		//id = pId;
+
+	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, int punkte,
+			Boolean gestellt) {
+		// id = pId;
 		this.themengebiet = themengebiet;
 		this.frageStellung = frageStellung;
 		this.musterLoesung = musterLoesung;
 		this.niveau = niveau;
-		this.punkte = punkte;		
+		this.punkte = punkte;
 		this.gestellt = gestellt;
-		
+
 	}
 
 	public String getFragestellung() {
@@ -71,6 +71,5 @@ public class Frage {
 	public void setMusterLoesung(String musterLoesung) {
 		this.musterLoesung = musterLoesung;
 	}
-	
-	
+
 }

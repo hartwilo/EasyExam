@@ -22,11 +22,11 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.ControllerDurchfuehrung">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="764.0" prefWidth="1316.0">
+      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fragenLaden" prefHeight="764.0" prefWidth="1316.0">
          <children>
             <TabPane layoutX="45.0" layoutY="165.0" prefHeight="487.0" prefWidth="541.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Thema 1" />
+                <Tab fx:id="themaTab1" text="Thema 1" />
                 <Tab text="Thema 2" />
                   <Tab text="Thema 3" />
                   <Tab text="Thema 4" />
@@ -40,9 +40,9 @@
             </TabPane>
             <Group layoutX="45.0" layoutY="167.0">
                <children>
-                  <TableView layoutY="27.0" prefHeight="459.0" prefWidth="541.0">
+                  <TableView fx:id="frageTabelle" layoutY="27.0" onMousePressed="#detailsAnzeigen" prefHeight="459.0" prefWidth="541.0">
                     <columns>
-                      <TableColumn prefWidth="542.0" text="Fragestellung" />
+                      <TableColumn fx:id="frageStellung" prefWidth="542.0" text="Fragestellung" />
                     </columns>
                   </TableView>
                   <CheckBox layoutX="165.0" layoutY="496.0" mnemonicParsing="false" text="Niveau 1" />
@@ -53,9 +53,9 @@
             </Group>
             <Group layoutX="607.0" layoutY="167.0">
                <children>
-                  <TextField layoutX="4.0" layoutY="29.0" prefHeight="201.0" prefWidth="654.0" />
-                  <TextField layoutX="4.0" layoutY="273.0" prefHeight="214.0" prefWidth="654.0" />
-                  <TextField layoutX="587.0" layoutY="500.0" prefHeight="26.0" prefWidth="74.0" />
+                  <TextField id="frageStellungDetail" fx:id="frageStellungDetail" layoutX="4.0" layoutY="29.0" prefHeight="201.0" prefWidth="654.0" />
+                  <TextField id="musterLoesungDetailliert" fx:id="musterLoesungDetailliert" layoutX="4.0" layoutY="273.0" prefHeight="214.0" prefWidth="654.0" />
+                  <TextField id="punktZahlDetail" fx:id="punktZahlDetail" layoutX="587.0" layoutY="500.0" prefHeight="26.0" prefWidth="74.0" />
                   <Label layoutX="5.0" text="Fragestellung" />
                   <Label layoutX="5.0" layoutY="244.0" text="Musterlösung" />
                   <Label layoutX="525.0" layoutY="504.0" text="Puntkzahl" />

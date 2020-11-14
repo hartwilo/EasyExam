@@ -75,7 +75,7 @@ public class ControllerKatalogErstellen {
 					rs.getBoolean("gestellt")));
 		}
 
-		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS IMPLEMENT JAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
+		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		// frageStellungCol.setCellValueFactory(new
 		// PropertyValueFactory<>("frageStellung"));
