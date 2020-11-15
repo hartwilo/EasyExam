@@ -14,21 +14,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class ControllerDurchfuehrung {
 
-	//Database related variables
+	// Database related variables
 	public static PreparedStatement pst = null;
-	String query = "Select * from Fragen";
-	
+	String query = "Select * from Fragen ";
+
 	@FXML
-    private Button refreshQuestions;
+	private Button refreshQuestions;
 
 	@FXML
 	private CheckBox niv1;
@@ -38,6 +40,9 @@ public class ControllerDurchfuehrung {
 
 	@FXML
 	private CheckBox niv3;
+
+	@FXML
+	private RadioButton nivalle;
 
 	@FXML
 	private Tab themaTab1;
@@ -76,23 +81,47 @@ public class ControllerDurchfuehrung {
 	private ComboBox<String> themen;
 
 	@FXML
-	public void prepareWhereClausel() {
-		if (niv1.isSelected()) {
-			query = "Select * from Fragen where niveau = 'Niveau 1'";
-		} else if (niv2.isSelected()) {
-			query = "Select * from Fragen where niveau = 'Niveau 2'";
-		} else if (niv3.isSelected()) {
-			query = "Select * from Fragen where niveau = 'Niveau 3'";
-		} else if (niv1.isSelected() && niv2.isSelected()) {
-			query = "Select * from Fragen where niveau in ('Niveau 1','Niveau2')";
-			//query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 2'";
-		} else if (niv1.isSelected() && niv3.isSelected()) {
-			query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 3'";
-		} else if (niv2.isSelected() && niv3.isSelected()) {
-			query = "Select * from Fragen where niveau = 'Niveau 2' or niveau = 'Niveau 3'";
-		} else {
-			query = "Select * from Fragen";
+	private RadioButton niveau1;
+
+	@FXML
+	private ToggleGroup niveau;
+
+	@FXML
+	private RadioButton niveau2;
+
+	@FXML
+	private RadioButton niveau3;
+
+//	@FXML
+//	public void prepareWhereClausel() {
+//		if (niv1.isSelected()) {
+//			query = "Select * from Fragen where niveau = 'Niveau 1'";
+//		} else if (niv2.isSelected()) {
+//			query = "Select * from Fragen where niveau = 'Niveau 2'";
+//		} else if (niv3.isSelected()) {
+//			query = "Select * from Fragen where niveau = 'Niveau 3'";
+//		} else if (niv1.isSelected() && niv2.isSelected()) {
+//			query = "Select * from Fragen where niveau in ('Niveau 1','Niveau2')";
+//			// query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 2'";
+//		} else if (niv1.isSelected() && niv3.isSelected()) {
+//			query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 3'";
+//		} else if (niv2.isSelected() && niv3.isSelected()) {
+//			query = "Select * from Fragen where niveau = 'Niveau 2' or niveau = 'Niveau 3'";
+//		} else {
+//			query = "Select * from Fragen";
+//		}
+//	}
+
+	@FXML
+	public void prepareWhereClausel(MouseEvent event) {
+		
+		query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText()) + "'";
+		String themengebiet = themen.getValue();
+		if (themengebiet != null) {
+			query = query + " and themengebiet = "+ "'" +themengebiet + "'";
+			System.out.print(query);
 		}
+		
 	}
 
 	@FXML
@@ -119,14 +148,7 @@ public class ControllerDurchfuehrung {
 	}
 
 	@FXML
-	public void nachNiveauZeigen() {
-
-	}
-
-	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
-		String query = null;
-
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
 		query = "Select themengebiet from Fragen";

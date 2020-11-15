@@ -18,8 +18,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class ControllerKatalogErstellen {
+	
+	@FXML
+    private AnchorPane anchorPane;
 
 	@FXML
 	public Button frageAnlegen;

@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <GridPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.ControllerKatalogErstellen">
@@ -25,75 +24,67 @@
       <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <AnchorPane>
+      <AnchorPane fx:id="anchorPane" onMouseEntered="#fragenLaden" prefHeight="620.0" prefWidth="1010.0">
          <children>
-            <VBox prefHeight="627.0" prefWidth="1044.0">
-              <children>
-                <MenuBar id="FragekatalogErstellen" prefHeight="26.0" prefWidth="1044.0" VBox.vgrow="NEVER">
-                  <menus>
-                    <Menu mnemonicParsing="false" text="File">
-                      <items>
-                        <MenuItem mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Open…" />
-                        <Menu mnemonicParsing="false" text="Open Recent" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Save As…" />
-                        <MenuItem mnemonicParsing="false" text="Revert" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Preferences…" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Quit" />
-                      </items>
-                    </Menu>
-                    <Menu mnemonicParsing="false" text="Edit">
-                      <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Cut" />
-                        <MenuItem mnemonicParsing="false" text="Copy" />
-                        <MenuItem mnemonicParsing="false" text="Paste" />
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Select All" />
-                        <MenuItem mnemonicParsing="false" text="Unselect All" />
-                      </items>
-                    </Menu>
-                    <Menu mnemonicParsing="false" text="Help">
-                      <items>
-                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-                      </items>
-                    </Menu>
-                  </menus>
-                </MenuBar>
-                <AnchorPane maxHeight="-1.0" maxWidth="-1.0" onMouseEntered="#fragenLaden" prefHeight="573.0" prefWidth="1052.0" VBox.vgrow="ALWAYS">
-                  <children>
-                    <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-                      <font>
-                        <Font size="18.0" />
-                      </font>
-                    </Label>
-                        <Button id="katalogAnlegen" fx:id="katalogAnlegen" layoutX="1003.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#katalogAnlegen" text="+" />
-                        <TableView id="fragenTabelle" fx:id="fragenTabelle" layoutX="16.0" layoutY="101.0" prefHeight="429.0" prefWidth="1012.0">
-                          <columns>
-                            <TableColumn id="frageStellungCol" fx:id="frageStellungCol" prefWidth="259.0" text="Fragestellung" />
-                            <TableColumn id="punkteCol" fx:id="punkteCol" minWidth="0.0" prefWidth="46.0" text="Punkte" />
-                              <TableColumn id="themaCol" fx:id="themaCol" minWidth="0.0" prefWidth="96.0" text="Thema" />
-                              <TableColumn id="niveauCol" fx:id="niveauCol" minWidth="0.0" prefWidth="257.0" text="Niveau" />
-                              <TableColumn id="musterloesungCol" fx:id="musterloesungCol" minWidth="0.0" prefWidth="353.0" text="Musterlösung" />
-                          </columns>
-                        </TableView>
-                        <ChoiceBox id="KatalogAuswhal" layoutX="16.0" layoutY="67.0" prefHeight="26.0" prefWidth="975.0" />
-                        <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="859.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="12.0" prefWidth="78.0" text="Neue Frage" />
-                        <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="946.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
-                        <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="35.0" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
-                        <Button layoutX="1002.0" layoutY="67.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0" text="-" />
-                  </children>
-                </AnchorPane>
-              </children>
-            </VBox>
+          <MenuBar id="FragekatalogErstellen" prefHeight="26.0" prefWidth="1044.0">
+            <menus>
+              <Menu mnemonicParsing="false" text="File">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open…" />
+                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Save As…" />
+                  <MenuItem mnemonicParsing="false" text="Revert" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Preferences…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Cut" />
+                  <MenuItem mnemonicParsing="false" text="Copy" />
+                  <MenuItem mnemonicParsing="false" text="Paste" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Select All" />
+                  <MenuItem mnemonicParsing="false" text="Unselect All" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Help">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                </items>
+              </Menu>
+            </menus>
+          </MenuBar>
+        <Label alignment="CENTER" layoutX="155.0" layoutY="203.39999389648438" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+          <font>
+            <Font size="18.0" />
+          </font>
+        </Label>
+            <Button id="katalogAnlegen" fx:id="katalogAnlegen" layoutX="1003.0" layoutY="61.400001525878906" mnemonicParsing="false" onMouseClicked="#katalogAnlegen" text="+" />
+            <TableView id="fragenTabelle" fx:id="fragenTabelle" layoutX="16.0" layoutY="127.4000015258789" prefHeight="429.0" prefWidth="1012.0">
+              <columns>
+                <TableColumn id="frageStellungCol" fx:id="frageStellungCol" maxWidth="1.7976931348623157E308" prefWidth="259.0" text="Fragestellung" />
+                <TableColumn id="punkteCol" fx:id="punkteCol" minWidth="0.0" prefWidth="46.0" text="Punkte" />
+                  <TableColumn id="themaCol" fx:id="themaCol" minWidth="0.0" prefWidth="96.0" text="Thema" />
+                  <TableColumn id="niveauCol" fx:id="niveauCol" minWidth="0.0" prefWidth="257.0" text="Niveau" />
+                  <TableColumn id="musterloesungCol" fx:id="musterloesungCol" minWidth="0.0" prefWidth="353.0" text="Musterlösung" />
+              </columns>
+            </TableView>
+            <ChoiceBox id="KatalogAuswhal" layoutX="16.0" layoutY="93.4000015258789" prefHeight="26.0" prefWidth="975.0" />
+            <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="859.0" layoutY="571.4000244140625" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="12.0" prefWidth="78.0" text="Neue Frage" />
+            <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="946.0" layoutY="571.4000244140625" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
+            <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="61.400001525878906" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
+            <Button layoutX="1002.0" layoutY="93.4000015258789" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0" text="-" />
          </children>
       </AnchorPane>
    </children>
