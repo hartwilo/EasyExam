@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -119,9 +120,12 @@ public class ControllerDurchfuehrung {
 		String themengebiet = themen.getValue();
 		if (themengebiet != null) {
 			query = query + " and themengebiet = "+ "'" +themengebiet + "'";
-			System.out.print(query);
-		}
 		
+		}
+		if (nivalle.isSelected()) {
+			query = "Select * from Fragen";
+		}
+		System.out.print(query);
 	}
 
 	@FXML
@@ -150,6 +154,8 @@ public class ControllerDurchfuehrung {
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
+		
+		//!!!!!!!!!!!! Multiple entries shown in drop box ie: 2 Thema X
 
 		query = "Select themengebiet from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
