@@ -25,9 +25,6 @@ import javafx.scene.input.MouseEvent;
 
 public class ControllerFrageErstellen {
 
-	// Frage
-	// erstellen............................................................................................
-
 	@FXML
 	public TextArea frageStellungTextField;
 
@@ -143,15 +140,16 @@ public class ControllerFrageErstellen {
 			int status = pst.executeUpdate();
 			if (status == 1) {
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Frage wurde gespeichert");
+				alert.setTitle("");
 				alert.setHeaderText(null);
 				alert.setContentText("Frage wurde gespeichert");
 				alert.showAndWait();
 			}
 			MainController.setWindow("KatalogErstellen");
-		} else if (!frageStellungTextField.getText().isEmpty()){
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Bitte vollen Fragedaten eingeben");
+		} else if (frageStellungTextField.getText().isEmpty()
+		|| musterLoesungTextField.getText().isEmpty()){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("");
 			alert.setHeaderText(null);
 			alert.setContentText("Bitte vollen Fragedaten eingeben");
 			alert.showAndWait();

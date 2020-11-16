@@ -151,6 +151,8 @@ public class ControllerDurchfuehrung {
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		frageTabelle.setItems(list);
+		System.out.print(query);
+		
 
 	}
 
@@ -158,14 +160,16 @@ public class ControllerDurchfuehrung {
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
-		// !!!!!!!!!!!! Multiple entries shown in drop box ie: 2 Thema X
-
 		query = "Select themengebiet from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery(query);
 
 		while (rs.next()) {
-			themengebiete.add(rs.getString("themengebiet"));
+			String s = rs.getString("themengebiet");
+			if (!themengebiete.contains(s)) {
+				themengebiete.add(s);
+			}
+
 		}
 
 		themen.setItems(themengebiete);
