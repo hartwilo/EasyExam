@@ -87,6 +87,7 @@ public class ControllerFrageErstellen {
 			alert.showAndWait();
 			return false;
 		}
+
 	}
 
 	@FXML
@@ -127,7 +128,8 @@ public class ControllerFrageErstellen {
 		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
 		String gestellt = "0";
 
-		if (punkteValidieren()) {
+		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
+				&& !musterLoesungTextField.getText().isEmpty()) {
 
 			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, niveau, punktZahl, gestellt) Values(?,?,?,?,?,?)";
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -140,11 +142,20 @@ public class ControllerFrageErstellen {
 
 			int status = pst.executeUpdate();
 			if (status == 1) {
-				MainController.setWindow("KatalogErstellen");
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Frage wurde gespeichert");
+				alert.setHeaderText(null);
+				alert.setContentText("Frage wurde gespeichert");
+				alert.showAndWait();
 			}
-
-			System.out.print(themengebietComboBox.getValue());
+			MainController.setWindow("KatalogErstellen");
+		} else if (!frageStellungTextField.getText().isEmpty()){
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Bitte vollen Fragedaten eingeben");
+			alert.setHeaderText(null);
+			alert.setContentText("Bitte vollen Fragedaten eingeben");
+			alert.showAndWait();
 		}
-
 	}
+
 }
