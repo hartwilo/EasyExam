@@ -115,12 +115,15 @@ public class ControllerDurchfuehrung {
 
 	@FXML
 	public void prepareWhereClausel(MouseEvent event) {
-		
-		query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText()) + "'";
+
+		query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
+				+ "'";
 		String themengebiet = themen.getValue();
 		if (themengebiet != null) {
-			query = query + " and themengebiet = "+ "'" +themengebiet + "'";
-		
+			query = "Select * from Fragen where niveau = " + "'"
+					+ (((RadioButton) niveau.getSelectedToggle()).getText()) + "'" + " and themengebiet = " + "'"
+					+ themengebiet + "'";
+
 		}
 		if (nivalle.isSelected()) {
 			query = "Select * from Fragen";
@@ -154,8 +157,8 @@ public class ControllerDurchfuehrung {
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-		
-		//!!!!!!!!!!!! Multiple entries shown in drop box ie: 2 Thema X
+
+		// !!!!!!!!!!!! Multiple entries shown in drop box ie: 2 Thema X
 
 		query = "Select themengebiet from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
