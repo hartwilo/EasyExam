@@ -72,7 +72,7 @@ public class ControllerFrageErstellen {
 	public String query = null;
 
 	private boolean punkteValidieren() {
-		Pattern p = Pattern.compile("^?(([1-9]\\d*)|0)(\\.\\d+)?");
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
 		if (m.find() && m.group().equals(punktzahl.getText())) {
 			return true;
