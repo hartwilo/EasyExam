@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,9 +21,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class ControllerKatalogErstellen {
-	
+
 	@FXML
-    private AnchorPane anchorPane;
+	private AnchorPane anchorPane;
 
 	@FXML
 	public Button frageAnlegen;
@@ -60,6 +60,7 @@ public class ControllerKatalogErstellen {
 
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
+		fragenTabelle.setFixedCellSize(25);
 		ObservableList<Frage> list = FXCollections.observableArrayList();
 
 		String query = "Select * from Fragen";
@@ -68,7 +69,7 @@ public class ControllerKatalogErstellen {
 
 		while (rs.next()) {
 			list.add(new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
-					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getInt("punktZahl"),
+					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getDouble("punktZahl"),
 					rs.getBoolean("gestellt")));
 		}
 
@@ -77,7 +78,7 @@ public class ControllerKatalogErstellen {
 
 		frageStellungCol
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
-		punkteCol.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getPunkte()));
+		punkteCol.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
 		themaCol.setCellValueFactory(new PropertyValueFactory<>("themengebiet"));
 		niveauCol.setCellValueFactory(new PropertyValueFactory<>("niveau"));
 		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterLoesung"));

@@ -5,35 +5,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.text.ParsePosition;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import DB.DBConn;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerFrageErstellen {
-
-	// Frage
-	// erstellen............................................................................................
 
 	@FXML
 	public TextArea frageStellungTextField;
@@ -82,7 +72,7 @@ public class ControllerFrageErstellen {
 	public String query = null;
 
 	private boolean punkteValidieren() {
-		Pattern p = Pattern.compile("[0-9]+");
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
 		if (m.find() && m.group().equals(punktzahl.getText())) {
 			return true;
@@ -94,6 +84,7 @@ public class ControllerFrageErstellen {
 			alert.showAndWait();
 			return false;
 		}
+
 	}
 
 	@FXML
@@ -105,7 +96,11 @@ public class ControllerFrageErstellen {
 		ResultSet rs = pst.executeQuery(query);
 
 		while (rs.next()) {
-			themengebiete.add(rs.getString("themengebiet"));
+			String s = rs.getString("themengebiet");
+			if (!themengebiete.contains(s)) {
+				themengebiete.add(s);
+			}
+
 		}
 
 		themengebietComboBox.setItems(themengebiete);
@@ -130,7 +125,8 @@ public class ControllerFrageErstellen {
 		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
 		String gestellt = "0";
 
-		if (punkteValidieren()) {
+		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
+				&& !musterLoesungTextField.getText().isEmpty()) {
 
 			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, niveau, punktZahl, gestellt) Values(?,?,?,?,?,?)";
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -143,11 +139,21 @@ public class ControllerFrageErstellen {
 
 			int status = pst.executeUpdate();
 			if (status == 1) {
-				MainController.setWindow("KatalogErstellen");
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("");
+				alert.setHeaderText(null);
+				alert.setContentText("Frage wurde gespeichert");
+				alert.showAndWait();
 			}
-
-			System.out.print(themengebietComboBox.getValue());
+			MainController.setWindow("KatalogErstellen");
+		} else if (frageStellungTextField.getText().isEmpty()
+		|| musterLoesungTextField.getText().isEmpty()){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("");
+			alert.setHeaderText(null);
+			alert.setContentText("Bitte vollen Fragedaten eingeben");
+			alert.showAndWait();
 		}
-
 	}
+
 }

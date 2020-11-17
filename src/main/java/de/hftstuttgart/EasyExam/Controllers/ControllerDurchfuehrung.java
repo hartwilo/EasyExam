@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -96,6 +95,9 @@ public class ControllerDurchfuehrung {
 	@FXML
 	private RadioButton niveau3;
 
+	@FXML
+	private TableColumn<?, ?> gestellt;
+
 //	@FXML
 //	public void prepareWhereClausel() {
 //		if (niv1.isSelected()) {
@@ -115,6 +117,8 @@ public class ControllerDurchfuehrung {
 //			query = "Select * from Fragen";
 //		}
 //	}
+	
+	
 
 	@FXML
 	public void prepareWhereClausel(MouseEvent event) {
@@ -136,7 +140,8 @@ public class ControllerDurchfuehrung {
 
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
-
+		
+		frageTabelle.setFixedCellSize(25);
 		ObservableList<Frage> list = FXCollections.observableArrayList();
 
 		pst = DBConn.connection.prepareStatement(query);
@@ -166,7 +171,6 @@ public class ControllerDurchfuehrung {
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		frageTabelle.setItems(list);
-		
 
 	}
 
@@ -174,14 +178,16 @@ public class ControllerDurchfuehrung {
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
-		// !!!!!!!!!!!! Multiple entries shown in drop box ie: 2 Thema X
-
 		query = "Select themengebiet from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery(query);
 
 		while (rs.next()) {
-			themengebiete.add(rs.getString("themengebiet"));
+			String thema = rs.getString("themengebiet");
+			if (!themengebiete.contains(thema)) {
+				themengebiete.add(thema);
+			}
+
 		}
 
 		themen.setItems(themengebiete);
@@ -190,11 +196,14 @@ public class ControllerDurchfuehrung {
 
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
+		
+		
 
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
 		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung().getLoesung();
 		String punktzahl = Float.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
-
+		//String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
+		//String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
 			frageStellungDetail.setText(fragestellungdetailliert);

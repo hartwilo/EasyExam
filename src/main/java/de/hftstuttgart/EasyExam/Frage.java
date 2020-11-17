@@ -1,6 +1,6 @@
 package de.hftstuttgart.EasyExam;
 
-import javafx.beans.property.*;
+import javafx.scene.control.CheckBox;
 
 public class Frage {
 
@@ -14,8 +14,8 @@ public class Frage {
 	private Musterloesung musterloesung;
 	
 	
-	public Frage(int idFrage, String fragestellung, int niveau, float punkte, boolean gestellt,
-			String themengebiet, int fragekatalog) {
+	public Frage(int idFrage, String fragestellung, int niveau, float punkte, boolean gestellt, String themengebiet,
+			int fragekatalog) {
 		super();
 		this.idFrage = idFrage;
 		this.fragestellung = fragestellung;
@@ -25,8 +25,6 @@ public class Frage {
 		this.themengebiet = themengebiet;
 		this.fragekatalog = fragekatalog;
 	}
-	
-	
 
 
 	public Frage(int idFrage, String fragestellung, int niveau, float punkte, boolean gestellt, String themengebiet,
@@ -41,8 +39,6 @@ public class Frage {
 		this.fragekatalog = fragekatalog;
 		this.musterloesung = musterloesung;
 	}
-
-
 
 
 	public int getIdFrage() {
@@ -115,13 +111,9 @@ public class Frage {
 	}
 
 
-
-
 	public Musterloesung getMusterloesung() {
 		return musterloesung;
 	}
-
-
 
 
 	public void setMusterloesung(Musterloesung musterloesung) {
@@ -131,7 +123,7 @@ public class Frage {
 	
 	
 	
-
-
+	
+	
 
 }
