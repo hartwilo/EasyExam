@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
+import de.hftstuttgart.EasyExam.Musterloesung;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +29,9 @@ public class ControllerDurchfuehrung {
 
 	// Database related variables
 	public static PreparedStatement pst = null;
-	String query = "Select * from Fragen ";
+	String query = "SELECT idFrage, Fragestellung, Niveau, Punkte, gestellt, themengebiet.bezeichnung "
+			+ "FROM frage, themengebiet WHERE Frage.Themengebiet_fk = themengebiet.idThemengebiet";
+	
 
 	@FXML
 	private Button refreshQuestions;
@@ -85,7 +88,7 @@ public class ControllerDurchfuehrung {
 	private RadioButton niveau1;
 
 	@FXML
-	private ToggleGroup niveau;
+	public ToggleGroup niveau;
 
 	@FXML
 	private RadioButton niveau2;
@@ -140,17 +143,30 @@ public class ControllerDurchfuehrung {
 		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			list.add(new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
-					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getInt("punktZahl"),
-					rs.getBoolean("gestellt")));
+			
+			int idFrage = rs.getInt("idFrage");
+			
+			String musterQuery = "SELECT idMusterloesung, Loesung, musterloesung.Niveau"
+					+ "FROM musterloesung, fragenloesung, frage"
+					+ "WHERE musterloesung.idMusterloesung=fragenloesung.Musterloesung_fk"
+					+ "AND fragenloesung.Frage_fk=frage.idFrage"
+					+ "AND fragenloesung.Frage_fk='"
+					+ idFrage + "'";
+			ResultSet mrs = pst.executeQuery(musterQuery);
+			
+			while(mrs.next()){
+			
+			list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("bezeichnung"), rs.getInt("Fragekatalog"), new Musterloesung(mrs.getInt("idMusterloesung"), mrs.getString("Loesung"), mrs.getInt("Niveau"))));
 		}
 
+		}
 		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS
 		// IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		frageTabelle.setItems(list);
+		
 
 	}
 
@@ -176,8 +192,8 @@ public class ControllerDurchfuehrung {
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
-		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
-		String punktzahl = Integer.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
+		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung().getLoesung();
+		String punktzahl = Float.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 

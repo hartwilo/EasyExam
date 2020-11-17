@@ -2,75 +2,85 @@ package de.hftstuttgart.EasyExam;
 
 public class Pruefung {
 
-	private int id;
+	private int idPruefung;
 	private String bezeichnung;
-	private Student student;
-	private Modul modul;
-	private double note;
+	private float note;
 	private Fragekatalog fragekatalog;
+	private Student student;
+	private Pruefer pruefer;
 	
-	public Pruefung(int pId, String pBezeichnung, Student pStudent, Modul pModul, Fragekatalog pFragekatalog)
-	{
-		id = pId;
-		bezeichnung = pBezeichnung;
-		student = pStudent;
-		modul = pModul;
-		fragekatalog = pFragekatalog;
-	}
 	
-	public int getId() {
-		return id;
+	public Pruefung(int idPruefung, String bezeichnung, float note, Fragekatalog fragekatalog, Student student,
+			Pruefer pruefer) {
+		super();
+		this.idPruefung = idPruefung;
+		this.bezeichnung = bezeichnung;
+		this.note = note;
+		this.fragekatalog = fragekatalog;
+		this.student = student;
+		this.pruefer = pruefer;
 	}
+
+
+	public int getIdPruefung() {
+		return idPruefung;
+	}
+
+
+	public void setIdPruefung(int idPruefung) {
+		this.idPruefung = idPruefung;
+	}
+
+
 	public String getBezeichnung() {
 		return bezeichnung;
 	}
+
+
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
 	}
-	public Student getStudent() {
-		return student;
-	}
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-	public Modul getModul() {
-		return modul;
-	}
-	public void setModul(Modul modul) {
-		this.modul = modul;
-	}
-	public double getNote() {
+
+
+	public float getNote() {
 		return note;
 	}
-	public void setNote(double note) {
+
+
+	public void setNote(float note) {
 		this.note = note;
 	}
+
+
 	public Fragekatalog getFragekatalog() {
 		return fragekatalog;
 	}
+
+
 	public void setFragekatalog(Fragekatalog fragekatalog) {
 		this.fragekatalog = fragekatalog;
 	}
+
+
+	public Student getStudent() {
+		return student;
+	}
+
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+
+	public Pruefer getPruefer() {
+		return pruefer;
+	}
+
+
+	public void setPruefer(Pruefer pruefer) {
+		this.pruefer = pruefer;
+	}
 	
-	public void pruefungStarten()
-	{
-		
-	}
-	public void pruefungBeenden()
-	{
-		
-	}
-	public void pruefungSpeichern()
-	{
-		
-	}
-	public void frageSelektieren()
-	{
-		
-	}
-	public void frageAnendern()
-	{
-		
-	}
+	
 	
 }

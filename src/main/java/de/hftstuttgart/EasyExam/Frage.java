@@ -4,72 +4,134 @@ import javafx.beans.property.*;
 
 public class Frage {
 
-	// private int id;
-	private String frageStellung;
-	private String niveau;
-	private int punkte; // muss evtll auf double geändert werden
-	private String themengebiet;
+	private int idFrage;
+	private String fragestellung;
+	private int niveau;
+	private float punkte; 
 	private boolean gestellt;
-	private String musterLoesung;
-
-	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, int punkte,
-			Boolean gestellt) {
-		// id = pId;
-		this.themengebiet = themengebiet;
-		this.frageStellung = frageStellung;
-		this.musterLoesung = musterLoesung;
+	private String themengebiet;
+	private int fragekatalog;
+	private Musterloesung musterloesung;
+	
+	
+	public Frage(int idFrage, String fragestellung, int niveau, float punkte, boolean gestellt,
+			String themengebiet, int fragekatalog) {
+		super();
+		this.idFrage = idFrage;
+		this.fragestellung = fragestellung;
 		this.niveau = niveau;
 		this.punkte = punkte;
 		this.gestellt = gestellt;
-
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
 	}
+	
+	
+
+
+	public Frage(int idFrage, String fragestellung, int niveau, float punkte, boolean gestellt, String themengebiet,
+			int fragekatalog, Musterloesung musterloesung) {
+		super();
+		this.idFrage = idFrage;
+		this.fragestellung = fragestellung;
+		this.niveau = niveau;
+		this.punkte = punkte;
+		this.gestellt = gestellt;
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
+		this.musterloesung = musterloesung;
+	}
+
+
+
+
+	public int getIdFrage() {
+		return idFrage;
+	}
+
+
+	public void setIdFrage(int idFrage) {
+		this.idFrage = idFrage;
+	}
+
 
 	public String getFragestellung() {
-		return frageStellung;
+		return fragestellung;
 	}
+
 
 	public void setFragestellung(String fragestellung) {
-		this.frageStellung = fragestellung;
+		this.fragestellung = fragestellung;
 	}
 
-	public String getNiveau() {
+
+	public int getNiveau() {
 		return niveau;
 	}
 
-	public void setNiveau(String niveau) {
+
+	public void setNiveau(int niveau) {
 		this.niveau = niveau;
 	}
 
-	public int getPunkte() {
+
+	public float getPunkte() {
 		return punkte;
 	}
 
-	public void setPunkte(int punkte) {
+
+	public void setPunkte(float punkte) {
 		this.punkte = punkte;
 	}
 
-	public String getThemengebiet() {
-		return themengebiet;
-	}
-
-	public void setThemengebiet(String themengebiet) {
-		this.themengebiet = themengebiet;
-	}
 
 	public boolean isGestellt() {
 		return gestellt;
 	}
 
+
 	public void setGestellt(boolean gestellt) {
 		this.gestellt = gestellt;
 	}
 
-	public String getMusterLoesung() {
-		return musterLoesung;
+
+	public String getThemengebiet() {
+		return themengebiet;
 	}
 
-	public void setMusterLoesung(String musterLoesung) {
-		this.musterLoesung = musterLoesung;
+
+	public void setThemengebiet(String themengebiet) {
+		this.themengebiet = themengebiet;
 	}
+
+
+	public int getFragekatalog() {
+		return fragekatalog;
+	}
+
+
+	public void setFragekatalog(int fragekatalog) {
+		this.fragekatalog = fragekatalog;
+	}
+
+
+
+
+	public Musterloesung getMusterloesung() {
+		return musterloesung;
+	}
+
+
+
+
+	public void setMusterloesung(Musterloesung musterloesung) {
+		this.musterloesung = musterloesung;
+	}
+	
+	
+	
+	
+
+
 
 }
