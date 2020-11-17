@@ -21,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -93,6 +94,9 @@ public class ControllerDurchfuehrung {
 	@FXML
 	private RadioButton niveau3;
 
+	@FXML
+	private TableColumn<?, ?> gestellt;
+
 //	@FXML
 //	public void prepareWhereClausel() {
 //		if (niv1.isSelected()) {
@@ -152,7 +156,6 @@ public class ControllerDurchfuehrung {
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		frageTabelle.setItems(list);
 		System.out.print(query);
-		
 
 	}
 
@@ -181,7 +184,7 @@ public class ControllerDurchfuehrung {
 
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
 		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
-		String punktzahl = Integer.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
+		String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 

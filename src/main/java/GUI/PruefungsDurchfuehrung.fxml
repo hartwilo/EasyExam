@@ -27,7 +27,8 @@
                <children>
                   <TableView fx:id="frageTabelle" layoutX="-6.0" layoutY="51.0" onMousePressed="#detailsAnzeigen" prefHeight="439.0" prefWidth="558.0">
                     <columns>
-                      <TableColumn fx:id="frageStellung" prefWidth="557.0" text="Fragestellung" />
+                      <TableColumn fx:id="gestellt" prefWidth="51.99996566772461" text="Gestellt" />
+                        <TableColumn fx:id="frageStellung" prefWidth="588.0000152587891" text="Fragestellung" />
                     </columns>
                   </TableView>
                   <Label layoutX="2.0" layoutY="496.0" text="Schierwigkeitsniveau" />

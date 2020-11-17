@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -77,7 +78,7 @@ public class ControllerKatalogErstellen {
 
 		frageStellungCol
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
-		punkteCol.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getPunkte()));
+		punkteCol.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
 		themaCol.setCellValueFactory(new PropertyValueFactory<>("themengebiet"));
 		niveauCol.setCellValueFactory(new PropertyValueFactory<>("niveau"));
 		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterLoesung"));

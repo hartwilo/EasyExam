@@ -1,16 +1,35 @@
 package de.hftstuttgart.EasyExam;
 
 import javafx.beans.property.*;
+import javafx.scene.control.CheckBox;
 
 public class Frage {
 
 	// private int id;
 	private String frageStellung;
 	private String niveau;
-	private int punkte; // muss evtll auf double geändert werden
+	private double punkte; // muss evtll auf double geändert werden
 	private String themengebiet;
-	private boolean gestellt;
+	private boolean gestelltbool;
+	
+	public boolean isGestelltbool() {
+		return gestelltbool;
+	}
+
+	public void setGestelltbool(boolean gestelltbool) {
+		this.gestelltbool = gestelltbool;
+	}
+
+	public CheckBox getGestellt() {
+		return gestellt;
+	}
+
+	public void setGestellt(CheckBox gestellt) {
+		this.gestellt = gestellt;
+	}
+
 	private String musterLoesung;
+	private CheckBox gestellt;
 
 	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, int punkte,
 			Boolean gestellt) {
@@ -20,7 +39,7 @@ public class Frage {
 		this.musterLoesung = musterLoesung;
 		this.niveau = niveau;
 		this.punkte = punkte;
-		this.gestellt = gestellt;
+		this.gestelltbool = gestellt;
 
 	}
 
@@ -40,11 +59,11 @@ public class Frage {
 		this.niveau = niveau;
 	}
 
-	public int getPunkte() {
+	public double getPunkte() {
 		return punkte;
 	}
 
-	public void setPunkte(int punkte) {
+	public void setPunkte(double punkte) {
 		this.punkte = punkte;
 	}
 
@@ -56,13 +75,13 @@ public class Frage {
 		this.themengebiet = themengebiet;
 	}
 
-	public boolean isGestellt() {
-		return gestellt;
-	}
-
-	public void setGestellt(boolean gestellt) {
-		this.gestellt = gestellt;
-	}
+//	public boolean isGestellt() {
+//		return gestellt;
+//	}
+//
+//	public void setGestellt(boolean gestellt) {
+//		this.gestellt = gestellt;
+//	}
 
 	public String getMusterLoesung() {
 		return musterLoesung;
