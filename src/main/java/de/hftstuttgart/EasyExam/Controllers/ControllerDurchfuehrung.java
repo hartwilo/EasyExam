@@ -14,14 +14,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -116,6 +114,8 @@ public class ControllerDurchfuehrung {
 //			query = "Select * from Fragen";
 //		}
 //	}
+	
+	
 
 	@FXML
 	public void prepareWhereClausel(MouseEvent event) {
@@ -137,7 +137,8 @@ public class ControllerDurchfuehrung {
 
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
-
+		
+		frageTabelle.setFixedCellSize(25);
 		ObservableList<Frage> list = FXCollections.observableArrayList();
 
 		pst = DBConn.connection.prepareStatement(query);
@@ -181,6 +182,8 @@ public class ControllerDurchfuehrung {
 
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
+		
+		
 
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
 		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();

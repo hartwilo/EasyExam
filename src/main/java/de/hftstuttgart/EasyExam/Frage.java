@@ -1,6 +1,5 @@
 package de.hftstuttgart.EasyExam;
 
-import javafx.beans.property.*;
 import javafx.scene.control.CheckBox;
 
 public class Frage {
