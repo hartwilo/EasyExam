@@ -168,9 +168,9 @@ public class ControllerDurchfuehrung {
 		ResultSet rs = pst.executeQuery(query);
 
 		while (rs.next()) {
-			String s = rs.getString("themengebiet");
-			if (!themengebiete.contains(s)) {
-				themengebiete.add(s);
+			String thema = rs.getString("themengebiet");
+			if (!themengebiete.contains(thema)) {
+				themengebiete.add(thema);
 			}
 
 		}

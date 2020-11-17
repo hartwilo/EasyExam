@@ -31,14 +31,14 @@ public class Frage {
 	private String musterLoesung;
 	private CheckBox gestellt;
 
-	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, int punkte,
+	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, double d,
 			Boolean gestellt) {
 		// id = pId;
 		this.themengebiet = themengebiet;
 		this.frageStellung = frageStellung;
 		this.musterLoesung = musterLoesung;
 		this.niveau = niveau;
-		this.punkte = punkte;
+		this.punkte = d;
 		this.gestelltbool = gestellt;
 
 	}
@@ -57,6 +57,16 @@ public class Frage {
 
 	public void setNiveau(String niveau) {
 		this.niveau = niveau;
+	}
+
+
+
+	public String getFrageStellung() {
+		return frageStellung;
+	}
+
+	public void setFrageStellung(String frageStellung) {
+		this.frageStellung = frageStellung;
 	}
 
 	public double getPunkte() {

@@ -69,7 +69,7 @@ public class ControllerKatalogErstellen {
 
 		while (rs.next()) {
 			list.add(new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
-					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getInt("punktZahl"),
+					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getDouble("punktZahl"),
 					rs.getBoolean("gestellt")));
 		}
 
