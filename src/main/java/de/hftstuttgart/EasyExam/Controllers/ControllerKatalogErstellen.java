@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
+import de.hftstuttgart.EasyExam.Musterloesung;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -68,9 +69,25 @@ public class ControllerKatalogErstellen {
 		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			list.add(new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
-					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getDouble("punktZahl"),
-					rs.getBoolean("gestellt")));
+			
+			int idFrage = rs.getInt("idFrage");
+			
+			String musterQuery = "SELECT idMusterloesung, Loesung, musterloesung.Niveau"
+					+ "FROM musterloesung, fragenloesung, frage"
+					+ "WHERE musterloesung.idMusterloesung=fragenloesung.Musterloesung_fk"
+					+ "AND fragenloesung.Frage_fk=frage.idFrage"
+					+ "AND fragenloesung.Frage_fk='"
+					+ idFrage + "'";
+			
+			ResultSet mrs = pst.executeQuery(musterQuery);
+			
+			while(mrs.next()){
+				
+				list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("bezeichnung"), rs.getInt("Fragekatalog"), new Musterloesung(mrs.getInt("idMusterloesung"), mrs.getString("Loesung"), mrs.getInt("Niveau"))));
+			}
+			
+			
+			
 		}
 
 		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS

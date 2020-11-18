@@ -38,10 +38,10 @@ class testControllerDurchfuehrung {
 		
 		String query = "Select * From Fragen";
 		
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery();
+//		pst = DBConn.connection.prepareStatement(query);
+//		ResultSet rs = pst.executeQuery();
 		
-		while (rs.next()) {
+/*		while (rs.next()) {
 			Frage frage = new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
 					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getInt("punktZahl"),
 					rs.getBoolean("gestellt"));
@@ -55,7 +55,7 @@ class testControllerDurchfuehrung {
 			
 			
 			
-		}
+		}*/
 		
 
 	}
