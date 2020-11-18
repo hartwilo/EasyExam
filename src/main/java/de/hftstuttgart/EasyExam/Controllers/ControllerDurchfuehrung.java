@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -91,10 +94,12 @@ public class ControllerDurchfuehrung {
 	private RadioButton niveau3;
 
 	@FXML
-	private TableColumn<?, ?> gestellt;
+	private TableColumn<Frage, CheckBox> gestellt;
 
 	@FXML
 	private Button start;
+
+	CheckBox gestelltCheckBox = new CheckBox(null);
 
 	// The following method is used to modify the query on the Database based upon
 	// the desired level and topic of questions
@@ -108,16 +113,18 @@ public class ControllerDurchfuehrung {
 		} else if (nivalle.isSelected() && themengebiet == null) { // Select all questions
 			query = "Select * from Fragen";
 		} else if (themengebiet != null) {
-			query = "Select * from Fragen where themengebiet =" + "'" + themengebiet + "'"; // Select only based on Topic
-																							
+			query = "Select * from Fragen where themengebiet =" + "'" + themengebiet + "'"; // Select only based on
+																							// Topic
+
 		} else { // select only based on Level RadioButton
-			query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
-					+ "'";
+			query = "Select * from Fragen where niveau = " + "'"
+					+ (((RadioButton) niveau.getSelectedToggle()).getText()) + "'";
 		}
 		System.out.println(query);
 	}
 
-	// The following method is used to read data from the Database into the TableView
+	// The following method is used to read data from the Database into the
+	// TableView
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
 
@@ -139,17 +146,20 @@ public class ControllerDurchfuehrung {
 
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
+		gestellt.setCellFactory(features -> new CheckBoxTableCell<>());
+		gestellt.setEditable(true);
 		frageTabelle.setItems(list);
+		frageTabelle.setEditable(true);
 		System.out.println(query);
 
 	}
 
-	// The following method is used to load all existing Topics from the databse into the Topic ComboBox
+	// The following method is used to load all existing Topics from the databse
+	// into the Topic ComboBox
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
-		prepareWhereClausel();
 		query = "Select * from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery(query);
@@ -166,7 +176,8 @@ public class ControllerDurchfuehrung {
 		return themengebiete;
 	}
 
-	// Upon clicking on a TableView corresponding to a Question, said Question's details are displayed on the right side of the Screen/GUI
+	// Upon clicking on a TableView corresponding to a Question, said Question's
+	// details are displayed on the right side of the Screen/GUI
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 
