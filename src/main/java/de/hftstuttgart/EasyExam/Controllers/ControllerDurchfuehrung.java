@@ -136,7 +136,7 @@ public class ControllerDurchfuehrung {
 		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			list.add(new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
+			list.add(new Frage(rs.getInt("ID"), rs.getString("themengebiet"), rs.getString("frageStellung"),
 					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getInt("punktZahl"),
 					rs.getBoolean("gestellt")));
 		}
@@ -150,7 +150,6 @@ public class ControllerDurchfuehrung {
 		gestellt.setEditable(true);
 		frageTabelle.setItems(list);
 		frageTabelle.setEditable(true);
-		System.out.println(query);
 
 	}
 

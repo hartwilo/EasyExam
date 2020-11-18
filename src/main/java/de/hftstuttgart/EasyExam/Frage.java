@@ -6,35 +6,13 @@ import javafx.scene.control.CheckBox;
 
 public class Frage {
 
-	// private int id;
+	private int ID;
 	private String frageStellung;
 	private String niveau;
 	private double punkte;
 	private String themengebiet;
-	private BooleanProperty fGestellt = new SimpleBooleanProperty();
-
-	public BooleanProperty getfGestellt() {
-		return fGestellt;
-	}
-
-	public void setfGestellt(BooleanProperty fGestellt) {
-		this.fGestellt = fGestellt;
-	}
-	
-	public boolean isSelected() {
-        return fGestellt.get();
-    }
-
 	private boolean gestelltbool;
-	// private CheckBox gestelltCheckBox;
 
-//	public CheckBox getGestelltCheckBox() {
-//		return gestelltCheckBox;
-//	}
-//
-//	public void setGestelltCheckBox(CheckBox gestelltCheckBox) {
-//		this.gestelltCheckBox = gestelltCheckBox;
-//	}
 
 	private String grundLageNiveau;
 
@@ -65,6 +43,14 @@ public class Frage {
 	private String gut;
 	private String sehrGut;
 
+	public int getId() {
+		return ID;
+	}
+
+	public void setId(int id) {
+		this.ID = id;
+	}
+
 	public boolean isGestelltbool() {
 		return gestelltbool;
 	}
@@ -73,20 +59,12 @@ public class Frage {
 		this.gestelltbool = gestelltbool;
 	}
 
-//	public CheckBox getGestellt() {
-//		return gestelltCheckBox;
-//	}
-//
-//	public void setGestellt(CheckBox gestellt) {
-//		this.gestelltCheckBox = gestellt;
-//	}
-
 	private String musterLoesung;
-	private CheckBox gestellt;
 
-	public Frage(String themengebiet, String frageStellung, String musterLoesung, String niveau, double d,
+
+	public Frage(int id, String themengebiet, String frageStellung, String musterLoesung, String niveau, double d,
 			Boolean gestellt) {
-		// id = pId;
+		this.ID = id;
 		this.themengebiet = themengebiet;
 		this.frageStellung = frageStellung;
 		this.musterLoesung = musterLoesung;
@@ -136,13 +114,7 @@ public class Frage {
 		this.themengebiet = themengebiet;
 	}
 
-//	public boolean isGestellt() {
-//		return gestellt;
-//	}
-//
-//	public void setGestellt(boolean gestellt) {
-//		this.gestellt = gestellt;
-//	}
+
 
 	public String getMusterLoesung() {
 		return musterLoesung;

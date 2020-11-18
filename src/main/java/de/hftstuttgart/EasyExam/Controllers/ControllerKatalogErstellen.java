@@ -68,7 +68,7 @@ public class ControllerKatalogErstellen {
 		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			list.add(new Frage(rs.getString("themengebiet"), rs.getString("frageStellung"),
+			list.add(new Frage(rs.getInt("ID"), rs.getString("themengebiet"), rs.getString("frageStellung"),
 					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getDouble("punktZahl"),
 					rs.getBoolean("gestellt")));
 		}
