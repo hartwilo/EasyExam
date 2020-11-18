@@ -65,7 +65,28 @@ public class ControllerFrageErstellen {
 	private TextField themengebietTextField;
 
 	@FXML
+	private Label grunlagenniveauLB;
+
+	@FXML
+	private Label gutLB;
+
+	@FXML
+	private Label sehrGutLB;
+
+	@FXML
+	private TextField levelGrundlagenniveau;
+
+	@FXML
+	private TextField levelGut;
+
+	@FXML
+	private TextField levelSehrGut;
+
+	@FXML
 	private ComboBox<String> themengebietComboBox;
+	
+    @FXML
+    private Button zueruck;
 
 	// DB Related Variables
 	public PreparedStatement pst = null;
@@ -122,13 +143,17 @@ public class ControllerFrageErstellen {
 		String stellung = frageStellungTextField.getText();
 		String loesung = musterLoesungTextField.getText();
 		String punkte = punktzahl.getText();
+		String grundlagenniveau = levelGrundlagenniveau.getText();
+		String gut = levelGut.getText();
+		String sehrGut = levelSehrGut.getText();
 		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
 		String gestellt = "0";
 
 		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
-				&& !musterLoesungTextField.getText().isEmpty()) {
+				&& !musterLoesungTextField.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
+				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
 
-			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, niveau, punktZahl, gestellt) Values(?,?,?,?,?,?)";
+			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, niveau, punktZahl, gestellt, grundlagenniveau, gut, sehrGut) Values(?,?,?,?,?,?,?,?,?)";
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, themengebiet);
 			pst.setString(2, stellung);
@@ -136,6 +161,9 @@ public class ControllerFrageErstellen {
 			pst.setString(4, niveau);
 			pst.setString(5, punkte);
 			pst.setString(6, gestellt);
+			pst.setString(7, grundlagenniveau);
+			pst.setString(8, gut);
+			pst.setString(9, sehrGut);
 
 			int status = pst.executeUpdate();
 			if (status == 1) {
@@ -146,14 +174,21 @@ public class ControllerFrageErstellen {
 				alert.showAndWait();
 			}
 			MainController.setWindow("KatalogErstellen");
-		} else if (frageStellungTextField.getText().isEmpty()
-		|| musterLoesungTextField.getText().isEmpty()){
+		} else if (frageStellungTextField.getText().isEmpty() || musterLoesungTextField.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("");
 			alert.setHeaderText(null);
 			alert.setContentText("Bitte vollen Fragedaten eingeben");
 			alert.showAndWait();
 		}
+		
+		
 	}
-
+	
+	
+	@FXML
+	public void zueruck(MouseEvent event) throws IOException {
+		MainController.setWindow("KatalogErstellen");
+	}
+	
 }

@@ -7,9 +7,36 @@ public class Frage {
 	// private int id;
 	private String frageStellung;
 	private String niveau;
-	private double punkte; // muss evtll auf double geändert werden
+	private double punkte; 
 	private String themengebiet;
 	private boolean gestelltbool;
+	private String grundLageNiveau;
+	public String getGrundLageNiveau() {
+		return grundLageNiveau;
+	}
+
+	public void setGrundLageNiveau(String grundLageNiveau) {
+		this.grundLageNiveau = grundLageNiveau;
+	}
+
+	public String getGut() {
+		return gut;
+	}
+
+	public void setGut(String gut) {
+		this.gut = gut;
+	}
+
+	public String getSehrGut() {
+		return sehrGut;
+	}
+
+	public void setSehrGut(String sehrGut) {
+		this.sehrGut = sehrGut;
+	}
+
+	private String gut;
+	private String sehrGut;
 	
 	public boolean isGestelltbool() {
 		return gestelltbool;

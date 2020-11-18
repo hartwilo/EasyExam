@@ -18,6 +18,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -65,14 +66,14 @@ public class ControllerDurchfuehrung {
 	@FXML
 	private AnchorPane anchorPane;
 
-	@FXML
-	private TextField frageStellungDetail;
+	@FXML   
+    private TextArea frageStellungDetail;
+
+    @FXML
+    private TextArea musterLoesungDetailliert;
 
 	@FXML
 	public Button zueruckDurchfuehrung;
-
-	@FXML
-	private TextField musterLoesungDetailliert;
 
 	@FXML
 	private TextField punktZahlDetail;
@@ -183,7 +184,8 @@ public class ControllerDurchfuehrung {
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 		
-		
+		frageStellungDetail.setWrapText(true);
+		musterLoesungDetailliert.setWrapText(true);
 
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
 		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();

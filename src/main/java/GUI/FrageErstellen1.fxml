@@ -75,8 +75,28 @@
                               <Label fx:id="musterloesungEingebenLB" layoutX="8.0" layoutY="162.0" text="Musterlösung" />
                            </children>
                         </Group>
-                        <Group layoutX="356.0" layoutY="218.0" />
-                        <Group layoutX="360.0" layoutY="320.0" />
+                        <Group layoutX="356.0" layoutY="218.0">
+                           <children>
+                              <RadioButton id="niveau1" fx:id="niveauRadioButton1" mnemonicParsing="false" selected="true" text="Niveau 1">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="Niveau" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton id="niveau2" fx:id="niveauRadioButton2" layoutX="88.0" mnemonicParsing="false" text="Niveau 2" toggleGroup="$Niveau" />
+                              <RadioButton id="niveau3" fx:id="niveauRadioButton3" layoutX="178.0" mnemonicParsing="false" text="Niveau 3" toggleGroup="$Niveau" />
+                           </children>
+                        </Group>
+                        <Group layoutX="360.0" layoutY="320.0">
+                           <children>
+                              <Button id="frageSpeichern" fx:id="frageSpeichern" layoutX="173.0" mnemonicParsing="false" onMouseClicked="#frageSpeichern" text="Speichern" />
+                              <TextField id="punktZahl" fx:id="punktzahl" layoutX="121.0" prefHeight="15.0" prefWidth="31.0" text="0" />
+                              <Label fx:id="puntzahlLB" prefHeight="26.0" prefWidth="75.0" text="Puntkzahl">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Group>
                         <Group layoutX="350.0" layoutY="20.0">
                            <children>
                               <Button fx:id="themenGebietEingebenBN" layoutX="218.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="+" />
@@ -85,28 +105,6 @@
                            </children>
                         </Group>
                         <ComboBox fx:id="themengebietComboBox" layoutX="351.0" layoutY="77.0" onMouseClicked="#themengebieteLaden" prefHeight="25.0" prefWidth="248.0" promptText="Themengebiet Selektieren" />
-                        <RadioButton id="niveau1" fx:id="niveauRadioButton1" layoutX="38.0" layoutY="368.0" mnemonicParsing="false" selected="true" text="Niveau 1">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="Niveau" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton id="niveau2" fx:id="niveauRadioButton2" layoutX="126.0" layoutY="368.0" mnemonicParsing="false" text="Niveau 2" toggleGroup="$Niveau" />
-                        <RadioButton id="niveau3" fx:id="niveauRadioButton3" layoutX="216.0" layoutY="368.0" mnemonicParsing="false" text="Niveau 3" toggleGroup="$Niveau" />
-                        <Button id="frageSpeichern" fx:id="frageSpeichern" layoutX="532.0" layoutY="364.0" mnemonicParsing="false" onMouseClicked="#frageSpeichern" text="Speichern" />
-                        <TextField id="punktZahl" fx:id="punktzahl" layoutX="424.0" layoutY="365.0" prefHeight="15.0" prefWidth="31.0" text="0" />
-                        <Label fx:id="puntzahlLB" layoutX="359.0" layoutY="364.0" prefHeight="26.0" prefWidth="75.0" text="Puntkzahl">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="354.0" layoutY="118.0" text="Kompetenzlevel" />
-                        <Label layoutX="355.0" layoutY="147.0" text="Grundlagenniveau:" />
-                        <TextField fx:id="levelGrundlagenniveau" layoutX="354.0" layoutY="169.0" prefHeight="25.0" prefWidth="248.0" />
-                        <Label layoutX="356.0" layoutY="210.0" prefHeight="17.0" prefWidth="207.0" text="Gut (zusätzlich zu Grundlagenniveau):" />
-                        <TextField fx:id="levelGut" layoutX="354.0" layoutY="235.0" prefHeight="25.0" prefWidth="248.0" />
-                        <Label layoutX="356.0" layoutY="284.0" text="Sehr Gut (zusätzlich zu Gut):" />
-                        <TextField fx:id="levelSehrGut" layoutX="353.0" layoutY="307.0" prefHeight="25.0" prefWidth="248.0" />
-                        <Button fx:id="zueruck" layoutX="466.0" layoutY="365.0" mnemonicParsing="false" onMouseClicked="#zueruck" prefHeight="25.0" prefWidth="61.0" text="Zurück" />
                   </children>
                 </AnchorPane>
               </children>
