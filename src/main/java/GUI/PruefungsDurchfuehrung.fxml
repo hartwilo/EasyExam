@@ -33,14 +33,14 @@
                     </columns>
                   </TableView>
                   <Label layoutX="2.0" layoutY="496.0" text="Schierwigkeitsniveau" />
-                  <RadioButton fx:id="niveau1" layoutX="146.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#prepareWhereClausel" text="Niveau 1">
+                  <RadioButton fx:id="niveau1" layoutX="146.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Niveau 1">
                      <toggleGroup>
                         <ToggleGroup fx:id="niveau" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="niveau2" layoutX="273.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#prepareWhereClausel" text="Niveau 2" toggleGroup="$niveau" />
-                  <RadioButton fx:id="nivalle" layoutX="459.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#prepareWhereClausel" selected="true" text="Alle" toggleGroup="$niveau" />
-                  <RadioButton fx:id="niveau31" layoutX="371.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#prepareWhereClausel" text="Niveau 3" toggleGroup="$niveau" />
+                  <RadioButton fx:id="niveau2" layoutX="273.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Niveau 2" toggleGroup="$niveau" />
+                  <RadioButton fx:id="nivalle" layoutX="459.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" selected="true" text="Alle" toggleGroup="$niveau" />
+                  <RadioButton fx:id="niveau31" layoutX="371.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Niveau 3" toggleGroup="$niveau" />
                </children>
             </Group>
             <Group layoutX="607.0" layoutY="167.0">
@@ -59,7 +59,7 @@
                   <TextField fx:id="studName" layoutX="562.0" layoutY="35.0" prefHeight="26.0" prefWidth="146.0" />
                   <TextField fx:id="matNr" layoutX="716.0" layoutY="35.0" prefHeight="26.0" prefWidth="81.0" />
                   <DatePicker layoutX="807.0" layoutY="35.0" prefHeight="26.0" prefWidth="74.0" />
-                  <ProgressBar layoutX="930.0" layoutY="35.0" prefHeight="26.0" prefWidth="286.0" progress="0.0" />
+                  <ProgressBar layoutX="930.0" layoutY="35.0" prefHeight="26.0" prefWidth="191.0" progress="0.0" />
                   <Label layoutX="3.0" text="Fragekatalog">
                      <font>
                         <Font size="17.0" />
@@ -124,15 +124,15 @@
             </MenuBar>
             <Group layoutX="1033.0" layoutY="713.0">
                <children>
-                  <Button layoutX="45.0" mnemonicParsing="false" text="Start" />
+                  <Button fx:id="start" layoutX="45.0" mnemonicParsing="false" text="Start" />
                   <Button layoutX="93.0" mnemonicParsing="false" text="Stop" />
                   <Button layoutX="143.0" mnemonicParsing="false" text="Pause" />
                   <Button layoutX="199.0" mnemonicParsing="false" text="End" />
                   <Button id="zueruckDurchfuehrung" fx:id="zueruckDurchfuehrung" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" prefHeight="25.0" prefWidth="36.0" text="&lt;" />
                </children>
             </Group>
-            <ComboBox fx:id="themen" layoutX="40.0" layoutY="167.0" onMouseClicked="#themengebieteLaden" prefHeight="26.0" prefWidth="486.0" />
-            <Button fx:id="refreshQuestions" layoutX="535.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" prefHeight="26.0" prefWidth="58.0" text="Refresh" />
+            <ComboBox fx:id="themen" layoutX="40.0" layoutY="167.0" onMouseClicked="#themengebieteLaden" prefHeight="26.0" prefWidth="557.0" />
+            <Label fx:id="timerLabel" layoutX="1193.0" layoutY="124.0" prefHeight="32.0" prefWidth="97.0" text="Time: " />
          </children>
       </AnchorPane>
    </children>

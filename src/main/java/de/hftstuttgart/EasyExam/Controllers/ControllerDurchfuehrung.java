@@ -66,11 +66,11 @@ public class ControllerDurchfuehrung {
 	@FXML
 	private AnchorPane anchorPane;
 
-	@FXML   
-    private TextArea frageStellungDetail;
+	@FXML
+	private TextArea frageStellungDetail;
 
-    @FXML
-    private TextArea musterLoesungDetailliert;
+	@FXML
+	private TextArea musterLoesungDetailliert;
 
 	@FXML
 	public Button zueruckDurchfuehrung;
@@ -96,49 +96,38 @@ public class ControllerDurchfuehrung {
 	@FXML
 	private TableColumn<?, ?> gestellt;
 
-//	@FXML
-//	public void prepareWhereClausel() {
-//		if (niv1.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 1'";
-//		} else if (niv2.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 2'";
-//		} else if (niv3.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 3'";
-//		} else if (niv1.isSelected() && niv2.isSelected()) {
-//			query = "Select * from Fragen where niveau in ('Niveau 1','Niveau2')";
-//			// query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 2'";
-//		} else if (niv1.isSelected() && niv3.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 3'";
-//		} else if (niv2.isSelected() && niv3.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 2' or niveau = 'Niveau 3'";
-//		} else {
-//			query = "Select * from Fragen";
-//		}
-//	}
-	
-	
-
 	@FXML
-	public void prepareWhereClausel(MouseEvent event) {
+	private Button start;
 
+	
+	//The following method is used to modify the query on the Database based upon the desired level and topic of questions
+	public void prepareWhereClausel() { 
 		query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
 				+ "'";
 		String themengebiet = themen.getValue();
-		if (themengebiet != null) {
+		if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level RadioButton and Topics Combobox
 			query = "Select * from Fragen where niveau = " + "'"
 					+ (((RadioButton) niveau.getSelectedToggle()).getText()) + "'" + " and themengebiet = " + "'"
 					+ themengebiet + "'";
 
-		}
-		if (nivalle.isSelected()) {
+		} else if (nivalle.isSelected() && themengebiet == null) { // Select all questions
 			query = "Select * from Fragen";
+		} else if (themengebiet != null) {
+			query = "Select * from Fragen where themengebiet =" + "'" + themengebiet + "'"; // Select only based on Topic
+																							
+		} else { // select only based on Level RadioButton
+			query = "Select * from Fragen where = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
+					+ "'";
 		}
-		System.out.print(query);
+		System.out.println(query);
 	}
 
+
+	//The following method is used to read data from the Database into the TableView
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
-		
+
+		prepareWhereClausel();
 		frageTabelle.setFixedCellSize(25);
 		ObservableList<Frage> list = FXCollections.observableArrayList();
 
@@ -157,15 +146,18 @@ public class ControllerDurchfuehrung {
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		frageTabelle.setItems(list);
-		System.out.print(query);
+		System.out.println(query);
 
 	}
 
+	
+	//The following method is used to load all existing Topics from the databse into the Topic ComboBox
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
-		query = "Select themengebiet from Fragen";
+		prepareWhereClausel();
+		query = "Select * from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery(query);
 
@@ -181,9 +173,11 @@ public class ControllerDurchfuehrung {
 		return themengebiete;
 	}
 
+	
+	//Upon clicking on a TableView corresponding to a Question, said Question's details are displayed on the right side of the Screen/GUI
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
-		
+
 		frageStellungDetail.setWrapText(true);
 		musterLoesungDetailliert.setWrapText(true);
 
@@ -199,6 +193,7 @@ public class ControllerDurchfuehrung {
 		}
 	}
 
+	//Navigation Function - Go back to starter Screen.
 	@FXML
 	void zueruckDurchfuehrung(MouseEvent event) throws IOException {
 
