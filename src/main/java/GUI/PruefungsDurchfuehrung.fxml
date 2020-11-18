@@ -59,7 +59,7 @@
                   <TextField fx:id="studName" layoutX="562.0" layoutY="35.0" prefHeight="26.0" prefWidth="146.0" />
                   <TextField fx:id="matNr" layoutX="716.0" layoutY="35.0" prefHeight="26.0" prefWidth="81.0" />
                   <DatePicker layoutX="807.0" layoutY="35.0" prefHeight="26.0" prefWidth="74.0" />
-                  <ProgressBar layoutX="930.0" layoutY="35.0" prefHeight="26.0" prefWidth="191.0" progress="0.0" />
+                  <ProgressBar layoutX="930.0" layoutY="35.0" prefHeight="26.0" prefWidth="296.0" progress="0.0" />
                   <Label layoutX="3.0" text="Fragekatalog">
                      <font>
                         <Font size="17.0" />
@@ -132,7 +132,6 @@
                </children>
             </Group>
             <ComboBox fx:id="themen" layoutX="40.0" layoutY="167.0" onMouseClicked="#themengebieteLaden" prefHeight="26.0" prefWidth="557.0" />
-            <Label fx:id="timerLabel" layoutX="1193.0" layoutY="124.0" prefHeight="32.0" prefWidth="97.0" text="Time: " />
          </children>
       </AnchorPane>
    </children>

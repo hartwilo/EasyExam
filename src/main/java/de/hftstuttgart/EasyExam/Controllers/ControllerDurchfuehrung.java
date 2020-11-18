@@ -31,9 +31,6 @@ public class ControllerDurchfuehrung {
 	String query = "Select * from Fragen ";
 
 	@FXML
-	private Button refreshQuestions;
-
-	@FXML
 	private CheckBox niv1;
 
 	@FXML
@@ -99,11 +96,9 @@ public class ControllerDurchfuehrung {
 	@FXML
 	private Button start;
 
-	
-	//The following method is used to modify the query on the Database based upon the desired level and topic of questions
-	public void prepareWhereClausel() { 
-		query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
-				+ "'";
+	// The following method is used to modify the query on the Database based upon
+	// the desired level and topic of questions
+	public void prepareWhereClausel() {
 		String themengebiet = themen.getValue();
 		if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level RadioButton and Topics Combobox
 			query = "Select * from Fragen where niveau = " + "'"
@@ -116,14 +111,13 @@ public class ControllerDurchfuehrung {
 			query = "Select * from Fragen where themengebiet =" + "'" + themengebiet + "'"; // Select only based on Topic
 																							
 		} else { // select only based on Level RadioButton
-			query = "Select * from Fragen where = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
+			query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
 					+ "'";
 		}
 		System.out.println(query);
 	}
 
-
-	//The following method is used to read data from the Database into the TableView
+	// The following method is used to read data from the Database into the TableView
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
 
@@ -150,8 +144,7 @@ public class ControllerDurchfuehrung {
 
 	}
 
-	
-	//The following method is used to load all existing Topics from the databse into the Topic ComboBox
+	// The following method is used to load all existing Topics from the databse into the Topic ComboBox
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
@@ -173,8 +166,7 @@ public class ControllerDurchfuehrung {
 		return themengebiete;
 	}
 
-	
-	//Upon clicking on a TableView corresponding to a Question, said Question's details are displayed on the right side of the Screen/GUI
+	// Upon clicking on a TableView corresponding to a Question, said Question's details are displayed on the right side of the Screen/GUI
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 
@@ -193,7 +185,7 @@ public class ControllerDurchfuehrung {
 		}
 	}
 
-	//Navigation Function - Go back to starter Screen.
+	// Navigation Function - Go back to starter Screen.
 	@FXML
 	void zueruckDurchfuehrung(MouseEvent event) throws IOException {
 
