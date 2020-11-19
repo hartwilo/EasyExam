@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class ControllerKatalogErstellen {
+	
 
 	@FXML
 	private AnchorPane anchorPane;
@@ -57,13 +58,13 @@ public class ControllerKatalogErstellen {
 
 	public static PreparedStatement pst = null;
 	public String query = null;
-
-	@FXML //This method loads relevant question data into a ViewTable in the GUI
-	public void fragenLaden(MouseEvent event) throws SQLException {
+	
+	//This method loads relevant question data into a ViewTable in the GUI
+	public void fragenLaden() throws SQLException { 
 		fragenTabelle.setFixedCellSize(25);
 		ObservableList<Frage> list = FXCollections.observableArrayList();
 
-		String query = "Select * from Fragen";
+		query = "Select * from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery();
 
@@ -84,7 +85,21 @@ public class ControllerKatalogErstellen {
 		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterLoesung"));
 
 		fragenTabelle.setItems(list);
+	}
 
+	@FXML //This method loads relevant question data into a ViewTable in the GUI (as soon as the mouse is entered into the GUI)
+	public void fragenLaden(MouseEvent event) throws SQLException {
+		fragenLaden();
+	}
+	
+	@FXML //This method deletes questions from a currently Selected question catalog
+    void frageLoeschen(MouseEvent event) throws SQLException {
+
+			int ID = fragenTabelle.getSelectionModel().getSelectedItem().getId();
+			query = "DELETE FROM fragen WHERE ID = " + ID ;
+			pst = DBConn.connection.prepareStatement(query);
+			pst.executeUpdate();
+			fragenLaden();
 	}
 
 	@FXML //GUI Navigation - Go to KatalogErstellen screen

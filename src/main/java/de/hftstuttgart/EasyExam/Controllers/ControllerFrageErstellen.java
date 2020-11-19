@@ -26,6 +26,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerFrageErstellen {
+	
+    @FXML
+    private Button frageLoeschen;
 
 	@FXML
 	public TextArea frageStellungTextField;
@@ -94,9 +97,9 @@ public class ControllerFrageErstellen {
 	public PreparedStatement pst = null;
 	public String query = null;
 
-	
-	//The following method is used to save questions into the database - Values are entered into the GUI's corresponding TextAreas/Fields and/or 
-	//chosen from the  combobox
+	// The following method is used to save questions into the database - Values are
+	// entered into the GUI's corresponding TextAreas/Fields and/or
+	// chosen from the combobox
 	public void speichern() throws SQLException, IOException {
 		String themengebiet = themengebietComboBox.getValue();
 		if (themengebiet == null) {
@@ -120,7 +123,8 @@ public class ControllerFrageErstellen {
 				&& !musterLoesungTextField.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
 				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
 
-			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, niveau, punktZahl, gestellt, grundlagenniveau, gut, sehrGut) Values(?,?,?,?,?,?,?,?,?)";
+			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, "
+					+ "niveau, punktZahl, gestellt, grundlagenniveau, gut, sehrGut) Values(?,?,?,?,?,?,?,?,?)";
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, themengebiet);
 			pst.setString(2, stellung);
@@ -150,8 +154,9 @@ public class ControllerFrageErstellen {
 		}
 
 	}
-	
-	//The following method is used to make sure the input in the Points field is restricted to a positive double value
+
+	// The following method is used to make sure the input in the Points field is
+	// restricted to a positive double value
 	private boolean punkteValidieren() {
 		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
@@ -167,8 +172,10 @@ public class ControllerFrageErstellen {
 		}
 
 	}
-		
-	@FXML // The following method is used to fill the Topics ComboBox with all existing values in the database.
+	
+
+	@FXML // The following method is used to fill the Topics ComboBox with all existing
+			// values in the database.
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
@@ -194,15 +201,15 @@ public class ControllerFrageErstellen {
 		speichern();
 
 	}
-	
-	//Save questions when ENTER key is pressed
-		@FXML
-		void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
-			if (event.getCode().equals(KeyCode.ENTER)) {
-				speichern();
-				
-			}
+
+	// Save questions when ENTER key is pressed
+	@FXML
+	void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
+		if (event.getCode().equals(KeyCode.ENTER)) {
+			speichern();
+
 		}
+	}
 
 	@FXML
 	public void zueruck(MouseEvent event) throws IOException {

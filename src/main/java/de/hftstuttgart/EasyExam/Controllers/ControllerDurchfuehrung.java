@@ -105,9 +105,9 @@ public class ControllerDurchfuehrung {
 	// the desired level and topic of questions
 	public void prepareWhereClausel() {
 		String themengebiet = themen.getValue();
+		String niv = (((RadioButton) niveau.getSelectedToggle()).getText());
 		if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level RadioButton and Topics Combobox
-			query = "Select * from Fragen where niveau = " + "'"
-					+ (((RadioButton) niveau.getSelectedToggle()).getText()) + "'" + " and themengebiet = " + "'"
+			query = "Select * from Fragen where niveau = " + "'" + niv + "'" + " and themengebiet = " + "'"
 					+ themengebiet + "'";
 
 		} else if (nivalle.isSelected() && themengebiet == null) { // Select all questions
@@ -117,8 +117,7 @@ public class ControllerDurchfuehrung {
 																							// Topic
 
 		} else { // select only based on Level RadioButton
-			query = "Select * from Fragen where niveau = " + "'"
-					+ (((RadioButton) niveau.getSelectedToggle()).getText()) + "'";
+			query = "Select * from Fragen where niveau = " + "'" + niv + "'";
 		}
 		System.out.println(query);
 	}
@@ -153,7 +152,7 @@ public class ControllerDurchfuehrung {
 
 	}
 
-	// The following method is used to load all existing Topics from the databse
+	// The following method is used to load all existing Topics from the Databse
 	// into the Topic ComboBox
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {

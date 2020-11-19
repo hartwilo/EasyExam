@@ -81,10 +81,11 @@
               </columns>
             </TableView>
             <ChoiceBox id="KatalogAuswhal" layoutX="16.0" layoutY="93.4000015258789" prefHeight="26.0" prefWidth="975.0" />
-            <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="859.0" layoutY="571.4000244140625" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="12.0" prefWidth="78.0" text="Neue Frage" />
-            <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="946.0" layoutY="571.4000244140625" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
+            <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="777.0" layoutY="571.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="26.0" prefWidth="78.0" text="Neue Frage" />
+            <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="864.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
             <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="61.400001525878906" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
             <Button layoutX="1002.0" layoutY="93.4000015258789" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0" text="-" />
+            <Button fx:id="frageLoeschen" layoutX="949.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageLoeschen" prefHeight="26.0" prefWidth="78.0" text="Löschen" />
          </children>
       </AnchorPane>
    </children>
