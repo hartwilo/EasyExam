@@ -62,14 +62,14 @@ public class Frage {
 	private String musterLoesung;
 
 
-	public Frage(int id, String themengebiet, String frageStellung, String musterLoesung, String niveau, double d,
+	public Frage(int id, String themengebiet, String frageStellung, String musterLoesung, String niveau, double punkte,
 			Boolean gestellt) {
 		this.ID = id;
 		this.themengebiet = themengebiet;
 		this.frageStellung = frageStellung;
 		this.musterLoesung = musterLoesung;
 		this.niveau = niveau;
-		this.punkte = d;
+		this.punkte = punkte;
 		this.gestelltbool = gestellt;
 
 	}

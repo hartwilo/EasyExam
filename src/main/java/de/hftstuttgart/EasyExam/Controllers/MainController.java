@@ -23,7 +23,6 @@ public class MainController {
 		Main.mainWindow.setScene(Main.scene);
 		Main.currentWindow = FXMLFile;
 		Main.mainWindow.centerOnScreen();
-		// Main.mainWindow.setMaximized(true);
 		Main.mainWindow.setResizable(false);
 		Main.mainWindow.show();
 
@@ -48,13 +47,13 @@ public class MainController {
 	@FXML
 	public Button frageSpeichern;
 
-	@FXML
+	@FXML //GUI Navigation - Go to KatalogErstellen screen
 	void katalogErstellen(MouseEvent event) throws IOException {
 
 		setWindow("KatalogErstellen");
 	}
 
-	@FXML
+	@FXML //GUI Navigation - Go to PruefungsDurchfuehrung screen
 	void pruefungStarten(MouseEvent event) throws IOException {
 
 		setWindow("PruefungsDurchfuehrung");
@@ -63,7 +62,7 @@ public class MainController {
 
 	@FXML
 	void statistikAnsehen(MouseEvent event) {
-
+		System.out.println("Good luck son!");
 	}
 
 }

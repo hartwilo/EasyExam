@@ -61,7 +61,7 @@
                     </Menu>
                   </menus>
                 </MenuBar>
-                <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="415.0" prefWidth="586.0" VBox.vgrow="ALWAYS">
+                <AnchorPane fx:id="frageStellungPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="415.0" prefWidth="586.0" VBox.vgrow="ALWAYS">
                   <children>
                         <Group layoutX="31.0" layoutY="21.0">
                            <children>

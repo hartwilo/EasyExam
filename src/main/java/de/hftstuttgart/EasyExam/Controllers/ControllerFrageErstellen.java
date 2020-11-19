@@ -21,6 +21,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerFrageErstellen {
@@ -84,53 +86,18 @@ public class ControllerFrageErstellen {
 
 	@FXML
 	private ComboBox<String> themengebietComboBox;
-	
-    @FXML
-    private Button zueruck;
+
+	@FXML
+	private Button zueruck;
 
 	// DB Related Variables
 	public PreparedStatement pst = null;
 	public String query = null;
 
-	private boolean punkteValidieren() {
-		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
-		Matcher m = p.matcher(punktzahl.getText());
-		if (m.find() && m.group().equals(punktzahl.getText())) {
-			return true;
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Punktzahl validieren");
-			alert.setHeaderText(null);
-			alert.setContentText("Punktzahl bitte richtig eingeben");
-			alert.showAndWait();
-			return false;
-		}
-
-	}
-
-	@FXML
-	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
-		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-
-		query = "Select themengebiet from Fragen";
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery(query);
-
-		while (rs.next()) {
-			String s = rs.getString("themengebiet");
-			if (!themengebiete.contains(s)) {
-				themengebiete.add(s);
-			}
-
-		}
-
-		themengebietComboBox.setItems(themengebiete);
-		return themengebiete;
-	}
-
-	@FXML
-	void frageSpeichern(MouseEvent event) throws SQLException, IOException {
-
+	
+	//The following method is used to save questions into the database - Values are entered into the GUI's corresponding TextAreas/Fields and/or 
+	//chosen from the  combobox
+	public void speichern() throws SQLException, IOException {
 		String themengebiet = themengebietComboBox.getValue();
 		if (themengebiet == null) {
 			themengebiet = themengebietTextField.getText();
@@ -181,14 +148,65 @@ public class ControllerFrageErstellen {
 			alert.setContentText("Bitte vollen Fragedaten eingeben");
 			alert.showAndWait();
 		}
-		
-		
+
 	}
 	
+	//The following method is used to make sure the input in the Points field is restricted to a positive double value
+	private boolean punkteValidieren() {
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
+		Matcher m = p.matcher(punktzahl.getText());
+		if (m.find() && m.group().equals(punktzahl.getText())) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Punktzahl validieren");
+			alert.setHeaderText(null);
+			alert.setContentText("Punktzahl bitte richtig eingeben");
+			alert.showAndWait();
+			return false;
+		}
+
+	}
+		
+	@FXML // The following method is used to fill the Topics ComboBox with all existing values in the database.
+	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
+		ObservableList<String> themengebiete = FXCollections.observableArrayList();
+
+		query = "Select themengebiet from Fragen";
+		pst = DBConn.connection.prepareStatement(query);
+		ResultSet rs = pst.executeQuery(query);
+
+		while (rs.next()) {
+			String s = rs.getString("themengebiet");
+			if (!themengebiete.contains(s)) {
+				themengebiete.add(s);
+			}
+
+		}
+
+		themengebietComboBox.setItems(themengebiete);
+		return themengebiete;
+	}
+
+	// Save questions through the Speichern Button
+	@FXML
+	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
+		speichern();
+
+	}
 	
+	//Save questions when ENTER key is pressed
+		@FXML
+		void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
+			if (event.getCode().equals(KeyCode.ENTER)) {
+				speichern();
+				
+			}
+		}
+
 	@FXML
 	public void zueruck(MouseEvent event) throws IOException {
 		MainController.setWindow("KatalogErstellen");
 	}
-	
+
 }

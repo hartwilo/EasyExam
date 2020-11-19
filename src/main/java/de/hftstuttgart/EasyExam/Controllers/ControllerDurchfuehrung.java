@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +22,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -190,8 +190,11 @@ public class ControllerDurchfuehrung {
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
 			frageStellungDetail.setText(fragestellungdetailliert);
+			frageStellungDetail.setEditable(false);
 			musterLoesungDetailliert.setText(musterloesungdetailliert);
+			musterLoesungDetailliert.setEditable(false);
 			punktZahlDetail.setText(punktzahl);
+			punktZahlDetail.setEditable(false);
 		}
 	}
 

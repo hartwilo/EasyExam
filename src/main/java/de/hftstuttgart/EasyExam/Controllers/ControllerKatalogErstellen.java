@@ -58,7 +58,7 @@ public class ControllerKatalogErstellen {
 	public static PreparedStatement pst = null;
 	public String query = null;
 
-	@FXML
+	@FXML //This method loads relevant question data into a ViewTable in the GUI
 	public void fragenLaden(MouseEvent event) throws SQLException {
 		fragenTabelle.setFixedCellSize(25);
 		ObservableList<Frage> list = FXCollections.observableArrayList();
@@ -87,19 +87,19 @@ public class ControllerKatalogErstellen {
 
 	}
 
-	@FXML
+	@FXML //GUI Navigation - Go to KatalogErstellen screen
 	void katalogAnlegen(MouseEvent event) throws IOException {
 
 		MainController.setWindow("KatalogErstellen");
 	}
 
-	@FXML
+	@FXML //GUI Navigation - Go to FrageErstellen screen
 	void frageAnlegen(MouseEvent event) throws IOException {
 
 		MainController.setWindow("FrageErstellen");
 	}
 
-	@FXML
+	@FXML //GUI Navigation - Go to AnfangsScreen screen
 	void katalogSpeichern(MouseEvent event) throws IOException {
 
 		MainController.setWindow("AnfangsScreen");
