@@ -110,13 +110,16 @@ public class ControllerFrageErstellen {
 	/*
 	 * // The following method is used to save questions into the database - Values
 	 * are // entered into the GUI's corresponding TextAreas/Fields and/or // chosen
-	 * from the Combobox
+	 * from the ComboBox
 	 */
 	public void speichern() throws SQLException, IOException {
+		
 		String themengebiet = themengebietComboBox.getValue();
+		
 		if (themengebiet == null) {
 			themengebiet = themengebietTextField.getText();
 		}
+		
 		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
 			/*
 			 * // Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert //
@@ -124,6 +127,7 @@ public class ControllerFrageErstellen {
 			 */
 			themengebiet = themengebietComboBox.getValue();
 		}
+		
 		String stellung = frageStellungTextField.getText();
 		String loesung = musterLoesungTextField.getText();
 		String punkte = punktzahl.getText();
@@ -132,8 +136,8 @@ public class ControllerFrageErstellen {
 		String sehrGut = levelSehrGut.getText();
 		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
 		String gestellt = "0";
-		
-		//Save question into database only if all relevant details are inputed.
+
+		// Save question into database only if all relevant details are inputed.
 		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
 				&& !musterLoesungTextField.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
 				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
@@ -175,6 +179,7 @@ public class ControllerFrageErstellen {
 	 * // restricted to a positive double value
 	 */
 	private boolean punkteValidieren() {
+		
 		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
 		if (m.find() && m.group().equals(punktzahl.getText())) {
@@ -195,6 +200,7 @@ public class ControllerFrageErstellen {
 			 * // values in the database.
 			 */
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
+		
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
 		query = "Select themengebiet from Fragen";
@@ -206,7 +212,6 @@ public class ControllerFrageErstellen {
 			if (!themengebiete.contains(s)) {
 				themengebiete.add(s);
 			}
-
 		}
 
 		themengebietComboBox.setItems(themengebiete);
@@ -214,16 +219,15 @@ public class ControllerFrageErstellen {
 	}
 
 	@FXML // Save questions through the Speichern Button
-	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
+	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {		
 		speichern();
-
 	}
 
 	@FXML // Save questions when ENTER key is pressed
 	void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
+		
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			speichern();
-
 		}
 	}
 

@@ -104,6 +104,7 @@ public class ControllerDurchfuehrung {
 	// The following method is used to modify the query on the Database based upon
 	// the desired level and topic of questions
 	public void prepareWhereClausel() {
+		
 		String themengebiet = themen.getValue();
 		String niv = (((RadioButton) niveau.getSelectedToggle()).getText());
 		if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level RadioButton and Topics Combobox
@@ -156,6 +157,7 @@ public class ControllerDurchfuehrung {
 	// into the Topic ComboBox
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
+		
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
 		query = "Select * from Fragen";
