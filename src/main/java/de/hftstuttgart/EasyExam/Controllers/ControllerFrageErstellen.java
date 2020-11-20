@@ -26,9 +26,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerFrageErstellen {
-	
-    @FXML
-    private Button frageLoeschen;
+
+	@FXML
+	private Button frageLoeschen;
 
 	@FXML
 	public TextArea frageStellungTextField;
@@ -93,21 +93,35 @@ public class ControllerFrageErstellen {
 	@FXML
 	private Button zueruck;
 
-	// DB Related Variables
+	// DB Related Variables //
+	/*
+	 * // Initialized prepared Statement which will later be passed executed // with
+	 * a query
+	 */
 	public PreparedStatement pst = null;
+
+	/*
+	 * // Initialized query which will later be modified and passed to prepared //
+	 * statement
+	 */
+
 	public String query = null;
 
-	// The following method is used to save questions into the database - Values are
-	// entered into the GUI's corresponding TextAreas/Fields and/or
-	// chosen from the combobox
+	/*
+	 * // The following method is used to save questions into the database - Values
+	 * are // entered into the GUI's corresponding TextAreas/Fields and/or // chosen
+	 * from the Combobox
+	 */
 	public void speichern() throws SQLException, IOException {
 		String themengebiet = themengebietComboBox.getValue();
 		if (themengebiet == null) {
 			themengebiet = themengebietTextField.getText();
 		}
 		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
-			// Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert
-			// übernommen wird! Oder einen option ausblenden wenn die andere benutzt wird
+			/*
+			 * // Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert //
+			 * übernommen wird! Oder einen option ausblenden wenn die andere benutzt wird
+			 */
 			themengebiet = themengebietComboBox.getValue();
 		}
 		String stellung = frageStellungTextField.getText();
@@ -118,7 +132,8 @@ public class ControllerFrageErstellen {
 		String sehrGut = levelSehrGut.getText();
 		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
 		String gestellt = "0";
-
+		
+		//Save question into database only if all relevant details are inputed.
 		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
 				&& !musterLoesungTextField.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
 				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
@@ -155,8 +170,10 @@ public class ControllerFrageErstellen {
 
 	}
 
-	// The following method is used to make sure the input in the Points field is
-	// restricted to a positive double value
+	/*
+	 * // The following method is used to make sure the input in the Points field is
+	 * // restricted to a positive double value
+	 */
 	private boolean punkteValidieren() {
 		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
@@ -172,10 +189,11 @@ public class ControllerFrageErstellen {
 		}
 
 	}
-	
 
-	@FXML // The following method is used to fill the Topics ComboBox with all existing
-			// values in the database.
+	@FXML /*
+			 * // The following method is used to fill the Topics ComboBox with all existing
+			 * // values in the database.
+			 */
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
@@ -195,15 +213,13 @@ public class ControllerFrageErstellen {
 		return themengebiete;
 	}
 
-	// Save questions through the Speichern Button
-	@FXML
+	@FXML // Save questions through the Speichern Button
 	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 		speichern();
 
 	}
 
-	// Save questions when ENTER key is pressed
-	@FXML
+	@FXML // Save questions when ENTER key is pressed
 	void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			speichern();
@@ -211,7 +227,8 @@ public class ControllerFrageErstellen {
 		}
 	}
 
-	@FXML
+	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new
+			// question.
 	public void zueruck(MouseEvent event) throws IOException {
 		MainController.setWindow("KatalogErstellen");
 	}
