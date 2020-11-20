@@ -93,6 +93,9 @@ public class ControllerFrageErstellen {
 	@FXML
 	private Button zueruck;
 
+	@FXML
+	private Button frageEditieren;
+
 	// DB Related Variables //
 	/*
 	 * // Initialized prepared Statement which will later be passed executed // with
@@ -108,18 +111,69 @@ public class ControllerFrageErstellen {
 	public String query = null;
 
 	/*
+	 * // The following method is used to make sure the input in the Points field is
+	 * // restricted to a positive double value
+	 */
+	
+	 @FXML
+	    void frageEditieren(MouseEvent event) {
+		 
+	    }
+	
+	
+	private boolean punkteValidieren() {
+
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
+		Matcher m = p.matcher(punktzahl.getText());
+		if (m.find() && m.group().equals(punktzahl.getText())) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Punktzahl validieren");
+			alert.setHeaderText(null);
+			alert.setContentText("Punktzahl bitte richtig eingeben");
+			alert.showAndWait();
+			return false;
+		}
+
+	}
+
+	@FXML /*
+			 * // The following method is used to fill the Topics ComboBox with all existing
+			 * // values in the database.
+			 */
+	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
+
+		ObservableList<String> themengebiete = FXCollections.observableArrayList();
+
+		query = "Select themengebiet from Fragen";
+		pst = DBConn.connection.prepareStatement(query);
+		ResultSet rs = pst.executeQuery(query);
+
+		while (rs.next()) {
+			String s = rs.getString("themengebiet");
+			if (!themengebiete.contains(s)) {
+				themengebiete.add(s);
+			}
+		}
+
+		themengebietComboBox.setItems(themengebiete);
+		return themengebiete;
+	}
+
+	/*
 	 * // The following method is used to save questions into the database - Values
 	 * are // entered into the GUI's corresponding TextAreas/Fields and/or // chosen
 	 * from the ComboBox
 	 */
 	public void speichern() throws SQLException, IOException {
-		
+
 		String themengebiet = themengebietComboBox.getValue();
-		
+
 		if (themengebiet == null) {
 			themengebiet = themengebietTextField.getText();
 		}
-		
+
 		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
 			/*
 			 * // Evtll muss man einen Warning Box erstellen - Hinweis auf welche wert //
@@ -127,7 +181,7 @@ public class ControllerFrageErstellen {
 			 */
 			themengebiet = themengebietComboBox.getValue();
 		}
-		
+
 		String stellung = frageStellungTextField.getText();
 		String loesung = musterLoesungTextField.getText();
 		String punkte = punktzahl.getText();
@@ -174,58 +228,14 @@ public class ControllerFrageErstellen {
 
 	}
 
-	/*
-	 * // The following method is used to make sure the input in the Points field is
-	 * // restricted to a positive double value
-	 */
-	private boolean punkteValidieren() {
-		
-		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
-		Matcher m = p.matcher(punktzahl.getText());
-		if (m.find() && m.group().equals(punktzahl.getText())) {
-			return true;
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Punktzahl validieren");
-			alert.setHeaderText(null);
-			alert.setContentText("Punktzahl bitte richtig eingeben");
-			alert.showAndWait();
-			return false;
-		}
-
-	}
-
-	@FXML /*
-			 * // The following method is used to fill the Topics ComboBox with all existing
-			 * // values in the database.
-			 */
-	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
-		
-		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-
-		query = "Select themengebiet from Fragen";
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery(query);
-
-		while (rs.next()) {
-			String s = rs.getString("themengebiet");
-			if (!themengebiete.contains(s)) {
-				themengebiete.add(s);
-			}
-		}
-
-		themengebietComboBox.setItems(themengebiete);
-		return themengebiete;
-	}
-
 	@FXML // Save questions through the Speichern Button
-	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {		
+	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 		speichern();
 	}
 
 	@FXML // Save questions when ENTER key is pressed
 	void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
-		
+
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			speichern();
 		}
