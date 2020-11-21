@@ -16,11 +16,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class ControllerKatalogErstellen {
+public class KatalogController {
 
 	@FXML
 	private AnchorPane anchorPane;
@@ -75,11 +74,13 @@ public class ControllerKatalogErstellen {
 	 * statement
 	 */
 	public static String query = null;
+	
+	
 
 	// This method loads relevant question data into a ViewTable in the GUI
 	public void fragenLaden() throws SQLException {
 
-		fragetabelle.setFixedCellSize(25); // MWCS: Moving these kinds of View setup methods elsewhere
+		fragetabelle.setFixedCellSize(25); // TODO: Moving these kinds of View setup methods elsewhere
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
 		// Prepare Database variables
@@ -87,7 +88,7 @@ public class ControllerKatalogErstellen {
 		preparedStatement = DBConn.connection.prepareStatement(query);
 		ResultSet ResultSet = preparedStatement.executeQuery();
 
-		while (ResultSet.next()) { // MWCS: Changing niveau to int
+		while (ResultSet.next()) { // TODO >?: Changing niveau to int
 
 			// Prepare Base variables to add to list
 			int ID = ResultSet.getInt("ID");
@@ -120,7 +121,20 @@ public class ControllerKatalogErstellen {
 		// Add all questions in list to FXML tableView
 		fragetabelle.setItems(frageListe);
 	}
+	
+	void frageLoeschen() throws SQLException {
+		
+		//Select the ID of the question that was clicked on
+		int ID = fragetabelle.getSelectionModel().getSelectedItem().getId();
+		
+		//Update Database @ selected ID
+		query = "DELETE FROM fragen WHERE ID = " + ID;
+		preparedStatement = DBConn.connection.prepareStatement(query);
+		preparedStatement.executeUpdate();
 
+	}
+	
+	//FXML Methods
 	@FXML /*
 			 * //This method loads relevant question data into a ViewTable in the GUI (as
 			 * soon as the mouse is entered into the GUI)
@@ -133,12 +147,8 @@ public class ControllerKatalogErstellen {
 			 * // This method deletes questions from a currently Selected question catalog
 			 */
 	void frageLoeschen(MouseEvent event) throws SQLException {
-
-		int ID = fragetabelle.getSelectionModel().getSelectedItem().getId();
-		query = "DELETE FROM fragen WHERE ID = " + ID;
-		preparedStatement = DBConn.connection.prepareStatement(query);
-		preparedStatement.executeUpdate();
-		fragenLaden();
+		frageLoeschen();
+		fragenLaden(); //Reload new set of data into TableView
 	}
 
 	@FXML /*

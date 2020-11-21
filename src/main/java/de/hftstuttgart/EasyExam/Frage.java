@@ -1,9 +1,5 @@
 package de.hftstuttgart.EasyExam;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.CheckBox;
-
 public class Frage {
 
 	private int ID;

@@ -26,57 +26,37 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerFrageErstellen {
+	
+	
+	/*
+	 * //User Input - The following FXML Objects are the only means by which the
+	 * user can input data in the current View. The String values of the
+	 * TextAreas/Fields and Selected RadioButtons/ComboBox-Items are used to modify
+	 * the queries which are later sent to the database for DDL and DML
+	 *
+	 */ @FXML
+	public TextArea frageStellungTextArea;
 
 	@FXML
-	private Button frageLoeschen;
+	public TextArea musterLoesungTextArea;
 
 	@FXML
-	public TextArea frageStellungTextField;
-
-	@FXML
-	public TextArea musterLoesungTextField;
-
-	@FXML
-	public RadioButton niveauRadioButton1;
-
-	@FXML
-	public ToggleGroup Niveau;
-
-	@FXML
-	public Label fragestellungEingebenLB;
-
-	@FXML
-	public Label musterloesungEingebenLB;
-
-	@FXML
-	public Button themenGebietEingebenBN;
+	private TextField themengebietTextField;
 
 	@FXML
 	public TextField punktzahl;
 
 	@FXML
-	public Label puntzahlLB;
+	public ToggleGroup Niveau;
 
 	@FXML
-	public Label themenGebietEingebenLB;
+	public RadioButton niveauRadioButton1;
 
 	@FXML
 	public RadioButton niveauRadioButton2;
 
 	@FXML
 	public RadioButton niveauRadioButton3;
-
-	@FXML
-	private TextField themengebietTextField;
-
-	@FXML
-	private Label grunlagenniveauLB;
-
-	@FXML
-	private Label gutLB;
-
-	@FXML
-	private Label sehrGutLB;
 
 	@FXML
 	private TextField levelGrundlagenniveau;
@@ -90,52 +70,103 @@ public class ControllerFrageErstellen {
 	@FXML
 	private ComboBox<String> themengebietComboBox;
 
+	/* End of user input FXML Objects */
+
+	@FXML
+	private Button frageSpeichern;
+
+	@FXML
+	private Button frageLoeschen;
+
 	@FXML
 	private Button zueruck;
 
 	@FXML
 	private Button frageEditieren;
 
-	// DB Related Variables //
+	@FXML
+	public Label fragestellungEingebenLB;
+
+	@FXML
+	public Label musterloesungEingebenLB;
+
+	@FXML
+	public Label puntzahlLB;
+
+	@FXML
+	public Label themenGebietEingebenLB;
+	@FXML
+	private Label grunlagenniveauLB;
+
+	@FXML
+	private Label gutLB;
+
+	@FXML
+	private Label sehrGutLB;
+	
+
+
+		// DB Related Variables //
 	/*
-	 * // Initialized prepared Statement which will later be passed executed // with
-	 * a query
-	 */
-	public PreparedStatement pst = null;
+	 * // Initialized prepared Statement which will later beexecuted // with
+	 * a query 
+	 */	public PreparedStatement pst = null;
+
 
 	/*
 	 * // Initialized query which will later be modified and passed to prepared //
 	 * statement
-	 */
-
-	public static String query = null;
+	 */ public static String query = null;
+	
+	 
+	 public ResultSet sendQuery(String query) throws SQLException {
+		 	
+		 	FrageController.query = query;
+			pst = DBConn.connection.prepareStatement(FrageController.query);
+			ResultSet rs = pst.executeQuery(FrageController.query);
+			
+			return rs;
+	 }
+	 
+	
+	//TO-DO: Could come in handy later - needs to be implemented properly though
+	public static String prepQuery(String what, String table, String attribute, String value) {
+		return  "SELECT " +what+ "FROM " +table+ "WHERE " +attribute+ " = " +value;	 
+	}
+	
 
 	/*
-	 * // The following method is used to make sure the input in the Points field is
-	 * // restricted to a positive double value
+	 * // The following method is used to make sure the input in the Points TextArea is
+	 * // restricted to a positive double value => Numeric TextArea
 	 */
-	
-	 @FXML
-	    void frageEditieren(MouseEvent event) {
-		 
-	    }
-	
-	
 	private boolean punkteValidieren() {
 
 		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
-		
-		//If the entered values in the FXML Text area are positive numbers
+
+		// If the entered values in the FXML Text area are positive numbers
 		if (m.find() && m.group().equals(punktzahl.getText())) {
-			return true; 
-		//Make sure the user only enters the propper values
+			return true;
+			// Make sure the user only enters the correct values
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("");
 			alert.setHeaderText(null);
-			alert.setContentText("Punkte wurden nicht richtig eingegeben");
+			alert.setContentText("Frage könnte nicht gespeichert werden - Punkte wurden nicht richtig eingegeben");
 			alert.showAndWait();
+			return false;
+		}
+	}
+
+	/*
+	 * // Returns true if the user has entered the data properly and false if
+	 * otherwise
+	 */	private boolean frageDetailsKorrektEingegeben() {
+		if (punkteValidieren() && !frageStellungTextArea.getText().isEmpty()
+				&& !musterLoesungTextArea.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
+				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
+			return true;
+		} else {
 			return false;
 		}
 
@@ -145,10 +176,9 @@ public class ControllerFrageErstellen {
 			 * // The following method is used to fill the Topics ComboBox with all existing
 			 * // values in the database.
 			 */
-	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
+	private ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-
 		query = "Select themengebiet from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery(query);
@@ -161,6 +191,7 @@ public class ControllerFrageErstellen {
 		}
 
 		themengebietComboBox.setItems(themengebiete);
+		
 		return themengebiete;
 	}
 
@@ -185,49 +216,54 @@ public class ControllerFrageErstellen {
 			themengebiet = themengebietComboBox.getValue();
 		}
 		
-		//Load Data from View Variables
-		String stellung = frageStellungTextField.getText();
-		String loesung = musterLoesungTextField.getText();
+		//Load View Data into variables (V1)
+		String stellung = frageStellungTextArea.getText();
+		String loesung = musterLoesungTextArea.getText();
 		String punkte = punktzahl.getText();
 		String grundlagenniveau = levelGrundlagenniveau.getText();
 		String gut = levelGut.getText();
 		String sehrGut = levelSehrGut.getText();
 		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
-		String gestellt = "0";
+		String gestellt = "0"; // TO-DO: Change!
 
-		// Save question into database only if all relevant details are inputed.
-		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
-				&& !musterLoesungTextField.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
-				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
+		 
+		if (frageDetailsKorrektEingegeben()) { // Save question into database only if all relevant details are inputed
+												// *properly*.
 
 			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, "
 					+ "niveau, punktZahl, gestellt, grundlagenniveau, gut, sehrGut) Values(?,?,?,?,?,?,?,?,?)";
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			//Add (V1) variables 
 			pst.setString(1, themengebiet);
 			pst.setString(2, stellung);
 			pst.setString(3, loesung);
 			pst.setString(4, niveau);
 			pst.setString(5, punkte);
 			pst.setString(6, gestellt);
+			
+			//Add (V1) Variables : Variables for Grading >? //TO-DO: >? Maybe add new Model Class for these? P-V-C
 			pst.setString(7, grundlagenniveau);
 			pst.setString(8, gut);
 			pst.setString(9, sehrGut);
-
+			
+			//Update the database - Add the question
 			int status = pst.executeUpdate();
-			if (status == 1) {
+			
+			if (status == 1) { //If the Update was successful
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("");
 				alert.setHeaderText(null);
 				alert.setContentText("Frage wurde gespeichert");
 				alert.showAndWait();
+				MainController.setWindow("KatalogErstellen");
 			}
-			MainController.setWindow("KatalogErstellen");
-		} else if (frageStellungTextField.getText().isEmpty() || musterLoesungTextField.getText().isEmpty()) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("");
-			alert.setHeaderText(null);
-			alert.setContentText("Bitte vollen Fragedaten eingeben");
-			alert.showAndWait();
+			} else if (frageStellungTextArea.getText().isEmpty() || musterLoesungTextArea.getText().isEmpty()) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("");
+				alert.setHeaderText(null);
+				alert.setContentText("Die Frage könnte nicht gespiechert werden - Details bitte richtig eingeben!");
+				alert.showAndWait();
 		}
 
 	}
@@ -237,7 +273,7 @@ public class ControllerFrageErstellen {
 		speichern();
 	}
 
-	@FXML // Save questions when ENTER key is pressed
+	@FXML // Save questions when ENTER key is pressed //Method is currently not used TO-DO:DELETE >?
 	void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
 
 		if (event.getCode().equals(KeyCode.ENTER)) {
@@ -249,6 +285,12 @@ public class ControllerFrageErstellen {
 			// question.
 	public void zueruck(MouseEvent event) throws IOException {
 		MainController.setWindow("KatalogErstellen");
+	}
+	
+
+	@FXML
+	void frageEditieren(MouseEvent event) {
+
 	}
 
 }

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.ControllerFrageErstellen">
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.FrageController">
    <children>
       <AnchorPane prefHeight="424.0" prefWidth="581.0">
          <children>
@@ -65,12 +65,12 @@
                   <children>
                         <Group layoutX="31.0" layoutY="21.0">
                            <children>
-                              <TextArea id="frageStellungTextField" fx:id="frageStellungTextField" layoutY="23.0" prefHeight="130.0" prefWidth="298.0" promptText="Bitte fragestellung eigeben">
+                              <TextArea id="frageStellungTextField" fx:id="frageStellungTextArea" layoutY="23.0" prefHeight="130.0" prefWidth="298.0" promptText="Bitte fragestellung eigeben">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
                               </TextArea>
-                              <TextArea id="musterLoesungTextField" fx:id="musterLoesungTextField" layoutY="191.0" prefHeight="130.0" prefWidth="298.0" promptText="Bitte Musterlösung eingeben" />
+                              <TextArea id="musterLoesungTextField" fx:id="musterLoesungTextArea" layoutY="191.0" prefHeight="130.0" prefWidth="298.0" promptText="Bitte Musterlösung eingeben" />
                               <Label fx:id="fragestellungEingebenLB" layoutX="7.0" text="Fragestellung " />
                               <Label fx:id="musterloesungEingebenLB" layoutX="8.0" layoutY="162.0" text="Musterlösung" />
                            </children>
@@ -79,7 +79,6 @@
                         <Group layoutX="360.0" layoutY="320.0" />
                         <Group layoutX="350.0" layoutY="20.0">
                            <children>
-                              <Button fx:id="themenGebietEingebenBN" layoutX="218.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="+" />
                               <Label fx:id="themenGebietEingebenLB" layoutX="6.0" text="Themengebiet" />
                               <TextField fx:id="themengebietTextField" layoutX="1.0" layoutY="23.0" prefHeight="26.0" prefWidth="207.0" promptText="Themengebiet eingeben" />
                            </children>
