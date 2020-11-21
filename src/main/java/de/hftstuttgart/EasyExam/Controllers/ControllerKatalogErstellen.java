@@ -16,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -27,6 +26,8 @@ public class ControllerKatalogErstellen {
 
 	@FXML
 	public Button frageAnlegen;
+	@FXML
+	public Button frageLoeschen;
 
 	@FXML
 	public Button katalogSpeichern;
@@ -38,62 +39,79 @@ public class ControllerKatalogErstellen {
 	private TextField katalogNameTextField;
 
 	@FXML
-	private TableView<de.hftstuttgart.EasyExam.Frage> fragenTabelle;
+	private TableView<de.hftstuttgart.EasyExam.Frage> fragetabelle;
 
 	@FXML
-	private TableColumn<Frage, String> frageStellungCol;
+	private TableColumn<Frage, String> fxcolumn_fragestellung;
 
 	@FXML
-	private TableColumn<Frage, Number> punkteCol;
+	private TableColumn<Frage, Number> fxcolumn_punkte;
 
 	@FXML
-	private TableColumn<Frage, String> themaCol;
+	private TableColumn<Frage, String> fxcolumn_thema;
 
 	@FXML
-	private TableColumn<Frage, String> niveauCol;
+	private TableColumn<Frage, String> fxcolumn_niveau;
 
 	@FXML
-	private TableColumn<Frage, String> musterloesungCol;
+	private TableColumn<Frage, String> fxcolumn_musterloesung;
 
 	/*
 	 * // Initialized prepared Statement which will later be passed executed // with
 	 * a query
 	 */
-	public static PreparedStatement pst = null;
+	public static PreparedStatement preparedStatement = null;
 
 	/*
 	 * // Initialized query which will later be modified and passed to prepared //
 	 * statement
 	 */
-	public String query = null;
+	public static String query = null;
 
 	// This method loads relevant question data into a ViewTable in the GUI
 	public void fragenLaden() throws SQLException {
-		fragenTabelle.setFixedCellSize(25);
-		ObservableList<Frage> list = FXCollections.observableArrayList();
+		
+		fragetabelle.setFixedCellSize(25);
+		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
 		query = "Select * from Fragen";
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery();
-
-		while (rs.next()) {
-			list.add(new Frage(rs.getInt("ID"), rs.getString("themengebiet"), rs.getString("frageStellung"),
-					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getDouble("punktZahl"),
-					rs.getBoolean("gestellt")));
+		preparedStatement = DBConn.connection.prepareStatement(query);
+		ResultSet ResultSet = preparedStatement.executeQuery();
+				
+		
+		while (ResultSet.next()) { //MWCS: Changing niveau to int
+			
+			//Prepare variables to add to list
+			int ID = ResultSet.getInt("ID");
+			String thema = ResultSet.getString("themengebiet");
+			String fragestellung = ResultSet.getString("ID");
+			String musterloesung = ResultSet.getString("musterLoesung");
+			String niveau = ResultSet.getString("musterLoesung"); 
+			Double punkte = ResultSet.getDouble("punktZahl");
+			Boolean istGestellt = ResultSet.getBoolean("gestellt");
+			//Add Question Objects to list
+			frageListe.add(new Frage(ID, thema,fragestellung,musterloesung,niveau,punkte,istGestellt));
 		}
 
 		/*
 		 * // !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS //
 		 * IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
 		 */
-		frageStellungCol
+		
+		
+		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
-		punkteCol.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
-		themaCol.setCellValueFactory(new PropertyValueFactory<>("themengebiet"));
-		niveauCol.setCellValueFactory(new PropertyValueFactory<>("niveau"));
-		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterLoesung"));
-
-		fragenTabelle.setItems(list);
+		fxcolumn_punkte
+				.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
+		fxcolumn_thema
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getThemengebiet()));
+		fxcolumn_niveau
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getNiveau()));
+		fxcolumn_musterloesung
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterLoesung()));
+		
+		//Add all questions in list to FXML tableView
+		fragetabelle.setItems(frageListe);
 	}
 
 	@FXML /*
@@ -104,13 +122,15 @@ public class ControllerKatalogErstellen {
 		fragenLaden();
 	}
 
-	@FXML // This method deletes questions from a currently Selected question catalog
-	void frageLoeschen(MouseEvent event) throws SQLException {
+	@FXML /*
+	 		* // This method deletes questions from a currently Selected question catalog
+	 		*/
+		void frageLoeschen(MouseEvent event) throws SQLException {
 
-		int ID = fragenTabelle.getSelectionModel().getSelectedItem().getId();
+		int ID = fragetabelle.getSelectionModel().getSelectedItem().getId();
 		query = "DELETE FROM fragen WHERE ID = " + ID;
-		pst = DBConn.connection.prepareStatement(query);
-		pst.executeUpdate();
+		preparedStatement = DBConn.connection.prepareStatement(query);
+		preparedStatement.executeUpdate();
 		fragenLaden();
 	}
 
@@ -123,13 +143,17 @@ public class ControllerKatalogErstellen {
 		MainController.setWindow("KatalogErstellen");
 	}
 
-	@FXML // GUI Navigation - Go to FrageErstellen screen
-	void frageAnlegen(MouseEvent event) throws IOException {
+	@FXML /*
+	 		* // GUI Navigation - Go to FrageErstellen screen
+	 		*/
+		void frageAnlegen(MouseEvent event) throws IOException {
 
 		MainController.setWindow("FrageErstellen");
 	}
 
-	@FXML // GUI Navigation - Go to AnfangsScreen screen
+	@FXML /*
+	 		* // GUI Navigation - Go to AnfangsScreen screen
+	 		*/	
 	void katalogSpeichern(MouseEvent event) throws IOException {
 
 		MainController.setWindow("AnfangsScreen");

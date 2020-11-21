@@ -181,7 +181,8 @@ public class ControllerFrageErstellen {
 			 */
 			themengebiet = themengebietComboBox.getValue();
 		}
-
+		
+		//Load Data from View Variables
 		String stellung = frageStellungTextField.getText();
 		String loesung = musterLoesungTextField.getText();
 		String punkte = punktzahl.getText();
