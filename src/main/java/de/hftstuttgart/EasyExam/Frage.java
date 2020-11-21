@@ -9,10 +9,10 @@ public class Frage {
 	 */	
 	
 	//Model(Frage.Class).Variables(ISDB:=Values) --> New Model.class for question (I=int S=String(s) D=double/decimal B=Bool) 
-	//Model(Frage.Class).Var(ISDB,TNBM:=Values) -->T = Themengebiet.class.getThemengebiet, M = MusterLoesung.class.getString....
+	//Model(Frage.Class).Variables(ISDB,TNBM:=Values) -->T = Themengebiet.class.getThemengebiet, M = MusterLoesung.class.getString....
 	
 	/*
-	 * JAVA LOGIC: is it nessecay/useful to create 3 different objects and only story
+	 * JAVA LOGIC: is it nessecary/useful to create 3 different objects and only story
 	 * a single string in them? Why not just instantly Store that string value in a
 	 * variable in the Frage.class -> Removes need for extra classes, tables := Extra SQL/Java Logic -> Reduces Complexity
 	 * (fewer Queries, fewer ResultSets, fewer while loops)

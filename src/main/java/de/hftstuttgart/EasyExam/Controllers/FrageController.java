@@ -59,7 +59,7 @@ public class FrageController {
 	@FXML
 	public RadioButton niveauRadioButton3;
 	
-	
+	//@Author Jana
 	@FXML //Edits from Jana's Branch
 	private TextField levelGrundlagenniveau;
 
@@ -110,9 +110,9 @@ public class FrageController {
 	
 
 
-		// DB Related Variables //
+	 		 	////////////// DB Related Variables /////////////// 
 	/*
-	 * // Initialized prepared Statement which will later beexecuted // with
+	 * // Initialized prepared Statement which will later be executed // with
 	 * a query 
 	 */	public PreparedStatement pst = null;
 
@@ -135,8 +135,11 @@ public class FrageController {
 	 
 	
 	//TO-DO-Method: Could come in handy later - needs to be implemented properly though
-	public static String prepQuery(String what, String table, String attribute, String value) {
-		return  "SELECT " +what+ "FROM " +table+ "WHERE " +attribute+ " = " +value;	 
+	public static String prepQuery(String what, String table, String attribute, String value) { //String AND/OR/Diff. Constructors missing
+		String query = "SELECT " +what+ "FROM " +table+ "WHERE " +attribute+ " = " +value;
+		System.out.println(query);
+		return query;
+		
 	}
 	
 	// Displays a specific warning message. i.e: "Frage könnte nicht gespeichert werden - Punkte wurden nicht richtig eingegeben"
@@ -149,7 +152,7 @@ public class FrageController {
 		alert.showAndWait();
 	}
 	
-	// Displays a message to the user; notyfing that some event took place
+	// Displays a message to the user; notifying that some event took place
 	// @Author - Bachir
 	private void infoAnzeigen(String information) {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -166,7 +169,7 @@ public class FrageController {
 	 * // @Author - Bachir
 	 */ private boolean punkteValidieren() {
 		
-		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*))(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
 
 		// If the entered values in the FXML Text area are positive numbers
@@ -183,7 +186,8 @@ public class FrageController {
 	 * // Returns true if the user has entered the data properly and false if
 	 * otherwise
 	 * // @Author - Bachir
-	 */	private boolean frageDetailsKorrektEingegeben() {
+	 */	
+	 private boolean frageDetailsKorrektEingegeben() {
 		if (punkteValidieren() && !frageStellungTextArea.getText().isEmpty()
 				&& !musterLoesungTextArea.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
 				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
@@ -194,45 +198,24 @@ public class FrageController {
 
 	}
 
-	@FXML /*
-			 * // The following method is used to fill the Topics ComboBox with all existing
-			 * // values in the database.
-			 */
-	private ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
-
-		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-		query = "Select themengebiet from Fragen";
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery(query);
-
-		while (rs.next()) {
-			String s = rs.getString("themengebiet");
-			if (!themengebiete.contains(s)) {
-				themengebiete.add(s);
-			}
-		}
-
-		themengebietComboBox.setItems(themengebiete);
-		
-		return themengebiete;
-	}
 
 	/*
 	 * // The following method is used to save questions into the database - Values
-	 * are // entered into the GUI's corresponding TextAreas/Fields and/or // chosen
+	 * are entered into the GUI's corresponding TextAreas/Fields and/or chosen
 	 * from the ComboBox
 	 */
 	public void speichern() throws SQLException, IOException {
 
 		String themengebiet = themengebietComboBox.getValue();
-
+		
+		
 		if (themengebiet == null) {
 			themengebiet = themengebietTextField.getText();
 		}
 
 		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
 			/*
-			 * //TO-DO: Code for info message: What topic was saved (ComboBox vs TextField)
+			 * //TO-DO: Code for info message: What topic was saved (ComboBox (vs) TextField)
 			 */
 			themengebiet = themengebietComboBox.getValue();
 		}
@@ -281,6 +264,29 @@ public class FrageController {
 				warnungAnzeigen("Die Frage könnte nicht gespiechert werden - Details bitte richtig eingeben!");
 		}
 
+	}
+	
+	@FXML /*
+			 * // The following method is used to fill the Topics ComboBox with all existing
+			 * // values in the database.
+			 */
+	private ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
+
+		ObservableList<String> themengebiete = FXCollections.observableArrayList();
+		query = "Select themengebiet from Fragen";
+		pst = DBConn.connection.prepareStatement(query);
+		ResultSet rs = pst.executeQuery(query);
+
+		while (rs.next()) {
+			String s = rs.getString("themengebiet");
+			if (!themengebiete.contains(s)) {
+				themengebiete.add(s);
+			}
+		}
+
+		themengebietComboBox.setItems(themengebiete);
+
+		return themengebiete;
 	}
 
 	@FXML // Save questions through the Speichern Button

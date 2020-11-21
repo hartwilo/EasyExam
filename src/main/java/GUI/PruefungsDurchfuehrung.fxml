@@ -40,7 +40,7 @@
                   </RadioButton>
                   <RadioButton fx:id="niveau2" layoutX="273.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Niveau 2" toggleGroup="$niveau" />
                   <RadioButton fx:id="nivalle" layoutX="459.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" selected="true" text="Alle" toggleGroup="$niveau" />
-                  <RadioButton fx:id="niveau31" layoutX="371.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Niveau 3" toggleGroup="$niveau" />
+                  <RadioButton fx:id="niveau3" layoutX="371.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Niveau 3" toggleGroup="$niveau" />
                </children>
             </Group>
             <Group layoutX="607.0" layoutY="167.0">

@@ -95,7 +95,7 @@ public class KatalogController {
 			String thema = ResultSet.getString("themengebiet");
 			String fragestellung = ResultSet.getString("ID");
 			String musterloesung = ResultSet.getString("musterLoesung");
-			String niveau = ResultSet.getString("musterLoesung");
+			String niveau = ResultSet.getString("niveau");
 			Double punkte = ResultSet.getDouble("punktZahl");
 			Boolean istGestellt = ResultSet.getBoolean("gestellt");
 			// Add Question Objects to list
