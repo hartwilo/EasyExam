@@ -28,7 +28,9 @@ public class KatalogController {
 
 	/*
 	 * //Button functionality for editing a set of questions
+	 * 
 	 */
+	
 	@FXML
 		public Button frageAnlegen;
 	@FXML
@@ -42,7 +44,9 @@ public class KatalogController {
 	
 	/*
 	 * //ViewTable and its Columns
+	 * 
 	 */
+	
 	@FXML 
 	private TableView<de.hftstuttgart.EasyExam.Frage> fragetabelle;
 
@@ -84,6 +88,7 @@ public class KatalogController {
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
 		// Prepare Database variables
+		
 		query = "Select * from Fragen";
 		preparedStatement = DBConn.connection.prepareStatement(query);
 		ResultSet ResultSet = preparedStatement.executeQuery();
@@ -91,6 +96,7 @@ public class KatalogController {
 		while (ResultSet.next()) { // TODO >?: Changing niveau to int
 
 			// Prepare Base variables to add to list
+			
 			int ID = ResultSet.getInt("ID");
 			String thema = ResultSet.getString("themengebiet");
 			String fragestellung = ResultSet.getString("ID");
@@ -99,14 +105,12 @@ public class KatalogController {
 			Double punkte = ResultSet.getDouble("punktZahl");
 			Boolean istGestellt = ResultSet.getBoolean("gestellt");
 			// Add Question Objects to list
+			
 			frageListe.add(new Frage(ID, thema, fragestellung, musterloesung, niveau, punkte, istGestellt));
 		}
 
-		/*
-		 * // !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS //
-		 * IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
-		 */
-
+		//Define structure of FXML Table Cells
+		
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		fxcolumn_punkte
@@ -119,6 +123,7 @@ public class KatalogController {
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterLoesung()));
 
 		// Add all questions in list to FXML tableView
+		
 		fragetabelle.setItems(frageListe);
 	}
 	
@@ -135,15 +140,15 @@ public class KatalogController {
 	}
 	
 	//FXML Methods
-	@FXML /*
+	@FXML 	/*
 			 * //This method loads relevant question data into a ViewTable in the GUI (as
-			 * soon as the mouse is entered into the GUI)
+			 * 		soon as the mouse is entered into the GUI)
 			 */
 	public void fragenLaden(MouseEvent event) throws SQLException {
 		fragenLaden();
 	}
 
-	@FXML /*
+	@FXML 	/*
 			 * // This method deletes questions from a currently Selected question catalog
 			 */
 	void frageLoeschen(MouseEvent event) throws SQLException {
@@ -151,24 +156,24 @@ public class KatalogController {
 		fragenLaden(); //Reload new set of data into TableView
 	}
 
-	@FXML /*
+	@FXML 	/*
 			 * // Method for creating a new Catalog Table in Database, NOTE: Names of
-			 * attributes // must later be adapted to AZURE database
+			 * 		attributes // must later be adapted to AZURE database
 			 */
 	void katalogAnlegen(MouseEvent event) throws IOException {
 
 		MainController.setWindow("KatalogErstellen");
 	}
 
-	@FXML /*
+	@FXML 	/*
 			 * // GUI Navigation - Go to FrageErstellen screen
-			 */
+			 	*/
 	void frageAnlegen(MouseEvent event) throws IOException {
 
 		MainController.setWindow("FrageErstellen");
 	}
 
-	@FXML /*
+	@FXML 	/*
 			 * // GUI Navigation - Go to AnfangsScreen screen
 			 */
 	void katalogSpeichern(MouseEvent event) throws IOException {

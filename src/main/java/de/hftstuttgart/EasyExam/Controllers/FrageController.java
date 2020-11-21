@@ -110,7 +110,7 @@ public class FrageController {
 	
 
 
-	 		 	////////////// DB Related Variables /////////////// 
+	////////////// DB Related Variables /////////////// 
 	/*
 	 * // Initialized prepared Statement which will later be executed // with
 	 * a query 
@@ -122,6 +122,9 @@ public class FrageController {
 	 * statement
 	 */ public static String query = null;
 	
+	 
+	 
+	////////////////// Java Methods //////////////////////
 	 
 	//TO-DO-Method: Could come in handy later - needs to be implemented properly though
 	 public ResultSet sendQuery(String query) throws SQLException {
@@ -204,6 +207,7 @@ public class FrageController {
 	 * are entered into the GUI's corresponding TextAreas/Fields and/or chosen
 	 * from the ComboBox
 	 */
+	 
 	public void speichern() throws SQLException, IOException {
 
 		String themengebiet = themengebietComboBox.getValue();
@@ -221,6 +225,7 @@ public class FrageController {
 		}
 		
 		//Load View Data into variables (V1)
+		
 		String stellung = frageStellungTextArea.getText();
 		String loesung = musterLoesungTextArea.getText();
 		String punkte = punktzahl.getText();
@@ -240,6 +245,7 @@ public class FrageController {
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			//Add (V1) variables 
+			
 			pst.setString(1, themengebiet);
 			pst.setString(2, stellung);
 			pst.setString(3, loesung);
@@ -249,11 +255,13 @@ public class FrageController {
 			
 			//Add (V1) Variables : Variables for Grading >? //TO-DO: >? Maybe add new Model Class for these? P-V-C
 			//@Author Jana
+			
 			pst.setString(7, grundlagenniveau);
 			pst.setString(8, gut);
 			pst.setString(9, sehrGut);
 			
 			//Update the database -> Add the question to the DB
+			
 			int status = pst.executeUpdate();
 			
 			if (status == 1) { //If the Update was successful
@@ -265,6 +273,9 @@ public class FrageController {
 		}
 
 	}
+	
+	/////////////////// FXML Methods ////////////////////
+	
 	
 	@FXML /*
 			 * // The following method is used to fill the Topics ComboBox with all existing
