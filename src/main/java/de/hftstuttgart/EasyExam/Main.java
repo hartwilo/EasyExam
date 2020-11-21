@@ -32,6 +32,13 @@ public class Main extends Application {
 		Main.scene.setRoot(root);
 		mainWindow.setScene(scene);
 		Main.mainWindow.setResizable(false); //Retardo Workaround NGL
+		
+		/*
+		 * //The current View - Windows are always set to a fixed Size -> TO-DO: Make
+		 * GUI windows and their elements resizable
+		 */	
+		
+		
 		Main.mainWindow.centerOnScreen();
 		mainWindow.show();
 		

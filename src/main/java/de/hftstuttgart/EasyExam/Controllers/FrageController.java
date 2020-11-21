@@ -265,6 +265,7 @@ public class FrageController {
 			pst.setString(6, gestellt);
 			
 			//Add (V1) Variables : Variables for Grading >? //TO-DO: >? Maybe add new Model Class for these? P-V-C
+			//@Author Jana
 			pst.setString(7, grundlagenniveau);
 			pst.setString(8, gut);
 			pst.setString(9, sehrGut);
