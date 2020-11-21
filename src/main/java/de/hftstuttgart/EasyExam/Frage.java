@@ -15,6 +15,7 @@ public class Frage {
 	 * JAVA LOGIC: is it nessecay/useful to create 3 different objects and only story
 	 * a single string in them? Why not just instantly Store that string value in a
 	 * variable in the Frage.class -> Removes need for extra classes, tables := Extra SQL/Java Logic -> Reduces Complexity
+	 * (fewer Queries, fewer ResultSets, fewer while loops)
 	 */
 	
 	
