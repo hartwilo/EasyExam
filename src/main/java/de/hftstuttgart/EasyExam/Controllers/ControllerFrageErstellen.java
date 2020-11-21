@@ -108,7 +108,7 @@ public class ControllerFrageErstellen {
 	 * statement
 	 */
 
-	public String query = null;
+	public static String query = null;
 
 	/*
 	 * // The following method is used to make sure the input in the Points field is
@@ -125,13 +125,16 @@ public class ControllerFrageErstellen {
 
 		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*)|0)(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
+		
+		//If the entered values in the FXML Text area are positive numbers
 		if (m.find() && m.group().equals(punktzahl.getText())) {
-			return true;
+			return true; 
+		//Make sure the user only enters the propper values
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Punktzahl validieren");
+			alert.setTitle("");
 			alert.setHeaderText(null);
-			alert.setContentText("Punktzahl bitte richtig eingeben");
+			alert.setContentText("Punkte wurden nicht richtig eingegeben");
 			alert.showAndWait();
 			return false;
 		}

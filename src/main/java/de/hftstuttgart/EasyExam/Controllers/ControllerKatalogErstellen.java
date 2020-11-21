@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -23,9 +24,14 @@ public class ControllerKatalogErstellen {
 
 	@FXML
 	private AnchorPane anchorPane;
-
 	@FXML
-	public Button frageAnlegen;
+	private TextField katalogNameTextField;
+
+	/*
+	 * //Button functionality for editing a set of questions
+	 */
+	@FXML
+		public Button frageAnlegen;
 	@FXML
 	public Button frageLoeschen;
 
@@ -34,14 +40,14 @@ public class ControllerKatalogErstellen {
 
 	@FXML
 	public Button katalogAnlegen;
-
-	@FXML
-	private TextField katalogNameTextField;
-
-	@FXML
+	
+	/*
+	 * //ViewTable and its Columns
+	 */
+	@FXML 
 	private TableView<de.hftstuttgart.EasyExam.Frage> fragetabelle;
 
-	@FXML
+	@FXML 
 	private TableColumn<Frage, String> fxcolumn_fragestellung;
 
 	@FXML
@@ -53,9 +59,11 @@ public class ControllerKatalogErstellen {
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_niveau;
 
+
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_musterloesung;
-
+	
+	//Database related variables//
 	/*
 	 * // Initialized prepared Statement which will later be passed executed // with
 	 * a query
@@ -70,35 +78,34 @@ public class ControllerKatalogErstellen {
 
 	// This method loads relevant question data into a ViewTable in the GUI
 	public void fragenLaden() throws SQLException {
-		
-		fragetabelle.setFixedCellSize(25);
+
+		fragetabelle.setFixedCellSize(25); // MWCS: Moving these kinds of View setup methods elsewhere
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
+		// Prepare Database variables
 		query = "Select * from Fragen";
 		preparedStatement = DBConn.connection.prepareStatement(query);
 		ResultSet ResultSet = preparedStatement.executeQuery();
-				
-		
-		while (ResultSet.next()) { //MWCS: Changing niveau to int
-			
-			//Prepare variables to add to list
+
+		while (ResultSet.next()) { // MWCS: Changing niveau to int
+
+			// Prepare Base variables to add to list
 			int ID = ResultSet.getInt("ID");
 			String thema = ResultSet.getString("themengebiet");
 			String fragestellung = ResultSet.getString("ID");
 			String musterloesung = ResultSet.getString("musterLoesung");
-			String niveau = ResultSet.getString("musterLoesung"); 
+			String niveau = ResultSet.getString("musterLoesung");
 			Double punkte = ResultSet.getDouble("punktZahl");
 			Boolean istGestellt = ResultSet.getBoolean("gestellt");
-			//Add Question Objects to list
-			frageListe.add(new Frage(ID, thema,fragestellung,musterloesung,niveau,punkte,istGestellt));
+			// Add Question Objects to list
+			frageListe.add(new Frage(ID, thema, fragestellung, musterloesung, niveau, punkte, istGestellt));
 		}
 
 		/*
 		 * // !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS //
 		 * IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
 		 */
-		
-		
+
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		fxcolumn_punkte
@@ -109,8 +116,8 @@ public class ControllerKatalogErstellen {
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getNiveau()));
 		fxcolumn_musterloesung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterLoesung()));
-		
-		//Add all questions in list to FXML tableView
+
+		// Add all questions in list to FXML tableView
 		fragetabelle.setItems(frageListe);
 	}
 
@@ -123,9 +130,9 @@ public class ControllerKatalogErstellen {
 	}
 
 	@FXML /*
-	 		* // This method deletes questions from a currently Selected question catalog
-	 		*/
-		void frageLoeschen(MouseEvent event) throws SQLException {
+			 * // This method deletes questions from a currently Selected question catalog
+			 */
+	void frageLoeschen(MouseEvent event) throws SQLException {
 
 		int ID = fragetabelle.getSelectionModel().getSelectedItem().getId();
 		query = "DELETE FROM fragen WHERE ID = " + ID;
@@ -144,16 +151,16 @@ public class ControllerKatalogErstellen {
 	}
 
 	@FXML /*
-	 		* // GUI Navigation - Go to FrageErstellen screen
-	 		*/
-		void frageAnlegen(MouseEvent event) throws IOException {
+			 * // GUI Navigation - Go to FrageErstellen screen
+			 */
+	void frageAnlegen(MouseEvent event) throws IOException {
 
 		MainController.setWindow("FrageErstellen");
 	}
 
 	@FXML /*
-	 		* // GUI Navigation - Go to AnfangsScreen screen
-	 		*/	
+			 * // GUI Navigation - Go to AnfangsScreen screen
+			 */
 	void katalogSpeichern(MouseEvent event) throws IOException {
 
 		MainController.setWindow("AnfangsScreen");

@@ -180,7 +180,8 @@ public class ControllerDurchfuehrung {
 	// details are displayed on the right side of the Screen/GUI
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
-
+		
+		//SetWrapEct probably best if moved to another method/class
 		frageStellungDetail.setWrapText(true);
 		musterLoesungDetailliert.setWrapText(true);
 
@@ -189,7 +190,7 @@ public class ControllerDurchfuehrung {
 		String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-
+	
 			frageStellungDetail.setText(fragestellungdetailliert);
 			frageStellungDetail.setEditable(false);
 			musterLoesungDetailliert.setText(musterloesungdetailliert);

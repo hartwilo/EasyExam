@@ -38,7 +38,7 @@
               <columns>
                 <TableColumn id="frageStellungCol" fx:id="fxcolumn_fragestellung" maxWidth="1.7976931348623157E308" prefWidth="259.0" text="Fragestellung" />
                 <TableColumn id="punkteCol" fx:id="fxcolumn_punkte" minWidth="0.0" prefWidth="46.0" text="Punkte" />
-                  <TableColumn id="themaCol" fx:id="fxcolumn_punkte" minWidth="0.0" prefWidth="96.0" text="Thema" />
+                  <TableColumn id="themaCol" fx:id="fxcolumn_thema" minWidth="0.0" prefWidth="96.0" text="Thema" />
                   <TableColumn id="niveauCol" fx:id="fxcolumn_niveau" minWidth="0.0" prefWidth="257.0" text="Niveau" />
                   <TableColumn id="musterloesungCol" fx:id="fxcolumn_musterloesung" minWidth="0.0" prefWidth="353.0" text="Musterlösung" />
               </columns>
