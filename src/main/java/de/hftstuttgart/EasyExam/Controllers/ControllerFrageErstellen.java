@@ -1,6 +1,7 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +24,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 
+import java.util.Random;
+
 public class ControllerFrageErstellen {
+	
+	public int selectedNiveau = 0;
+	public String selectedAll = "1 , 2 , 3";
 
 	@FXML
 	public TextArea frageStellungTextField;
@@ -91,12 +97,12 @@ public class ControllerFrageErstellen {
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
-		query = "Select themengebiet from Fragen";
+		query = "Select Bezeichnung from Themengebiet";
 		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery(query);
+		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			String s = rs.getString("themengebiet");
+			String s = rs.getString("Bezeichnung");
 			if (!themengebiete.contains(s)) {
 				themengebiete.add(s);
 			}
@@ -107,6 +113,8 @@ public class ControllerFrageErstellen {
 		return themengebiete;
 	}
 
+	
+	//muss überarbeitet werden
 	@FXML
 	void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 
@@ -122,20 +130,32 @@ public class ControllerFrageErstellen {
 		String stellung = frageStellungTextField.getText();
 		String loesung = musterLoesungTextField.getText();
 		String punkte = punktzahl.getText();
-		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
+		String fragekatalog = "";
+		
+		
+		
+		if ((boolean) niveauRadioButton1.isSelected()) {
+			selectedNiveau = 1;	
+		} else if ((boolean) niveauRadioButton2.isSelected()) {
+			selectedNiveau = 2;
+		} else if ((boolean) niveauRadioButton3.isSelected()) {
+			selectedNiveau = 3;
+		}
+			
 		String gestellt = "0";
 
 		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
 				&& !musterLoesungTextField.getText().isEmpty()) {
 
-			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, niveau, punktZahl, gestellt) Values(?,?,?,?,?,?)";
+			query = "insert into Frage(idFrage, Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet_fk, Fragekatalog_fk) Values(?,?,?,?,?,?,?,?)";
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			pst.setString(1, themengebiet);
 			pst.setString(2, stellung);
 			pst.setString(3, loesung);
-			pst.setString(4, niveau);
+			pst.setInt(4, selectedNiveau);
 			pst.setString(5, punkte);
 			pst.setString(6, gestellt);
+			pst.setString(7, themengebiet);
+			pst.setString(8, fragekatalog);
 
 			int status = pst.executeUpdate();
 			if (status == 1) {

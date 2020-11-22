@@ -35,6 +35,9 @@ public class ControllerDurchfuehrung {
 	public static PreparedStatement pst = null;
 	String query = "Select * from Frage";
 	
+	public int selectedNiveau = 0;
+	public String selectedAll = "1 , 2 , 3";
+	
 	@FXML
 	private Button refreshQuestions;
 
@@ -101,33 +104,45 @@ public class ControllerDurchfuehrung {
 	@FXML
 	private TableColumn<?, ?> gestellt;
 
-//	@FXML
-//	public void prepareWhereClausel() {
-//		if (niv1.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 1'";
-//		} else if (niv2.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 2'";
-//		} else if (niv3.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 3'";
-//		} else if (niv1.isSelected() && niv2.isSelected()) {
-//			query = "Select * from Fragen where niveau in ('Niveau 1','Niveau2')";
-//			// query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 2'";
-//		} else if (niv1.isSelected() && niv3.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 3'";
-//		} else if (niv2.isSelected() && niv3.isSelected()) {
-//			query = "Select * from Fragen where niveau = 'Niveau 2' or niveau = 'Niveau 3'";
-//		} else {
-//			query = "Select * from Fragen";
-//		}
-//	}
+/*	@FXML
+	public void prepareWhereClausel() {
+		if (niv1.isSelected()) {
+			query = "Select * from Frage where niveau = 1";
+ 	} else if (niv2.isSelected()) {
+			query = "Select * from Frage where niveau = 2";
+		} else if (niv3.isSelected()) {
+			query = "Select * from Frage where niveau = 3";
+		} else if (niv1.isSelected() && niv2.isSelected()) {
+			query = "Select * from Frage where niveau in (1,2)";
+			// query = "Select * from Fragen where niveau = 'Niveau 1' or niveau = 'Niveau 2'";
+		} else if (niv1.isSelected() && niv3.isSelected()) {
+			query = "Select * from Frage where niveau = 1 or niveau = 3";
+		} else if (niv2.isSelected() && niv3.isSelected()) {
+			query = "Select * from Frage where niveau = 2 or niveau = 3";
+		} else {
+			query = "Select * from Frage";
+		}
+	}*/
 	
 	
 
 	@FXML
 	public void prepareWhereClausel(MouseEvent event) {
+		
+if ((boolean) niveau1.isSelected()) {
+	selectedNiveau = 1;	
+} else if ((boolean) niveau2.isSelected()) {
+	selectedNiveau = 2;
+} else if ((boolean) niveau3.isSelected()) {
+	selectedNiveau = 3;
+} else {
+   query = "Select * from Frage where niveau = 1 or niveau = 2 or niveau = 3";
+}
+		
 
-		query = "Select * from Frage where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
-				+ "'";
+		query = "Select * from Frage where niveau = " + selectedNiveau;
+		/*"'" + (((RadioButton) niveau.getSelectedToggle()).getText())
+				+ "'";*/
 		String themengebiet = themen.getValue();
 		if (themengebiet != null) {
 			query = "Select * from Frage where niveau = " + "'"
