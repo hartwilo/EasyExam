@@ -30,6 +30,8 @@ public class ControllerFrageErstellen {
 	
 	public int selectedNiveau = 0;
 	public String selectedAll = "1 , 2 , 3";
+	static ObservableList<String> themengebiete = FXCollections.observableArrayList();
+	static String stellung;
 
 	@FXML
 	public TextArea frageStellungTextField;
@@ -95,14 +97,15 @@ public class ControllerFrageErstellen {
 
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
-		ObservableList<String> themengebiete = FXCollections.observableArrayList();
+		
 
-		query = "Select Bezeichnung from Themengebiet";
+		query = "Select * from Frage";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			String s = rs.getString("Bezeichnung");
+			String s = rs.getString("Themengebiet");
+			
 			if (!themengebiete.contains(s)) {
 				themengebiete.add(s);
 			}
@@ -127,7 +130,7 @@ public class ControllerFrageErstellen {
 			// übernommen wird! Oder einen option ausblenden wenn die andere benutzt wird
 			themengebiet = themengebietComboBox.getValue();
 		}
-		String stellung = frageStellungTextField.getText();
+		stellung = frageStellungTextField.getText();
 		String loesung = musterLoesungTextField.getText();
 		String punkte = punktzahl.getText();
 		String fragekatalog = "";
@@ -147,15 +150,16 @@ public class ControllerFrageErstellen {
 		if (punkteValidieren() && !frageStellungTextField.getText().isEmpty()
 				&& !musterLoesungTextField.getText().isEmpty()) {
 
-			query = "insert into Frage(idFrage, Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet_fk, Fragekatalog_fk) Values(?,?,?,?,?,?,?,?)";
+			query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			pst.setString(2, stellung);
-			pst.setString(3, loesung);
-			pst.setInt(4, selectedNiveau);
-			pst.setString(5, punkte);
-			pst.setString(6, gestellt);
-			pst.setString(7, themengebiet);
-			pst.setString(8, fragekatalog);
+			pst.setString(1, stellung);
+			pst.setString(2, loesung);
+			pst.setInt(3, selectedNiveau);
+			pst.setString(4, punkte);
+			pst.setString(5, gestellt);
+			pst.setString(6, themengebietComboBox.getValue());
+			pst.setString(7, fragekatalog);
+			pst.setString(8, "");
 
 			int status = pst.executeUpdate();
 			if (status == 1) {

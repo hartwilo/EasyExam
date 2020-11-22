@@ -3,14 +3,12 @@ package de.hftstuttgart.EasyExam;
 public class Fragenloesung {
 	
 	private int idFragenloesung;
-	private Musterloesung musterloesung;
 	private Frage frage;
 	
 	
-	public Fragenloesung(int idFragenloesung, Musterloesung musterloesung, Frage frage) {
+	public Fragenloesung(int idFragenloesung, Frage frage) {
 		super();
 		this.idFragenloesung = idFragenloesung;
-		this.musterloesung = musterloesung;
 		this.frage = frage;
 	}
 
@@ -25,16 +23,6 @@ public class Fragenloesung {
 	}
 
 
-	public Musterloesung getMusterloesung() {
-		return musterloesung;
-	}
-
-
-	public void setMusterloesung(Musterloesung musterloesung) {
-		this.musterloesung = musterloesung;
-	}
-
-
 	public Frage getFrage() {
 		return frage;
 	}
@@ -45,5 +33,8 @@ public class Fragenloesung {
 	}
 	
 	
+	
+	
+
 
 }

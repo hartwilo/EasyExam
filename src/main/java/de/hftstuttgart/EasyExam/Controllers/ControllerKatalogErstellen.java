@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
-import de.hftstuttgart.EasyExam.Musterloesung;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -70,7 +69,7 @@ public class ControllerKatalogErstellen {
 		
 			while(rs.next()){
 				
-				list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Themengebiet_fk"), rs.getInt("Fragekatalog_fk")));
+				list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Themengebiet"), rs.getString("Fragekatalog"), rs.getString("Modul")));
 			
 			
 			
@@ -85,7 +84,7 @@ public class ControllerKatalogErstellen {
 		punkteCol.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
 		themaCol.setCellValueFactory(new PropertyValueFactory<>("themengebiet"));
 		niveauCol.setCellValueFactory(new PropertyValueFactory<>("niveau"));
-		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterLoesung"));
+		musterloesungCol.setCellValueFactory(new PropertyValueFactory<>("musterloesung"));
 
 		fragenTabelle.setItems(list);
 

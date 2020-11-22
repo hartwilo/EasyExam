@@ -1,49 +1,10 @@
 package de.hftstuttgart.EasyExam;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+
 public class Fragekatalog {
-
-	private int idFragekatalog;
-	private Modul modul;
 	
-	
-	
-	
-	public Fragekatalog(int idFragekatalog, Modul modul) {
-		super();
-		this.idFragekatalog = idFragekatalog;
-		this.modul = modul;
-	}
+	String Bezeichnung;
+	//Array frage <Fragen>;
 
-
-
-
-	public int getIdFragekatalog() {
-		return idFragekatalog;
-	}
-
-
-
-
-	public void setIdFragekatalog(int idFragekatalog) {
-		this.idFragekatalog = idFragekatalog;
-	}
-
-
-
-
-	public Modul getModul() {
-		return modul;
-	}
-
-
-
-
-	public void setModul(Modul modul) {
-		this.modul = modul;
-	}
-	
-	
-	
-
-	
 }

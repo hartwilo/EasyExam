@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Frage;
-import de.hftstuttgart.EasyExam.Musterloesung;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -168,7 +167,7 @@ if ((boolean) niveau1.isSelected()) {
 			
 			while(rs.next()){
 			
-			list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Themengebiet_fk"), rs.getInt("Fragekatalog_fk")));
+			list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Themengebiet"), rs.getString("Fragekatalog"), rs.getString("Modul")));
 		}
 
 		

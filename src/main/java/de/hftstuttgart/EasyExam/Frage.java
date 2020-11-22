@@ -11,11 +11,12 @@ public class Frage {
 	private float punkte; 
 	private boolean gestellt;
 	private String themengebiet;
-	private int fragekatalog;
+	private String fragekatalog;
+	private String Modul;
 	
 	
 	public Frage(int idFrage, String fragestellung, String musterloesung, int niveau, float punkte, boolean gestellt,
-			String themengebiet, int fragekatalog) {
+			String themengebiet, String fragekatalog, String modul) {
 		super();
 		this.idFrage = idFrage;
 		this.fragestellung = fragestellung;
@@ -25,8 +26,7 @@ public class Frage {
 		this.gestellt = gestellt;
 		this.themengebiet = themengebiet;
 		this.fragekatalog = fragekatalog;
-		
-		
+		Modul = modul;
 	}
 
 
@@ -100,16 +100,30 @@ public class Frage {
 	}
 
 
-	public int getFragekatalog() {
+	public String getFragekatalog() {
 		return fragekatalog;
 	}
 
 
-	public void setFragekatalog(int fragekatalog) {
+	public void setFragekatalog(String fragekatalog) {
 		this.fragekatalog = fragekatalog;
 	}
 
+
+	public String getModul() {
+		return Modul;
+	}
+
+
+	public void setModul(String modul) {
+		Modul = modul;
+	}
 	
+	
+	
+	
+	
+
 	
 	
 }
