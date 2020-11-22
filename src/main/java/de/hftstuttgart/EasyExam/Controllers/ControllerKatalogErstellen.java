@@ -64,27 +64,14 @@ public class ControllerKatalogErstellen {
 		fragenTabelle.setFixedCellSize(25);
 		ObservableList<Frage> list = FXCollections.observableArrayList();
 
-		String query = "Select * from Fragen";
+		String query = "Select * from Frage";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery();
-
-		while (rs.next()) {
-			
-			int idFrage = rs.getInt("idFrage");
-			
-			String musterQuery = "SELECT idMusterloesung, Loesung, musterloesung.Niveau"
-					+ "FROM musterloesung, fragenloesung, frage"
-					+ "WHERE musterloesung.idMusterloesung=fragenloesung.Musterloesung_fk"
-					+ "AND fragenloesung.Frage_fk=frage.idFrage"
-					+ "AND fragenloesung.Frage_fk='"
-					+ idFrage + "'";
-			
-			ResultSet mrs = pst.executeQuery(musterQuery);
-			
-			while(mrs.next()){
+		
+			while(rs.next()){
 				
-				list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("bezeichnung"), rs.getInt("Fragekatalog"), new Musterloesung(mrs.getInt("idMusterloesung"), mrs.getString("Loesung"), mrs.getInt("Niveau"))));
-			}
+				list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Themengebiet_fk"), rs.getInt("Fragekatalog_fk")));
+			
 			
 			
 			
@@ -103,6 +90,7 @@ public class ControllerKatalogErstellen {
 		fragenTabelle.setItems(list);
 
 	}
+
 
 	@FXML
 	void katalogAnlegen(MouseEvent event) throws IOException {

@@ -6,38 +6,27 @@ public class Frage {
 
 	private int idFrage;
 	private String fragestellung;
+	private String musterloesung;
 	private int niveau;
 	private float punkte; 
 	private boolean gestellt;
 	private String themengebiet;
 	private int fragekatalog;
-	private Musterloesung musterloesung;
 	
 	
-	public Frage(int idFrage, String fragestellung, int niveau, float punkte, boolean gestellt, String themengebiet,
-			int fragekatalog) {
+	public Frage(int idFrage, String fragestellung, String musterloesung, int niveau, float punkte, boolean gestellt,
+			String themengebiet, int fragekatalog) {
 		super();
 		this.idFrage = idFrage;
 		this.fragestellung = fragestellung;
-		this.niveau = niveau;
-		this.punkte = punkte;
-		this.gestellt = gestellt;
-		this.themengebiet = themengebiet;
-		this.fragekatalog = fragekatalog;
-	}
-
-
-	public Frage(int idFrage, String fragestellung, int niveau, float punkte, boolean gestellt, String themengebiet,
-			int fragekatalog, Musterloesung musterloesung) {
-		super();
-		this.idFrage = idFrage;
-		this.fragestellung = fragestellung;
-		this.niveau = niveau;
-		this.punkte = punkte;
-		this.gestellt = gestellt;
-		this.themengebiet = themengebiet;
-		this.fragekatalog = fragekatalog;
 		this.musterloesung = musterloesung;
+		this.niveau = niveau;
+		this.punkte = punkte;
+		this.gestellt = gestellt;
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
+		
+		
 	}
 
 
@@ -58,6 +47,16 @@ public class Frage {
 
 	public void setFragestellung(String fragestellung) {
 		this.fragestellung = fragestellung;
+	}
+
+
+	public String getMusterloesung() {
+		return musterloesung;
+	}
+
+
+	public void setMusterloesung(String musterloesung) {
+		this.musterloesung = musterloesung;
 	}
 
 
@@ -110,20 +109,7 @@ public class Frage {
 		this.fragekatalog = fragekatalog;
 	}
 
-
-	public Musterloesung getMusterloesung() {
-		return musterloesung;
-	}
-
-
-	public void setMusterloesung(Musterloesung musterloesung) {
-		this.musterloesung = musterloesung;
-	}
 	
 	
 	
-	
-	
-	
-
 }

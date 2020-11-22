@@ -27,11 +27,14 @@ import javafx.scene.layout.AnchorPane;
 public class ControllerDurchfuehrung {
 
 	// Database related variables
-	public static PreparedStatement pst = null;
-	String query = "SELECT idFrage, Fragestellung, Niveau, Punkte, gestellt, themengebiet.bezeichnung "
-			+ "FROM frage, themengebiet WHERE Frage.Themengebiet_fk = themengebiet.idThemengebiet";
+	/*public static PreparedStatement pst = null;
+	String query = "SELECT idFrage, Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet.bezeichnung "
+			+ "FROM frage, themengebiet WHERE Frage.Themengebiet_fk = themengebiet.idThemengebiet";*/
 	
-
+	
+	public static PreparedStatement pst = null;
+	String query = "Select * from Frage";
+	
 	@FXML
 	private Button refreshQuestions;
 
@@ -123,17 +126,17 @@ public class ControllerDurchfuehrung {
 	@FXML
 	public void prepareWhereClausel(MouseEvent event) {
 
-		query = "Select * from Fragen where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
+		query = "Select * from Frage where niveau = " + "'" + (((RadioButton) niveau.getSelectedToggle()).getText())
 				+ "'";
 		String themengebiet = themen.getValue();
 		if (themengebiet != null) {
-			query = "Select * from Fragen where niveau = " + "'"
+			query = "Select * from Frage where niveau = " + "'"
 					+ (((RadioButton) niveau.getSelectedToggle()).getText()) + "'" + " and themengebiet = " + "'"
 					+ themengebiet + "'";
 
 		}
 		if (nivalle.isSelected()) {
-			query = "Select * from Fragen";
+			query = "Select * from Frage";
 		}
 		System.out.print(query);
 	}
@@ -146,25 +149,14 @@ public class ControllerDurchfuehrung {
 
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery();
-
-		while (rs.next()) {
 			
-			int idFrage = rs.getInt("idFrage");
 			
-			String musterQuery = "SELECT idMusterloesung, Loesung, musterloesung.Niveau"
-					+ "FROM musterloesung, fragenloesung, frage"
-					+ "WHERE musterloesung.idMusterloesung=fragenloesung.Musterloesung_fk"
-					+ "AND fragenloesung.Frage_fk=frage.idFrage"
-					+ "AND fragenloesung.Frage_fk='"
-					+ idFrage + "'";
-			ResultSet mrs = pst.executeQuery(musterQuery);
+			while(rs.next()){
 			
-			while(mrs.next()){
-			
-			list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("bezeichnung"), rs.getInt("Fragekatalog"), new Musterloesung(mrs.getInt("idMusterloesung"), mrs.getString("Loesung"), mrs.getInt("Niveau"))));
+			list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Themengebiet_fk"), rs.getInt("Fragekatalog_fk")));
 		}
 
-		}
+		
 		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS
 		// IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -178,12 +170,12 @@ public class ControllerDurchfuehrung {
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 
-		query = "Select themengebiet from Fragen";
+		query = "Select Bezeichnung from Themengebiet";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery(query);
 
 		while (rs.next()) {
-			String thema = rs.getString("themengebiet");
+			String thema = rs.getString("Bezeichnung");
 			if (!themengebiete.contains(thema)) {
 				themengebiete.add(thema);
 			}
@@ -200,7 +192,7 @@ public class ControllerDurchfuehrung {
 		
 
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
-		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung().getLoesung();
+		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
 		String punktzahl = Float.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 		//String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
 		//String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
