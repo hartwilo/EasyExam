@@ -129,8 +129,10 @@ public class PruefungController {
 		log.info(query);
 	}
 
-	// The following method is used to read data from the Database into the
-	// TableView
+	/*
+	 * The following method is used to read data from the Database into the
+	 * TableView
+	 */
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
 

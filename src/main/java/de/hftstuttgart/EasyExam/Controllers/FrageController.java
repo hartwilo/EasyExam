@@ -41,7 +41,8 @@ public class FrageController {
 	 * and Selected RadioButtons/ComboBox-Items are used to modify the queries which
 	 * are later sent to the database for DDL and DML
 	 * 
-	 */ @FXML
+	 */ 
+	@FXML
 	private TextArea frageStellungTextArea;
 
 	@FXML
