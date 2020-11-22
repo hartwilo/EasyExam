@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,37 +28,43 @@ import javafx.scene.input.MouseEvent;
 
 public class FrageController {
 	
+	private static final Logger log;
+
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+		log = Logger.getLogger(DBConn.class.getName());
+	}
 	
 	/*
-	 * //User Input - The following FXML Objects are the only means by which the
-	 * user can input data in the current View. The String values of the
-	 * TextAreas/Fields and Selected RadioButtons/ComboBox-Items are used to modify
-	 * the queries which are later sent to the database for DDL and DML
-	 *
+	 * User Input - The following FXML Objects are the only means by which the user
+	 * can input data in the current View. The String values of the TextAreas/Fields
+	 * and Selected RadioButtons/ComboBox-Items are used to modify the queries which
+	 * are later sent to the database for DDL and DML
+	 * 
 	 */ @FXML
-	public TextArea frageStellungTextArea;
+	private TextArea frageStellungTextArea;
 
 	@FXML
-	public TextArea musterLoesungTextArea;
+	private TextArea musterLoesungTextArea;
 
 	@FXML
 	private TextField themengebietTextField;
 
 	@FXML
-	public TextField punktzahl;
+	private TextField punktzahl;
 
 	@FXML
-	public ToggleGroup Niveau;
+	private ToggleGroup Niveau;
 	
 
 	@FXML
-	public RadioButton niveauRadioButton1;
+	private RadioButton niveauRadioButton1;
 
 	@FXML
-	public RadioButton niveauRadioButton2;
+	private RadioButton niveauRadioButton2;
 
 	@FXML
-	public RadioButton niveauRadioButton3;
+	private RadioButton niveauRadioButton3;
 	
 	//@Author Jana
 	@FXML //Edits from Jana's Branch
@@ -96,29 +103,29 @@ public class FrageController {
 	private Button frageEditieren;
 
 	@FXML
-	public Label fragestellungEingebenLB;
+	private Label fragestellungEingebenLB;
 
 	@FXML
-	public Label musterloesungEingebenLB;
+	private Label musterloesungEingebenLB;
 
 	@FXML
-	public Label puntzahlLB;
+	private Label puntzahlLB;
 
 	@FXML
-	public Label themenGebietEingebenLB;
+	private Label themenGebietEingebenLB;
 	
 	
 
 
 	////////////// DB Related Variables /////////////// 
 	/*
-	 * // Initialized prepared Statement which will later be executed // with
+	 **  Initialized prepared Statement which will later be executed // with
 	 * a query 
 	 */	public PreparedStatement pst = null;
 
 
 	/*
-	 * // Initialized query which will later be modified and passed to prepared //
+	 * Initialized query which will later be modified and passed to prepared //
 	 * statement
 	 */ public static String query = null;
 	
@@ -140,13 +147,16 @@ public class FrageController {
 	//TO-DO-Method: Could come in handy later - needs to be implemented properly though
 	public static String prepQuery(String what, String table, String attribute, String value) { //String AND/OR/Diff. Constructors missing
 		String query = "SELECT " +what+ "FROM " +table+ "WHERE " +attribute+ " = " +value;
-		System.out.println(query);
 		return query;
 		
 	}
 	
-	// Displays a specific warning message. i.e: "Frage könnte nicht gespeichert werden - Punkte wurden nicht richtig eingegeben"
-	// @Author - Bachir
+	/*
+	 * Displays a specific warning message. i.e:
+	 * "Frage könnte nicht gespeichert werden - Punkte wurden nicht richtig eingegeben"
+	 * 
+	 * @Author - Bachir
+	 */
 	private void warnungAnzeigen(String warnung) {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("");
@@ -155,9 +165,10 @@ public class FrageController {
 		alert.showAndWait();
 	}
 	
-	// Displays a message to the user; notifying that some event took place
-	// @Author - Bachir
-	private void infoAnzeigen(String information) {
+	/*
+	 *  Displays a message to the user; notifying that some event took place
+	 *  @Author - Bachir
+	 */	private void infoAnzeigen(String information) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("");
 		alert.setHeaderText(null);
@@ -167,9 +178,11 @@ public class FrageController {
 	
 
 	/*
-	 * // The following method is used to make sure the input in the Points TextArea is
-	 * // restricted to a positive double value => Numeric TextArea
-	 * // @Author - Bachir
+	 * The following method is used to make sure the input in the Points TextArea is
+	 * restricted to a positive double value => Numeric TextArea
+	 * 
+	 * @Author - Bachir
+	 * 
 	 */ private boolean punkteValidieren() {
 		
 		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*))(\\.\\d+)?");
@@ -186,9 +199,11 @@ public class FrageController {
 	}
 
 	/*
-	 * // Returns true if the user has entered the data properly and false if
+	 * Returns true if the user has entered the data properly and false if
 	 * otherwise
-	 * // @Author - Bachir
+	 * 
+	 * @Author - Bachir
+	 * 
 	 */	
 	 private boolean frageDetailsKorrektEingegeben() {
 		if (punkteValidieren() && !frageStellungTextArea.getText().isEmpty()
@@ -203,9 +218,10 @@ public class FrageController {
 
 
 	/*
-	 * // The following method is used to save questions into the database - Values
+	 * The following method is used to save questions into the database - Values
 	 * are entered into the GUI's corresponding TextAreas/Fields and/or chosen
 	 * from the ComboBox
+	 * 
 	 */
 	 
 	public void speichern() throws SQLException, IOException {
@@ -219,7 +235,7 @@ public class FrageController {
 
 		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
 			/*
-			 * //TO-DO: Code for info message: What topic was saved (ComboBox (vs) TextField)
+			 * TO-DO: Code for info message: What topic was saved (ComboBox (vs) TextField)
 			 */
 			themengebiet = themengebietComboBox.getValue();
 		}
@@ -266,7 +282,8 @@ public class FrageController {
 			
 			if (status == 1) { //If the Update was successful
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
-				MainController.setWindow("KatalogErstellen");
+				log.info("Question added to DB Table");
+				StartController.setWindow("Katalogverwaltung");
 			}
 			} else if (frageStellungTextArea.getText().isEmpty() || musterLoesungTextArea.getText().isEmpty()) {
 				warnungAnzeigen("Die Frage könnte nicht gespiechert werden - Details bitte richtig eingeben!");
@@ -303,6 +320,8 @@ public class FrageController {
 	@FXML // Save questions through the Speichern Button
 	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 		speichern();
+		log.info(query);
+		
 	}
 
 	@FXML // Save questions when ENTER key is pressed //Method is currently not used TO-DO:DELETE >?
@@ -310,13 +329,14 @@ public class FrageController {
 
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			speichern();
+			log.info(query);
 		}
 	}
 
 	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new
 			// question.
 	public void zueruck(MouseEvent event) throws IOException {
-		MainController.setWindow("KatalogErstellen");
+		StartController.setWindow("Katalogverwaltung");
 	}
 	
 

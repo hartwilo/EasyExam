@@ -1,8 +1,8 @@
-package de.hftstuttgart.EasyExam;
+package de.hftstuttgart.EasyExam.Main;
 
 import java.io.IOException;
 
-import de.hftstuttgart.EasyExam.Controllers.MainController;
+import de.hftstuttgart.EasyExam.Controllers.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +13,7 @@ public class Main extends Application {
 	public static Stage mainWindow;
 	public static Scene scene;
 	public static FXMLLoader loader;
-	public static MainController controller;
+	public static StartController controller;
 	public static String currentWindow;
 
 	@Override
@@ -26,17 +26,18 @@ public class Main extends Application {
 
 	private void showMainView() throws IOException {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/GUI/AnfangsScreen.fxml"));
-
+		Parent root = FXMLLoader.load(getClass().getResource("/GUI/StartScreen.fxml"));
+		
+		//TO-DO: Make GUI elements re-sizable
 		Main.scene = new Scene(root);
 		Main.scene.setRoot(root);
 		mainWindow.setScene(scene);
-		Main.mainWindow.setResizable(false); //Retardo Workaround NGL
+		Main.mainWindow.setResizable(false); 
 		
 		/*
-		 * //The current View - Windows are always set to a fixed Size -> TO-DO: Make
-		 * GUI windows and their elements resizable
-		 */	
+		 * The current View - Windows are always set to a fixed Size -> TO-DO: Make GUI
+		 * windows and their elements re-sizable
+		 */
 		
 		
 		Main.mainWindow.centerOnScreen();

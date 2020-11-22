@@ -1,8 +1,10 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
-import de.hftstuttgart.EasyExam.Main;
+import DB.DBConn;
+import de.hftstuttgart.EasyExam.Main.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +14,14 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class MainController {
+public class StartController { 
+	
+	private static final Logger log;
+
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+		log = Logger.getLogger(DBConn.class.getName());
+	}
 
 	public static void setWindow(String FXMLFile) throws IOException {
 
@@ -28,12 +37,14 @@ public class MainController {
 
 	}
 
-	// Startseite..............................................................................
+	
 	@FXML
 	public AnchorPane startSeite;
 
 	@FXML
 	public MenuBar startSeiteMenu;
+	
+	
 
 	@FXML
 	public Button katalogErstellen;
@@ -44,19 +55,20 @@ public class MainController {
 	@FXML
 	public Button statistikAnsehen;
 
-	@FXML
-	public Button frageSpeichern;
+
+	
+	
 
 	@FXML //GUI Navigation - Go to KatalogErstellen screen
 	void katalogErstellen(MouseEvent event) throws IOException {
 
-		setWindow("KatalogErstellen");
+		setWindow("Katalogverwaltung");
 	}
 
 	@FXML //GUI Navigation - Go to PruefungsDurchfuehrung screen
 	void pruefungStarten(MouseEvent event) throws IOException {
 
-		setWindow("PruefungsDurchfuehrung");
+		setWindow("Pruefung");
 
 	}
 

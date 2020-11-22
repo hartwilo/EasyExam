@@ -1,9 +1,8 @@
 package DB;
 
 
-import java.sql.*;
 import java.sql.Connection;
-import java.util.*;
+import java.sql.DriverManager;
 import java.util.logging.Logger;
 
 
@@ -18,22 +17,57 @@ public class DBConn {
         log =Logger.getLogger(DBConn.class.getName());
     }
 	
+	
+	
 	public static void buildConn() {
 		
 		try {
 		
 
         log.info("Connecting to the database");
-        //"jdbc:mysql://localhost:3306/easyexam","root",""
-        String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+
+        //Strings for connection
+        
+		/* @Remote Database
+		 * 
+		 * String DB_URL = //Connect to LocalDB
+		 * "jdbc:sqlserver://easyexam.database.windows.net:1433;" +
+		 * "databaseName=EasyExam;" //Name + "user=hartwilo;" //User +
+		 * "password=easyexam1!;" //Pass + "encrypt=true;" +
+		 * "trustServerCertificate=false;" +
+		 * "hostNameInCertificate=*.database.windows.net;" + "loginTimeout=30";
+		 * 
+		 * 
+		 */
+        
+        
+        /* @Gjergji
+         * 
+         * "jdbc:mysql://localhost:3306/easyexam","root",""
+		 * 
+		 * 
+		 * 
+		 *  */
+        
+        
+        
+        
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
+        
+        
+        
+        
         log.info("Database connection test: " + connection.getCatalog());
 
         /*log.info("Create database schema");
         Scanner scanner = new Scanner(DBConn.class.getClassLoader().getResourceAsStream("schema.sql"));
         Statement statement = connection.createStatement();
         while (scanner.hasNextLine()) {
-            statement.execute(scanner.nextLine());*/
+            statement.execute(scanner.nextLine());
+            
+        // ???    
+            
+        */
      
 		}
         catch (Exception e) {

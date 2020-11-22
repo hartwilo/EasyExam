@@ -1,4 +1,4 @@
-package de.hftstuttgart.EasyExam;
+package de.hftstuttgart.EasyExam.Models;
 
 public class Pruefer extends Person{
 

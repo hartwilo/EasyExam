@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import DB.DBConn;
-import de.hftstuttgart.EasyExam.Frage;
+import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +27,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class PruefungController {
+	
+	private static final Logger log;
+
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+		log = Logger.getLogger(DBConn.class.getName());
+	}
 
 	// Database related variables
 	public static PreparedStatement pst = null;
@@ -118,7 +126,7 @@ public class PruefungController {
 		} else { // select only based on Level RadioButton
 			query = "Select * from Fragen where niveau = " + "'" + niv + "'";
 		}
-		System.out.println(query);
+		log.info(query);
 	}
 
 	// The following method is used to read data from the Database into the
@@ -139,9 +147,6 @@ public class PruefungController {
 					rs.getBoolean("gestellt")));
 		}
 
-		// !!!!!!!!!!!!!!!!!!!!WARNING! YOU MIGHT HAVE TO MAKE FRAGE CLASS
-		// IMPLEMENTJAVAFX PROPERTIES!!!!!!!!!!!!!!!!!!!!!!!!!
-
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
 		gestellt.setCellFactory(features -> new CheckBoxTableCell<>());
@@ -151,8 +156,11 @@ public class PruefungController {
 
 	}
 
-	// The following method is used to load all existing Topics from the Databse
-	// into the Topic ComboBox
+	/*
+	 * The following method is used to load all existing Topics from the Databse
+	 * into the Topic ComboBox
+	 */
+	
 	@FXML
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		
@@ -161,7 +169,9 @@ public class PruefungController {
 		query = "Select * from Fragen";
 		pst = DBConn.connection.prepareStatement(query);
 		ResultSet rs = pst.executeQuery(query);
-
+		
+		log.info(query);
+		
 		while (rs.next()) {
 			String thema = rs.getString("themengebiet");
 			if (!themengebiete.contains(thema)) {
@@ -171,18 +181,23 @@ public class PruefungController {
 		}
 
 		themen.setItems(themengebiete);
+		
 		return themengebiete;
 	}
 
-	// Upon clicking on a TableView corresponding to a Question, said Question's
-	// details are displayed on the right side of the Screen/GUI
+	/*
+	 * Upon clicking on a TableView row corresponding to a Question, said Question's
+	 * details are displayed on the right side of the Screen/GUI
+	 */
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 		
 		//SetWrapEct probably best if moved to another method/class
+		
 		frageStellungDetail.setWrapText(true);
 		musterLoesungDetailliert.setWrapText(true);
 
+		//Selection Model - Selected Item -> Frage.obj
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
 		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
 		String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
@@ -202,7 +217,7 @@ public class PruefungController {
 	@FXML
 	void zueruckDurchfuehrung(MouseEvent event) throws IOException {
 
-		MainController.setWindow("AnfangsScreen");
+		StartController.setWindow("StartScreen");
 
 	}
 

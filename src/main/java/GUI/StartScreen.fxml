@@ -7,7 +7,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="StartSeite" fx:id="startSeite" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="366.0" prefWidth="405.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.MainController">
+<AnchorPane id="StartSeite" fx:id="startSeite" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="366.0" prefWidth="405.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.StartController">
 	<children>
 		<MenuBar fx:id="startSeiteMenu" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="37.0" prefWidth="406.0" scaleShape="false">
 			<menus>

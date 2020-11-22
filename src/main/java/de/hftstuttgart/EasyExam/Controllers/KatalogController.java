@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import DB.DBConn;
-import de.hftstuttgart.EasyExam.Frage;
+import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -20,19 +21,28 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class KatalogController {
+	
+	private static final Logger log;
+	
+	static {
+        System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+        log =Logger.getLogger(DBConn.class.getName());
+    }
 
 	@FXML
 	private AnchorPane anchorPane;
+	
 	@FXML
 	private TextField katalogNameTextField;
 
 	/*
-	 * //Button functionality for editing a set of questions
+	 * Button functionality for editing a set of questions
 	 * 
 	 */
 	
 	@FXML
-		public Button frageAnlegen;
+	public Button frageAnlegen;
+	
 	@FXML
 	public Button frageLoeschen;
 
@@ -43,12 +53,12 @@ public class KatalogController {
 	public Button katalogAnlegen;
 	
 	/*
-	 * //ViewTable and its Columns
+	 * ViewTable and its Columns
 	 * 
 	 */
 	
 	@FXML 
-	private TableView<de.hftstuttgart.EasyExam.Frage> fragetabelle;
+	private TableView<de.hftstuttgart.EasyExam.Models.Frage> fragetabelle;
 
 	@FXML 
 	private TableColumn<Frage, String> fxcolumn_fragestellung;
@@ -66,10 +76,11 @@ public class KatalogController {
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_musterloesung;
 	
-	//Database related variables//
+	//////////////  DB Related Variables ////////////////////
+	
 	/*
-	 * // Initialized prepared Statement which will later be passed executed // with
-	 * a query
+	 *  Initialized prepared Statement which will later be passed executed with
+	 *  a query
 	 */
 	public static PreparedStatement preparedStatement = null;
 
@@ -80,6 +91,7 @@ public class KatalogController {
 	public static String query = null;
 	
 	
+	//////////////////  Java Methods  //////////////////////
 
 	// This method loads relevant question data into a ViewTable in the GUI
 	public void fragenLaden() throws SQLException {
@@ -90,26 +102,35 @@ public class KatalogController {
 		// Prepare Database variables
 		
 		query = "Select * from Fragen";
+		log.info(query);
 		preparedStatement = DBConn.connection.prepareStatement(query);
 		ResultSet ResultSet = preparedStatement.executeQuery();
+		
+		
 
-		while (ResultSet.next()) { // TODO >?: Changing niveau to int
+		while (ResultSet.next()) { // TO-DO: >?: Changing niveau to int
 
-			// Prepare Base variables to add to list
+			/*
+			 * Prepare Base variables to add to list. The MetaData of the remote and
+			 * local databases must be unified. If done, the string parameters in the 
+			 * ResultSet.getString() methods does not have to be changed based on connection
+			 * 
+			 */			
 			
-			int ID = ResultSet.getInt("ID");
+			int ID = ResultSet.getInt("ID");										
 			String thema = ResultSet.getString("themengebiet");
-			String fragestellung = ResultSet.getString("ID");
+			String fragestellung = ResultSet.getString("frageStellung");
 			String musterloesung = ResultSet.getString("musterLoesung");
 			String niveau = ResultSet.getString("niveau");
 			Double punkte = ResultSet.getDouble("punktZahl");
 			Boolean istGestellt = ResultSet.getBoolean("gestellt");
+			
 			// Add Question Objects to list
 			
 			frageListe.add(new Frage(ID, thema, fragestellung, musterloesung, niveau, punkte, istGestellt));
 		}
 
-		//Define structure of FXML Table Cells
+		// Define structure of FXML Table Cells you want to display data with
 		
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
@@ -122,9 +143,11 @@ public class KatalogController {
 		fxcolumn_musterloesung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterLoesung()));
 
-		// Add all questions in list to FXML tableView
+		// Add all questions in list to FXML tableView -> Start displaying in ^ fxcolumns
 		
 		fragetabelle.setItems(frageListe);
+		
+		
 	}
 	
 	void frageLoeschen() throws SQLException {
@@ -134,51 +157,57 @@ public class KatalogController {
 		
 		//Update Database @ selected ID
 		query = "DELETE FROM fragen WHERE ID = " + ID;
+		log.info(query);
 		preparedStatement = DBConn.connection.prepareStatement(query);
 		preparedStatement.executeUpdate();
+		
+
 
 	}
 	
-	//FXML Methods
-	@FXML 	/*
-			 * //This method loads relevant question data into a ViewTable in the GUI (as
-			 * 		soon as the mouse is entered into the GUI)
+	////////////////      What the buttons actually do - FXML methods     ////////////////
+	
+	@FXML /*
+			 * This method loads relevant question data into a ViewTable in the GUI (as soon
+			 * as the mouse is entered into the GUI)
 			 */
 	public void fragenLaden(MouseEvent event) throws SQLException {
 		fragenLaden();
+
 	}
 
-	@FXML 	/*
-			 * // This method deletes questions from a currently Selected question catalog
+	@FXML /*
+			 * This method deletes questions from a currently Selected question catalog
 			 */
 	void frageLoeschen(MouseEvent event) throws SQLException {
 		frageLoeschen();
-		fragenLaden(); //Reload new set of data into TableView
+		fragenLaden(); 	//Reload new, updated set of data into TableView
+
 	}
 
-	@FXML 	/*
-			 * // Method for creating a new Catalog Table in Database, NOTE: Names of
-			 * 		attributes // must later be adapted to AZURE database
+	@FXML /*
+			 * Method for creating a new Catalog Table in Database, NOTE: Names of
+			 * attributes must later be adapted to AZURE database
 			 */
 	void katalogAnlegen(MouseEvent event) throws IOException {
 
-		MainController.setWindow("KatalogErstellen");
+		StartController.setWindow("Katalogverwaltung");
 	}
 
-	@FXML 	/*
-			 * // GUI Navigation - Go to FrageErstellen screen
-			 	*/
+	@FXML /*
+			 * GUI Navigation - Go to FrageErstellen screen
+			 */
 	void frageAnlegen(MouseEvent event) throws IOException {
 
-		MainController.setWindow("FrageErstellen");
+		StartController.setWindow("Frageverwaltung");
 	}
 
-	@FXML 	/*
-			 * // GUI Navigation - Go to AnfangsScreen screen
+	@FXML /*
+			 * GUI Navigation - Go to AnfangsScreen screen
 			 */
 	void katalogSpeichern(MouseEvent event) throws IOException {
 
-		MainController.setWindow("AnfangsScreen");
+		StartController.setWindow("Startscreen");
 	}
 
 }
