@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import DB.DBConn;
-import de.hftstuttgart.EasyExam.Controllers.ControllerDurchfuehrung;
 import javafx.scene.control.RadioButton;
 
 class testControllerDurchfuehrung {
