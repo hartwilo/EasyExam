@@ -41,128 +41,153 @@ public class Frage {
 	private int ID;
 	private String frageStellung;
 	private String Musterloesung;
-	private String niveau;
+	private int niveau;
 	private String themengebiet;
-	private double punkte;
+	private String fragekatalog;
+	private float punkte;
 	private boolean gestelltbool;
-
-
+	private String Modul;
 	private String grundLageNiveau;
-
-	public String getGrundLageNiveau() {
-		return grundLageNiveau;
+	
+	
+	
+	
+	
+	
+	public Frage(int iD, String frageStellung, String musterloesung, int niveau, String themengebiet,
+			String fragekatalog, float punkte, boolean gestelltbool, String modul) {
+		super();
+		ID = iD;
+		this.frageStellung = frageStellung;
+		Musterloesung = musterloesung;
+		this.niveau = niveau;
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
+		this.punkte = punkte;
+		this.gestelltbool = gestelltbool;
+		Modul = modul;
 	}
 
-	public void setGrundLageNiveau(String grundLageNiveau) {
+
+	public Frage(int iD, String frageStellung, String musterloesung, int niveau, String themengebiet,
+			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau) {
+		super();
+		ID = iD;
+		this.frageStellung = frageStellung;
+		Musterloesung = musterloesung;
+		this.niveau = niveau;
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
+		this.punkte = punkte;
+		this.gestelltbool = gestelltbool;
+		Modul = modul;
 		this.grundLageNiveau = grundLageNiveau;
 	}
 
-	public String getGut() {
-		return gut;
-	}
 
-	public void setGut(String gut) {
-		this.gut = gut;
-	}
-
-	public String getSehrGut() {
-		return sehrGut;
-	}
-
-	public void setSehrGut(String sehrGut) {
-		this.sehrGut = sehrGut;
-	}
-
-	private String gut;
-	private String sehrGut;
-
-	public int getId() {
+	public int getID() {
 		return ID;
 	}
 
-	public void setId(int id) {
-		this.ID = id;
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
-	public boolean isGestelltbool() {
-		return gestelltbool;
-	}
-
-	public void setGestelltbool(boolean gestelltbool) {
-		this.gestelltbool = gestelltbool;
-	}
-
-	private String musterLoesung;
-
-
-	public Frage(int id, String themengebiet, String frageStellung, String musterLoesung, String niveau, double punkte,
-			Boolean gestellt) {
-		this.ID = id;
-		this.themengebiet = themengebiet;
-		this.frageStellung = frageStellung;
-		this.musterLoesung = musterLoesung;
-		this.niveau = niveau;
-		this.punkte = punkte;
-		this.gestelltbool = gestellt;
-
-	}
-
-	public String getFragestellung() {
-		return frageStellung;
-	}
-
-	public void setFragestellung(String fragestellung) {
-		this.frageStellung = fragestellung;
-	}
-
-	public String getNiveau() {
-		return niveau;
-	}
-
-	public void setNiveau(String niveau) {
-		this.niveau = niveau;
-	}
 
 	public String getFrageStellung() {
 		return frageStellung;
 	}
 
+
 	public void setFrageStellung(String frageStellung) {
 		this.frageStellung = frageStellung;
 	}
 
-	public double getPunkte() {
-		return punkte;
+
+	public String getMusterloesung() {
+		return Musterloesung;
 	}
 
-	public void setPunkte(double punkte) {
-		this.punkte = punkte;
+
+	public void setMusterloesung(String musterloesung) {
+		Musterloesung = musterloesung;
 	}
+
+
+	public int getNiveau() {
+		return niveau;
+	}
+
+
+	public void setNiveau(int niveau) {
+		this.niveau = niveau;
+	}
+
 
 	public String getThemengebiet() {
 		return themengebiet;
 	}
+
 
 	public void setThemengebiet(String themengebiet) {
 		this.themengebiet = themengebiet;
 	}
 
 
-
-	public String getMusterLoesung() {
-		return musterLoesung;
+	public String getFragekatalog() {
+		return fragekatalog;
 	}
 
-	public void setMusterLoesung(String musterLoesung) {
-		this.musterLoesung = musterLoesung;
+
+	public void setFragekatalog(String fragekatalog) {
+		this.fragekatalog = fragekatalog;
 	}
 
-	public String getMusterloesung() {
-		return Musterloesung;
+
+	public double getPunkte() {
+		return punkte;
 	}
 
-	public void setMusterloesung(String musterloesung) {
-		Musterloesung = musterloesung;
+
+	public void setPunkte(float punkte) {
+		this.punkte = punkte;
 	}
+
+
+	public boolean isGestelltbool() {
+		return gestelltbool;
+	}
+
+
+	public void setGestelltbool(boolean gestelltbool) {
+		this.gestelltbool = gestelltbool;
+	}
+
+
+	public String getModul() {
+		return Modul;
+	}
+
+
+	public void setModul(String modul) {
+		Modul = modul;
+	}
+
+
+	public String getGrundLageNiveau() {
+		return grundLageNiveau;
+	}
+
+
+	public void setGrundLageNiveau(String grundLageNiveau) {
+		this.grundLageNiveau = grundLageNiveau;
+	}
+	
+	
+
+
+	
+	
 
 }

@@ -144,13 +144,11 @@ public class PruefungController {
 		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			list.add(new Frage(rs.getInt("ID"), rs.getString("themengebiet"), rs.getString("frageStellung"),
-					rs.getString("musterLoesung"), rs.getString("niveau"), rs.getInt("punktZahl"),
-					rs.getBoolean("gestellt")));
-		}
+			list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getString("themengebiet"), rs.getString("Fragekatalog"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Modul")));
+					}
 
 		frageStellung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
 		gestellt.setCellFactory(features -> new CheckBoxTableCell<>());
 		gestellt.setEditable(true);
 		frageTabelle.setItems(list);
@@ -200,8 +198,8 @@ public class PruefungController {
 		musterLoesungDetailliert.setWrapText(true);
 
 		//Selection Model - Selected Item -> Frage.obj
-		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFragestellung();
-		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterLoesung();
+		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFrageStellung();
+		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
 		String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {

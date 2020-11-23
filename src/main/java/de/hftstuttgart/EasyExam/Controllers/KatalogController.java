@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import DB.DBConn;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -70,7 +71,7 @@ public class KatalogController {
 	private TableColumn<Frage, String> fxcolumn_thema;
 
 	@FXML
-	private TableColumn<Frage, String> fxcolumn_niveau;
+	private TableColumn<Frage, Number> fxcolumn_niveau;
 
 
 	@FXML
@@ -117,31 +118,33 @@ public class KatalogController {
 			 * 
 			 */			
 			
-			int ID = ResultSet.getInt("ID");										
-			String thema = ResultSet.getString("themengebiet");
-			String fragestellung = ResultSet.getString("frageStellung");
-			String musterloesung = ResultSet.getString("musterLoesung");
-			String niveau = ResultSet.getString("niveau");
-			Double punkte = ResultSet.getDouble("punktZahl");
+			int ID = ResultSet.getInt("idFrage");										
+			String thema = ResultSet.getString("Themengebiet");
+			String fragestellung = ResultSet.getString("Fragestellung");
+			String musterloesung = ResultSet.getString("Musterloesung");
+			int niveau = ResultSet.getInt("Niveau");
+			Float punkte = ResultSet.getFloat("Punkte");
 			Boolean istGestellt = ResultSet.getBoolean("gestellt");
+			String modul = ResultSet.getString("Modul");
+			String fragekatalog = ResultSet.getString("Fragekatalog");			
 			
 			// Add Question Objects to list
 			
-			frageListe.add(new Frage(ID, thema, fragestellung, musterloesung, niveau, punkte, istGestellt));
+			frageListe.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt, modul));
 		}
 
 		// Define structure of FXML Table Cells you want to display data with
 		
 		fxcolumn_fragestellung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFragestellung()));
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
 		fxcolumn_punkte
 				.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
 		fxcolumn_thema
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getThemengebiet()));
 		fxcolumn_niveau
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getNiveau()));
+				.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
 		fxcolumn_musterloesung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterLoesung()));
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
 
 		// Add all questions in list to FXML tableView -> Start displaying in ^ fxcolumns
 		
@@ -153,7 +156,7 @@ public class KatalogController {
 	void frageLoeschen() throws SQLException {
 		
 		//Select the ID of the question that was clicked on
-		int ID = fragetabelle.getSelectionModel().getSelectedItem().getId();
+		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
 		
 		//Update Database @ selected ID
 		query = "DELETE FROM fragen WHERE ID = " + ID;

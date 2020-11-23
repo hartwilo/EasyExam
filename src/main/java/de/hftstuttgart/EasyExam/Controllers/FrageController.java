@@ -225,10 +225,12 @@ public class FrageController {
 	 * 
 	 */
 	 
-	public void speichern() throws SQLException, IOException {
+
+	 public void speichern() throws SQLException, IOException {
+		 
 
 		String themengebiet = themengebietComboBox.getValue();
-		
+		int selectedNiveau = 0;
 		
 		if (themengebiet == null) {
 			themengebiet = themengebietTextField.getText();
@@ -241,6 +243,15 @@ public class FrageController {
 			themengebiet = themengebietComboBox.getValue();
 		}
 		
+		
+		if ((boolean) niveauRadioButton1.isSelected()) {
+			selectedNiveau = 1;	
+		} else if ((boolean) niveauRadioButton2.isSelected()) {
+			selectedNiveau = 2;
+		} else if ((boolean) niveauRadioButton3.isSelected()) {
+			selectedNiveau = 3;
+		}
+		
 		//Load View Data into variables (V1)
 		
 		String stellung = frageStellungTextArea.getText();
@@ -249,26 +260,29 @@ public class FrageController {
 		String grundlagenniveau = levelGrundlagenniveau.getText();
 		String gut = levelGut.getText();
 		String sehrGut = levelSehrGut.getText();
-		String niveau = ((RadioButton) Niveau.getSelectedToggle()).getText();
+		int niveau = selectedNiveau;
 		String gestellt = "0"; // TO-DO: Change!
 
 		 
 		if (frageDetailsKorrektEingegeben()) { // Save question into database only if all relevant details are inputed
 												// *properly*.
 
-			query = "insert into Fragen(themengebiet, frageStellung, musterLoesung, "
-					+ "niveau, punktZahl, gestellt, grundlagenniveau, gut, sehrGut) Values(?,?,?,?,?,?,?,?,?)";
+			query = "insert into Fragen(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
 			
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			//Add (V1) variables 
 			
-			pst.setString(1, themengebiet);
-			pst.setString(2, stellung);
-			pst.setString(3, loesung);
-			pst.setString(4, niveau);
-			pst.setString(5, punkte);
-			pst.setString(6, gestellt);
+			pst.setString(1, stellung);
+			pst.setString(2, loesung);
+			pst.setInt(3, niveau);
+			pst.setString(4, punkte);
+			pst.setString(5, gestellt);
+			pst.setString(6, themengebiet);
+			pst.setString(7, "test");
+			pst.setString(8, "tbd");
+			
+			
 			
 			//Add (V1) Variables : Variables for Grading >? //TO-DO: >? Maybe add new Model Class for these? P-V-C
 			//@Author Jana
