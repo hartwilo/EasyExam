@@ -267,7 +267,7 @@ public class FrageController {
 		if (frageDetailsKorrektEingegeben()) { // Save question into database only if all relevant details are inputed
 												// *properly*.
 
-			query = "insert into Fragen(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
+			query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
 			
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
@@ -289,7 +289,12 @@ public class FrageController {
 			
 			pst.setString(7, grundlagenniveau);
 			pst.setString(8, gut);
-			pst.setString(9, sehrGut);
+			
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    Index out of range error for sehrGut !!!!!!!!!!!!!!!!!!!!! TO-DO
+			
+			
+			
+			//pst.setString(9, sehrGut);
 			
 			//Update the database -> Add the question to the DB
 			
@@ -316,9 +321,9 @@ public class FrageController {
 	private ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-		query = "Select themengebiet from Fragen";
+		query = "Select themengebiet from Frage";
 		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery(query);
+		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
 			String s = rs.getString("themengebiet");

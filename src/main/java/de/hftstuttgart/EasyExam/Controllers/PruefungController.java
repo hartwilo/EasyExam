@@ -114,17 +114,17 @@ public class PruefungController {
 		String themengebiet = themen.getValue();
 		String niv = (((RadioButton) niveau.getSelectedToggle()).getText());
 		if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level RadioButton and Topics Combobox
-			query = "Select * from Fragen where niveau = " + "'" + niv + "'" + " and themengebiet = " + "'"
+			query = "Select * from Frage where niveau = " + "'" + niv + "'" + " and themengebiet = " + "'"
 					+ themengebiet + "'";
 
 		} else if (nivalle.isSelected() && themengebiet == null) { // Select all questions
-			query = "Select * from Fragen";
+			query = "Select * from Frage";
 		} else if (themengebiet != null) {
-			query = "Select * from Fragen where themengebiet =" + "'" + themengebiet + "'"; // Select only based on
+			query = "Select * from Frage where themengebiet =" + "'" + themengebiet + "'"; // Select only based on
 																							// Topic
 
 		} else { // select only based on Level RadioButton
-			query = "Select * from Fragen where niveau = " + "'" + niv + "'";
+			query = "Select * from Frage where niveau = " + "'" + niv + "'";
 		}
 		log.info(query);
 	}
@@ -165,10 +165,12 @@ public class PruefungController {
 	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 		
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-
-		query = "Select * from Fragen";
+		
+		
+		
+		query = "Select * from Frage";
 		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery(query);
+		ResultSet rs = pst.executeQuery();
 		
 		log.info(query);
 		

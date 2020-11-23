@@ -102,7 +102,7 @@ public class KatalogController {
 
 		// Prepare Database variables
 		
-		query = "Select * from Fragen";
+		query = "Select * from Frage";
 		log.info(query);
 		preparedStatement = DBConn.connection.prepareStatement(query);
 		ResultSet ResultSet = preparedStatement.executeQuery();
@@ -159,7 +159,7 @@ public class KatalogController {
 		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
 		
 		//Update Database @ selected ID
-		query = "DELETE FROM fragen WHERE ID = " + ID;
+		query = "DELETE FROM Frage WHERE idFrage = " + ID;
 		log.info(query);
 		preparedStatement = DBConn.connection.prepareStatement(query);
 		preparedStatement.executeUpdate();
