@@ -299,16 +299,15 @@ public class FrageController {
 			//pst.setString(9, sehrGut);
 			
 			//Update the database -> Add the question to the DB
-			
+			int status =0;
 			try {
-				int status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
+				status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
 				query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
 				
 			}
 			catch (Exception e){
 				e.printStackTrace();
 			}
-			int status = 0;
 			if (status == 1) { //If the Update was successful
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
 				log.info("Question added to DB Table");
