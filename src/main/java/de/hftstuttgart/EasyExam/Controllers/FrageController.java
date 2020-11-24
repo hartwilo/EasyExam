@@ -301,7 +301,7 @@ public class FrageController {
 			
 			//Update the database -> Add the question to the DB
 			
-			int status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);;
+			int status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
 			
 			if (status == 1) { //If the Update was successful
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
