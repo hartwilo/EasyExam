@@ -107,7 +107,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>de.hftstuttgart.EasyExam.Main</mainClass>
+							<mainClass>de.hftstuttgart.EasyExam.Main.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
