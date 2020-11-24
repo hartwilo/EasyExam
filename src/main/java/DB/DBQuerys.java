@@ -13,6 +13,7 @@ public class DBQuerys {
 
 	
 	/**
+	 * SQL-Query to save questions in Database
 	 * 
 	 * @param fragestellung
 	 * @param musterloesung
@@ -32,7 +33,13 @@ public class DBQuerys {
 				+ "Values('" + fragestellung + "','" + musterloesung + "', '" + niveau +"', '" + punkte + "', '" + gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul +"')";
 		return stmt.executeUpdate(query);
 	}
-	
+	/**
+	 * SQL-Query to get subject areas from Database
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * 
+	 */
 	public ObservableList<String> themengebieteAuslesen() throws SQLException
 	{
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
