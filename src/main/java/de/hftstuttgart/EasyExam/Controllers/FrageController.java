@@ -308,7 +308,7 @@ public class FrageController {
 				log.info("Question added to DB Table");
 				StartController.setWindow("Katalogverwaltung");
 			}
-			else { warnungAnzeigen("Frage konnte nicht gespeichert werden");}
+			
 			} else if (frageStellungTextArea.getText().isEmpty() || musterLoesungTextArea.getText().isEmpty()) {
 				warnungAnzeigen("Die Frage könnte nicht gespeichert werden - Details bitte richtig eingeben!");
 		}
