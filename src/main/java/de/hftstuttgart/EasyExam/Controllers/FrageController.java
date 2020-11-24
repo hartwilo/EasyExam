@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import DB.DBConn;
+import DB.DBQuerys;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -115,7 +116,7 @@ public class FrageController {
 	@FXML
 	private Label themenGebietEingebenLB;
 	
-	
+	DBQuerys dbQuery = new DBQuerys();
 
 
 	////////////// DB Related Variables /////////////// 
@@ -262,12 +263,14 @@ public class FrageController {
 		String sehrGut = levelSehrGut.getText();
 		int niveau = selectedNiveau;
 		String gestellt = "0"; // TO-DO: Change!
+		String fragekatalog = "test";
+		String modul = "tbd";
 
 		 
 		if (frageDetailsKorrektEingegeben()) { // Save question into database only if all relevant details are inputed
 												// *properly*.
 
-			query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
+			/*query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
 			
 			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
@@ -280,7 +283,7 @@ public class FrageController {
 			pst.setString(5, gestellt);
 			pst.setString(6, themengebiet);
 			pst.setString(7, "test");
-			pst.setString(8, "tbd");
+			pst.setString(8, "tbd");*/
 			
 			
 			
@@ -298,7 +301,7 @@ public class FrageController {
 			
 			//Update the database -> Add the question to the DB
 			
-			int status = pst.executeUpdate();
+			int status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);;
 			
 			if (status == 1) { //If the Update was successful
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
