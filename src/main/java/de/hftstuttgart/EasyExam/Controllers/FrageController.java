@@ -258,9 +258,9 @@ public class FrageController {
 		String stellung = frageStellungTextArea.getText();
 		String loesung = musterLoesungTextArea.getText();
 		String punkte = punktzahl.getText();
-		//String grundlagenniveau = levelGrundlagenniveau.getText();
-		//String gut = levelGut.getText();
-		//String sehrGut = levelSehrGut.getText();
+		String grundlagenniveau = levelGrundlagenniveau.getText();
+		String gut = levelGut.getText();
+		String sehrGut = levelSehrGut.getText();
 		int niveau = selectedNiveau;
 		String gestellt = "0"; // TO-DO: Change!
 		String fragekatalog = "test";
@@ -270,9 +270,8 @@ public class FrageController {
 		if (frageDetailsKorrektEingegeben()) { // Save question into database only if all relevant details are inputed
 												// *properly*.
 
-			/*query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
 			
-			pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			/*pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			
 			//Add (V1) variables 
 			
@@ -301,8 +300,15 @@ public class FrageController {
 			
 			//Update the database -> Add the question to the DB
 			
-			int status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
-			
+			try {
+				int status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
+				query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
+				
+			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+			int status = 0;
 			if (status == 1) { //If the Update was successful
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
 				log.info("Question added to DB Table");
