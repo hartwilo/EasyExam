@@ -2,8 +2,12 @@ package DB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class DBQuerys {
 
@@ -29,5 +33,22 @@ public class DBQuerys {
 		return stmt.executeUpdate(query);
 	}
 	
+	public ObservableList<String> themengebieteAuslesen() throws SQLException
+	{
+		ObservableList<String> themengebiete = FXCollections.observableArrayList();
+		DBConn.connection.setAutoCommit(false);
+		Statement stmt = DBConn.connection.createStatement();
+		String query = "SELECT themengebiet from Frage";
+		ResultSet rs = stmt.executeQuery(query);
+		
+		while(rs.next()) 
+		{
+			String s = rs.getString("themengebiet");
+			if (!themengebiete.contains(s)) {
+				themengebiete.add(s);
+			}
+		}
+		return themengebiete;
+	}
 	
 }

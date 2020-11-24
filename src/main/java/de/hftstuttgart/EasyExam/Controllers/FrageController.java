@@ -269,22 +269,6 @@ public class FrageController {
 		 
 		if (frageDetailsKorrektEingegeben()) { // Save question into database only if all relevant details are inputed
 												// *properly*.
-
-			
-			/*pst = DBConn.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			//Add (V1) variables 
-			
-			pst.setString(1, stellung);
-			pst.setString(2, loesung);
-			pst.setInt(3, niveau);
-			pst.setString(4, punkte);
-			pst.setString(5, gestellt);
-			pst.setString(6, themengebiet);
-			pst.setString(7, "test");
-			pst.setString(8, "tbd");*/
-			
-			
 			
 			//Add (V1) Variables : Variables for Grading >? //TO-DO: >? Maybe add new Model Class for these? P-V-C
 			//@Author Jana
@@ -330,21 +314,10 @@ public class FrageController {
 			 */
 	private ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
 
-		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-		query = "Select themengebiet from Frage";
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery();
 
-		while (rs.next()) {
-			String s = rs.getString("themengebiet");
-			if (!themengebiete.contains(s)) {
-				themengebiete.add(s);
-			}
-		}
+		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen());
 
-		themengebietComboBox.setItems(themengebiete);
-
-		return themengebiete;
+		return dbQuery.themengebieteAuslesen();
 	}
 
 	@FXML // Save questions through the Speichern Button
