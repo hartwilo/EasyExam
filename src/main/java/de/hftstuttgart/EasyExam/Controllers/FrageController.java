@@ -258,9 +258,9 @@ public class FrageController {
 		String stellung = frageStellungTextArea.getText();
 		String loesung = musterLoesungTextArea.getText();
 		String punkte = punktzahl.getText();
-		String grundlagenniveau = levelGrundlagenniveau.getText();
-		String gut = levelGut.getText();
-		String sehrGut = levelSehrGut.getText();
+		//String grundlagenniveau = levelGrundlagenniveau.getText();
+		//String gut = levelGut.getText();
+		//String sehrGut = levelSehrGut.getText();
 		int niveau = selectedNiveau;
 		String gestellt = "0"; // TO-DO: Change!
 		String fragekatalog = "test";
@@ -290,8 +290,8 @@ public class FrageController {
 			//Add (V1) Variables : Variables for Grading >? //TO-DO: >? Maybe add new Model Class for these? P-V-C
 			//@Author Jana
 			
-			pst.setString(7, grundlagenniveau);
-			pst.setString(8, gut);
+			//pst.setString(7, grundlagenniveau);
+			//pst.setString(8, gut);
 			
 			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    Index out of range error for sehrGut !!!!!!!!!!!!!!!!!!!!! TO-DO
 			
@@ -309,8 +309,9 @@ public class FrageController {
 				StartController.setWindow("Katalogverwaltung");
 			}
 			} else if (frageStellungTextArea.getText().isEmpty() || musterLoesungTextArea.getText().isEmpty()) {
-				warnungAnzeigen("Die Frage könnte nicht gespiechert werden - Details bitte richtig eingeben!");
+				warnungAnzeigen("Die Frage könnte nicht gespeichert werden - Details bitte richtig eingeben!");
 		}
+			else { warnungAnzeigen("Frage konnte nicht gespeichert werden");}
 
 	}
 	
