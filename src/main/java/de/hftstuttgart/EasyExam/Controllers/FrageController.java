@@ -117,41 +117,8 @@ public class FrageController {
 	private Label themenGebietEingebenLB;
 	
 	DBQuerys dbQuery = new DBQuerys();
-
-
-	////////////// DB Related Variables /////////////// 
-	/*
-	 **  Initialized prepared Statement which will later be executed // with
-	 * a query 
-	 */	public PreparedStatement pst = null;
-
-
-	/*
-	 * Initialized query which will later be modified and passed to prepared //
-	 * statement
-	 */ public static String query = null;
 	
-	 
-	 
 	////////////////// Java Methods //////////////////////
-	 
-	//TO-DO-Method: Could come in handy later - needs to be implemented properly though
-	 public ResultSet sendQuery(String query) throws SQLException {
-		 	
-		 	FrageController.query = query;
-			pst = DBConn.connection.prepareStatement(FrageController.query);
-			ResultSet rs = pst.executeQuery(FrageController.query);
-			
-			return rs;
-	 }
-	 
-	
-	//TO-DO-Method: Could come in handy later - needs to be implemented properly though
-	public static String prepQuery(String what, String table, String attribute, String value) { //String AND/OR/Diff. Constructors missing
-		String query = "SELECT " +what+ "FROM " +table+ "WHERE " +attribute+ " = " +value;
-		return query;
-		
-	}
 	
 	/*
 	 * Displays a specific warning message. i.e:
@@ -286,8 +253,6 @@ public class FrageController {
 			int status =0;
 			try {
 				status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
-				query = "insert into Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) Values(?,?,?,?,?,?,?,?)";
-				
 			}
 			catch (Exception e){
 				e.printStackTrace();
@@ -323,7 +288,7 @@ public class FrageController {
 	@FXML // Save questions through the Speichern Button
 	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 		speichern();
-		log.info(query);
+		log.info("Frage gespeichert");
 		
 	}
 
@@ -332,7 +297,7 @@ public class FrageController {
 
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			speichern();
-			log.info(query);
+			log.info("Frage gespeichert");
 		}
 	}
 
