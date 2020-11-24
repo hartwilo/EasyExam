@@ -43,9 +43,8 @@ public class DBQuerys {
 	public ObservableList<String> themengebieteAuslesen() throws SQLException
 	{
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-		DBConn.connection.setAutoCommit(false);
 		Statement stmt = DBConn.connection.createStatement();
-		String query = "SELECT themengebiet from Frage";
+		String query = "SELECT themengebiet FROM Frage";
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while(rs.next()) 
