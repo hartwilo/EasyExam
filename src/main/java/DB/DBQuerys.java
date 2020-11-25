@@ -30,7 +30,7 @@ public class DBQuerys {
 		DBConn.connection.setAutoCommit(false);
 		Statement stmt = DBConn.connection.createStatement();
 		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
-				+ "Values('" + fragestellung + "','" + musterloesung + "', '" + niveau +"', '" + punkte + "', '" + gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul +"')";
+				+ "VALUES('" + fragestellung + "','" + musterloesung + "', '" + niveau +"', '" + punkte + "', '" + gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul +"')";
 		return stmt.executeUpdate(query);
 	}
 	/**
