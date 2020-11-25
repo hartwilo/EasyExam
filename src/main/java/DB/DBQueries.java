@@ -9,7 +9,7 @@ import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class DBQuerys {
+public class DBQueries {
 
 	
 	/**
@@ -25,6 +25,9 @@ public class DBQuerys {
 	 * @param modul
 	 * @throws SQLException
 	 */
+	
+	public static ResultSet rs;
+	
 	public int frageSpeichern(String fragestellung, String musterloesung, int niveau, String punkte, String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException
 	{
 		DBConn.connection.setAutoCommit(false);
@@ -40,6 +43,23 @@ public class DBQuerys {
 	 * @throws SQLException
 	 * 
 	 */
+	
+	//TODO add logic for Katalog Name to query
+	public ResultSet frageLaden() throws SQLException {
+		DBConn.connection.setAutoCommit(false);
+		Statement stmt = DBConn.connection.createStatement();
+		String query = "SELECT * FROM Frage";
+		return DBQueries.rs = stmt.executeQuery(query);
+	}
+	
+	public void frageLoeschen(int ID) throws SQLException {
+		DBConn.connection.setAutoCommit(false);
+		Statement stmt = DBConn.connection.createStatement();
+		String query = "DELETE FROM Frage WHERE idFrage = " + ID;
+		stmt.executeUpdate(query);	
+	}
+	
+
 	public ObservableList<String> themengebieteAuslesen() throws SQLException
 	{
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
@@ -55,6 +75,24 @@ public class DBQuerys {
 			}
 		}
 		return themengebiete;
+	}
+	
+	//Changes 25.11 -Gjergji
+	public ObservableList<String> katalogeAuslesen() throws SQLException
+	{
+		ObservableList<String> kataloge = FXCollections.observableArrayList();
+		Statement stmt = DBConn.connection.createStatement();
+		String query = "SELECT Fragekatalog FROM Frage";
+		ResultSet rs = stmt.executeQuery(query);
+		
+		while(rs.next()) 
+		{
+			String s = rs.getString("Fragekatalog");
+			if (!kataloge.contains(s)) {
+				kataloge.add(s);
+			}
+		}
+		return kataloge;
 	}
 	
 }

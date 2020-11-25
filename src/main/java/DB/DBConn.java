@@ -1,9 +1,8 @@
 package DB;
 
 
-import java.sql.*;
 import java.sql.Connection;
-import java.util.*;
+import java.sql.DriverManager;
 import java.util.logging.Logger;
 
 
@@ -24,7 +23,6 @@ public class DBConn {
 		
 
         log.info("Connecting to the database");
-        //"jdbc:mysql://localhost:3306/easyexam","root",""
         String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
         //connection = DriverManager.getConnection(DB_URL);

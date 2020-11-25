@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import DB.DBConn;
-import DB.DBQuerys;
+import DB.DBQueries;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -116,7 +116,7 @@ public class FrageController {
 	@FXML
 	private Label themenGebietEingebenLB;
 	
-	DBQuerys dbQuery = new DBQuerys();
+	DBQueries dbQuery = new DBQueries();
 	
 	////////////////// Java Methods //////////////////////
 	
@@ -197,6 +197,7 @@ public class FrageController {
 	 public void speichern() throws SQLException, IOException {
 		 
 
+		//Get values from view
 		String themengebiet = themengebietComboBox.getValue();
 		int selectedNiveau = 0;
 		
@@ -225,12 +226,16 @@ public class FrageController {
 		String stellung = frageStellungTextArea.getText();
 		String loesung = musterLoesungTextArea.getText();
 		String punkte = punktzahl.getText();
-		String grundlagenniveau = levelGrundlagenniveau.getText();
-		String gut = levelGut.getText();
-		String sehrGut = levelSehrGut.getText();
+		/*
+		 * String grundlagenniveau = levelGrundlagenniveau.getText(); String gut =
+		 * levelGut.getText(); String sehrGut = levelSehrGut.getText();
+		 */
 		int niveau = selectedNiveau;
 		String gestellt = "0"; // TO-DO: Change!
-		String fragekatalog = "test";
+		
+		//Latest changes 25.11
+		//String fragekatalog = KatalogController.katalogName;
+		String fragekatalog = "tbd";
 		String modul = "tbd";
 
 		 
@@ -250,7 +255,7 @@ public class FrageController {
 			//pst.setString(9, sehrGut);
 			
 			//Update the database -> Add the question to the DB
-			int status =0;
+			int status = 0;
 			try {
 				status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
 			}
@@ -284,6 +289,8 @@ public class FrageController {
 
 		return dbQuery.themengebieteAuslesen();
 	}
+	
+	
 
 	@FXML // Save questions through the Speichern Button
 	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import DB.DBConn;
+import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
@@ -15,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -34,7 +36,7 @@ public class KatalogController {
 	private AnchorPane anchorPane;
 	
 	@FXML
-	private TextField katalogNameTextField;
+	public TextField katalogNameTextField;
 
 	/*
 	 * Button functionality for editing a set of questions
@@ -89,44 +91,85 @@ public class KatalogController {
 	 * // Initialized query which will later be modified and passed to prepared //
 	 * statement
 	 */
+	
+	DBQueries dbQuery = new DBQueries();
+	
 	public static String query = null;
+	
+	//Used for katalog attribute of Frage
+	public static String katalogName;
+	
+	
+	@FXML
+    private ComboBox<String> katalogComboBox;
+
+	
 	
 	
 	//////////////////  Java Methods  //////////////////////
 
+	//Must be moved over to DBQueries
 	// This method loads relevant question data into a ViewTable in the GUI
 	public void fragenLaden() throws SQLException {
-
+		
+		/*
+		 * //Changes 25.11 - Gjergji - Only load questions of the selected Catalog; If
+		 * none selected then load all
+		 * 
+		 * 
+		 * KatalogNames can't contain spaces!!!
+		 * Unkown column Test3 error? test3 should be the attribute not the column(name)
+		 * 
+		 * 
+		 * 
+		 */			
+		
+		/* TODO - Load according to catalog name
+		 * 
+		 * if (!katalogNameTextField.getText().isBlank()) { katalogName =
+		 * katalogNameTextField.getText(); query =
+		 * "Select * from Frage where Fragekatalog = "+ katalogName; } else if
+		 * (katalogComboBox.getValue() != null) { katalogName =
+		 * katalogComboBox.getValue(); query =
+		 * "Select * from Frage where Fragekatalog = "+ katalogName; } else { query =
+		 * "Select * from Frage"; }
+		 */
+		
 		fragetabelle.setFixedCellSize(25); // TODO: Moving these kinds of View setup methods elsewhere
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
 		// Prepare Database variables
 		
-		query = "Select * from Frage";
-		log.info(query);
-		preparedStatement = DBConn.connection.prepareStatement(query);
-		ResultSet ResultSet = preparedStatement.executeQuery();
+		//Changes 25.11 - Only load questions of Katalog
+		//query = "Select * from Frage where katalog = " + katalogName;
+		//query = "Select * from Frage";
 		
+		//TODO - Delete or figure out how to print the query of the DBQueries load method
+		//log.info(query)
+		
+		/* Replaced by method in DBQueries
+		 * preparedStatement = DBConn.connection.prepareStatement(query); ResultSet
+		 * ResultSet = preparedStatement.executeQuery();
+		 */
+		
+		//Load DBQueries Result Set with questions from DB
+		DBQueries.rs = dbQuery.frageLaden();
 		
 
-		while (ResultSet.next()) { // TO-DO: >?: Changing niveau to int
+		while (DBQueries.rs.next()) { 
 
-			/*
-			 * Prepare Base variables to add to list. The MetaData of the remote and
-			 * local databases must be unified. If done, the string parameters in the 
-			 * ResultSet.getString() methods does not have to be changed based on connection
-			 * 
-			 */			
 			
-			int ID = ResultSet.getInt("idFrage");										
-			String thema = ResultSet.getString("Themengebiet");
-			String fragestellung = ResultSet.getString("Fragestellung");
-			String musterloesung = ResultSet.getString("Musterloesung");
-			int niveau = ResultSet.getInt("Niveau");
-			Float punkte = ResultSet.getFloat("Punkte");
-			Boolean istGestellt = ResultSet.getBoolean("gestellt");
-			String modul = ResultSet.getString("Modul");
-			String fragekatalog = ResultSet.getString("Fragekatalog");			
+			//Prepare Base variables to add to list.	
+			
+			int ID = DBQueries.rs.getInt("idFrage");										
+			String thema = DBQueries.rs.getString("Themengebiet");
+			String fragestellung = DBQueries.rs.getString("Fragestellung");
+			String musterloesung = DBQueries.rs.getString("Musterloesung");
+			int niveau = DBQueries.rs.getInt("Niveau");
+			Float punkte = DBQueries.rs.getFloat("Punkte");
+			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
+			String modul = DBQueries.rs.getString("Modul");
+			String fragekatalog = DBQueries.rs.getString("Fragekatalog");			
 			
 			// Add Question Objects to list
 			
@@ -153,20 +196,18 @@ public class KatalogController {
 		
 	}
 	
-	void frageLoeschen() throws SQLException {
-		
-		//Select the ID of the question that was clicked on
-		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
-		
-		//Update Database @ selected ID
-		query = "DELETE FROM Frage WHERE idFrage = " + ID;
-		log.info(query);
-		preparedStatement = DBConn.connection.prepareStatement(query);
-		preparedStatement.executeUpdate();
-		
-
-
-	}
+	/*   !Replaced by frageLoeschen method in DBQueries class
+	 * 
+	 * void frageLoeschen() throws SQLException {
+	 * 
+	 * //Select the ID of the question that was clicked on int ID =
+	 * fragetabelle.getSelectionModel().getSelectedItem().getID();
+	 * 
+	 * //Update Database @ selected ID query = "DELETE FROM Frage WHERE idFrage = "
+	 * + ID; log.info(query); preparedStatement =
+	 * DBConn.connection.prepareStatement(query); preparedStatement.executeUpdate();
+	 * }
+	 */
 	
 	////////////////      What the buttons actually do - FXML methods     ////////////////
 	
@@ -183,7 +224,8 @@ public class KatalogController {
 			 * This method deletes questions from a currently Selected question catalog
 			 */
 	void frageLoeschen(MouseEvent event) throws SQLException {
-		frageLoeschen();
+		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
+		dbQuery.frageLoeschen(ID);
 		fragenLaden(); 	//Reload new, updated set of data into TableView
 
 	}
@@ -195,6 +237,20 @@ public class KatalogController {
 	void katalogAnlegen(MouseEvent event) throws IOException {
 
 		StartController.setWindow("Katalogverwaltung");
+	}
+	
+	@FXML/*
+	 *  The following method is used to fill the Catalog ComboBox with all existing
+	 *  values in the database.
+	 */
+	
+	//Changes 25.11 -Gjergji
+	private ObservableList<String> katalogeLaden(MouseEvent event) throws SQLException {
+
+
+		katalogComboBox.setItems(dbQuery.katalogeAuslesen());
+
+		return dbQuery.katalogeAuslesen();
 	}
 
 	@FXML /*
