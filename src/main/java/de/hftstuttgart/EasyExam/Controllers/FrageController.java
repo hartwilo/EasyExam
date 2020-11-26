@@ -264,7 +264,7 @@ public class FrageController {
 			}
 			if (status == 1) { //If the Update was successful
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
-				log.info("Question added to DB Table");
+				log.info("Frage erfolgreich gespeichert");
 				StartController.setWindow("Katalogverwaltung");
 			}
 			
@@ -282,12 +282,9 @@ public class FrageController {
 			 * // The following method is used to fill the Topics ComboBox with all existing
 			 * // values in the database.
 			 */
-	private ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
-
-
+	public void themengebieteLaden(MouseEvent event) throws SQLException {
 		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen());
 
-		return dbQuery.themengebieteAuslesen();
 	}
 	
 	
@@ -295,7 +292,6 @@ public class FrageController {
 	@FXML // Save questions through the Speichern Button
 	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 		speichern();
-		log.info("Frage gespeichert");
 		
 	}
 
@@ -304,7 +300,6 @@ public class FrageController {
 
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			speichern();
-			log.info("Frage gespeichert");
 		}
 	}
 

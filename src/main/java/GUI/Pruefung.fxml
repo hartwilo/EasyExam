@@ -33,7 +33,7 @@
                     </columns>
                   </TableView>
                   <Label layoutX="2.0" layoutY="496.0" text="Schierwigkeitsniveau" />
-                  <RadioButton fx:id="niveau1" layoutX="146.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" text="Niveau 1">
+                  <RadioButton fx:id="niveau1" layoutX="146.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" selected="true" text="Niveau 1">
                      <toggleGroup>
                         <ToggleGroup fx:id="niveau" />
                      </toggleGroup>
