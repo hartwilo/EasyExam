@@ -1,8 +1,6 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
@@ -25,13 +23,6 @@ import javafx.scene.layout.AnchorPane;
 
 public class KatalogController {
 	
-	private static final Logger log;
-	
-	static {
-        System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
-        log =Logger.getLogger(DBConn.class.getName());
-    }
-
 	@FXML
 	private AnchorPane anchorPane;
 	
@@ -80,21 +71,9 @@ public class KatalogController {
 	private TableColumn<Frage, String> fxcolumn_musterloesung;
 	
 	//////////////  DB Related Variables ////////////////////
+		
+	static DBQueries dbQuery = new DBQueries();
 	
-	/*
-	 *  Initialized prepared Statement which will later be passed executed with
-	 *  a query
-	 */
-	public static PreparedStatement preparedStatement = null;
-
-	/*
-	 * // Initialized query which will later be modified and passed to prepared //
-	 * statement
-	 */
-	
-	DBQueries dbQuery = new DBQueries();
-	
-	public static String query = null;
 	
 	//Used for katalog attribute of Frage
 	public static String katalogName;
@@ -103,12 +82,14 @@ public class KatalogController {
 	@FXML
     private ComboBox<String> katalogComboBox;
 
+
+	
 	
 	
 	
 	//////////////////  Java Methods  //////////////////////
 
-	//Must be moved over to DBQueries
+	// Must be moved over to DBQueries
 	// This method loads relevant question data into a ViewTable in the GUI
 	public void fragenAnzeigen() throws SQLException {
 		
@@ -137,25 +118,12 @@ public class KatalogController {
 		
 		fragetabelle.setFixedCellSize(25); // TODO: Moving these kinds of View setup methods elsewhere
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
-
-		// Prepare Database variables
-		
-		//Changes 25.11 - Only load questions of Katalog
-		//query = "Select * from Frage where katalog = " + katalogName;
-		//query = "Select * from Frage";
-		
-		//TODO - Delete or figure out how to print the query of the DBQueries load method
-		//log.info(query)
-		
-		/* Replaced by method in DBQueries
-		 * preparedStatement = DBConn.connection.prepareStatement(query); ResultSet
-		 * ResultSet = preparedStatement.executeQuery();
-		 */
-		
+	
 		//Load DBQueries Result Set with questions from DB
 		DBQueries.rs = dbQuery.alleFrageLaden();
 		
-
+		
+		//TODO - Make method out of this
 		while (DBQueries.rs.next()) { 
 
 			
@@ -195,20 +163,7 @@ public class KatalogController {
 		
 		
 	}
-	
-	/*   !Replaced by frageLoeschen method in DBQueries class
-	 * 
-	 * void frageLoeschen() throws SQLException {
-	 * 
-	 * //Select the ID of the question that was clicked on int ID =
-	 * fragetabelle.getSelectionModel().getSelectedItem().getID();
-	 * 
-	 * //Update Database @ selected ID query = "DELETE FROM Frage WHERE idFrage = "
-	 * + ID; log.info(query); preparedStatement =
-	 * DBConn.connection.prepareStatement(query); preparedStatement.executeUpdate();
-	 * }
-	 */
-	
+		
 	////////////////      What the buttons actually do - FXML methods     ////////////////
 	
 	@FXML /*
@@ -245,12 +200,8 @@ public class KatalogController {
 	 */
 	
 	//Changes 25.11 -Gjergji
-	private ObservableList<String> katalogeLaden(MouseEvent event) throws SQLException {
-
-
+	private void katalogeLaden(MouseEvent event) throws SQLException {
 		katalogComboBox.setItems(dbQuery.katalogeAuslesen());
-
-		return dbQuery.katalogeAuslesen();
 	}
 
 	@FXML /*
