@@ -268,7 +268,7 @@ public class FrageController {
 				StartController.setWindow("Katalogverwaltung");
 			}
 			
-			} else if (frageStellungTextArea.getText().isEmpty() || musterLoesungTextArea.getText().isEmpty()) {
+			} else if (frageDetailsKorrektEingegeben()) {
 				warnungAnzeigen("Die Frage könnte nicht gespeichert werden - Details bitte richtig eingeben!");
 		}
 			
