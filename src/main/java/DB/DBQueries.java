@@ -19,7 +19,7 @@ public class DBQueries {
 
 	
 
-	
+	//Must be closed
 	public static ResultSet rs;
 	
 	
@@ -36,54 +36,78 @@ public class DBQueries {
 	 * @param modul
 	 * @throws SQLException
 	 */
+	
+	
+	
+	
 	public int frageSpeichern(String fragestellung, String musterloesung, int niveau, String punkte, String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException
 	{
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
 		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
-				+ "Values('" + fragestellung + "','" + musterloesung + "', '" + niveau +"', '" + punkte + "', '" + gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul +"')";
+				+ "Values('" 
+				+ fragestellung + "','"
+				+ musterloesung + "', '" 
+				+ niveau +"', '" 
+				+ punkte + "', '" 
+				+ gestellt + "', '" 
+				+ themengebiet + "', '"
+				+ fragekatalog + "', '" 
+				+ modul +"')";
+		
 		log.info(query);
 		return stmt.executeUpdate(query);
 	}
 	
 	
 	///Changes 25.11 -Gjergji TODO add logic for Katalog Name to query
-	public ResultSet alleFrageLaden() throws SQLException {
+	public ResultSet alleFrageLaden(String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
-		String query = "SELECT * FROM Frage";
+		
+		String query = "SELECT * FROM Frage where Fragekatalog = "+ "'" + katalog + "'" ;
+		
 		log.info(query);
 		return DBQueries.rs = stmt.executeQuery(query);
 		
 	}
 	
 	//Changes 26.11 - Gjergji Select questions based on topic
-	public ResultSet frageLaden_themengebiet(String themengebiet) throws SQLException {
+	public ResultSet frageLaden_themengebiet(String themengebiet, String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
-		String query = "Select * from Frage where themengebiet =" + "'" + themengebiet + "'";
+		
+		String query = "Select * from Frage where themengebiet =" + "'" + themengebiet + "'"
+		+ " and Fragekatalog = "+"'" + katalog + "'";
+		
 		log.info(query);
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 	
 	//Changes 26.11 - Gjergji Select questions based on diff. level
-	public ResultSet frageLaden_niveau(int niveau) throws SQLException {
+	public ResultSet frageLaden_niveau(int niveau, String katalog) throws SQLException {
 		String niv = Integer.toString(niveau);
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
-		String query = "Select * from Frage where niveau =" + "'" + niv + "'";
+		
+		String query = "Select * from Frage where niveau =" + "'" + niv + "'"
+		+ " and Fragekatalog = "+"'" + katalog + "'";
+		
 		log.info(query);
 		return DBQueries.rs = stmt.executeQuery(query);
 		
 	}
 	
 	////Changes 26.11 - Gjergji Select questions based on diff. level and topic
-	public ResultSet frageLaden_niveau_themengebiet(int niveau, String themengebiet) throws SQLException {
+	public ResultSet frageLaden_niveau_themengebiet(int niveau, String themengebiet, String katalog) throws SQLException {
 		String niv = Integer.toString(niveau);
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
-		String query = "Select * from Frage where niveau = " + "'" + niv + "'" + " and themengebiet = " + "'"
-				+ themengebiet + "'";
+		
+		String query = "Select * from Frage where niveau = " + "'" + niv + "'" 
+		+ " and themengebiet = " + "'" + themengebiet + "'"			
+		+ " and Fragekatalog = "+"'" + katalog + "'";
+		
 		log.info(query);
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
@@ -93,7 +117,9 @@ public class DBQueries {
 	public void frageLoeschen(int ID) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
+		
 		String query = "DELETE FROM Frage WHERE idFrage = " + ID;
+		
 		log.info(query);
 		stmt.executeUpdate(query);	
 	}
@@ -109,7 +135,9 @@ public class DBQueries {
 	{
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 		Statement stmt = DBConn.connection.createStatement();
+		
 		String query = "SELECT themengebiet FROM Frage";
+		
 		log.info(query);
 		ResultSet rs = stmt.executeQuery(query);
 		
@@ -128,7 +156,9 @@ public class DBQueries {
 	{
 		ObservableList<String> kataloge = FXCollections.observableArrayList();
 		Statement stmt = DBConn.connection.createStatement();
+		
 		String query = "SELECT Fragekatalog FROM Frage";
+		
 		log.info(query);
 		ResultSet rs = stmt.executeQuery(query);
 		

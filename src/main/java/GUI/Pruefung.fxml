@@ -22,7 +22,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.PruefungController">
    <children>
-      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fragenLaden" prefHeight="764.0" prefWidth="1316.0">
+      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="764.0" prefWidth="1316.0">
          <children>
             <Group layoutX="45.0" layoutY="167.0">
                <children>
@@ -55,32 +55,33 @@
             </Group>
             <Group layoutX="48.0" layoutY="86.0">
                <children>
-                  <ComboBox layoutX="-8.0" layoutY="35.0" prefHeight="26.0" prefWidth="557.0" />
-                  <TextField fx:id="studName" layoutX="562.0" layoutY="35.0" prefHeight="26.0" prefWidth="146.0" />
-                  <TextField fx:id="matNr" layoutX="716.0" layoutY="35.0" prefHeight="26.0" prefWidth="81.0" />
-                  <DatePicker layoutX="807.0" layoutY="35.0" prefHeight="26.0" prefWidth="74.0" />
-                  <ProgressBar layoutX="930.0" layoutY="35.0" prefHeight="26.0" prefWidth="296.0" progress="0.0" />
+                  <ComboBox fx:id="katalogeComboBox" layoutX="-8.0" layoutY="35.0" onMouseClicked="#katalogeLaden" prefHeight="26.0" prefWidth="556.0" />
+                  <TextField fx:id="studName" layoutX="589.0" layoutY="35.0" prefHeight="26.0" prefWidth="146.0" />
+                  <TextField fx:id="matNr" layoutX="745.0" layoutY="35.0" prefHeight="26.0" prefWidth="81.0" />
+                  <DatePicker layoutX="832.0" layoutY="35.0" prefHeight="26.0" prefWidth="74.0" />
+                  <ProgressBar layoutX="950.0" layoutY="35.0" prefHeight="26.0" prefWidth="277.0" progress="0.0" />
                   <Label layoutX="3.0" text="Fragekatalog">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label layoutX="560.0" prefWidth="81.0" text="Student">
+                  <Label layoutX="589.0" prefWidth="81.0" text="Student">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label layoutX="716.0" text="Matr.Nr">
+                  <Label layoutX="745.0" text="Matr.Nr">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label layoutX="807.0" text="Datum">
+                  <Label layoutX="832.0" text="Datum">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Button fx:id="studentenLaden" layoutX="893.0" layoutY="35.0" mnemonicParsing="false" text="+" />
+                  <Button fx:id="studentenLaden" layoutX="918.0" layoutY="36.0" mnemonicParsing="false" text="+" />
+                  <Button fx:id="refresh" layoutX="558.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" prefHeight="25.0" prefWidth="14.0" text="Button" />
                </children>
             </Group>
             <MenuBar layoutX="-1.0" layoutY="1.0" prefHeight="26.0" prefWidth="1316.0">

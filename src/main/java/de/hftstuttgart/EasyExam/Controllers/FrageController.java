@@ -175,9 +175,12 @@ public class FrageController {
 	 * 
 	 */	
 	 private boolean frageDetailsKorrektEingegeben() {
-		if (punkteValidieren() && !frageStellungTextArea.getText().isEmpty()
-				&& !musterLoesungTextArea.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
-				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
+		if (punkteValidieren() 
+				&& !frageStellungTextArea.getText().isEmpty()
+				&& !musterLoesungTextArea.getText().isEmpty() 
+				&& !levelGrundlagenniveau.getText().isEmpty()
+				&& !levelGut.getText().isEmpty() 
+				&& !levelSehrGut.getText().isEmpty()) {
 			return true;
 		} else {
 			return false;

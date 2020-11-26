@@ -2,9 +2,7 @@ package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
-import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
@@ -45,7 +43,10 @@ public class KatalogController {
 
 	@FXML
 	public Button katalogAnlegen;
-	
+
+	@FXML
+	private Button refresh;
+
 	/*
 	 * ViewTable and its Columns
 	 * 
@@ -93,34 +94,12 @@ public class KatalogController {
 	// This method loads relevant question data into a ViewTable in the GUI
 	public void fragenAnzeigen() throws SQLException {
 		
-		/*
-		 * //Changes 25.11 - Gjergji - Only load questions of the selected Catalog; If
-		 * none selected then load all
-		 * 
-		 * 
-		 * KatalogNames can't contain spaces!!!
-		 * Unkown column Test3 error? test3 should be the attribute not the column(name)
-		 * 
-		 * 
-		 * 
-		 */			
-		
-		/* TODO - Load according to catalog name
-		 * 
-		 * if (!katalogNameTextField.getText().isBlank()) { katalogName =
-		 * katalogNameTextField.getText(); query =
-		 * "Select * from Frage where Fragekatalog = "+ katalogName; } else if
-		 * (katalogComboBox.getValue() != null) { katalogName =
-		 * katalogComboBox.getValue(); query =
-		 * "Select * from Frage where Fragekatalog = "+ katalogName; } else { query =
-		 * "Select * from Frage"; }
-		 */
-		
 		fragetabelle.setFixedCellSize(25); // TODO: Moving these kinds of View setup methods elsewhere
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 	
 		//Load DBQueries Result Set with questions from DB
-		DBQueries.rs = dbQuery.alleFrageLaden();
+		katalogName = katalogComboBox.getValue();
+		DBQueries.rs = dbQuery.alleFrageLaden(katalogComboBox.getValue());
 		
 		
 		//TODO - Make method out of this

@@ -1,6 +1,6 @@
 package de.hftstuttgart.EasyExam.Models;
 
-public class Pruefung {
+public class Pruefung<Katalog> {
 
 	private int idPruefung;
 	private String bezeichnung;

@@ -26,7 +26,7 @@
       <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <AnchorPane fx:id="anchorPane" onMouseEntered="#fragenLaden" prefHeight="620.0" prefWidth="1010.0" GridPane.rowIndex="2">
+      <AnchorPane fx:id="anchorPane" prefHeight="620.0" prefWidth="1010.0" GridPane.rowIndex="2">
          <children>
         <Label alignment="CENTER" layoutX="155.0" layoutY="203.39999389648438" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
@@ -46,7 +46,7 @@
             <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="767.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="26.0" prefWidth="78.0" text="Neue Frage" />
             <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="864.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
             <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="61.400001525878906" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
-            <Button layoutX="1002.0" layoutY="93.4000015258789" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0" text="-" />
+            <Button fx:id="refresh" layoutX="1002.0" layoutY="93.4000015258789" mnemonicParsing="false" onMouseClicked="#fragenLaden" prefHeight="26.0" prefWidth="25.0" text="Ref" />
             <Button fx:id="frageLoeschen" layoutX="949.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageLoeschen" prefHeight="26.0" prefWidth="78.0" text="Löschen" />
             <ComboBox fx:id="katalogComboBox" layoutX="16.0" layoutY="94.0" onMouseClicked="#katalogeLaden" prefHeight="26.0" prefWidth="975.0" />
        

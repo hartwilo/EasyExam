@@ -38,60 +38,25 @@ public class PruefungController {
 
 	// Database related variables
 	DBQueries dbQuery = new DBQueries();
-
-	@FXML
-	private CheckBox niv1;
-
-	@FXML
-	private CheckBox niv2;
-
-	@FXML
-	private CheckBox niv3;
-
-	@FXML
-	private RadioButton nivalle;
-
-	@FXML
-	private Tab themaTab1;
-
-	@FXML
-	private TextField studName;
-
-	@FXML
-	private TextField matNr;
-
-	@FXML
-	private Button studentenLaden;
-
-	@FXML
-	private TableView<Frage> frageTabelle;
-
-	@FXML
-	private TableColumn<Frage, String> frageStellung;
+	
 
 	@FXML
 	private AnchorPane anchorPane;
 
-	@FXML
-	private TextArea frageStellungDetail;
+	// ComboBoxes
 
 	@FXML
-	private TextArea musterLoesungDetailliert;
-
-	@FXML
-	public Button zueruckDurchfuehrung;
-
-	@FXML
-	private TextField punktZahlDetail;
+	private ComboBox<String> katalogeComboBox;
 
 	@FXML
 	private ComboBox<String> themen;
 
-	@FXML
-	private RadioButton niveau1;
-
+	// CheckBoxes and RadioButtons
 	@FXML
 	private ToggleGroup niveau;
+
+	@FXML
+	private RadioButton niveau1;
 
 	@FXML
 	private RadioButton niveau2;
@@ -100,45 +65,54 @@ public class PruefungController {
 	private RadioButton niveau3;
 
 	@FXML
+	private RadioButton nivalle;
+
+	// Textfields and areas
+	
+	@FXML
+	private TextArea frageStellungDetail;
+
+	@FXML
+	private TextArea musterLoesungDetailliert;
+	
+	@FXML
+	private TextField studName;
+
+	@FXML
+	private TextField matNr;
+
+	@FXML
+	private TextField punktZahlDetail;
+	
+	// View Table
+	
+	@FXML
+	private TableView<Frage> frageTabelle;
+
+	@FXML
+	private TableColumn<Frage, String> frageStellung;
+
+	@FXML
 	private TableColumn<Frage, CheckBox> gestellt;
+
+
+	// Buttons
+
+    @FXML
+    private Button refresh;
+	
+	@FXML
+	public Button zueruckDurchfuehrung;
 
 	@FXML
 	private Button start;
 
+	@FXML
+	private Button studentenLaden;
+	
 	CheckBox gestelltCheckBox = new CheckBox(null);
 
-	// The following method is used to modify the query on the Database based upon
-	// the desired level and topic of questions
-	
-	
-	  //Replaced by 3 methods in the DBqueries class!! 26.11 - Gjergji
-	  
-	  
-		/*
-		 * public void prepareWhereClausel() {
-		 * 
-		 * String themengebiet = themen.getValue(); String niv = (((RadioButton)
-		 * niveau.getSelectedToggle()).getText());
-		 * 
-		 * if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level
-		 * //RadioButton and Topics Combobox query =
-		 * "Select * from Frage where niveau = " + "'" + niv + "'" +
-		 * " and themengebiet = " + "'" + themengebiet + "'";
-		 * 
-		 * } else if (nivalle.isSelected() && themengebiet == null) { // Select all
-		 * questions query = "Select * from Frage"; } else if (themengebiet != null) {
-		 * query = "Select * from Frage where themengebiet =" + "'" + themengebiet +
-		 * "'"; // Select only based on // Topic
-		 * 
-		 * } else { // select only based on Level RadioButton query =
-		 * "Select * from Frage where niveau = " + "'" + niv + "'"; }
-		 * 
-		 * }
-		 */
-
-	/* Changes 26.11 Gjergji
-	 *
-	 * The following method is used to read data from the Database into the
+	/* The following method is used to read data from the Database into the
 	 * TableView
 	 */
 	@FXML
@@ -148,6 +122,7 @@ public class PruefungController {
 				
 		//Get relevant data from View
 		String themengebiet = themen.getValue(); 
+		String katalog = katalogeComboBox.getValue();
 		int niv = 0;
 		
 		if (niveau1.isSelected()) {
@@ -157,19 +132,19 @@ public class PruefungController {
 		} else if (niveau3.isSelected()) {
 			niv = 3;
 		} 
-		
+				
 		//Select based on level and topic
 		if (themengebiet != null && !nivalle.isSelected()) {
-			dbQuery.frageLaden_niveau_themengebiet(niv, themengebiet);
+			dbQuery.frageLaden_niveau_themengebiet(niv, themengebiet, katalog);
 		//Select based on topic
 		} else if (themengebiet != null && nivalle.isSelected() ) {
-			dbQuery.frageLaden_themengebiet(themengebiet);
+			dbQuery.frageLaden_themengebiet(themengebiet, katalog);
 		//Select based on level
 		} else if (themengebiet == null && !nivalle.isSelected()) {
-			dbQuery.frageLaden_niveau(niv);
+			dbQuery.frageLaden_niveau(niv, katalog);
 		//Select all
 		} else {
-			dbQuery.alleFrageLaden();
+			dbQuery.alleFrageLaden(katalog);
 		}
 
 		//Create Frage.objs from result set and add to list
@@ -238,6 +213,15 @@ public class PruefungController {
 			punktZahlDetail.setEditable(false);
 		}
 	}
+	
+	@FXML /*
+	 *  The following method is used to fill the Cataloge ComboBox with all existing
+	 *  values in the database.
+	 */
+public void katalogeLaden(MouseEvent event) throws SQLException {
+		katalogeComboBox.setItems(dbQuery.katalogeAuslesen());
+
+}
 
 	// Navigation Function - Go back to starter Screen.
 	@FXML
