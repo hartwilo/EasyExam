@@ -52,7 +52,17 @@ public class Frage {
 	
 	
 	
-	
+	public Frage(String frageStellung, String musterloesung, int niveau, String themengebiet,
+			String fragekatalog, float punkte, boolean gestelltbool, String modul) {
+		this.frageStellung = frageStellung;
+		Musterloesung = musterloesung;
+		this.niveau = niveau;
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
+		this.punkte = punkte;
+		this.gestelltbool = gestelltbool;
+		Modul = modul;
+	}
 	
 	public Frage(int iD, String frageStellung, String musterloesung, int niveau, String themengebiet,
 			String fragekatalog, float punkte, boolean gestelltbool, String modul) {
