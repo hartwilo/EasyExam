@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import DB.DBConn;
+import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -36,8 +37,7 @@ public class PruefungController {
 	}
 
 	// Database related variables
-	public static PreparedStatement pst = null;
-	String query = "Select * from Fragen ";
+	DBQueries dbQuery = new DBQueries();
 
 	@FXML
 	private CheckBox niv1;
@@ -109,83 +109,107 @@ public class PruefungController {
 
 	// The following method is used to modify the query on the Database based upon
 	// the desired level and topic of questions
-	public void prepareWhereClausel() {
-		
-		String themengebiet = themen.getValue();
-		String niv = (((RadioButton) niveau.getSelectedToggle()).getText());
-		if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level RadioButton and Topics Combobox
-			query = "Select * from Frage where niveau = " + "'" + niv + "'" + " and themengebiet = " + "'"
-					+ themengebiet + "'";
+	
+	
+	  //Replaced by 3 methods in the DBqueries class!! 26.11 - Gjergji
+	  
+	  
+		/*
+		 * public void prepareWhereClausel() {
+		 * 
+		 * String themengebiet = themen.getValue(); String niv = (((RadioButton)
+		 * niveau.getSelectedToggle()).getText());
+		 * 
+		 * if (themengebiet != null && !nivalle.isSelected()) { // Select based on Level
+		 * //RadioButton and Topics Combobox query =
+		 * "Select * from Frage where niveau = " + "'" + niv + "'" +
+		 * " and themengebiet = " + "'" + themengebiet + "'";
+		 * 
+		 * } else if (nivalle.isSelected() && themengebiet == null) { // Select all
+		 * questions query = "Select * from Frage"; } else if (themengebiet != null) {
+		 * query = "Select * from Frage where themengebiet =" + "'" + themengebiet +
+		 * "'"; // Select only based on // Topic
+		 * 
+		 * } else { // select only based on Level RadioButton query =
+		 * "Select * from Frage where niveau = " + "'" + niv + "'"; }
+		 * 
+		 * }
+		 */
 
-		} else if (nivalle.isSelected() && themengebiet == null) { // Select all questions
-			query = "Select * from Frage";
-		} else if (themengebiet != null) {
-			query = "Select * from Frage where themengebiet =" + "'" + themengebiet + "'"; // Select only based on
-																							// Topic
-
-		} else { // select only based on Level RadioButton
-			query = "Select * from Frage where niveau = " + "'" + niv + "'";
-		}
-		log.info(query);
-	}
-
-	/*
+	/* Changes 26.11 Gjergji
+	 *
 	 * The following method is used to read data from the Database into the
 	 * TableView
 	 */
 	@FXML
 	public void fragenLaden(MouseEvent event) throws SQLException {
+		//The list will be filled with Frage.objs
+		ObservableList<Frage> fragen = FXCollections.observableArrayList();
+				
+		//Get relevant data from View
+		String themengebiet = themen.getValue(); 
+		int niv = 0;
+		
+		if (niveau1.isSelected()) {
+			niv = 1;	
+		} else if (niveau2.isSelected()) {
+			niv = 2;
+		} else if (niveau3.isSelected()) {
+			niv = 3;
+		} 
+		
+		//Select based on level and topic
+		if (themengebiet != null && !nivalle.isSelected()) {
+			dbQuery.frageLaden_niveau_themengebiet(niv, themengebiet);
+		//Select based on topic
+		} else if (themengebiet != null && nivalle.isSelected() ) {
+			dbQuery.frageLaden_themengebiet(themengebiet);
+		//Select based on level
+		} else if (themengebiet == null && !nivalle.isSelected()) {
+			dbQuery.frageLaden_niveau(niv);
+		//Select all
+		} else {
+			dbQuery.alleFrageLaden();
+		}
 
-		prepareWhereClausel();
-		frageTabelle.setFixedCellSize(25);
-		ObservableList<Frage> list = FXCollections.observableArrayList();
-
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery();
-
-		while (rs.next()) {
-			list.add(new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getString("themengebiet"), rs.getString("Fragekatalog"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Modul")));
-					}
-
+		//Create Frage.objs from result set and add to list
+		while (DBQueries.rs.next()) {
+			//Prep variables for Frage constructor
+			int ID = DBQueries.rs.getInt("idFrage");										
+			String thema = DBQueries.rs.getString("Themengebiet");
+			String fragestellung = DBQueries.rs.getString("Fragestellung");
+			String musterloesung = DBQueries.rs.getString("Musterloesung");
+			int niveau = DBQueries.rs.getInt("Niveau");
+			Float punkte = DBQueries.rs.getFloat("Punkte");
+			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
+			String modul = DBQueries.rs.getString("Modul");
+			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
+			
+			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt, modul));
+		}
+		//Set up View Table columns
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
 		gestellt.setCellFactory(features -> new CheckBoxTableCell<>());
 		gestellt.setEditable(true);
-		frageTabelle.setItems(list);
+		
+		//Display list of Frage.objs
+		frageTabelle.setItems(fragen);
 		frageTabelle.setEditable(true);
+		frageTabelle.setFixedCellSize(25);
 
 	}
 
 	/*
-	 * The following method is used to load all existing Topics from the Databse
+	 * The following method is used to load all existing Topics from the Database
 	 * into the Topic ComboBox
 	 */
 	
 	@FXML
-	ObservableList<String> themengebieteLaden(MouseEvent event) throws SQLException {
-		
-		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-		
-		
-		
-		query = "Select * from Frage";
-		pst = DBConn.connection.prepareStatement(query);
-		ResultSet rs = pst.executeQuery();
-		
-		log.info(query);
-		
-		while (rs.next()) {
-			String thema = rs.getString("themengebiet");
-			if (!themengebiete.contains(thema)) {
-				themengebiete.add(thema);
-			}
-
-		}
-
-		themen.setItems(themengebiete);
-		
-		return themengebiete;
+	public void themengebieteLaden(MouseEvent event) throws SQLException {	
+		themen.setItems(dbQuery.themengebieteAuslesen());
 	}
+	
 
 	/*
 	 * Upon clicking on a TableView row corresponding to a Question, said Question's

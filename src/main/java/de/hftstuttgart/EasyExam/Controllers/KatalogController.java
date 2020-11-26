@@ -110,7 +110,7 @@ public class KatalogController {
 
 	//Must be moved over to DBQueries
 	// This method loads relevant question data into a ViewTable in the GUI
-	public void fragenLaden() throws SQLException {
+	public void fragenAnzeigen() throws SQLException {
 		
 		/*
 		 * //Changes 25.11 - Gjergji - Only load questions of the selected Catalog; If
@@ -153,7 +153,7 @@ public class KatalogController {
 		 */
 		
 		//Load DBQueries Result Set with questions from DB
-		DBQueries.rs = dbQuery.frageLaden();
+		DBQueries.rs = dbQuery.alleFrageLaden();
 		
 
 		while (DBQueries.rs.next()) { 
@@ -216,7 +216,7 @@ public class KatalogController {
 			 * as the mouse is entered into the GUI)
 			 */
 	public void fragenLaden(MouseEvent event) throws SQLException {
-		fragenLaden();
+		fragenAnzeigen();
 
 	}
 
@@ -226,7 +226,7 @@ public class KatalogController {
 	void frageLoeschen(MouseEvent event) throws SQLException {
 		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
 		dbQuery.frageLoeschen(ID);
-		fragenLaden(); 	//Reload new, updated set of data into TableView
+		fragenAnzeigen(); 	//Reload new, updated set of data into TableView
 
 	}
 
