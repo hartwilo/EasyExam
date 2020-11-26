@@ -18,6 +18,11 @@ public class DBQueries {
 	}
 
 	
+
+	
+	public static ResultSet rs;
+	
+	
 	/**
 	 * SQL-Query to save questions in Database
 	 * 
@@ -31,11 +36,6 @@ public class DBQueries {
 	 * @param modul
 	 * @throws SQLException
 	 */
-	
-	public static ResultSet rs;
-	
-	
-	
 	public int frageSpeichern(String fragestellung, String musterloesung, int niveau, String punkte, String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException
 	{
 		DBConn.connection.setAutoCommit(true);
@@ -45,13 +45,7 @@ public class DBQueries {
 		log.info(query);
 		return stmt.executeUpdate(query);
 	}
-	/**
-	 * SQL-Query to get subject areas from Database
-	 * 
-	 * @return
-	 * @throws SQLException
-	 * 
-	 */
+	
 	
 	///Changes 25.11 -Gjergji TODO add logic for Katalog Name to query
 	public ResultSet alleFrageLaden() throws SQLException {
@@ -104,7 +98,13 @@ public class DBQueries {
 		stmt.executeUpdate(query);	
 	}
 	
-
+	/**
+	 * SQL-Query to get subject areas from Database
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * 
+	 */
 	public ObservableList<String> themengebieteAuslesen() throws SQLException
 	{
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
