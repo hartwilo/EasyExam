@@ -253,6 +253,8 @@ public class FrageController {
 			int status =0;
 			try {
 				status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
+				System.out.println(status);
+				
 			}
 			catch (Exception e){
 				e.printStackTrace();

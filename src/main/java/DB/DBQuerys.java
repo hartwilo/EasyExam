@@ -27,7 +27,7 @@ public class DBQuerys {
 	 */
 	public int frageSpeichern(String fragestellung, String musterloesung, int niveau, String punkte, String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException
 	{
-		DBConn.connection.setAutoCommit(false);
+		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
 		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
 				+ "VALUES('" + fragestellung + "','" + musterloesung + "', '" + niveau +"', '" + punkte + "', '" + gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul +"')";
