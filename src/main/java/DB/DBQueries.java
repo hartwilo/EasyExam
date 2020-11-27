@@ -108,7 +108,7 @@ public class DBQueries {
 		+ " and themengebiet = " + "'" + themengebiet + "'"			
 		+ " and Fragekatalog = "+"'" + katalog + "'";
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 	
@@ -120,7 +120,7 @@ public class DBQueries {
 		
 		String query = "DELETE FROM Frage WHERE idFrage = " + ID;
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		stmt.executeUpdate(query);	
 	}
 	
@@ -138,7 +138,7 @@ public class DBQueries {
 		
 		String query = "SELECT themengebiet FROM Frage where Fragekatalog = "+ "'"+katalog+ "'";
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while(rs.next()) 
@@ -159,7 +159,7 @@ public class DBQueries {
 		
 		String query = "SELECT Fragekatalog FROM Frage";
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while(rs.next()) 

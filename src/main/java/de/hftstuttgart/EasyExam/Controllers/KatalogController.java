@@ -2,7 +2,9 @@ package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
+import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
@@ -21,6 +23,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class KatalogController {
+	
+	private static final Logger log;
+	
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+		log = Logger.getLogger(DBConn.class.getName());
+	}
 
 	@FXML
 	private AnchorPane anchorPane;
@@ -182,9 +191,16 @@ public class KatalogController {
 			 * GUI Navigation - Go to FrageErstellen screen
 			 */
 	void frageAnlegen(MouseEvent event) throws IOException {
-
-		katalogName = katalogNameTextField.getText();
+		
+		if (katalogNameTextField.getText().isEmpty()) {
+			katalogName = katalogComboBox.getValue();
+		} else {
+			katalogName = katalogNameTextField.getText();
+		}
+		
+		log.info("Adding question to: "+katalogName);
 		StartController.setWindow("Frageverwaltung");
+		
 
 	}
 

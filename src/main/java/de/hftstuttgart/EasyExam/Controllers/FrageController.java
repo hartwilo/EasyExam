@@ -265,7 +265,8 @@ public class FrageController {
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
 				
 				//Line Seperator ist das gleiche wie /n bei Sys.out.print
-				log.info("Frage erfolgreich gespeichert: "+System.lineSeparator()
+				log.info(" "+System.lineSeparator()
+						+ "Frage erfolgreich gespeichert: "+System.lineSeparator()
 						+"Fragestellung: "+stellung +System.lineSeparator()
 						+"Lösung: "+ loesung +System.lineSeparator()
 						+"Niveau: "+niveau +System.lineSeparator()
@@ -293,7 +294,8 @@ public class FrageController {
 			 * // values in the database.
 			 */
 	public void themengebieteLaden(MouseEvent event) throws SQLException {
-		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen(KatalogController.katalogName));
+		String fragekatalog = KatalogController.katalogName;
+		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen(fragekatalog));
 
 	}
 	
