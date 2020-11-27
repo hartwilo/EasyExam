@@ -92,6 +92,8 @@ public class FrageController {
 
 	/* End of user input related FXML Objects */
 
+	// Buttons
+	
 	@FXML
 	private Button frageSpeichern;
 
@@ -104,6 +106,8 @@ public class FrageController {
 	@FXML
 	private Button frageEditieren;
 
+	// Labels
+	
 	@FXML
 	private Label fragestellungEingebenLB;
 
@@ -121,9 +125,7 @@ public class FrageController {
 	////////////////// Java Methods //////////////////////
 	
 	/*
-	 * Displays a specific warning message. i.e:
-	 * "Frage könnte nicht gespeichert werden - Punkte wurden nicht richtig eingegeben"
-	 * 
+	 * Displays a specific warning message.
 	 * @Author - Bachir
 	 */
 	private void warnungAnzeigen(String warnung) {
@@ -194,9 +196,7 @@ public class FrageController {
 	 * are entered into the GUI's corresponding TextAreas/Fields and/or chosen
 	 * from the ComboBox
 	 * 
-	 */
-	 
-
+	 */	 
 	 public void speichern() throws SQLException, IOException {
 		 
 
@@ -236,9 +236,7 @@ public class FrageController {
 		int niveau = selectedNiveau;
 		String gestellt = "0"; // TO-DO: Change!
 		
-		//Latest changes 25.11
-		//String fragekatalog = KatalogController.katalogName;
-		String fragekatalog = "tbd";
+		String fragekatalog = KatalogController.katalogName;
 		String modul = "tbd";
 
 		 
@@ -251,10 +249,7 @@ public class FrageController {
 			//pst.setString(7, grundlagenniveau);
 			//pst.setString(8, gut);
 			
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    Index out of range error for sehrGut !!!!!!!!!!!!!!!!!!!!! TO-DO
-			
-			
-			
+			//Index out of range error for sehrGut TO-DO
 			//pst.setString(9, sehrGut);
 			
 			//Update the database -> Add the question to the DB
@@ -265,9 +260,21 @@ public class FrageController {
 			catch (Exception e){
 				e.printStackTrace();
 			}
+			
 			if (status == 1) { //If the Update was successful
 				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
-				log.info("Frage erfolgreich gespeichert");
+				
+				//Line Seperator ist das gleiche wie /n bei Sys.out.print
+				log.info("Frage erfolgreich gespeichert: "+System.lineSeparator()
+						+"Fragestellung: "+stellung +System.lineSeparator()
+						+"Lösung: "+ loesung +System.lineSeparator()
+						+"Niveau: "+niveau +System.lineSeparator()
+						+"Punkte: "+punkte +System.lineSeparator()
+						+"Gestellt: "+gestellt +System.lineSeparator()
+						+"Thema: "+themengebiet +System.lineSeparator()
+						+"Fragekatalog: "+fragekatalog +System.lineSeparator()
+						+"Modul: "+modul +System.lineSeparator());
+				
 				StartController.setWindow("Katalogverwaltung");
 			}
 			

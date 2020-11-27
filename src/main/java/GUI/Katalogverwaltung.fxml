@@ -45,7 +45,7 @@
             </TableView>
             <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="767.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="26.0" prefWidth="78.0" text="Neue Frage" />
             <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="864.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
-            <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="61.400001525878906" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
+            <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="61.400001525878906" onAction="#katalogNameLesen" prefHeight="26.0" prefWidth="975.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
             <Button fx:id="refresh" layoutX="1002.0" layoutY="93.4000015258789" mnemonicParsing="false" onMouseClicked="#fragenLaden" prefHeight="26.0" prefWidth="25.0" text="Ref" />
             <Button fx:id="frageLoeschen" layoutX="949.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageLoeschen" prefHeight="26.0" prefWidth="78.0" text="Löschen" />
             <ComboBox fx:id="katalogComboBox" layoutX="16.0" layoutY="94.0" onMouseClicked="#katalogeLaden" prefHeight="26.0" prefWidth="975.0" />
