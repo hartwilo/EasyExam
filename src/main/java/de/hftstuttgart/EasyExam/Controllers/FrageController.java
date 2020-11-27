@@ -293,7 +293,7 @@ public class FrageController {
 			 * // values in the database.
 			 */
 	public void themengebieteLaden(MouseEvent event) throws SQLException {
-		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen());
+		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen(KatalogController.katalogName));
 
 	}
 	

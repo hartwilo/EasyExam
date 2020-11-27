@@ -131,12 +131,12 @@ public class DBQueries {
 	 * @throws SQLException
 	 * 
 	 */
-	public ObservableList<String> themengebieteAuslesen() throws SQLException
+	public ObservableList<String> themengebieteAuslesen(String katalog) throws SQLException
 	{
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 		Statement stmt = DBConn.connection.createStatement();
 		
-		String query = "SELECT themengebiet FROM Frage";
+		String query = "SELECT themengebiet FROM Frage where Fragekatalog = "+ "'"+katalog+ "'";
 		
 		log.info(query);
 		ResultSet rs = stmt.executeQuery(query);

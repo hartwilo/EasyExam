@@ -1,8 +1,6 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
@@ -17,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -111,7 +108,9 @@ public class PruefungController {
 	private Button studentenLaden;
 	
 	CheckBox gestelltCheckBox = new CheckBox(null);
-
+	
+	
+	
 	/* The following method is used to read data from the Database into the
 	 * TableView
 	 */
@@ -182,7 +181,10 @@ public class PruefungController {
 	
 	@FXML
 	public void themengebieteLaden(MouseEvent event) throws SQLException {	
-		themen.setItems(dbQuery.themengebieteAuslesen());
+		if (katalogeComboBox.getValue() != null) {
+		String katalog = katalogeComboBox.getValue();
+		themen.setItems(dbQuery.themengebieteAuslesen(katalog));
+		}
 	}
 	
 
