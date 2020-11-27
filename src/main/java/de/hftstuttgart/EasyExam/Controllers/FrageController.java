@@ -43,6 +43,7 @@ public class FrageController {
 	 * are later sent to the database for DDL and DML
 	 * 
 	 */ 
+	
 	@FXML
 	private TextArea frageStellungTextArea;
 
@@ -162,7 +163,7 @@ public class FrageController {
 		// If the entered values in the FXML Text area are positive numbers
 		if (m.find() && m.group().equals(punktzahl.getText())) {
 			return true;
-			// Make sure the user only enters the correct values
+		// Make sure the user only enters the correct values
 		} else {
 			warnungAnzeigen("Frage könnte nicht gespeichert werden - Punkte wurden nicht richtig eingegeben");
 			return false;
@@ -262,11 +263,11 @@ public class FrageController {
 			}
 			
 			if (status == 1) { //If the Update was successful
-				infoAnzeigen("Frage wurde erfolgreich gespeichert!");
+				infoAnzeigen("Frage erfolgreich gespeichert in Katalog: "+ fragekatalog);
 				
 				//Line Seperator ist das gleiche wie /n bei Sys.out.print
 				log.info(" "+System.lineSeparator()
-						+ "Frage erfolgreich gespeichert: "+System.lineSeparator()
+						+ "Question succesfuly saved: "+System.lineSeparator()
 						+"Fragestellung: "+stellung +System.lineSeparator()
 						+"Lösung: "+ loesung +System.lineSeparator()
 						+"Niveau: "+niveau +System.lineSeparator()
@@ -318,6 +319,7 @@ public class FrageController {
 	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new
 			// question.
 	public void zueruck(MouseEvent event) throws IOException {
+		log.info("Adding question cancelled");
 		StartController.setWindow("Katalogverwaltung");
 	}
 	

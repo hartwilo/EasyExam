@@ -3,10 +3,14 @@ package DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 
 public class DBQueries {
 	
@@ -55,7 +59,7 @@ public class DBQueries {
 				+ fragekatalog + "', '" 
 				+ modul +"')";
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		return stmt.executeUpdate(query);
 	}
 	
@@ -67,7 +71,7 @@ public class DBQueries {
 		
 		String query = "SELECT * FROM Frage where Fragekatalog = "+ "'" + katalog + "'" ;
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
 		
 	}
@@ -80,7 +84,7 @@ public class DBQueries {
 		String query = "Select * from Frage where themengebiet =" + "'" + themengebiet + "'"
 		+ " and Fragekatalog = "+"'" + katalog + "'";
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 	
@@ -93,7 +97,7 @@ public class DBQueries {
 		String query = "Select * from Frage where niveau =" + "'" + niv + "'"
 		+ " and Fragekatalog = "+"'" + katalog + "'";
 		
-		log.info(query);
+		log.info("Last query: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
 		
 	}
@@ -121,7 +125,34 @@ public class DBQueries {
 		String query = "DELETE FROM Frage WHERE idFrage = " + ID;
 		
 		log.info("Last query: "+query);
-		stmt.executeUpdate(query);	
+		int i = stmt.executeUpdate(query);	
+		if (i == 1) log.info("Question: " +ID+ "succesfully deleted");
+	}
+	
+	// TODO Resolve possible CONFLICT: 2 Catalogs with same name!
+	public void katalogLoeschen(String katalog) throws SQLException {
+		DBConn.connection.setAutoCommit(true);
+		Statement stmt = DBConn.connection.createStatement();
+
+		// TODO: Make the stmt only execute after confirming dialog - No delete if no
+		// confirm
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("");
+		alert.setHeaderText(null);
+		alert.setContentText("Der Katalog " + katalog + " wird gelöscht");
+		// Only delete if ok is clicked 
+		Optional<ButtonType> ok = alert.showAndWait();
+
+		if (ok.get() == ButtonType.OK) {
+
+			String query = "DELETE FROM Frage WHERE Fragekatalog = " + "'" + katalog + "'";
+			log.info("Last query: " + query);
+			int i = stmt.executeUpdate(query);
+			
+			if (i == 1)
+				log.info(katalog + " succesfully deleted");
+
+		}
 	}
 	
 	/**
@@ -138,7 +169,7 @@ public class DBQueries {
 		
 		String query = "SELECT themengebiet FROM Frage where Fragekatalog = "+ "'"+katalog+ "'";
 		
-		log.info("Last query: "+query);
+		//log.info("Last query: "+query);
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while(rs.next()) 
@@ -159,7 +190,7 @@ public class DBQueries {
 		
 		String query = "SELECT Fragekatalog FROM Frage";
 		
-		log.info("Last query: "+query);
+		//log.info("Last query: "+query);
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while(rs.next()) 

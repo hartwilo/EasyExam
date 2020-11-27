@@ -121,9 +121,10 @@ public class PruefungController {
 				
 		//Get relevant data from View
 		String themengebiet = themen.getValue(); 
-		String katalog = katalogeComboBox.getValue();
-		int niv = 0;
 		
+		String katalog = katalogeComboBox.getValue();
+		
+		int niv = 0;
 		if (niveau1.isSelected()) {
 			niv = 1;	
 		} else if (niveau2.isSelected()) {
@@ -194,19 +195,17 @@ public class PruefungController {
 	 */
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
-		
-		//SetWrapEct probably best if moved to another method/class
-		
+
 		frageStellungDetail.setWrapText(true);
 		musterLoesungDetailliert.setWrapText(true);
 
-		//Selection Model - Selected Item -> Frage.obj
+		// Selection Model - Selected Item -> Frage.obj
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFrageStellung();
 		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
 		String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-	
+
 			frageStellungDetail.setText(fragestellungdetailliert);
 			frageStellungDetail.setEditable(false);
 			musterLoesungDetailliert.setText(musterloesungdetailliert);
@@ -215,7 +214,6 @@ public class PruefungController {
 			punktZahlDetail.setEditable(false);
 		}
 	}
-	
 	@FXML /*
 	 *  The following method is used to fill the Cataloge ComboBox with all existing
 	 *  values in the database.

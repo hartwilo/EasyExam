@@ -43,6 +43,8 @@ public class KatalogController {
 	 */
 
 	@FXML
+    private Button katalogLoeschen;
+	
 	public Button frageAnlegen;
 
 	@FXML
@@ -173,9 +175,20 @@ public class KatalogController {
 			 * attributes must later be adapted to AZURE database
 			 */
 	void katalogAnlegen(MouseEvent event) throws IOException {
-
+		
 		StartController.setWindow("Katalogverwaltung");
 	}
+	
+
+    @FXML
+    void katalogLoeschen(MouseEvent event) throws SQLException {
+    	if (katalogNameTextField.getText().isEmpty()) {
+			katalogName = katalogComboBox.getValue();
+		} else {
+			katalogName = katalogNameTextField.getText();
+		}
+    	dbQuery.katalogLoeschen(katalogName);
+    }
 
 	@FXML /*
 			 * The following method is used to fill the Catalog ComboBox with all existing
@@ -196,8 +209,8 @@ public class KatalogController {
 			katalogName = katalogComboBox.getValue();
 		} else {
 			katalogName = katalogNameTextField.getText();
+			log.info("New Catalog creation in progress. Save new question to create "+katalogName);
 		}
-		
 		log.info("Adding question to: "+katalogName);
 		StartController.setWindow("Frageverwaltung");
 		
