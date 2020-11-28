@@ -15,6 +15,12 @@ public class Main extends Application {
 	public static FXMLLoader loader;
 	public static StartController controller;
 	public static String currentWindow;
+	
+	
+	
+	static String db_url = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+	//String db_url = "'jdbc:mysql://localhost:3306/easyexam','root',''";
+	
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -47,7 +53,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		
-		DB.DBConn.buildConn();
+		DB.DBConn.buildConn(db_url);
 		launch(args);
 	}
 }

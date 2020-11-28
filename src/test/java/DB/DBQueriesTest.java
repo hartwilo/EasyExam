@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,19 +25,9 @@ import de.hftstuttgart.EasyExam.Models.Frage;
 class DBQueriesTest {
 
 	public static Connection connection = null;
+	String url = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+
 	
-	@BeforeAll
-	void testDBConn()
-	{
-		//String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
-        try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			fail(e.toString());
-		}
-        //connection = DriverManager.getConnection(DB_URL);
-	}
 	
 	/**
 	 * Test method for {@link DB.DBQueries#frageSpeichern(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
@@ -44,14 +35,21 @@ class DBQueriesTest {
 	@Test
 	void testFrageSpeichern() {
 		DBQueries db =new DBQueries();
-        try(Connection connection = DBConn.connection)
-        {
-            try(Statement stmt=connection.createStatement())
+		DBConn dbconn = new DBConn();
+		
+        try {
+        	dbconn.buildConn(url);
+        	
+        	
+        	try {
+           /* try (Statement stmt=connection.createStatement())
             {
-                connection.setAutoCommit(true);
+            
+            
+                //connection.setAutoCommit(true);
 
                 // Initial cleanup:
-                stmt.executeUpdate("DELETE FROM Frage");
+                stmt.executeUpdate("DELETE * FROM Frage");*/
 
                 // Setting input parameters:
                 int frageId=12345;
@@ -67,11 +65,11 @@ class DBQueriesTest {
                 String modul="Mathe2";
 
                 // Do the call:
-                db.frageSpeichern(fragestellung, musterloesung, niveau, punkte2, gestellt2, themengebiet, fragekatalog, modul);
+                assertEquals(1, db.frageSpeichern(fragestellung, musterloesung, niveau, punkte2, gestellt2, themengebiet, fragekatalog, modul)); 
                 Frage frage = new Frage(frageId, fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul);
                 
                 // Javabean Checks: Check the javabean contains the expected values:
-                assertEquals(frageId, frage.getID());
+                //assertEquals(frageId, frage.getID());
                 assertEquals(fragestellung, frage.getFrageStellung());
                 assertEquals(musterloesung, frage.getMusterloesung());
                 assertEquals(niveau, frage.getNiveau());
@@ -83,6 +81,7 @@ class DBQueriesTest {
                 
                 // Database Checks:
                 // Check the Person table contains one row with the expected values:
+                Statement stmt=connection.createStatement();
                 try(ResultSet rs=stmt.executeQuery("SELECT * FROM Frage"))
                 {
                     assertTrue(rs.next());
@@ -109,6 +108,7 @@ class DBQueriesTest {
             fail(e.toString());
         }
 	}
+	
 
 	/**
 	 * Test method for {@link DB.DBQueries#frageLaden()}.

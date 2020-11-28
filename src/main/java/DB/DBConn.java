@@ -17,14 +17,14 @@ public class DBConn {
         log =Logger.getLogger(DBConn.class.getName());
     }
 	
-	public static void buildConn() {
+	public static void buildConn(String url) {
 		
 		try {
 		
 
         log.info("Connecting to the database");
-        String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
+        //String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+        connection = DriverManager.getConnection(url);
         //connection = DriverManager.getConnection(DB_URL);
         log.info("Database connection test: " + connection.getCatalog());
 
