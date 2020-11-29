@@ -1,6 +1,7 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import DB.DBConn;
@@ -60,9 +61,10 @@ public class StartController {
 	
 
 	@FXML //GUI Navigation - Go to KatalogErstellen screen
-	void katalogErstellen(MouseEvent event) throws IOException {
+	void katalogErstellen(MouseEvent event) throws IOException, SQLException {
 
 		setWindow("Katalogverwaltung");
+				
 	}
 
 	@FXML //GUI Navigation - Go to PruefungsDurchfuehrung screen

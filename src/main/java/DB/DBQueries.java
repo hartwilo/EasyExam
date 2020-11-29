@@ -65,14 +65,27 @@ public class DBQueries {
 	
 	
 	///Changes 25.11 -Gjergji TODO add logic for Katalog Name to query
-	public ResultSet alleFrageLaden(String katalog) throws SQLException {
+	public ResultSet alleFrageLadenMitKatalog(String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
 		
 		String query = "SELECT * FROM Frage where Fragekatalog = "+ "'" + katalog + "'" ;
+		String query_all="Select * FROM Frage";
 		
 		log.info("Last query: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
+		
+	}
+	
+	
+	public ResultSet alleFrageLaden() throws SQLException {
+		DBConn.connection.setAutoCommit(true);
+		Statement stmt = DBConn.connection.createStatement();
+		
+		String query_all="Select * FROM Frage";
+		
+		log.info("Last query: "+query_all);
+		return DBQueries.rs = stmt.executeQuery(query_all);
 		
 	}
 	

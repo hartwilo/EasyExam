@@ -24,6 +24,9 @@ import javafx.scene.layout.AnchorPane;
 
 public class KatalogController {
 	
+	
+	
+	
 	private static final Logger log;
 	
 	static {
@@ -91,19 +94,28 @@ public class KatalogController {
 
 	@FXML
 	private ComboBox<String> katalogComboBox;
+	
+	
 
 	////////////////// Java Methods //////////////////////
 
 	// Must be moved over to DBQueries
 	// This method loads relevant question data into a ViewTable in the GUI
+	
 	public void fragenAnzeigen() throws SQLException {
 
 		fragetabelle.setFixedCellSize(25); // TODO: Moving these kinds of View setup methods elsewhere
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
 		// Load DBQueries Result Set with questions from DB
-		katalogName = katalogComboBox.getValue();
-		DBQueries.rs = dbQuery.alleFrageLaden(katalogComboBox.getValue());
+		
+		if(katalogComboBox.getValue()==null) {
+			DBQueries.rs =dbQuery.alleFrageLaden();
+		}
+		else {
+			katalogName = katalogComboBox.getValue();
+			DBQueries.rs = dbQuery.alleFrageLadenMitKatalog(katalogComboBox.getValue());
+		}
 
 		// TODO - Make method out of this
 		while (DBQueries.rs.next()) {
@@ -124,6 +136,9 @@ public class KatalogController {
 
 			frageListe.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
 					modul));
+			
+			
+			
 		}
 
 		// Define structure of FXML Table Cells you want to display data with
@@ -143,6 +158,9 @@ public class KatalogController {
 		fragetabelle.setItems(frageListe);
 
 	}
+
+	
+	
 
 	//////////////// What the buttons actually do - FXML methods ////////////////
 

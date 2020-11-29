@@ -38,7 +38,7 @@ class DBQueriesTest {
 		DBConn dbconn = new DBConn();
 		
         try {
-        	dbconn.buildConn(url);
+        	DBConn.buildConn(url);
         	
         	
         	try {

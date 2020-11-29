@@ -144,7 +144,7 @@ public class PruefungController {
 			dbQuery.frageLaden_niveau(niv, katalog);
 		//Select all
 		} else {
-			dbQuery.alleFrageLaden(katalog);
+			dbQuery.alleFrageLadenMitKatalog(katalog);
 		}
 
 		//Create Frage.objs from result set and add to list
