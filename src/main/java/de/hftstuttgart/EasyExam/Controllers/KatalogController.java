@@ -158,6 +158,8 @@ public class KatalogController {
 		fragetabelle.setItems(frageListe);
 
 	}
+	
+	
 
 	
 	
@@ -214,7 +216,7 @@ public class KatalogController {
 			 */
 
 	// Changes 25.11 -Gjergji
-	private void katalogeLaden(MouseEvent event) throws SQLException {
+	public void katalogeLaden(MouseEvent event) throws SQLException {
 		katalogComboBox.setItems(dbQuery.katalogeAuslesen());
 	}
 

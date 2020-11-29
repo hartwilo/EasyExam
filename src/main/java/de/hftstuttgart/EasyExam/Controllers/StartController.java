@@ -64,6 +64,7 @@ public class StartController {
 	void katalogErstellen(MouseEvent event) throws IOException, SQLException {
 
 		setWindow("Katalogverwaltung");
+		
 				
 	}
 
