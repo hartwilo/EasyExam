@@ -88,6 +88,8 @@ public class KatalogController {
 
 	// Used for katalog attribute of Frage
 	public static String katalogName;
+	
+	
 
 	@FXML
 	private ComboBox<String> katalogComboBox;
@@ -96,9 +98,9 @@ public class KatalogController {
 
 	// Must be moved over to DBQueries
 	// This method loads relevant question data into a ViewTable in the GUI
-	public void fragenAnzeigen() throws SQLException {
+	public void fragenAnzeigen() throws SQLException { 
 
-		fragetabelle.setFixedCellSize(25); // TODO: Moving these kinds of View setup methods elsewhere
+		
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
 		// Load DBQueries Result Set with questions from DB
@@ -106,7 +108,7 @@ public class KatalogController {
 		DBQueries.rs = dbQuery.alleFrageLaden(katalogComboBox.getValue());
 
 		// TODO - Make method out of this
-		while (DBQueries.rs.next()) {
+		while (DBQueries.rs.next()) { 
 
 			// Prepare Base variables to add to list.
 
@@ -136,10 +138,11 @@ public class KatalogController {
 		fxcolumn_niveau.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
 		fxcolumn_musterloesung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
+	
 
 		// Add all questions in list to FXML tableView -> Start displaying in ^
 		// fxcolumns
-
+		fragetabelle.setFixedCellSize(25); 
 		fragetabelle.setItems(frageListe);
 
 	}
@@ -224,5 +227,7 @@ public class KatalogController {
 
 		StartController.setWindow("Startscreen");
 	}
+	
+	
 
 }

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import DB.DBConn;
 import DB.DBQueries;
+import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,8 +40,7 @@ public class FrageController {
 	/*
 	 * User Input - The following FXML Objects are the only means by which the user
 	 * can input data in the current View. The String values of the TextAreas/Fields
-	 * and Selected RadioButtons/ComboBox-Items are used to modify the queries which
-	 * are later sent to the database for DDL and DML
+	 * and Selected RadioButtons/ComboBox-Items are passed to the constructor for Frage.obj
 	 * 
 	 */ 
 	
@@ -70,28 +70,28 @@ public class FrageController {
 	private RadioButton niveauRadioButton3;
 	
 	//@Author Jana
-	@FXML //Edits from Jana's Branch
+	@FXML 
 	private TextField levelGrundlagenniveau;
 
-	@FXML //Edits from Jana's Branch
+	@FXML 
 	private TextField levelGut;
 
-	@FXML //Edits from Jana's Branch
+	@FXML 
 	private TextField levelSehrGut;
 	
-	@FXML //Edits from Jana's Branch
+	@FXML 
 	private Label grunlagenniveauLB;
 
-	@FXML //Edits from Jana's Branch
+	@FXML 
 	private Label gutLB;
 
-	@FXML //Edits from Jana's Branch
+	@FXML 
 	private Label sehrGutLB;
 
-	@FXML //Edits from Jana's Branch
+	@FXML 
 	private ComboBox<String> themengebietComboBox;
 
-	/* End of user input related FXML Objects */
+
 
 	// Buttons
 	
@@ -121,76 +121,51 @@ public class FrageController {
 	@FXML
 	private Label themenGebietEingebenLB;
 	
+	@FXML
+	private Label katalogLabel;
+	
 	DBQueries dbQuery = new DBQueries();
+	public static String themengebiet;
 	
-	////////////////// Java Methods //////////////////////
 	
+	
+	 
 	/*
-	 * Displays a specific warning message.
-	 * @Author - Bachir
+	 * The following method is used to create a Frage.obj from the input in the View
 	 */
-	private void warnungAnzeigen(String warnung) {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("");
-		alert.setHeaderText(null);
-		alert.setContentText(warnung);
-		alert.showAndWait();
-	}
-	
-	/*
-	 *  Displays a message to the user; notifying that some event took place
-	 *  @Author - Bachir
-	 */	private void infoAnzeigen(String information) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("");
-		alert.setHeaderText(null);
-		alert.setContentText(information);
-		alert.showAndWait();
-	}
-	
-
-	/*
-	 * The following method is used to make sure the input in the Points TextArea is
-	 * restricted to a positive double value => Numeric TextArea
-	 * 
-	 * @Author - Bachir
-	 * 
-	 */ private boolean punkteValidieren() {
-		
-		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*))(\\.\\d+)?");
-		Matcher m = p.matcher(punktzahl.getText());
-
-		// If the entered values in the FXML Text area are positive numbers
-		if (m.find() && m.group().equals(punktzahl.getText())) {
-			return true;
-		// Make sure the user only enters the correct values
-		} else {
-			warnungAnzeigen("Frage könnte nicht gespeichert werden - Punkte wurden nicht richtig eingegeben");
-			return false;
-		}
-	}
-
-	/*
-	 * Returns true if the user has entered the data properly and false if
-	 * otherwise
-	 * 
-	 * @Author - Bachir
-	 * 
-	 */	
-	 private boolean frageDetailsKorrektEingegeben() {
-		if (punkteValidieren() 
-				&& !frageStellungTextArea.getText().isEmpty()
-				&& !musterLoesungTextArea.getText().isEmpty() 
-				&& !levelGrundlagenniveau.getText().isEmpty()
-				&& !levelGut.getText().isEmpty() 
-				&& !levelSehrGut.getText().isEmpty()) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
-
+	 
+	 public Frage createFrageFromView() {
+			String themengebiet = themengebietComboBox.getValue();
+			if (themengebiet == null) 
+				themengebiet = themengebietTextField.getText();
+			if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) 
+				themengebiet = themengebietComboBox.getValue();
+			
+			int niveau = 0;	
+			if ((boolean) niveauRadioButton1.isSelected()) {
+				niveau = 1;	
+			} else if ((boolean) niveauRadioButton2.isSelected()) {
+				niveau = 2;
+			} else if ((boolean) niveauRadioButton3.isSelected()) {
+				niveau = 3;
+			}
+			
+			int id = 0;
+			String stellung = frageStellungTextArea.getText();
+			String loesung = musterLoesungTextArea.getText();
+			float punkte = Float.parseFloat(punktzahl.getText());
+			String fragekatalog = KatalogController.katalogName;
+			String modul = "tbd";
+			Boolean gestellt = false;
+			String grundlage = levelGrundlagenniveau.getText();
+			String gut = levelGut.getText();
+			String sehrGut = levelSehrGut.getText();
+			
+			
+			return new Frage(id, stellung, loesung, niveau , themengebiet, fragekatalog, punkte, gestellt, modul,grundlage,gut,sehrGut );
+					
+			
+	 }
 
 	/*
 	 * The following method is used to save questions into the database - Values
@@ -200,90 +175,102 @@ public class FrageController {
 	 */	 
 	 public void speichern() throws SQLException, IOException {
 		 
-
-		//Get values from view
-		String themengebiet = themengebietComboBox.getValue();
-		int selectedNiveau = 0;
-		
-		if (themengebiet == null) {
-			themengebiet = themengebietTextField.getText();
-		}
-
-		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) {
-			/*
-			 * TO-DO: Code for info message: What topic was saved (ComboBox (vs) TextField)
-			 */
-			themengebiet = themengebietComboBox.getValue();
-		}
-		
-		
-		if ((boolean) niveauRadioButton1.isSelected()) {
-			selectedNiveau = 1;	
-		} else if ((boolean) niveauRadioButton2.isSelected()) {
-			selectedNiveau = 2;
-		} else if ((boolean) niveauRadioButton3.isSelected()) {
-			selectedNiveau = 3;
-		}
-		
-		//Load View Data into variables (V1)
-		
-		String stellung = frageStellungTextArea.getText();
-		String loesung = musterLoesungTextArea.getText();
-		String punkte = punktzahl.getText();
-		/*
-		 * String grundlagenniveau = levelGrundlagenniveau.getText(); String gut =
-		 * levelGut.getText(); String sehrGut = levelSehrGut.getText();
-		 */
-		int niveau = selectedNiveau;
-		String gestellt = "0"; // TO-DO: Change!
-		
-		String fragekatalog = KatalogController.katalogName;
-		String modul = "tbd";
-
-		 
-		if (frageDetailsKorrektEingegeben()) { // Save question into database only if all relevant details are inputed
-												// *properly*.
+		if (frageDetailsKorrektEingegeben()) {
+			Frage frage = createFrageFromView();	
 			
-			//Add (V1) Variables : Variables for Grading >? //TO-DO: >? Maybe add new Model Class for these? P-V-C
-			//@Author Jana
-			
-			//pst.setString(7, grundlagenniveau);
-			//pst.setString(8, gut);
-			
-			//Index out of range error for sehrGut TO-DO
-			//pst.setString(9, sehrGut);
-			
-			//Update the database -> Add the question to the DB
-			int status = 0;
+			int status = 0; 
 			try {
-				status = dbQuery.frageSpeichern(stellung, loesung, niveau, punkte, gestellt, themengebiet, fragekatalog, modul);
+				status = dbQuery.frageSpeichern(frage);;
 			}
 			catch (Exception e){
 				e.printStackTrace();
 			}
 			
 			if (status == 1) { //If the Update was successful
-				infoAnzeigen("Frage erfolgreich gespeichert in Katalog: "+ fragekatalog);
+				infoAnzeigen("Frage erfolgreich gespeichert in Katalog: "+ frage.getFragekatalog());
 				
 				//Line Seperator ist das gleiche wie /n bei Sys.out.print
 				log.info(" "+System.lineSeparator()
 						+ "Question succesfuly saved: "+System.lineSeparator()
-						+"Fragestellung: "+stellung +System.lineSeparator()
-						+"Lösung: "+ loesung +System.lineSeparator()
-						+"Niveau: "+niveau +System.lineSeparator()
-						+"Punkte: "+punkte +System.lineSeparator()
-						+"Gestellt: "+gestellt +System.lineSeparator()
-						+"Thema: "+themengebiet +System.lineSeparator()
-						+"Fragekatalog: "+fragekatalog +System.lineSeparator()
-						+"Modul: "+modul +System.lineSeparator());
+						+"Fragestellung: "+frage.getFrageStellung() +System.lineSeparator()
+						+"Lösung: "+ frage.getMusterloesung() +System.lineSeparator()
+						+"Niveau: "+frage.getNiveau() +System.lineSeparator()
+						+"Punkte: "+frage.getPunkte() +System.lineSeparator()
+						+"Gestellt: "+frage.isGestelltbool() +System.lineSeparator()
+						+"Thema: "+frage.getThemengebiet() +System.lineSeparator()
+						+"Fragekatalog: "+frage.getFragekatalog() +System.lineSeparator()
+						+"Grundlage Niveau: "+frage.getGrundLageNiveau() +System.lineSeparator()
+						+"Gut: "+frage.getGut() +System.lineSeparator()
+						+"Sehr gut: "+frage.getSehrGut() +System.lineSeparator());
 				
 				StartController.setWindow("Katalogverwaltung");
 			}
 			
-			} else if (frageDetailsKorrektEingegeben()) {
-				warnungAnzeigen("Die Frage könnte nicht gespeichert werden - Details bitte richtig eingeben!");
+			} else if (!frageDetailsKorrektEingegeben()) {
+				warnungAnzeigen("Die Frage könnte nicht gespeichert werden - Alle Fragedaten bitte richtig eingeben!");
 		}
 			
+
+	}
+	 
+//////////////////Java Methods //////////////////////
+
+	/*
+	 * Displays a specific warning message.
+	 * 
+	 * @Author - Bachir
+	 */
+	private void warnungAnzeigen(String warnung) {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("");
+		alert.setHeaderText(null);
+		alert.setContentText(warnung);
+		alert.showAndWait();
+	}
+
+	/*
+	 * Displays a message to the user; notifying that some event took place
+	 * 
+	 * @Author - Bachir
+	 */ private void infoAnzeigen(String information) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("");
+		alert.setHeaderText(null);
+		alert.setContentText(information);
+		alert.showAndWait();
+	}
+
+	/*
+	 * The following method is used to make sure the input in the Points TextArea is
+	 * restricted to a positive double value => Numeric TextArea
+	 * 
+	 * @Author - Bachir
+	 */ private boolean punkteValidieren() {
+
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*))(\\.\\d+)?");
+		Matcher m = p.matcher(punktzahl.getText());
+
+		if (m.find() && m.group().equals(punktzahl.getText())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/*
+	 * Returns true if the user has entered the data properly and false if otherwise
+	 * 
+	 * @Author - Bachir
+	 * 
+	 */
+	private boolean frageDetailsKorrektEingegeben() {
+		if (punkteValidieren() && !frageStellungTextArea.getText().isEmpty()
+				&& !musterLoesungTextArea.getText().isEmpty() && !levelGrundlagenniveau.getText().isEmpty()
+				&& !levelGut.getText().isEmpty() && !levelSehrGut.getText().isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 	
@@ -328,5 +315,11 @@ public class FrageController {
 	void frageEditieren(MouseEvent event) {
 
 	}
+	
+	@FXML
+    void showKatalog(MouseEvent event) {
+		katalogLabel.setText("Selektierter Katalog: " + KatalogController.katalogName);
+    }
+	
 
 }

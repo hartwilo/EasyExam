@@ -11,7 +11,7 @@ public class DBConn {
 	public static Connection connection = null;
 
 	private static final Logger log;
-	
+	 
 	static {
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
         log =Logger.getLogger(DBConn.class.getName());

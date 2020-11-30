@@ -2,12 +2,16 @@ package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +27,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 
 public class PruefungController {
 	
@@ -90,7 +95,7 @@ public class PruefungController {
 	private TableColumn<Frage, String> frageStellung;
 
 	@FXML
-	private TableColumn<Frage, CheckBox> gestellt;
+	private TableColumn<Frage, Boolean> gestellt;
 
 
 	// Buttons
@@ -107,73 +112,21 @@ public class PruefungController {
 	@FXML
 	private Button studentenLaden;
 	
-	CheckBox gestelltCheckBox = new CheckBox(null);
-	
-	
 	
 	/* The following method is used to read data from the Database into the
 	 * TableView
 	 */
 	@FXML
-	public void fragenLaden(MouseEvent event) throws SQLException {
+	public void fragenAnzeigen(MouseEvent event) throws SQLException {
 		//The list will be filled with Frage.objs
-		ObservableList<Frage> fragen = FXCollections.observableArrayList();
-				
-		//Get relevant data from View
-		String themengebiet = themen.getValue(); 
+		ObservableList<Frage> fragen = FXCollections.observableArrayList();	
+		fragenAuslesen();
+		addToList(fragen);
+		display(fragen);
 		
-		String katalog = katalogeComboBox.getValue();
-		
-		int niv = 0;
-		if (niveau1.isSelected()) {
-			niv = 1;	
-		} else if (niveau2.isSelected()) {
-			niv = 2;
-		} else if (niveau3.isSelected()) {
-			niv = 3;
-		} 
-				
-		//Select based on level and topic
-		if (themengebiet != null && !nivalle.isSelected()) {
-			dbQuery.frageLaden_niveau_themengebiet(niv, themengebiet, katalog);
-		//Select based on topic
-		} else if (themengebiet != null && nivalle.isSelected() ) {
-			dbQuery.frageLaden_themengebiet(themengebiet, katalog);
-		//Select based on level
-		} else if (themengebiet == null && !nivalle.isSelected()) {
-			dbQuery.frageLaden_niveau(niv, katalog);
-		//Select all
-		} else {
-			dbQuery.alleFrageLaden(katalog);
-		}
 
-		//Create Frage.objs from result set and add to list
-		while (DBQueries.rs.next()) {
-			//Prep variables for Frage constructor
-			int ID = DBQueries.rs.getInt("idFrage");										
-			String thema = DBQueries.rs.getString("Themengebiet");
-			String fragestellung = DBQueries.rs.getString("Fragestellung");
-			String musterloesung = DBQueries.rs.getString("Musterloesung");
-			int niveau = DBQueries.rs.getInt("Niveau");
-			Float punkte = DBQueries.rs.getFloat("Punkte");
-			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
-			String modul = DBQueries.rs.getString("Modul");
-			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
-			
-			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt, modul));
-		}
-		//Set up View Table columns
-		frageStellung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
-		gestellt.setCellFactory(features -> new CheckBoxTableCell<>());
-		gestellt.setEditable(true);
-		
-		//Display list of Frage.objs
-		frageTabelle.setItems(fragen);
-		frageTabelle.setEditable(true);
-		frageTabelle.setFixedCellSize(25);
-
-	}
+	}  
+	
 
 	/*
 	 * The following method is used to load all existing Topics from the Database
@@ -195,14 +148,11 @@ public class PruefungController {
 	 */
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
-
-		frageStellungDetail.setWrapText(true);
-		musterLoesungDetailliert.setWrapText(true);
-
 		// Selection Model - Selected Item -> Frage.obj
 		String fragestellungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getFrageStellung();
 		String musterloesungdetailliert = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
 		String punktzahl = Double.toString(frageTabelle.getSelectionModel().getSelectedItem().getPunkte());
+		
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
@@ -213,6 +163,8 @@ public class PruefungController {
 			punktZahlDetail.setText(punktzahl);
 			punktZahlDetail.setEditable(false);
 		}
+		frageStellungDetail.setWrapText(true);
+		musterLoesungDetailliert.setWrapText(true);
 	}
 	@FXML /*
 	 *  The following method is used to fill the Cataloge ComboBox with all existing
@@ -230,5 +182,74 @@ public void katalogeLaden(MouseEvent event) throws SQLException {
 		StartController.setWindow("StartScreen");
 
 	}
+	
+	// Display a list of questions in the TableView
+		public void display(ObservableList<Frage> fragen) {
+			frageStellung
+					.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
+			gestellt.
+					setCellFactory(CheckBoxTableCell.forTableColumn(gestellt));
 
+			/* for (Boolean) */
+
+			/*
+			 * gestellt.setCellFactory(CheckBoxTableCell.forTableColumn((Callback<Integer,
+			 * ObservableValue<Boolean>>) gestellt)); gestellt.setCellValueFactory(features
+			 * -> new ReadOnlyBooleanWrapper(features.getValue().isGestelltbool()));
+			 */
+			
+			gestellt.setEditable(true);
+			frageTabelle.setItems(fragen);
+			frageTabelle.setEditable(true);
+			frageTabelle.setFixedCellSize(25);
+		}
+		
+		public void fragenAuslesen() throws SQLException {
+			//Get relevant data from View
+			String themengebiet = themen.getValue();
+			String katalog = katalogeComboBox.getValue();
+			int niv = 0;
+			if (niveau1.isSelected()) {
+				niv = 1;
+			} else if (niveau2.isSelected()) {
+				niv = 2;
+			} else if (niveau3.isSelected()) {
+				niv = 3;
+			}
+
+			// Select based on level and topic
+			if (themengebiet != null && !nivalle.isSelected()) {
+				dbQuery.frageLaden_niveau_themengebiet(niv, themengebiet, katalog);
+			// Select based on topic
+			} else if (themengebiet != null && nivalle.isSelected()) {
+				dbQuery.frageLaden_themengebiet(themengebiet, katalog);
+			// Select based on level
+			} else if (themengebiet == null && !nivalle.isSelected()) {
+				dbQuery.frageLaden_niveau(niv, katalog);
+			// Select all
+			} else {
+				dbQuery.alleFrageLaden(katalog);
+			}
+		}
+		
+		public void addToList(ObservableList<Frage> fragen) throws SQLException {
+			//Create Frage.objs from result set and add to list
+					while (DBQueries.rs.next()) {
+						//Prep variables for Frage constructor
+						int ID = DBQueries.rs.getInt("idFrage");										
+						String thema = DBQueries.rs.getString("Themengebiet");
+						String fragestellung = DBQueries.rs.getString("Fragestellung");
+						String musterloesung = DBQueries.rs.getString("Musterloesung");
+						int niveau = DBQueries.rs.getInt("Niveau");
+						Float punkte = DBQueries.rs.getFloat("Punkte");
+						Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
+						String modul = DBQueries.rs.getString("Modul");
+						String fragekatalog = DBQueries.rs.getString("Fragekatalog");
+						
+						fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt, modul));
+					}
+		}
+		
+		
+	
 }

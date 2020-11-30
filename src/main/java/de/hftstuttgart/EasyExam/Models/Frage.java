@@ -48,6 +48,8 @@ public class Frage {
 	private boolean gestelltbool;
 	private String Modul;
 	private String grundLageNiveau;
+	private String gut;
+	private String sehrGut;
 	
 	
 	
@@ -77,10 +79,26 @@ public class Frage {
 		this.gestelltbool = gestelltbool;
 		Modul = modul;
 	}
+ 
 
+	public String getGut() {
+		return gut;
+	}
+
+	public void setGut(String gut) {
+		this.gut = gut;
+	}
+
+	public String getSehrGut() {
+		return sehrGut;
+	}
+
+	public void setSehrGut(String sehrGut) {
+		this.sehrGut = sehrGut;
+	}
 
 	public Frage(int iD, String frageStellung, String musterloesung, int niveau, String themengebiet,
-			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau) {
+			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau, String gut, String sehrGut) {
 		super();
 		ID = iD;
 		this.frageStellung = frageStellung;
@@ -92,8 +110,9 @@ public class Frage {
 		this.gestelltbool = gestelltbool;
 		Modul = modul;
 		this.grundLageNiveau = grundLageNiveau;
+		this.gut = gut;
+		this.sehrGut = gut;
 	}
-
 
 	public int getID() {
 		return ID;

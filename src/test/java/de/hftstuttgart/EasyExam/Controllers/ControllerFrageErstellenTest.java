@@ -95,7 +95,7 @@ class ControllerFrageErstellenTest {
 			
 			ResultSet rs=pst.executeQuery();
 			
-			
+			 
 			
 			try(ResultSet rt = st.executeQuery("SELECT * FROM Frage"))
             {

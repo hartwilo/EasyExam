@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import de.hftstuttgart.EasyExam.Models.Frage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -44,10 +45,40 @@ public class DBQueries {
 	
 	
 	
-	public int frageSpeichern(String fragestellung, String musterloesung, int niveau, String punkte, String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException
+	public int frageSpeichern_SIDB(String fragestellung, String musterloesung, int niveau, double punkte, String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException
 	{
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
+		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
+				+ "Values('" 
+				+ fragestellung + "','"
+				+ musterloesung + "', '" 
+				+ niveau +"', '" 
+				+ punkte + "', '" 
+				+ gestellt + "', '" 
+				+ themengebiet + "', '"
+				+ fragekatalog + "', '" 
+				+ modul +"')";
+		
+		log.info("Last query: "+query);
+		return stmt.executeUpdate(query);
+	}
+	
+	public int frageSpeichern(Frage frage) throws SQLException
+	{
+		DBConn.connection.setAutoCommit(true);
+		Statement stmt = DBConn.connection.createStatement();
+		
+		String fragestellung = frage.getFrageStellung();
+		String musterloesung = frage.getMusterloesung();
+		String themengebiet = frage.getThemengebiet();
+		String fragekatalog = frage.getFragekatalog();
+		String modul = "tbd";
+		int niveau = frage.getNiveau();
+		double punkte = frage.getPunkte();
+		String gestellt = "0"; //TO-DO > Change
+			
+		
 		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
 				+ "Values('" 
 				+ fragestellung + "','"
@@ -125,9 +156,19 @@ public class DBQueries {
 		String query = "DELETE FROM Frage WHERE idFrage = " + ID;
 		
 		log.info("Last query: "+query);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("");
+		alert.setHeaderText(null);
+		alert.setContentText("Möchten Sie die Frage wirklich löschen?");
+		// Only delete if ok is clicked 
+		Optional<ButtonType> ok = alert.showAndWait();
+
+		if (ok.get() == ButtonType.OK) {
+
 		int i = stmt.executeUpdate(query);	
 		if (i == 1) log.info("Question: " +ID+ "succesfully deleted");
-	}
+		}
+	} 
 	
 	// TODO Resolve possible CONFLICT: 2 Catalogs with same name!
 	public void katalogLoeschen(String katalog) throws SQLException {
@@ -166,11 +207,11 @@ public class DBQueries {
 	{
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
 		Statement stmt = DBConn.connection.createStatement();
-		
+		 
 		String query = "SELECT themengebiet FROM Frage where Fragekatalog = "+ "'"+katalog+ "'";
 		
 		//log.info("Last query: "+query);
-		ResultSet rs = stmt.executeQuery(query);
+		rs = stmt.executeQuery(query);
 		
 		while(rs.next()) 
 		{
@@ -191,7 +232,7 @@ public class DBQueries {
 		String query = "SELECT Fragekatalog FROM Frage";
 		
 		//log.info("Last query: "+query);
-		ResultSet rs = stmt.executeQuery(query);
+		rs = stmt.executeQuery(query);
 		
 		while(rs.next()) 
 		{
