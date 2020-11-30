@@ -26,31 +26,39 @@
          <children>
             <Group layoutX="45.0" layoutY="167.0">
                <children>
-                  <TableView fx:id="frageTabelle" layoutX="-6.0" layoutY="51.0" onMousePressed="#detailsAnzeigen" prefHeight="439.0" prefWidth="558.0">
+                  <TableView fx:id="frageTabelle" layoutX="-6.0" layoutY="51.0" onMousePressed="#detailsAnzeigen" prefHeight="479.0" prefWidth="558.0">
                     <columns>
                       <TableColumn fx:id="gestellt" prefWidth="51.99996566772461" text="Gestellt" />
                         <TableColumn fx:id="frageStellung" prefWidth="588.0000152587891" text="Fragestellung" />
                     </columns>
                   </TableView>
-                  <Label layoutX="2.0" layoutY="496.0" text="Schierwigkeitsniveau" />
-                  <RadioButton fx:id="niveau1" layoutX="146.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" selected="true" text="Niveau 1">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="niveau" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="niveau2" layoutX="273.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" text="Niveau 2" toggleGroup="$niveau" />
-                  <RadioButton fx:id="nivalle" layoutX="459.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" selected="true" text="Alle" toggleGroup="$niveau" />
-                  <RadioButton fx:id="niveau3" layoutX="371.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" text="Niveau 3" toggleGroup="$niveau" />
                </children>
             </Group>
             <Group layoutX="607.0" layoutY="167.0">
                <children>
-                  <Label layoutX="5.0" text="Fragestellung" />
-                  <Label layoutX="5.0" layoutY="244.0" text="Musterlösung" />
-                  <Label layoutX="546.0" layoutY="496.0" text="Puntkzahl" />
+                  <Label layoutX="13.0" layoutY="-11.0" text="Fragestellung">
+                     <font>
+                        <Font size="23.0" />
+                     </font></Label>
+                  <Label layoutX="12.0" layoutY="236.0" text="Musterlösung">
+                     <font>
+                        <Font size="23.0" />
+                     </font></Label>
+                  <Label layoutX="547.0" layoutY="540.0" text="Puntkzahl" />
                   <TextArea fx:id="frageStellungDetail" layoutX="12.0" layoutY="30.0" prefHeight="198.0" prefWidth="667.0" />
-                  <TextArea fx:id="musterLoesungDetailliert" layoutX="12.0" layoutY="280.0" prefHeight="200.0" prefWidth="666.0" />
-                  <TextField fx:id="punktZahlDetail" layoutX="610.0" layoutY="492.0" prefHeight="9.0" prefWidth="68.0" />
+                  <TextArea fx:id="musterLoesungDetailliert" layoutX="18.0" layoutY="275.0" prefHeight="263.0" prefWidth="264.0" />
+                  <TextField fx:id="punktZahlDetail" layoutX="610.0" layoutY="536.0" prefHeight="9.0" prefWidth="68.0" />
+                  <TableView fx:id="kompetenzlevelTabelle" layoutX="288.0" layoutY="274.0" prefHeight="256.0" prefWidth="390.0">
+                    <columns>
+                      <TableColumn fx:id="grundlagenniveau" prefWidth="130.0" text="Grundlagenniveau" />
+                      <TableColumn fx:id="gut" prefWidth="130.0" text="Gut" />
+                        <TableColumn fx:id="sehrGut" prefWidth="130.0" text="Sehr Gut" />
+                    </columns>
+                  </TableView>
+                  <Label layoutX="288.0" layoutY="236.0" text="Kompetenzlevel">
+                     <font>
+                        <Font size="23.0" />
+                     </font></Label>
                </children>
             </Group>
             <Group layoutX="48.0" layoutY="86.0">
@@ -82,6 +90,11 @@
                   </Label>
                   <Button fx:id="studentenLaden" layoutX="918.0" layoutY="36.0" mnemonicParsing="false" text="+" />
                   <Button fx:id="refresh" layoutX="558.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" prefHeight="25.0" prefWidth="14.0" text="Button" />
+                  <Button fx:id="start" layoutX="1036.0" mnemonicParsing="false" text="Start" />
+                  <Button layoutX="1084.0" mnemonicParsing="false" text="Stop" />
+                  <Button layoutX="1134.0" mnemonicParsing="false" text="Pause" />
+                  <Button layoutX="1190.0" mnemonicParsing="false" text="End" />
+                  <Button id="zueruckDurchfuehrung" fx:id="zueruckDurchfuehrung" layoutX="991.0" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" prefHeight="25.0" prefWidth="36.0" text="&lt;" />
                </children>
             </Group>
             <MenuBar layoutX="-1.0" layoutY="1.0" prefHeight="26.0" prefWidth="1316.0">
@@ -123,16 +136,20 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <Group layoutX="1033.0" layoutY="713.0">
-               <children>
-                  <Button fx:id="start" layoutX="45.0" mnemonicParsing="false" text="Start" />
-                  <Button layoutX="93.0" mnemonicParsing="false" text="Stop" />
-                  <Button layoutX="143.0" mnemonicParsing="false" text="Pause" />
-                  <Button layoutX="199.0" mnemonicParsing="false" text="End" />
-                  <Button id="zueruckDurchfuehrung" fx:id="zueruckDurchfuehrung" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" prefHeight="25.0" prefWidth="36.0" text="&lt;" />
-               </children>
-            </Group>
+            <Group layoutX="1033.0" layoutY="713.0" />
             <ComboBox fx:id="themen" layoutX="40.0" layoutY="167.0" onMouseClicked="#themengebieteLaden" prefHeight="26.0" prefWidth="557.0" />
+            <Label layoutX="37.0" layoutY="713.0" text="Schierwigkeitsniveau" />
+            <RadioButton fx:id="niveau1" layoutX="181.0" layoutY="714.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" selected="false" text="Niveau 1">
+               <toggleGroup>
+                  <ToggleGroup fx:id="niveau" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="niveau2" layoutX="308.0" layoutY="713.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" text="Niveau 2" toggleGroup="$niveau" />
+            <RadioButton fx:id="nivalle" layoutX="494.0" layoutY="714.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" selected="true" text="Alle" toggleGroup="$niveau" />
+            <RadioButton fx:id="niveau3" layoutX="406.0" layoutY="714.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" text="Niveau 3" toggleGroup="$niveau" />
+            <Button fx:id="frageStellen" layoutX="787.0" layoutY="719.0" mnemonicParsing="false" onMouseClicked="#frageStellen" text="Ask" />
+            <Button fx:id="setFalse" layoutX="878.0" layoutY="719.0" mnemonicParsing="false" onMouseClicked="#setFalse" text="Set False" />
+            <Button fx:id="uebersicht" layoutX="987.0" layoutY="718.0" mnemonicParsing="false" onMouseClicked="#uebersichtAnzeigen" text="Übersicht" />
          </children>
       </AnchorPane>
    </children>

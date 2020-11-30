@@ -77,9 +77,12 @@ public class DBQueries {
 		int niveau = frage.getNiveau();
 		double punkte = frage.getPunkte();
 		String gestellt = "0"; //TO-DO > Change
+		String grundlage = frage.getGrundLageNiveau();
+		String gut = frage.getGut();
+		String sehrGut = frage.getSehrGut();
 			
 		
-		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
+		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul, grundlagenniveau, gut, sehrGut) "
 				+ "Values('" 
 				+ fragestellung + "','"
 				+ musterloesung + "', '" 
@@ -88,14 +91,17 @@ public class DBQueries {
 				+ gestellt + "', '" 
 				+ themengebiet + "', '"
 				+ fragekatalog + "', '" 
-				+ modul +"')";
+				+ modul + "', '" 
+				+ grundlage + "', '" 
+				+ gut + "', '" 
+				+ sehrGut +"')";
 		
 		log.info("Last query: "+query);
 		return stmt.executeUpdate(query);
 	}
 	
 	
-	///Changes 25.11 -Gjergji TODO add logic for Katalog Name to query
+
 	public ResultSet alleFrageLaden(String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
@@ -107,7 +113,7 @@ public class DBQueries {
 		
 	}
 	
-	//Changes 26.11 - Gjergji Select questions based on topic
+
 	public ResultSet frageLaden_themengebiet(String themengebiet, String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
@@ -119,7 +125,7 @@ public class DBQueries {
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 	
-	//Changes 26.11 - Gjergji Select questions based on diff. level
+
 	public ResultSet frageLaden_niveau(int niveau, String katalog) throws SQLException {
 		String niv = Integer.toString(niveau);
 		DBConn.connection.setAutoCommit(true);
@@ -132,6 +138,32 @@ public class DBQueries {
 		return DBQueries.rs = stmt.executeQuery(query);
 		
 	}
+	
+	public int frageStellen(Frage frage) throws SQLException
+	{
+		DBConn.connection.setAutoCommit(true);
+		Statement stmt = DBConn.connection.createStatement();
+		
+		int id = frage.getID();	
+		String query = "UPDATE Frage SET gestellt = true where idFrage = " +id; 
+		
+		log.info("Last query: "+query);
+		return stmt.executeUpdate(query);
+	}
+	
+	public int setAllFalse() throws SQLException
+	{
+		DBConn.connection.setAutoCommit(true);
+		Statement stmt = DBConn.connection.createStatement();
+		
+		
+		String query = "UPDATE Frage SET gestellt = false";
+		
+		log.info("Last query: "+query);
+		return stmt.executeUpdate(query);
+	}
+	
+
 	
 	////Changes 26.11 - Gjergji Select questions based on diff. level and topic
 	public ResultSet frageLaden_niveau_themengebiet(int niveau, String themengebiet, String katalog) throws SQLException {

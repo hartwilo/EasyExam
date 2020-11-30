@@ -113,6 +113,22 @@ public class Frage {
 		this.gut = gut;
 		this.sehrGut = gut;
 	}
+	
+	public Frage(String frageStellung, String musterloesung, int niveau, String themengebiet,
+			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau, String gut, String sehrGut) {
+
+		this.frageStellung = frageStellung;
+		Musterloesung = musterloesung;
+		this.niveau = niveau;
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
+		this.punkte = punkte;
+		this.gestelltbool = gestelltbool;
+		Modul = modul;
+		this.grundLageNiveau = grundLageNiveau;
+		this.gut = gut;
+		this.sehrGut = gut;
+	}
 
 	public int getID() {
 		return ID;

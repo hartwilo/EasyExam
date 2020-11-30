@@ -81,6 +81,9 @@ public class KatalogController {
 
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_musterloesung;
+	
+
+	
 
 	////////////// DB Related Variables ////////////////////
 
@@ -105,9 +108,14 @@ public class KatalogController {
 
 		// Load DBQueries Result Set with questions from DB
 		katalogName = katalogComboBox.getValue();
-		DBQueries.rs = dbQuery.alleFrageLaden(katalogComboBox.getValue());
+		DBQueries.rs = dbQuery.alleFrageLaden(katalogName);
 
-		// TODO - Make method out of this
+		addToList(frageListe);
+		displayInFrageTabelle(frageListe);
+
+	}
+	
+	public void addToList(ObservableList<Frage> fragen) throws SQLException {
 		while (DBQueries.rs.next()) { 
 
 			// Prepare Base variables to add to list.
@@ -124,12 +132,14 @@ public class KatalogController {
 
 			// Add Question Objects to list
 
-			frageListe.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
+			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
 					modul));
 		}
 
 		// Define structure of FXML Table Cells you want to display data with
-
+	}
+	
+	public void displayInFrageTabelle(ObservableList<Frage> fragen) {
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
 		fxcolumn_punkte.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
@@ -138,13 +148,8 @@ public class KatalogController {
 		fxcolumn_niveau.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
 		fxcolumn_musterloesung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
-	
-
-		// Add all questions in list to FXML tableView -> Start displaying in ^
-		// fxcolumns
-		fragetabelle.setFixedCellSize(25); 
-		fragetabelle.setItems(frageListe);
-
+		fragetabelle.setFixedCellSize(25);
+		fragetabelle.setItems(fragen);
 	}
 
 	//////////////// What the buttons actually do - FXML methods ////////////////

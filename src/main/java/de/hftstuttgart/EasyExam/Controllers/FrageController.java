@@ -150,19 +150,19 @@ public class FrageController {
 				niveau = 3;
 			}
 			
-			int id = 0;
 			String stellung = frageStellungTextArea.getText();
 			String loesung = musterLoesungTextArea.getText();
 			float punkte = Float.parseFloat(punktzahl.getText());
 			String fragekatalog = KatalogController.katalogName;
 			String modul = "tbd";
 			Boolean gestellt = false;
+			
 			String grundlage = levelGrundlagenniveau.getText();
 			String gut = levelGut.getText();
 			String sehrGut = levelSehrGut.getText();
 			
 			
-			return new Frage(id, stellung, loesung, niveau , themengebiet, fragekatalog, punkte, gestellt, modul,grundlage,gut,sehrGut );
+			return new Frage(stellung, loesung, niveau , themengebiet, fragekatalog, punkte, gestellt, modul,grundlage,gut,sehrGut );
 					
 			
 	 }
