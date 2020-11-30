@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.UebersichtController">
+   <children>
+      <TableView id="fragenTabelle" fx:id="fragetabelle" layoutX="1.0" layoutY="4.0" prefHeight="556.0" prefWidth="1049.0">
+         <columns>
+            <TableColumn id="frageStellungCol" fx:id="fxcolumn_fragestellung" maxWidth="1.7976931348623157E308" prefWidth="194.0" text="Fragestellung" />
+            <TableColumn id="punkteCol" fx:id="fxcolumn_punkte" minWidth="0.0" prefWidth="111.0" text="Punkte" />
+            <TableColumn id="themaCol" fx:id="fxcolumn_thema" minWidth="0.0" prefWidth="96.0" text="Thema" />
+            <TableColumn id="niveauCol" fx:id="fxcolumn_niveau" minWidth="0.0" prefWidth="108.0" text="Niveau" />
+            <TableColumn id="musterloesungCol" fx:id="fxcolumn_musterloesung" minWidth="0.0" prefWidth="502.0" text="Musterlösung" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>
