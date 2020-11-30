@@ -82,6 +82,9 @@ public class PruefungController {
 	@FXML
 	private RadioButton nivalle;
 
+	@FXML
+	private CheckBox stellen;
+
 	// Textfields and areas
 
 	@FXML
@@ -221,15 +224,14 @@ public class PruefungController {
 
 	@FXML
 	void frageStellen(MouseEvent event) throws SQLException {
+		Boolean gestellt = frageTabelle.getSelectionModel().getSelectedItem().isGestelltbool();
 		int id = frageTabelle.getSelectionModel().getSelectedItem().getID();
-		String stellung = frageTabelle.getSelectionModel().getSelectedItem().getFrageStellung();
-		String loesung = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
 		int niv = frageTabelle.getSelectionModel().getSelectedItem().getNiveau();
 		float punkte = (float) frageTabelle.getSelectionModel().getSelectedItem().getPunkte();
+		String stellung = frageTabelle.getSelectionModel().getSelectedItem().getFrageStellung();
+		String loesung = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
 		String fragekatalog = frageTabelle.getSelectionModel().getSelectedItem().getFragekatalog();
-		String modul = "tbd";
-		Boolean gestellt = frageTabelle.getSelectionModel().getSelectedItem().isGestelltbool();
-
+		String modul = frageTabelle.getSelectionModel().getSelectedItem().getModul();
 		String grundlage = frageTabelle.getSelectionModel().getSelectedItem().getGrundLageNiveau();
 		String gut = frageTabelle.getSelectionModel().getSelectedItem().getGut();
 		String sehrGut = frageTabelle.getSelectionModel().getSelectedItem().getSehrGut();
@@ -238,8 +240,38 @@ public class PruefungController {
 		Frage frage = new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul,
 				grundlage, gut, sehrGut);
 
-		dbQuery.frageStellen(frage);
+		dbQuery.frageStellen(frage, true);
 
+	}
+
+	@FXML
+	void stellen(MouseEvent event) throws SQLException {
+		
+		Boolean gestellt = frageTabelle.getSelectionModel().getSelectedItem().isGestelltbool();
+		int id = frageTabelle.getSelectionModel().getSelectedItem().getID();
+		int niv = frageTabelle.getSelectionModel().getSelectedItem().getNiveau();
+		float punkte = (float) frageTabelle.getSelectionModel().getSelectedItem().getPunkte();
+		String stellung = frageTabelle.getSelectionModel().getSelectedItem().getFrageStellung();
+		String loesung = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
+		String fragekatalog = frageTabelle.getSelectionModel().getSelectedItem().getFragekatalog();
+		String modul = frageTabelle.getSelectionModel().getSelectedItem().getModul();
+		String grundlage = frageTabelle.getSelectionModel().getSelectedItem().getGrundLageNiveau();
+		String gut = frageTabelle.getSelectionModel().getSelectedItem().getGut();
+		String sehrGut = frageTabelle.getSelectionModel().getSelectedItem().getSehrGut();
+		String themengebiet = frageTabelle.getSelectionModel().getSelectedItem().getThemengebiet();
+
+		Frage frage = new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul,
+				grundlage, gut, sehrGut);
+
+	
+		
+		if (stellen.isSelected()) {
+			dbQuery.frageStellen(frage, true);
+			stellen.setSelected(false);
+		} else {
+			dbQuery.frageStellen(frage, false);
+			stellen.setSelected(false);
+		}
 	}
 
 	@FXML
@@ -249,6 +281,7 @@ public class PruefungController {
 
 	@FXML
 	void uebersichtAnzeigen(MouseEvent event) throws IOException, SQLException {
+		//StartController.setWindow("Uebersicht");
 		showUebersicht();
 	}
 
@@ -258,20 +291,14 @@ public class PruefungController {
 			
 			ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 			katalogName = katalogeComboBox.getValue();
+			String katalog = katalogName;
 			
-			log.info("Catalog name is:" +katalogName);
+			log.info("Catalog name static var is: " +katalogName);
 			
-			FXMLLoader fxmlLoader = new FXMLLoader();
-			fxmlLoader.setLocation(getClass().getResource("/GUI/Uebersicht.fxml"));
-			Scene scene = new Scene(fxmlLoader.load());
-			Stage stage = new Stage();
-			stage.setTitle("New Window");
-			stage.setScene(scene);
-			stage.centerOnScreen();
-			stage.setResizable(false);
-			stage.show();
-
-			uController.fillAskedList(gestellteFragen);
+			dbQuery.fragenLaden_gestellt(katalog);
+			uController.show();
+			fillList(gestellteFragen);
+			//uController.fillAskedList(gestellteFragen);
 			uController.displayUebersicht(gestellteFragen);
 
 		} catch (IOException e) {
@@ -281,14 +308,14 @@ public class PruefungController {
 
 	}
 
+	// Display comp. levels in the table on the right
 	public void showKompetenzLevel(ObservableList<Frage> fragen) {
 
 		grundlagenniveau
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getGrundLageNiveau()));
-		gut
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getGut()));
-		sehrGut
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getSehrGut()));
+		gut.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getGut()));
+		sehrGut.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getSehrGut()));
+
 		kompetenzlevelTabelle.setItems(fragen);
 		kompetenzlevelTabelle.setEditable(true);
 		kompetenzlevelTabelle.setFixedCellSize(25);
@@ -299,16 +326,11 @@ public class PruefungController {
 		frageStellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
 		gestellt.setCellFactory(CheckBoxTableCell.forTableColumn(gestellt));
+		gestellt.setCellValueFactory(features -> new ReadOnlyBooleanWrapper(features.getValue().isGestelltbool()));
+		
 
-		/* for (Boolean) */
-
-		/*
-		 * gestellt.setCellFactory(CheckBoxTableCell.forTableColumn((Callback<Integer,
-		 * ObservableValue<Boolean>>) gestellt)); gestellt.setCellValueFactory(features
-		 * -> new ReadOnlyBooleanWrapper(features.getValue().isGestelltbool()));
-		 */
-
-		gestellt.setEditable(true);
+		gestellt.setEditable(false);
+		
 		frageTabelle.setItems(fragen);
 		frageTabelle.setEditable(true);
 		frageTabelle.setFixedCellSize(25);

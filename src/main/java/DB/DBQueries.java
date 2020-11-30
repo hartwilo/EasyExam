@@ -1,5 +1,6 @@
 package DB;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -67,37 +68,37 @@ public class DBQueries {
 	public int frageSpeichern(Frage frage) throws SQLException
 	{
 		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
 		
+		String query = "INSERT INTO FRAGE(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul, grundlagenniveau, gut, sehrGut) "
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+		
+		PreparedStatement stmt = DBConn.connection.prepareStatement(query);
+
 		String fragestellung = frage.getFrageStellung();
 		String musterloesung = frage.getMusterloesung();
 		String themengebiet = frage.getThemengebiet();
 		String fragekatalog = frage.getFragekatalog();
-		String modul = "tbd";
-		int niveau = frage.getNiveau();
-		double punkte = frage.getPunkte();
-		String gestellt = "0"; //TO-DO > Change
+		String modul = "tbd"; //TODO!
 		String grundlage = frage.getGrundLageNiveau();
 		String gut = frage.getGut();
-		String sehrGut = frage.getSehrGut();
-			
+		String sehrGut = frage.getSehrGut();	
+		int niveau = frage.getNiveau();
+		double punkte = frage.getPunkte();
+		Boolean gestellt = false; 
+	
+		stmt.setString(1, fragestellung);
+		stmt.setString(2, musterloesung);
+		stmt.setInt(3, niveau);
+		stmt.setDouble(4, punkte);
+		stmt.setBoolean(5, gestellt);
+		stmt.setString(6, themengebiet);
+		stmt.setString(7, fragekatalog);
+		stmt.setString(8, modul);
+		stmt.setString(9, grundlage);
+		stmt.setString(10, gut);
+		stmt.setString(11, sehrGut);
 		
-		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul, grundlagenniveau, gut, sehrGut) "
-				+ "Values('" 
-				+ fragestellung + "','"
-				+ musterloesung + "', '" 
-				+ niveau +"', '" 
-				+ punkte + "', '" 
-				+ gestellt + "', '" 
-				+ themengebiet + "', '"
-				+ fragekatalog + "', '" 
-				+ modul + "', '" 
-				+ grundlage + "', '" 
-				+ gut + "', '" 
-				+ sehrGut +"')";
-		
-		log.info("Last query: "+query);
-		return stmt.executeUpdate(query);
+		return stmt.executeUpdate();
 	}
 	
 	
@@ -108,7 +109,7 @@ public class DBQueries {
 		
 		String query = "SELECT * FROM Frage where Fragekatalog = "+ "'" + katalog + "'" ;
 		
-		log.info("Last query: "+query);
+		log.info("Result Set: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
 		
 	}
@@ -121,7 +122,7 @@ public class DBQueries {
 		String query = "Select * from Frage where themengebiet =" + "'" + themengebiet + "'"
 		+ " and Fragekatalog = "+"'" + katalog + "'";
 		
-		log.info("Last query: "+query);
+		log.info("Result Set: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 	
@@ -134,18 +135,31 @@ public class DBQueries {
 		String query = "Select * from Frage where niveau =" + "'" + niv + "'"
 		+ " and Fragekatalog = "+"'" + katalog + "'";
 		
-		log.info("Last query: "+query);
+		log.info("Result Set: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
 		
 	}
 	
-	public int frageStellen(Frage frage) throws SQLException
+	public ResultSet fragenLaden_gestellt(String katalog) throws SQLException {
+
+		DBConn.connection.setAutoCommit(true);
+		Statement stmt = DBConn.connection.createStatement();
+		
+		String query = "SELECT * from Frage WHERE gestellt = true "
+				+ "AND Fragekatalog = "+"'" + katalog + "'";
+		
+		log.info("Result Set: "+query);
+		return DBQueries.rs = stmt.executeQuery(query);
+		
+	}
+	
+	public int frageStellen(Frage frage, Boolean gestellt) throws SQLException
 	{
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
 		
 		int id = frage.getID();	
-		String query = "UPDATE Frage SET gestellt = true where idFrage = " +id; 
+		String query = "UPDATE Frage SET gestellt = " +gestellt+ " where idFrage = " +id; 
 		
 		log.info("Last query: "+query);
 		return stmt.executeUpdate(query);
