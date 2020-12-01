@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  */
 class DBConnTest {
 
-	public static Connection connection = null;
+	public static Connection connection = DBConn.connection;
 	/**
 	 * Test method for {@link DB.DBConn#buildConn()}.
 	 */
@@ -27,8 +27,7 @@ class DBConnTest {
 		
 		String url = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
 		try {
-			DBConn dbconn = new DBConn();
-			dbconn.buildConn(url);
+			DBConn.buildConn(url);
 			assertEquals(connection.getCatalog(), "easyexam");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
