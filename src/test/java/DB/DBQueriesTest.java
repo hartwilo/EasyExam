@@ -98,7 +98,7 @@ class DBQueriesTest {
             finally
             {
                  // Undo the testing operations:
-            	 //rollback operation cannot be executed 
+            	 //rollback operation cannot be executed, because AutoCommit=true
                  //connection.rollback();
             }
         }
