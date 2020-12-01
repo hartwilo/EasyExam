@@ -122,8 +122,8 @@ public class PruefungController {
 
 	// Buttons
 
-	@FXML
-	private Button refresh;
+    @FXML
+    private Button aktualisieren;
 
 	@FXML
 	public Button zueruckDurchfuehrung;
@@ -258,6 +258,12 @@ public class PruefungController {
 
 	}
 	
+	  @FXML
+	    void aktualisieren(MouseEvent event) throws SQLException {
+		  showQuestions();
+		  log.info("Refresh");
+	    }
+	
 
 	///// Java Methods ////
 	
@@ -300,6 +306,7 @@ public class PruefungController {
 		fillList(fragen);
 		//Display list contents in View Table
 		showInMainTable(fragen);
+		
 
 	}
 	

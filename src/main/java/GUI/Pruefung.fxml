@@ -20,7 +20,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.PruefungController">
    <children>
-      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="774.0" prefWidth="1309.0">
+      <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fragenAnzeigen" prefHeight="774.0" prefWidth="1309.0">
          <children>
             <Group layoutX="45.0" layoutY="167.0" />
             <Group layoutX="607.0" layoutY="167.0">
@@ -48,13 +48,13 @@
             <RadioButton fx:id="niveau2" layoutX="527.0" layoutY="113.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" text="2" toggleGroup="$niveau" />
             <RadioButton fx:id="nivalle" layoutX="441.0" layoutY="113.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" selected="true" text="Alle" toggleGroup="$niveau" />
             <RadioButton fx:id="niveau3" layoutX="566.0" layoutY="113.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" text="3" toggleGroup="$niveau" />
-            <Button fx:id="setFalse" layoutX="759.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#setFalse" text="Set False" textFill="#ff0101" />
+            <Button fx:id="setFalse" layoutX="759.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#setFalse" text="Set False" />
             <TextField fx:id="studName" layoutX="924.0" layoutY="71.0" prefHeight="26.0" prefWidth="146.0" promptText="Student Name" />
             <TextField fx:id="matNr" layoutX="1083.0" layoutY="71.0" prefHeight="26.0" prefWidth="81.0" promptText="Matr.Nr" />
             <DatePicker layoutX="1174.0" layoutY="71.0" prefHeight="26.0" prefWidth="81.0" promptText="Datum" />
             <Button fx:id="studentenLaden" layoutX="1260.0" layoutY="72.0" mnemonicParsing="false" text="+" />
-            <Button fx:id="frageStellen" layoutX="616.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#frageStellen" prefHeight="25.0" prefWidth="63.0" text="Ask" textFill="#4560f5" />
-            <Button fx:id="remove" layoutX="689.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#nichtStellen" text="Remove" textFill="#4560f5" />
+            <Button fx:id="frageStellen" layoutX="616.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#frageStellen" prefHeight="25.0" prefWidth="63.0" text="Ask" textFill="#2dbc28" />
+            <Button fx:id="remove" layoutX="689.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#nichtStellen" text="Remove" textFill="#ff0101" />
             <ComboBox fx:id="katalogeComboBox" layoutX="26.0" layoutY="72.0" onMouseClicked="#katalogeLaden" prefHeight="26.0" prefWidth="570.0" promptText="Katalog selektieren" />
             <TableView fx:id="frageTabelle" layoutX="25.0" layoutY="144.0" onMousePressed="#detailsAnzeigen" prefHeight="595.0" prefWidth="570.0">
               <columns>
@@ -81,6 +81,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Button fx:id="aktualisieren" layoutX="616.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#aktualisieren" prefHeight="25.0" prefWidth="94.0" text="Aktualisieren" textFill="#4560f5" />
          </children>
       </AnchorPane>
    </children>
