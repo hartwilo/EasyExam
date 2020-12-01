@@ -24,7 +24,7 @@ import de.hftstuttgart.EasyExam.Models.Frage;
  */
 class DBQueriesTest {
 
-	public static Connection connection = null;
+	public static Connection connection = DBConn.connection;
 	String url = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
 
 	
@@ -45,8 +45,6 @@ class DBQueriesTest {
            /* try (Statement stmt=connection.createStatement())
             {
             
-            
-                //connection.setAutoCommit(true);
 
                 // Initial cleanup:
                 stmt.executeUpdate("DELETE * FROM Frage");*/
@@ -100,7 +98,8 @@ class DBQueriesTest {
             finally
             {
                  // Undo the testing operations:
-                 connection.rollback();
+            	 //rollback operation cannot be executed 
+                 //connection.rollback();
             }
         }
         catch (SQLException e)
