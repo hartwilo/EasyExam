@@ -191,7 +191,7 @@ public class DBQueries {
 		
 		log.info("Last query: "+query);
 		return DBQueries.rs = stmt.executeQuery(query);
-	}
+	} 
 	
 	
 	//Changes 25.11 -Gjergji

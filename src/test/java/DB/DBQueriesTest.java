@@ -38,6 +38,7 @@
 	 */
 /*
  * 
+ * 
  * @Test void testFrageSpeichern() { DBQueries db =new DBQueries();
  * try(Connection connection = DBConn.connection) { try(Statement
  * stmt=connection.createStatement()) { connection.setAutoCommit(true);

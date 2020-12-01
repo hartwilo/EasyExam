@@ -97,62 +97,8 @@ public class KatalogController {
 	@FXML
 	private ComboBox<String> katalogComboBox;
 
-	////////////////// Java Methods //////////////////////
 
-	// Must be moved over to DBQueries
-	// This method loads relevant question data into a ViewTable in the GUI
-	public void fragenAnzeigen() throws SQLException { 
-
-		
-		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
-
-		// Load DBQueries Result Set with questions from DB
-		katalogName = katalogComboBox.getValue();
-		DBQueries.rs = dbQuery.alleFrageLaden(katalogName);
-
-		addToList(frageListe);
-		displayInFrageTabelle(frageListe);
-
-	}
-	
-	public void addToList(ObservableList<Frage> fragen) throws SQLException {
-		while (DBQueries.rs.next()) { 
-
-			// Prepare Base variables to add to list.
-
-			int ID = DBQueries.rs.getInt("idFrage");
-			String thema = DBQueries.rs.getString("Themengebiet");
-			String fragestellung = DBQueries.rs.getString("Fragestellung");
-			String musterloesung = DBQueries.rs.getString("Musterloesung");
-			int niveau = DBQueries.rs.getInt("Niveau");
-			Float punkte = DBQueries.rs.getFloat("Punkte");
-			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
-			String modul = DBQueries.rs.getString("Modul");
-			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
-
-			// Add Question Objects to list
-
-			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
-					modul));
-		}
-
-		// Define structure of FXML Table Cells you want to display data with
-	}
-	
-	public void displayInFrageTabelle(ObservableList<Frage> fragen) {
-		fxcolumn_fragestellung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
-		fxcolumn_punkte.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
-		fxcolumn_thema
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getThemengebiet()));
-		fxcolumn_niveau.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
-		fxcolumn_musterloesung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
-		fragetabelle.setFixedCellSize(25);
-		fragetabelle.setItems(fragen);
-	}
-
-	//////////////// What the buttons actually do - FXML methods ////////////////
+	//////////////// FXML methods ////////////////
 
 	@FXML
 	void katalogNameLesen(ActionEvent event) {
@@ -196,6 +142,7 @@ public class KatalogController {
 			katalogName = katalogNameTextField.getText();
 		}
     	dbQuery.katalogLoeschen(katalogName);
+    	fragenAnzeigen();
     }
 
 	@FXML /*
@@ -203,15 +150,16 @@ public class KatalogController {
 			 * values in the database.
 			 */
 
-	// Changes 25.11 -Gjergji
+
 	private void katalogeLaden(MouseEvent event) throws SQLException {
 		katalogComboBox.setItems(dbQuery.katalogeAuslesen());
+		fragenAnzeigen();
 	}
 
 	@FXML /*
 			 * GUI Navigation - Go to FrageErstellen screen
 			 */
-	void frageAnlegen(MouseEvent event) throws IOException {
+	void frageAnlegen(MouseEvent event) throws IOException, SQLException {
 		
 		if (katalogNameTextField.getText().isEmpty()) {
 			katalogName = katalogComboBox.getValue();
@@ -221,6 +169,7 @@ public class KatalogController {
 		}
 		log.info("Adding question to: "+katalogName);
 		StartController.setWindow("Frageverwaltung");
+
 		
 
 	}
@@ -232,6 +181,62 @@ public class KatalogController {
 
 		StartController.setWindow("Startscreen");
 	}
+	
+	////////////////// Java Methods //////////////////////
+
+	// Must be moved over to DBQueries
+	// This method loads relevant question data into a ViewTable in the GUI
+	public void fragenAnzeigen() throws SQLException { 
+
+		
+		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
+
+		// Load DBQueries Result Set with questions from DB
+		katalogName = katalogComboBox.getValue();
+		DBQueries.rs = dbQuery.alleFrageLaden(katalogName);
+
+		fillList(frageListe);
+		showInMainTable(frageListe);
+
+	}
+	
+	public void fillList(ObservableList<Frage> fragen) throws SQLException {
+		while (DBQueries.rs.next()) { 
+ 
+			// Prepare Base variables to add to list.
+
+			int ID = DBQueries.rs.getInt("idFrage");
+			String thema = DBQueries.rs.getString("Themengebiet");
+			String fragestellung = DBQueries.rs.getString("Fragestellung");
+			String musterloesung = DBQueries.rs.getString("Musterloesung");
+			int niveau = DBQueries.rs.getInt("Niveau");
+			Float punkte = DBQueries.rs.getFloat("Punkte");
+			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
+			String modul = DBQueries.rs.getString("Modul");
+			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
+
+			// Add Question Objects to list
+
+			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
+					modul));
+		}
+
+		// Define structure of FXML Table Cells you want to display data with
+	}
+	
+	public void showInMainTable(ObservableList<Frage> fragen) {
+		fxcolumn_fragestellung
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
+		fxcolumn_punkte.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
+		fxcolumn_thema
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getThemengebiet()));
+		fxcolumn_niveau.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
+		fxcolumn_musterloesung
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
+		fragetabelle.setFixedCellSize(25);
+		fragetabelle.setItems(fragen);
+	}
+
 	
 	
 
