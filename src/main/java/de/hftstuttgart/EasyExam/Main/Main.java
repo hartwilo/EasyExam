@@ -19,7 +19,7 @@ public class Main extends Application {
 	
 	
 	static String db_url = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
-	//static String db_url = "'jdbc:mysql://localhost:3306/easyexam','root',''";
+	//static String db_url = "jdbc:mysql://localhost:3306/easyexam"+","+"root"+","+"";
 	
 
 	@Override
