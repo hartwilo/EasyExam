@@ -14,11 +14,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -130,6 +132,7 @@ public class KatalogController {
 			 */
 	void katalogAnlegen(MouseEvent event) throws IOException {
 		
+		
 		StartController.setWindow("Katalogverwaltung");
 	}
 	
@@ -161,14 +164,40 @@ public class KatalogController {
 			 */
 	void frageAnlegen(MouseEvent event) throws IOException, SQLException {
 		
-		if (katalogNameTextField.getText().isEmpty()) {
+		if(katalogNameTextField.getText().isEmpty() && katalogComboBox.getValue()==null) {
+			warnungAnzeigen("Bitte Fragekatalog auswählen!");
+			System.out.println("zweig1");
+		}
+		else if (katalogComboBox.getValue()==null) {
+			katalogName = katalogNameTextField.getText();
+			System.out.println("zweig2");
+			log.info("Adding question to: "+katalogName);
+			StartController.setWindow("Frageverwaltung");
+		}
+		else if (katalogNameTextField.getText().isEmpty()) {
+			katalogName = katalogComboBox.getValue();
+			System.out.println("zweig3");
+			log.info("Adding question to: "+katalogName);
+			StartController.setWindow("Frageverwaltung");
+		}
+		else if(katalogComboBox.getItems().contains(katalogNameTextField.getText())){
+		katalogName = katalogComboBox.getValue();
+		System.out.println("zweig4");
+		log.info("New Catalog creation in progress. Save new question to create "+katalogName);
+		log.info("Adding question to: "+katalogName);
+		StartController.setWindow("Frageverwaltung");
+	} else {
+		warnungAnzeigen("Ausgewählten Fragekatalog bitte überprüfen!");
+	}
+		
+		/*if (katalogNameTextField.getText().isEmpty()) {
 			katalogName = katalogComboBox.getValue();
 		} else {
 			katalogName = katalogNameTextField.getText();
 			log.info("New Catalog creation in progress. Save new question to create "+katalogName);
 		}
 		log.info("Adding question to: "+katalogName);
-		StartController.setWindow("Frageverwaltung");
+		StartController.setWindow("Frageverwaltung");*/
 
 		
 
@@ -235,6 +264,22 @@ public class KatalogController {
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
 		fragetabelle.setFixedCellSize(25);
 		fragetabelle.setItems(fragen);
+	}
+	
+	
+	
+	
+	
+	
+	
+//Evt Warning-Klasse anlegen	
+	
+	private void warnungAnzeigen(String warnung) {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("");
+		alert.setHeaderText(null);
+		alert.setContentText(warnung);
+		alert.showAndWait();
 	}
 
 	
