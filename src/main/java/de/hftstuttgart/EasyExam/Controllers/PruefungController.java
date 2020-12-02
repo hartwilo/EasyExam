@@ -1,8 +1,17 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Logger;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfDiv;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import DB.DBConn;
 import DB.DBQueries;
@@ -26,6 +35,9 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Window;
 
 
 public class PruefungController {
@@ -149,6 +161,10 @@ public class PruefungController {
 	@FXML
 	private Button zueruck;
 	
+
+    @FXML
+    private Button pdfErstellen;
+	
 	/*
 	 * The following method is used to read data from the Database into the
 	 * TableView
@@ -236,6 +252,37 @@ public class PruefungController {
 	void uebersichtAnzeigen(MouseEvent event) throws IOException, SQLException {
 		
 		showUebersicht();
+	}
+
+    //	create a PDF file 
+	
+	@FXML
+	void pdfErstellenClick(MouseEvent event) throws FileNotFoundException, DocumentException {
+		FileChooser fc = new FileChooser();
+		Window stage = pdfErstellen.getScene().getWindow();
+
+		fc.setTitle("Save to PDF");
+		fc.setInitialFileName("file name.pdf");
+
+		fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF File", "*.pdf"));
+
+		File file = fc.showSaveDialog(stage);
+
+		if (file != null) {
+
+			String str = file.getAbsolutePath();
+
+			FileOutputStream fos = new FileOutputStream(str);
+			Document doc = new Document();
+			PdfWriter.getInstance(doc, fos);
+			doc.open();
+
+			doc.add(new Paragraph("Hallo"));
+
+			doc.close();
+
+		}
+
 	}
 
 	@FXML /*

@@ -82,6 +82,7 @@
                </font>
             </Label>
             <Button fx:id="aktualisieren" layoutX="616.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#aktualisieren" prefHeight="25.0" prefWidth="94.0" text="Aktualisieren" textFill="#4560f5" />
+            <Button fx:id="pdfErstellen" layoutX="984.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#pdfErstellenClick" text="PDF erstellen" />
          </children>
       </AnchorPane>
    </children>
