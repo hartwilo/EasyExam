@@ -24,7 +24,7 @@ class DBConnTest {
 	 */
 	@Test
 	void testBuildConn() {
-		String Url = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+		String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
 			//connection = DriverManager.getConnection(DB_URL);
