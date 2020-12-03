@@ -25,15 +25,14 @@ import de.hftstuttgart.EasyExam.Models.Frage;
 class DBQueriesTest {
 
 	public static Connection connection = DBConn.connection;
-	
+	DBQueries db =new DBQueries();
+	DBConn dbconn = new DBConn();
 	
 	/**
 	 * Test method for {@link DB.DBQueries#frageSpeichern(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	void testFrageSpeichern() {
-		DBQueries db =new DBQueries();
-		DBConn dbconn = new DBConn();
 		
         try {
         	DBConn.buildConn();
@@ -111,8 +110,33 @@ class DBQueriesTest {
 	 * Test method for {@link DB.DBQueries#frageLaden()}.
 	 */
 	@Test
-	void testFrageLaden() {
-		fail("Not yet implemented");
+	void testAlleFrageLaden() {
+		try {
+        	DBConn.buildConn();
+        	try {
+           /* try (Statement stmt=connection.createStatement())
+            {*/
+
+        		String katalog = "Qualitaetsmanagement";
+                // Do the call:
+                ResultSet rs = db.alleFrageLaden(katalog);
+                
+                // Database Checks:
+                {
+                    
+                }
+            }
+            finally
+            {
+                 // Undo the testing operations:
+            	 //rollback operation cannot be executed, because AutoCommit=true
+                 //connection.rollback();
+            }
+        }
+        catch (SQLException e)
+        {
+            fail(e.toString());
+        }
 	}
 
 	/**
