@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.log.SysoCounter;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -17,6 +18,7 @@ import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
+import de.hftstuttgart.EasyExam.Controllers.PDFCreate;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -64,7 +66,7 @@ public class PruefungController {
 	// ComboBoxes
 
 	@FXML
-	private ComboBox<String> katalogeComboBox;
+	public ComboBox<String> katalogeComboBox;
 
 	@FXML
 	private ComboBox<String> themen;
@@ -201,8 +203,8 @@ public class PruefungController {
 
 			String str = file.getAbsolutePath();
 
-			FileOutputStream fos = new FileOutputStream(str);
-			Document doc = new Document();
+			//FileOutputStream fos = new FileOutputStream(str);
+			/*Document doc = new Document();
 			PdfWriter.getInstance(doc, fos);
 			doc.open();
 			
@@ -214,9 +216,23 @@ public class PruefungController {
 			//Add pdf table filled with questions to doc
 			doc.add(fragenTabelle);
 
-			doc.close();
+			doc.close();*/
+			
+			try {
+				
+				
+	            Document document = new Document();
+	            PdfWriter.getInstance(document, new FileOutputStream(str));
+	            document.open();
+	            PDFCreate.addMetaData(document);
+	            PDFCreate.addTitlePage(document);
+	            PDFCreate.addContent(document);
+	            document.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
 
 		}
+			}
 
 		 
 
@@ -504,7 +520,7 @@ public class PruefungController {
 			String modul = DBQueries.rs.getString("Modul");
 			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
 
-			String grundlage = DBQueries.rs.getString("grundlagenniveau");
+			String grundlage = DBQueries.rs.getString("grundLageNiveau");
 			String gut = DBQueries.rs.getString("gut");
 			String sehrGut = DBQueries.rs.getString("SehrGut");
 

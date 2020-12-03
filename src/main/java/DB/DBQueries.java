@@ -145,7 +145,7 @@ public class DBQueries {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
 		
-		String query = "SELECT * from Frage WHERE gestellt = true "
+		String query = "SELECT * from Frage WHERE gestellt = 1 "
 				+ "AND Fragekatalog = "+"'" + katalog + "'";
 		
 		log.info("Result Set: "+query);
