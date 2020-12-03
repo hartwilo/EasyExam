@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+
 import de.hftstuttgart.EasyExam.Models.Frage;
 
 /**
@@ -116,14 +117,14 @@ class DBQueriesTest {
         	try {
            /* try (Statement stmt=connection.createStatement())
             {*/
-
-        		String katalog = "Qualitaetsmanagement";
+        		
+        		String katalog = "QM SS2019";
                 // Do the call:
                 ResultSet rs = db.alleFrageLaden(katalog);
-                
+                assertTrue(rs.next());
                 // Database Checks:
-                {
-                    
+                while(rs.next()) {
+                	assertEquals("QM SS2019", rs.getString("Fragekatalog"));
                 }
             }
             finally
@@ -138,7 +139,127 @@ class DBQueriesTest {
             fail(e.toString());
         }
 	}
+	/**
+	 * Test method for {@link DB.DBQueries#frageLaden_niveau(int, String)}
+	 */
+	@Test
+	void testFrageLadenNiveau() {
+		fail("not yet implemented");
+	}
 
+	/**
+	 * Test method for {@link DB.BDQueries#fragenLaden_gestellt)}
+	 */
+	@Test
+	void testFragenLaden_gestellt() {
+		try {
+        	DBConn.buildConn();
+        	try {
+           /* try (Statement stmt=connection.createStatement())
+            {*/
+
+        		String katalog = "QM SS2019";
+                // Do the call:
+                ResultSet rs = db.fragenLaden_gestellt(katalog);
+                //Database check:
+                
+                while(rs.next()) {
+                    assertEquals("true", rs.getBoolean("gestellt"));
+                }  
+            }
+            finally
+            {
+                 // Undo the testing operations:
+            	 //rollback operation cannot be executed, because AutoCommit=true
+                 //connection.rollback();
+            }
+        }
+        catch (SQLException e)
+        {
+            fail(e.toString());
+        }
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#frageStellen(Frage, Boolean)}
+	 */
+	@Test
+	void testFrageStellen() {
+		try {
+        	DBConn.buildConn();
+        	try {
+           /* try (Statement stmt=connection.createStatement())
+            {*/
+
+        		int frageId=12345;
+                String fragestellung="a";
+                String musterloesung="b";
+                int niveau=1;
+                float punkte=3;
+                String punkte2="3";
+                boolean gestellt=false;
+                String gestellt2="false";
+                String themengebiet="Mathe";
+                String fragekatalog="35";
+                String modul="Mathe2";
+
+                Frage frage = new Frage(frageId, fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul);
+                
+                // Do the call:
+                assertEquals(1, db.frageStellen(frage,true));
+                //Database check:
+                String query = "SELECT * FROM Frage WHERE idFrage = "+frageId;
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                assertEquals("true", rs.getBoolean("gestellt"));
+            }
+            finally
+            {
+                 // Undo the testing operations:
+            	 //rollback operation cannot be executed, because AutoCommit=true
+                 //connection.rollback();
+            }
+        }
+        catch (SQLException e)
+        {
+            fail(e.toString());
+        }
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#setAllFalse()}
+	 */
+	@Test
+	void testSetAllFalse() {
+		try {
+        	DBConn.buildConn();
+        	try {
+           /* try (Statement stmt=connection.createStatement())
+            {*/
+
+                // Do the call:
+                db.setAllFalse();
+                //Database check:
+                String query = "SELECT * FROM Frage";
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while(rs.next()) {
+                	assertEquals("false", rs.getBoolean("gestellt"));
+                }
+            }
+            finally
+            {
+                 // Undo the testing operations:
+            	 //rollback operation cannot be executed, because AutoCommit=true
+                 //connection.rollback();
+            }
+        }
+        catch (SQLException e)
+        {
+            fail(e.toString());
+        }
+	}
+	
 	/**
 	 * Test method for {@link DB.DBQueries#frageLoeschen(int)}.
 	 */
