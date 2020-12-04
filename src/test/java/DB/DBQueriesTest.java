@@ -211,7 +211,7 @@ class DBQueriesTest {
                 String query = "SELECT * FROM Frage WHERE idFrage = "+frageId;
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
-                assertEquals("true", rs.getBoolean("gestellt"));
+                assertEquals("1", rs.getBoolean("gestellt"));
             }
             finally
             {
@@ -244,7 +244,7 @@ class DBQueriesTest {
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
                 while(rs.next()) {
-                	assertEquals("false", rs.getBoolean("gestellt"));
+                	assertEquals("0", rs.getBoolean("gestellt"));
                 }
             }
             finally
