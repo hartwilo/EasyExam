@@ -157,9 +157,9 @@ public class DBQueries {
 	{
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
-		
+		int intGestellt = gestellt ? 1:0;
 		int id = frage.getID();	
-		String query = "UPDATE Frage SET gestellt = " +gestellt+ " where idFrage = " +id; 
+		String query = "UPDATE Frage SET gestellt = " +intGestellt+ " where idFrage = " +id; 
 		
 		log.info("Last query: "+query);
 		return stmt.executeUpdate(query);
