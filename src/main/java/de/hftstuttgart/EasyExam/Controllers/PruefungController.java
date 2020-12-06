@@ -59,6 +59,7 @@ public class PruefungController {
 
 	public static String katalogName;
 	
+	
 
 	@FXML
 	private AnchorPane anchorPane;
@@ -202,21 +203,6 @@ public class PruefungController {
 		if (file != null) {
 
 			String str = file.getAbsolutePath();
-
-			//FileOutputStream fos = new FileOutputStream(str);
-			/*Document doc = new Document();
-			PdfWriter.getInstance(doc, fos);
-			doc.open();
-			
-			doc.add(new Paragraph("Fragen"));
-			
-			//Add list elements to pdf Table
-			PdfPTable fragenTabelle =protokoll.fragenTabelle(fragen);
-			
-			//Add pdf table filled with questions to doc
-			doc.add(fragenTabelle);
-
-			doc.close();*/
 			
 			try {
 				
@@ -225,8 +211,9 @@ public class PruefungController {
 	            PdfWriter.getInstance(document, new FileOutputStream(str));
 	            document.open();
 	            PDFCreate.addMetaData(document);
-	            PDFCreate.addTitlePage(document);
-	            PDFCreate.addContent(document);
+	            PDFCreate.addTitlePage(document, fragen);
+	            PDFCreate.addContent(document, fragen);
+	            
 	            document.close();
 	        } catch (Exception e) {
 	            e.printStackTrace();

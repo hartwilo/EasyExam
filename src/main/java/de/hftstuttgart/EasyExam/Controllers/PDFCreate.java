@@ -16,6 +16,9 @@ import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
+import de.hftstuttgart.EasyExam.Models.Frage;
+import javafx.collections.ObservableList;
+
 public class PDFCreate {
 	
 	static PruefungController conn = new PruefungController();
@@ -34,6 +37,7 @@ public class PDFCreate {
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
+    private static Font bigBold = new Font(Font.FontFamily.TIMES_ROMAN,32, Font.BOLD);
 
 	
 /**
@@ -62,7 +66,7 @@ public class PDFCreate {
 	  * @throws DocumentException
 	  */
 	 
-	 public static void addTitlePage(Document document) throws DocumentException {
+	 public static void addTitlePage(Document document, ObservableList<Frage> fragen) throws DocumentException {
 	        Paragraph preface = new Paragraph();
 	        
 	        addEmptyLine(preface, 1);
@@ -73,48 +77,37 @@ public class PDFCreate {
 	        // Pruefer, Student, Datum
 	        preface.add(new Paragraph("Pruefer: Pruefer einfügen "+"; " + "Student: Student einfügen "+ "; " + new Date(), smallBold));
 	        
-	        addEmptyLine(preface, 1);
+	        addEmptyLine(preface, 10);
+	        
+	        preface.add(new Paragraph("Mündliche Prüfung " + fragen.get(1).getModul(), bigBold));
+	        preface.setAlignment(Element.ALIGN_MIDDLE);
 	        
 	        document.add(preface);
 	        document.newPage();
 	        
 	 }
 	 
-	 public static void addContent(Document document) throws DocumentException {
+	 public static void addContent(Document document, ObservableList<Frage> fragen) throws DocumentException {
 		 
-		  	Anchor anchor = new Anchor("First Chapter", catFont);
-	        anchor.setName("First Chapter");
+		  	Anchor anchor = new Anchor("Prüfungsdurchführung", catFont);
 
 	        // Second parameter is the number of the chapter
 	        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
-	        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
+	        Paragraph subPara = new Paragraph("Fragenliste", subFont);
 	        Section subCatPart = catPart.addSection(subPara);
-	        subCatPart.add(new Paragraph("Hello"));
-
-	        subPara = new Paragraph("Subcategory 2", subFont);
-	        subCatPart = catPart.addSection(subPara);
-	        subCatPart.add(new Paragraph("Paragraph 1"));
-	        subCatPart.add(new Paragraph("Paragraph 2"));
-	        subCatPart.add(new Paragraph("Paragraph 3"));
-
 	        
-	        // add a table
-	        addFragenTable(subCatPart);
+	        addEmptyLine(subPara, 2);
+	        
+	        addFragenTable(subCatPart, fragen);
+	        
+	        addEmptyLine(subPara, 2);
 
-	        // now add all this to the document
-	        document.add(catPart);
-
-	        // Next section
-	        anchor = new Anchor("Second Chapter", catFont);
-	        anchor.setName("Second Chapter");
-
-	        // Second parameter is the number of the chapter
-	        catPart = new Chapter(new Paragraph(anchor), 1);
-
-	        subPara = new Paragraph("Subcategory", subFont);
+	        subPara = new Paragraph("Anhang", subFont);
 	        subCatPart = catPart.addSection(subPara);
-	        subCatPart.add(new Paragraph("This is a very important message"));
+	        subCatPart.add(new Paragraph("Anhang 1"));
+	        subCatPart.add(new Paragraph("Anhang 2"));
+	        subCatPart.add(new Paragraph("Anhang 3"));
 
 	        // now add all this to the document
 	        document.add(catPart);
@@ -129,7 +122,7 @@ public class PDFCreate {
 	  * @throws BadElementException
 	  */ 
 	 
-	 public static void addFragenTable(Section subCatPart) throws BadElementException{
+	 public static void addFragenTable(Section subCatPart, ObservableList<Frage> fragen) throws BadElementException{
 		 
 		 
 		 PdfPTable table = new PdfPTable(3);
@@ -147,21 +140,21 @@ public class PDFCreate {
 	     table.addCell(c1);
 	     table.setHeaderRows(1);
 	     
+	     
 	     //Befüllung der Tabelle mit Prüfungsfragen, Antworten und erreichter Punktzahl
 	     
 	     //Test-Befüllunge
-	     table.addCell("1.0");
-	     table.addCell("1.1");
-	     table.addCell("1.2");
-	     table.addCell("2.1");
-	     table.addCell("2.2");
-	     table.addCell("2.3");
+	     
+	     for (Frage frage : fragen) {
+	     table.addCell(frage.getFrageStellung());
+	     table.addCell(frage.getMusterloesung());
+	     table.addCell(String.valueOf(frage.getPunkte()));
+
 	     
 	     
 	     
+	     }
 	     subCatPart.add(table);
-	     
-	     
 	 }
 	 
 	 private static void addEmptyLine(Paragraph paragraph, int number) {
