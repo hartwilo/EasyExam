@@ -131,89 +131,93 @@ public class FrageController {
 	
 	 
 	/*
-	 * The following method is used to create a Frage.obj from the input in the View
+	 * The following method is used to create a Frage.obj from the user input in the
+	 * View (TextAreas and ComboBoxes)
 	 */
-	 
-	 public Frage createFrageFromView() {
-			String themengebiet = themengebietComboBox.getValue();
-			if (themengebiet == null) 
-				themengebiet = themengebietTextField.getText();
-			if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null) 
-				themengebiet = themengebietComboBox.getValue();
-			
-			int niveau = 0;	
-			if ((boolean) niveauRadioButton1.isSelected()) {
-				niveau = 1;	
-			} else if ((boolean) niveauRadioButton2.isSelected()) {
-				niveau = 2;
-			} else if ((boolean) niveauRadioButton3.isSelected()) {
-				niveau = 3;
-			}
-			
-			String stellung = frageStellungTextArea.getText();
-			String loesung = musterLoesungTextArea.getText();
-			float punkte = Float.parseFloat(punktzahl.getText());
-			String fragekatalog = KatalogController.katalogName;
-			String modul = "tbd";
-			Boolean gestellt = false;
-			
-			String grundlage = levelGrundlagenniveau.getText();
-			String gut = levelGut.getText();
-			String sehrGut = levelSehrGut.getText();
-			
-			
-			return new Frage(stellung, loesung, niveau , themengebiet, fragekatalog, punkte, gestellt, modul,grundlage,gut,sehrGut );
-					
-			
-	 }
+
+	public Frage createFrageFromView() {
+
+		// Select topic from combobox
+		String themengebiet = themengebietComboBox.getValue();
+
+		// Select topic from TextArea
+		if (themengebiet == null)
+			themengebiet = themengebietTextField.getText();
+		if (themengebietComboBox.getValue() != null && themengebietTextField.getText() != null)
+			themengebiet = themengebietComboBox.getValue();
+
+		// Select level from radio buttons
+		int niveau = 0;
+		if ((boolean) niveauRadioButton1.isSelected()) {
+			niveau = 1;
+		} else if ((boolean) niveauRadioButton2.isSelected()) {
+			niveau = 2;
+		} else if ((boolean) niveauRadioButton3.isSelected()) {
+			niveau = 3;
+		}
+
+		// Select relevant data from text Areas
+		String stellung = frageStellungTextArea.getText();
+		String loesung = musterLoesungTextArea.getText();
+		float punkte = Float.parseFloat(punktzahl.getText());
+		String fragekatalog = KatalogController.katalogName;
+		String modul = "tbd";
+		Boolean gestellt = false;
+
+		String grundlage = levelGrundlagenniveau.getText();
+		String gut = levelGut.getText();
+		String sehrGut = levelSehrGut.getText();
+
+		return new Frage(stellung, loesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul, grundlage, gut,
+				sehrGut);
+
+	}
 
 	/*
-	 * The following method is used to save questions into the database - Values
-	 * are entered into the GUI's corresponding TextAreas/Fields and/or chosen
-	 * from the ComboBox
+	 * The following method is used to save questions into the database - Values are
+	 * entered into the GUI's corresponding TextAreas/Fields and/or chosen from the
+	 * ComboBox
 	 * 
-	 */	 
-	 public void speichern() throws SQLException, IOException {
-		 
+	 */
+	public void speichern() throws SQLException, IOException {
+
 		if (frageDetailsKorrektEingegeben()) {
-			Frage frage = createFrageFromView();	
-			
-			int status = 0; 
+			Frage frage = createFrageFromView();
+
+			int status = 0;
 			try {
-				status = dbQuery.frageSpeichern(frage);;
-			}
-			catch (Exception e){
+				status = dbQuery.frageSpeichern(frage);
+				;
+			} catch (Exception e) {
 				e.printStackTrace();
+				log.info("Die frage könnte nicht gespeichert werden!");
 			}
-			
-			if (status == 1) { //If the Update was successful
-				infoAnzeigen("Frage erfolgreich gespeichert in Katalog: "+ frage.getFragekatalog());
+
+			if (status == 1) { // If the Update was successful
+				infoAnzeigen("Frage erfolgreich gespeichert in Katalog: " + frage.getFragekatalog());
+
 				
-				//Line Seperator ist das gleiche wie /n bei Sys.out.print
-				log.info(" "+System.lineSeparator()
-						+ "Question succesfuly saved: "+System.lineSeparator()
-						+"Fragestellung: "+frage.getFrageStellung() +System.lineSeparator()
-						+"Lösung: "+ frage.getMusterloesung() +System.lineSeparator()
-						+"Niveau: "+frage.getNiveau() +System.lineSeparator()
-						+"Punkte: "+frage.getPunkte() +System.lineSeparator()
-						+"Gestellt: "+frage.isGestelltbool() +System.lineSeparator()
-						+"Thema: "+frage.getThemengebiet() +System.lineSeparator()
-						+"Fragekatalog: "+frage.getFragekatalog() +System.lineSeparator()
-						+"Grundlage Niveau: "+frage.getGrundLageNiveau() +System.lineSeparator()
-						+"Gut: "+frage.getGut() +System.lineSeparator()
-						+"Sehr gut: "+frage.getSehrGut() +System.lineSeparator());
-				
+				log.info(" " + System.lineSeparator() + "Question succesfuly saved: " + System.lineSeparator()
+						+ "Fragestellung: " + frage.getFrageStellung() + System.lineSeparator() 
+						+ "Lösung: " + frage.getMusterloesung() + System.lineSeparator() 
+						+ "Niveau: " + frage.getNiveau() + System.lineSeparator() 
+						+ "Punkte: " + frage.getPunkte() + System.lineSeparator()
+						+ "Gestellt: " + frage.isGestelltbool() + System.lineSeparator() 
+						+ "Thema: " + frage.getThemengebiet() + System.lineSeparator() 
+						+ "Fragekatalog: " + frage.getFragekatalog() + System.lineSeparator() 
+						+ "Grundlage Niveau: " + frage.getGrundLageNiveau() + System.lineSeparator() 
+						+ "Gut: " + frage.getGut() + System.lineSeparator() 
+						+ "Sehr gut: " + frage.getSehrGut() + System.lineSeparator());
+
 				StartController.setWindow("Katalogverwaltung");
 			}
-			
-			} else if (!frageDetailsKorrektEingegeben()) {
-				warnungAnzeigen("Die Frage könnte nicht gespeichert werden - Alle Fragedaten bitte richtig eingeben!");
+
+		} else if (!frageDetailsKorrektEingegeben()) {
+			warnungAnzeigen("Die Frage könnte nicht gespeichert werden - Alle Fragedaten bitte richtig eingeben!");
 		}
-			
 
 	}
 	 
-//////////////////Java Methods //////////////////////
 
 	/*
 	 * Displays a specific warning message.
@@ -274,25 +278,23 @@ public class FrageController {
 
 	}
 	
-	/////////////////// FXML Methods ////////////////////
+						/////////////////// FXML Methods ////////////////////
+	
+	@FXML // Save questions through the Speichern Button
+	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
+		speichern();
+		
+	}
 	
 	
 	@FXML /*
-			 * // The following method is used to fill the Topics ComboBox with all existing
-			 * // values in the database.
+			 *  The following method is used to fill the Topics ComboBox with all existing
+			 *  values in the database.
 			 */
 	public void themengebieteLaden(MouseEvent event) throws SQLException {
 		String fragekatalog = KatalogController.katalogName;
 		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen(fragekatalog));
 
-	}
-	
-	
-
-	@FXML // Save questions through the Speichern Button
-	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
-		speichern();
-		
 	}
 
 	@FXML // Save questions when ENTER key is pressed //Method is currently not used TO-DO:DELETE >?
@@ -303,8 +305,7 @@ public class FrageController {
 		}
 	}
 
-	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new
-			// question.
+	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new question.
 	public void zueruck(MouseEvent event) throws IOException {
 		log.info("Adding question cancelled");
 		StartController.setWindow("Katalogverwaltung");

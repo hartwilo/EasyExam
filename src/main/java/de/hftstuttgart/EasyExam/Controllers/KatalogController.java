@@ -84,28 +84,80 @@ public class KatalogController {
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_musterloesung;
 	
-
+	@FXML
+	private ComboBox<String> katalogComboBox;
 	
-
-	////////////// DB Related Variables ////////////////////
-
 	static DBQueries dbQuery = new DBQueries();
-
-	// Used for katalog attribute of Frage
 	public static String katalogName;
 	
 	
+	
+//////////////////Java Methods //////////////////////
 
-	@FXML
-	private ComboBox<String> katalogComboBox;
 
+// This method loads relevant question data into a ViewTable in the GUI
+	public void fragenAnzeigen() throws SQLException {
 
-	//////////////// FXML methods ////////////////
+		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
-	@FXML
-	void katalogNameLesen(ActionEvent event) {
-		katalogName = katalogNameTextField.getText();
+// Load DBQueries Result Set with questions from DB
+		katalogName = katalogComboBox.getValue();
+		DBQueries.rs = dbQuery.alleFrageLaden(katalogName);
+
+		fillList(frageListe);
+		showInMainTable(frageListe);
+
 	}
+
+	public void fillList(ObservableList<Frage> fragen) throws SQLException {
+		while (DBQueries.rs.next()) {
+
+// Prepare Base variables to add to list.
+			int ID = DBQueries.rs.getInt("idFrage");
+			String thema = DBQueries.rs.getString("Themengebiet");
+			String fragestellung = DBQueries.rs.getString("Fragestellung");
+			String musterloesung = DBQueries.rs.getString("Musterloesung");
+			int niveau = DBQueries.rs.getInt("Niveau");
+			Float punkte = DBQueries.rs.getFloat("Punkte");
+			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
+			String modul = DBQueries.rs.getString("Modul");
+			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
+
+// Add Question Objects to list
+			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
+					modul));
+		}
+	}
+	
+	
+// Define structure of FXML Table Cells you want to display data with
+	public void showInMainTable(ObservableList<Frage> fragen) {
+		fxcolumn_fragestellung
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
+		fxcolumn_punkte
+				.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
+		fxcolumn_thema
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getThemengebiet()));
+		fxcolumn_niveau
+				.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
+		fxcolumn_musterloesung
+				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
+		
+		fragetabelle.setFixedCellSize(25);
+		fragetabelle.setItems(fragen);
+	}
+	
+//Evt Warning-Klasse anlegen	
+		private void warnungAnzeigen(String warnung) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("");
+			alert.setHeaderText(null);
+			alert.setContentText(warnung);
+			alert.showAndWait();
+		}
+
+
+//////////////// FXML methods ////////////////
 
 	@FXML /*
 			 * This method loads relevant question data into a ViewTable in the GUI (as soon
@@ -127,40 +179,36 @@ public class KatalogController {
 	}
 
 	@FXML /*
-			 * Method for creating a new Catalog Table in Database, NOTE: Names of
-			 * attributes must later be adapted to AZURE database
+			 * The following method is used to fill the Catalog ComboBox with all existing
+			 * values in the database.
 			 */
-	void katalogAnlegen(MouseEvent event) throws IOException {
-		
-		
-		StartController.setWindow("Katalogverwaltung");
+	private void katalogeLaden(MouseEvent event) throws SQLException {
+		katalogComboBox.setItems(dbQuery.katalogeAuslesen());
+		fragenAnzeigen(); 
 	}
-	
 
-    @FXML
-    void katalogLoeschen(MouseEvent event) throws SQLException {
-    	if (katalogNameTextField.getText().isEmpty()) {
+	@FXML /* Delete the selected catalog of questions */
+	void katalogLoeschen(MouseEvent event) throws SQLException {
+		if (katalogNameTextField.getText().isEmpty()) {
 			katalogName = katalogComboBox.getValue();
 		} else {
 			katalogName = katalogNameTextField.getText();
 		}
-    	dbQuery.katalogLoeschen(katalogName);
-    	fragenAnzeigen();
-    }
-
-	@FXML /*
-			 * The following method is used to fill the Catalog ComboBox with all existing
-			 * values in the database.
-			 */
-
-
-	private void katalogeLaden(MouseEvent event) throws SQLException {
-		katalogComboBox.setItems(dbQuery.katalogeAuslesen());
+		dbQuery.katalogLoeschen(katalogName);
 		fragenAnzeigen();
 	}
 
+	
 	@FXML /*
-			 * GUI Navigation - Go to FrageErstellen screen
+			 * Method currently not used
+			 */
+	void katalogAnlegen(MouseEvent event) throws IOException {
+		
+		StartController.setWindow("Katalogverwaltung");
+	}
+
+	@FXML /*
+			 * Add a question to the selected catalog. If none is selected a new catalog name must be provided in the relevant TextArea.
 			 */
 	void frageAnlegen(MouseEvent event) throws IOException, SQLException {
 		
@@ -190,99 +238,20 @@ public class KatalogController {
 		warnungAnzeigen("Ausgewählten Fragekatalog bitte überprüfen!");
 	}
 		
-		/*if (katalogNameTextField.getText().isEmpty()) {
-			katalogName = katalogComboBox.getValue();
-		} else {
-			katalogName = katalogNameTextField.getText();
-			log.info("New Catalog creation in progress. Save new question to create "+katalogName);
-		}
-		log.info("Adding question to: "+katalogName);
-		StartController.setWindow("Frageverwaltung");*/
-
-		
-
 	}
 
 	@FXML /*
-			 * GUI Navigation - Go to AnfangsScreen screen
+			 * GUI Navigation - Save all current changes and go back to the start screen
 			 */
 	void katalogSpeichern(MouseEvent event) throws IOException {
 
 		StartController.setWindow("Startscreen");
 	}
-	
-	////////////////// Java Methods //////////////////////
 
-	// Must be moved over to DBQueries
-	// This method loads relevant question data into a ViewTable in the GUI
-	public void fragenAnzeigen() throws SQLException { 
-
+	@FXML
+	void katalogNameLesen(ActionEvent event) {
+		katalogName = katalogNameTextField.getText();
+	}	
 		
-		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
-
-		// Load DBQueries Result Set with questions from DB
-		katalogName = katalogComboBox.getValue();
-		DBQueries.rs = dbQuery.alleFrageLaden(katalogName);
-
-		fillList(frageListe);
-		showInMainTable(frageListe);
-
-	}
-	
-	public void fillList(ObservableList<Frage> fragen) throws SQLException {
-		while (DBQueries.rs.next()) { 
- 
-			// Prepare Base variables to add to list.
-
-			int ID = DBQueries.rs.getInt("idFrage");
-			String thema = DBQueries.rs.getString("Themengebiet");
-			String fragestellung = DBQueries.rs.getString("Fragestellung");
-			String musterloesung = DBQueries.rs.getString("Musterloesung");
-			int niveau = DBQueries.rs.getInt("Niveau");
-			Float punkte = DBQueries.rs.getFloat("Punkte");
-			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
-			String modul = DBQueries.rs.getString("Modul");
-			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
-
-			// Add Question Objects to list
-
-			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
-					modul));
-		}
-
-		// Define structure of FXML Table Cells you want to display data with
-	}
-	
-	public void showInMainTable(ObservableList<Frage> fragen) {
-		fxcolumn_fragestellung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
-		fxcolumn_punkte.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
-		fxcolumn_thema
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getThemengebiet()));
-		fxcolumn_niveau.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
-		fxcolumn_musterloesung
-				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
-		fragetabelle.setFixedCellSize(25);
-		fragetabelle.setItems(fragen);
-	}
-	
-	
-	
-	
-	
-	
-	
-//Evt Warning-Klasse anlegen	
-	
-	private void warnungAnzeigen(String warnung) {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("");
-		alert.setHeaderText(null);
-		alert.setContentText(warnung);
-		alert.showAndWait();
-	}
-
-	
-	
 
 }
