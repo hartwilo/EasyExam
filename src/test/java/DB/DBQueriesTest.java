@@ -34,9 +34,11 @@ class DBQueriesTest {
 	 * build DB Connection to TestDB
 	 */
 	void setUp() {
+		
         dbc.initDBConnection();
         dbc.handleDB();
-        connection = TestDB.connection;
+        //connection = TestDB.connection;
+        connection = DBConn.connection;
 	}
 	
 	/**
@@ -295,7 +297,7 @@ class DBQueriesTest {
 	}
 	
 	void tearDown() throws Exception {
-        dbc.closeConnection();
+        
     }
 
 }
