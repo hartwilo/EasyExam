@@ -30,8 +30,8 @@ public class DBConn {
         //Bachir Local
         //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC","root","Bachir1991");
         
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
-        //connection = DriverManager.getConnection(DB_URL);
+        //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexam","root","");
+        connection = DriverManager.getConnection(DB_URL);
         log.info("Database connection test: " + connection.getCatalog());
 
         /*log.info("Create database schema");

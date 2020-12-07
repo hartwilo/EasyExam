@@ -165,7 +165,7 @@ public class DBQueries {
 		alert.setTitle("");
 		alert.setHeaderText(null);
 		alert.setContentText("Möchten Sie die Frage wirklich löschen?");
-		// Only delete if ok is clicked
+	// Only delete if ok is clicked
 		Optional<ButtonType> ok = alert.showAndWait();
 
 		if (ok.get() == ButtonType.OK) {
@@ -185,7 +185,7 @@ public class DBQueries {
 		alert.setTitle("");
 		alert.setHeaderText(null);
 		alert.setContentText("Der Katalog " + katalog + " wird gelöscht");
-		// Only delete if ok is clicked
+	// Only delete if ok is clicked
 		Optional<ButtonType> ok = alert.showAndWait();
 
 		if (ok.get() == ButtonType.OK) {
@@ -260,7 +260,7 @@ public class DBQueries {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
 
-		String query = "UPDATE Frage SET gestellt = false";
+		String query = "UPDATE Frage SET gestellt = 0";
 
 		log.info("Last query: " + query);
 		return stmt.executeUpdate(query);
