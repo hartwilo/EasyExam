@@ -25,9 +25,19 @@ import de.hftstuttgart.EasyExam.Models.Frage;
  */
 class DBQueriesTest {
 
-	public static Connection connection = DBConn.connection;
+	public static Connection connection;
 	DBQueries db =new DBQueries();
-	DBConn dbconn = new DBConn();
+	TestDB dbc = TestDB.getInstance();
+	//DBConn dbconn = new DBConn();
+	
+	/**
+	 * build DB Connection to TestDB
+	 */
+	void setUp() {
+        dbc.initDBConnection();
+        dbc.handleDB();
+        connection = TestDB.connection;
+	}
 	
 	/**
 	 * Test method for {@link DB.DBQueries#frageSpeichern(Frage frage)}.
@@ -283,5 +293,9 @@ class DBQueriesTest {
 	void testKatalogeAuslesen() {
 		fail("Not yet implemented");
 	}
+	
+	void tearDown() throws Exception {
+        dbc.closeConnection();
+    }
 
 }

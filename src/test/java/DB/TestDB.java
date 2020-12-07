@@ -11,7 +11,7 @@ import java.sql.Statement;
 class TestDB {
     
     private static final TestDB testDB = new TestDB();
-    private static Connection connection;
+    static Connection connection;
     private static final String DB_PATH = System.getProperty("user.home") + "/" + "testdb.db";
 
     static {
@@ -40,7 +40,7 @@ class TestDB {
     /**
      * Method to build DB connection
      */
-    private void initDBConnection() {
+    public void initDBConnection() {
         try {
             if (connection != null)
                 return;
@@ -70,7 +70,7 @@ class TestDB {
     /**
      * Method to create tables and fill in test data 
      */
-    private void handleDB() {
+    public void handleDB() {
         try {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(	"DROP TABLE IF EXISTS Pruefung;\r\n" + 
