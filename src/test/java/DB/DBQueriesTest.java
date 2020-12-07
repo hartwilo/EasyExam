@@ -30,7 +30,7 @@ class DBQueriesTest {
 	DBConn dbconn = new DBConn();
 	
 	/**
-	 * Test method for {@link DB.DBQueries#frageSpeichern(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link DB.DBQueries#frageSpeichern(Frage frage)}.
 	 */
 	@Test
 	void testFrageSpeichern() {
