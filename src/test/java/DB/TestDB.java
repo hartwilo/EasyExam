@@ -22,14 +22,24 @@ class TestDB {
             e.printStackTrace();
         }
     }
-    
+    /**
+     * empty constructor for class TestDB 
+     */
     private TestDB(){
     }
     
+    /**
+     * Method to get the instance of TestDB
+     * 
+     * @return instance of TestDB
+     */
     public static TestDB getInstance(){
         return testDB;
     }
     
+    /**
+     * Method to build DB connection
+     */
     private void initDBConnection() {
         try {
             if (connection != null)
@@ -57,6 +67,9 @@ class TestDB {
         });
     }
 
+    /**
+     * Method to create tables and fill in test data 
+     */
     private void handleDB() {
         try {
             Statement stmt = connection.createStatement();
@@ -176,6 +189,10 @@ class TestDB {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Method to close the Database connection 
+     */
     public void closeConnection(){
     	try{
     		connection.close();
