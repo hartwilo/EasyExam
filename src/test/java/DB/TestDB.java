@@ -73,86 +73,64 @@ class TestDB {
     public void handleDB() {
         try {
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate(	"DROP TABLE IF EXISTS Pruefung;\r\n" + 
-            					"DROP TABLE IF EXISTS Fragenloesung;\r\n" + 
-            					"DROP TABLE IF EXISTS Frage;\r\n" + 
-            					"DROP TABLE IF EXISTS Fragekatalog;\r\n" + 
-            					"DROP TABLE IF EXISTS Themengebiet;\r\n" + 
-            					"DROP TABLE IF EXISTS Modul;\r\n" + 
-            					"DROP TABLE IF EXISTS Pruefer;\r\n" + 
-            					"DROP TABLE IF EXISTS Student;\r\n" + 
+            stmt.executeUpdate(	"DROP TABLE IF EXISTS Pruefung;" + 
+            					"DROP TABLE IF EXISTS Fragenloesung;" + 
+            					"DROP TABLE IF EXISTS Frage;" + 
+            					"DROP TABLE IF EXISTS Fragekatalog;" + 
+            					"DROP TABLE IF EXISTS Themengebiet;" + 
+            					"DROP TABLE IF EXISTS Modul;" + 
+            					"DROP TABLE IF EXISTS Pruefer;" + 
+            					"DROP TABLE IF EXISTS Student;" + 
             					"DROP TABLE IF EXISTS Musterloesung;");
-            stmt.executeUpdate(	"CREATE TABLE Student\r\n" + 
-            					"(Matrikelnr INTEGER PRIMARY KEY,\r\n" + 
-            					"Nachname VARCHAR(45) NOT NULL,\r\n" + 
-            					"Vorname VARCHAR(45) NOT NULL,\r\n" + 
-            					"Semester INTEGER,\r\n" + 
-            					"Studiengang VARCHAR(45));\r\n" + 
-            					"\r\n" + 
-            					"CREATE TABLE Pruefer\r\n" + 
-            					"(PersNr INTEGER PRIMARY KEY,\r\n" + 
-            					"Nachname VARCHAR(45) NOT NULL,\r\n" + 
-            					"Vorname VARCHAR(45) NOT NULL);\r\n" + 
-            					"\r\n" + 
-            					"CREATE TABLE Frage\r\n" + 
-            					"(idFrage INTEGER PRIMARY KEY auto_increment,\r\n" + 
-            					"Fragestellung text NOT NULL,\r\n" + 
-            					"Musterloesung text,\r\n" + 
-            					"Niveau INTEGER NOT NULL,\r\n" + 
-            					"Punkte FLOAT NOT NULL,\r\n" + 
-            					"gestellt TINYINT,\r\n" + 
-            					"Themengebiet VARCHAR(255),\r\n" + 
-            					"Fragekatalog VARCHAR(255),\r\n" + 
-            					"Modul VARCHAR(255),\r\n" + 
-            					"grundLageNiveau VARCHAR(255),\r\n" + 
-            					"gut VARCHAR(255),\r\n" + 
-            					"sehrGut VARCHAR(255));\r\n" + 
-            					"\r\n" + 
-            					"CREATE TABLE Pruefung\r\n" + 
-            					"(idPruefung INTEGER PRIMARY KEY,\r\n" + 
-            					"Bezeichnung VARCHAR(45) NOT NULL,\r\n" + 
-            					"Note FLOAT,\r\n" + 
-            					"Fragekatalog_fk INTEGER,\r\n" + 
-            					"Matrikelnr INTEGER,\r\n" + 
-            					"PersNr INTEGER,\r\n" + 
-            					"CONSTRAINT fk_PersNr FOREIGN KEY (PersNr) REFERENCES Pruefer (PersNr) ON DELETE CASCADE ON UPDATE CASCADE,\r\n" + 
-            					"CONSTRAINT fk_Matrikelnr FOREIGN KEY (Matrikelnr) REFERENCES Student (Matrikelnr) ON DELETE CASCADE ON UPDATE CASCADE);\r\n" + 
-            					"\r\n" + 
-            					"CREATE TABLE Fragenloesung\r\n" + 
-            					"(idFragenloesung INTEGER PRIMARY KEY, \r\n" + 
-            					"Niveau INTEGER NOT NULL,\r\n" + 
-            					"Frage_fk INTEGER,\r\n" + 
-            					"CONSTRAINT fk_Frage FOREIGN KEY (Frage_fk) REFERENCES Frage (idFrage) ON DELETE CASCADE ON UPDATE CASCADE);");
-            stmt.execute(	"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123456,'Speiser','Sebastian');\r\n" + 
-            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123455,'Höss','Oliver');\r\n" + 
-            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123457,'Kramer','Ralf');\r\n" + 
-            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123454,'Lueckemeyer','Gero');\r\n" + 
-            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123453,'Dehdari','Payam');\r\n" + 
-            				"\r\n" + 
-            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (121212, 'Hartwig', 'Lorenz', 6, 'WI');\r\n" + 
-            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (131313, 'Jakobi', 'Jana', 5, 'WI');\r\n" + 
-            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (141414, 'Alnaser', 'Bachir', 5, 'WI');\r\n" + 
-            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (151515, 'Kallenberger', 'Ruth', 5, 'WI');\r\n" + 
-            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (161616, 'Shkurti', 'Gjergji', 6, 'WI');\r\n" + 
-            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (171717, 'Durmus', 'Esma', 6, 'WI');\r\n" + 
-            				"\r\n" + 
-            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Was ist 1+1?', 'Die Lösung ist 2.', 1, 1.5, 0, 'Business Process Model and Notation','QM SS2019', 'QM', 'Level 1', 'Level 2', 'Level 3');\r\n" + 
-            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Für was steht QM?', 'QM steht für Qualitäsmanagement.', 2, 3.0, 0, 'Business Process Model and Notation','GPM WS 2020', 'GPM', 'Level 1', 'Level 2', 'Level 3');\r\n" + 
-            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Wie groß ist eine Europalette?', 'Eine Europalette ist 80x120cm groß.', 3, 2.5, 0, 'Beschaffungsmanagement', 'Logistik WS2016', 'Logistik', 'Level 1', 'Level 2', 'Level 3');\r\n" + 
-            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Wofür steht OOP?', 'OOP steht für objektorientierte Programmierung.', 1, 1.5, 1, 'Beschaffungsmanagement', 'Logistik WS2016', 'Logistik', 'Level 1', 'Level 2', 'Level 3');\r\n" + 
-            				"\r\n" + 
-            				"Insert Into Pruefung(idPruefung,Bezeichnung,Note,Fragekatalog_fk,Matrikelnr,PersNr) Values (1423, 'Qualitaetsmanagement SS2020', 1.0, 943829, 121212, 123454);\r\n" + 
-            				"Insert Into Pruefung(idPruefung,Bezeichnung,Note,Fragekatalog_fk,Matrikelnr,PersNr) Values (3425, 'Beschaffung und Logistik WS20/21', 1.7, 239857, 161616, 123453);\r\n" + 
-            				"\r\n" + 
-            				"\r\n" + 
-            				"\r\n" + 
-            				"Insert Into Fragenloesung (idFragenloesung, Niveau, Frage_fk) Values (333739851, 42 , 11184729);\r\n" + 
-            				"Insert Into Fragenloesung (idFragenloesung, Niveau, Frage_fk) Values (333739852, 42, 11184730);\r\n" + 
-            				"Insert Into Fragenloesung (idFragenloesung, Niveau, Frage_fk) Values (333739853, 42, 11184731);\r\n" + 
-            				"\r\n" + 
-            				"SELECT * FROM Pruefer;\r\n" + 
-            				"\r\n" + 
-            				"");
+            stmt.executeUpdate(	"CREATE TABLE Student" + 
+            					"(Matrikelnr INTEGER PRIMARY KEY," + 
+            					"Nachname VARCHAR(45) NOT NULL," + 
+            					"Vorname VARCHAR(45) NOT NULL," + 
+            					"Semester INTEGER," + 
+            					"Studiengang VARCHAR(45));" + 
+            					"CREATE TABLE Pruefer" + 
+            					"(PersNr INTEGER PRIMARY KEY," + 
+            					"Nachname VARCHAR(45) NOT NULL," + 
+            					"Vorname VARCHAR(45) NOT NULL);" + 
+            					"CREATE TABLE Frage" + 
+            					"(idFrage INTEGER PRIMARY KEY AUTOINCREMENT," + 
+            					"Fragestellung text NOT NULL," + 
+            					"Musterloesung text," + 
+            					"Niveau INTEGER NOT NULL," + 
+            					"Punkte FLOAT NOT NULL," + 
+            					"gestellt TINYINT," + 
+            					"Themengebiet VARCHAR(255)," + 
+            					"Fragekatalog VARCHAR(255)," + 
+            					"Modul VARCHAR(255)," + 
+            					"grundLageNiveau VARCHAR(255)," + 
+            					"gut VARCHAR(255)," + 
+            					"sehrGut VARCHAR(255));" + 
+            					"CREATE TABLE Pruefung" + 
+            					"(idPruefung INTEGER PRIMARY KEY," + 
+            					"Bezeichnung VARCHAR(45) NOT NULL," + 
+            					"Note FLOAT," + 
+            					"Fragekatalog_fk INTEGER," + 
+            					"Matrikelnr INTEGER," + 
+            					"PersNr INTEGER," + 
+            					"CONSTRAINT fk_PersNr FOREIGN KEY (PersNr) REFERENCES Pruefer (PersNr) ON DELETE CASCADE ON UPDATE CASCADE," + 
+            					"CONSTRAINT fk_Matrikelnr FOREIGN KEY (Matrikelnr) REFERENCES Student (Matrikelnr) ON DELETE CASCADE ON UPDATE CASCADE);");
+            stmt.execute(	"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123456,'Speiser','Sebastian');" + 
+            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123455,'Höss','Oliver');" + 
+            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123457,'Kramer','Ralf');" + 
+            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123454,'Lueckemeyer','Gero');" + 
+            				"Insert Into Pruefer(PersNr, Nachname, Vorname) Values (123453,'Dehdari','Payam');" + 
+            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (121212, 'Hartwig', 'Lorenz', 6, 'WI');" + 
+            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (131313, 'Jakobi', 'Jana', 5, 'WI');" + 
+            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (141414, 'Alnaser', 'Bachir', 5, 'WI');" + 
+            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (151515, 'Kallenberger', 'Ruth', 5, 'WI');" + 
+            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (161616, 'Shkurti', 'Gjergji', 6, 'WI');" + 
+            				"Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (171717, 'Durmus', 'Esma', 6, 'WI');" + 
+            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Was ist 1+1?', 'Die Lösung ist 2.', 1, 1.5, 0, 'Business Process Model and Notation','QM SS2019', 'QM', 'Level 1', 'Level 2', 'Level 3');" + 
+            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Für was steht QM?', 'QM steht für Qualitäsmanagement.', 2, 3.0, 0, 'Business Process Model and Notation','GPM WS 2020', 'GPM', 'Level 1', 'Level 2', 'Level 3');" + 
+            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Wie groß ist eine Europalette?', 'Eine Europalette ist 80x120cm groß.', 3, 2.5, 0, 'Beschaffungsmanagement', 'Logistik WS2016', 'Logistik', 'Level 1', 'Level 2', 'Level 3');" + 
+            				"Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Wofür steht OOP?', 'OOP steht für objektorientierte Programmierung.', 1, 1.5, 1, 'Beschaffungsmanagement', 'Logistik WS2016', 'Logistik', 'Level 1', 'Level 2', 'Level 3');" + 
+            				"Insert Into Pruefung(idPruefung,Bezeichnung,Note,Fragekatalog_fk,Matrikelnr,PersNr) Values (1423, 'Qualitaetsmanagement SS2020', 1.0, 943829, 121212, 123454);" + 
+            				"Insert Into Pruefung(idPruefung,Bezeichnung,Note,Fragekatalog_fk,Matrikelnr,PersNr) Values (3425, 'Beschaffung und Logistik WS20/21', 1.7, 239857, 161616, 123453);");
             
            /*PreparedStatement ps = connection
                     .prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?);");

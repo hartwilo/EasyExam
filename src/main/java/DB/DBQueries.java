@@ -1,5 +1,6 @@
 package DB;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import javafx.scene.control.ButtonType;
 public class DBQueries {
 
 	private static final Logger log;
+	Connection connection = null;
 
 	static {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,6 +31,7 @@ class DBQueriesTest {
 	TestDB dbc = TestDB.getInstance();
 	//DBConn dbconn = new DBConn();
 	
+	
 	/**
 	 * build DB Connection to TestDB
 	 */
@@ -37,8 +39,8 @@ class DBQueriesTest {
 		
         dbc.initDBConnection();
         dbc.handleDB();
-        //connection = TestDB.connection;
-        connection = DBConn.connection;
+        connection = TestDB.connection;
+        //connection = DBConn.connection;
 	}
 	
 	/**
@@ -48,8 +50,9 @@ class DBQueriesTest {
 	void testFrageSpeichern() {
 		
         try {
-        	DBConn.buildConn();
-        	
+        	dbc.initDBConnection();
+            dbc.handleDB();
+            connection = TestDB.connection;
         	
         	try {
            /* try (Statement stmt=connection.createStatement())
@@ -71,9 +74,12 @@ class DBQueriesTest {
                 String themengebiet="Mathe";
                 String fragekatalog="35";
                 String modul="Mathe2";
+                String grundLageNiveau="grundLageNiveau";
+                String gut="gut";
+                String sehrGut="sehrGut";
 
                 // Do the call:
-                Frage frage = new Frage(frageId, fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul);
+                Frage frage = new Frage(frageId, fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul, grundLageNiveau, gut, sehrGut);
                 assertEquals(1, db.frageSpeichern(frage)); 
                 
                 // Javabean Checks: Check the javabean contains the expected values:
@@ -89,20 +95,27 @@ class DBQueriesTest {
                 
                 // Database Checks:
                 // Check the Person table contains one row with the expected values:
-                Statement stmt=connection.createStatement();
-                try(ResultSet rs=stmt.executeQuery("SELECT * FROM Frage"))
+                try(PreparedStatement stmt=connection.prepareStatement("SELECT * FROM Frage"))
                 {
-                    assertTrue(rs.next());
-                    frageId=rs.getInt("idFrage");
-                    assertEquals(fragestellung, rs.getString("Fragestellung"));
-                    assertEquals(musterloesung, rs.getString("Musterloesung"));
-                    assertEquals(niveau, rs.getInt("Niveau"));
-                    assertEquals(gestellt, rs.getBoolean("gestellt"));
-                    assertEquals(themengebiet, rs.getString("Themengebiet"));
-                    assertEquals(fragekatalog, rs.getString("Fragekatalog"));
-                    assertEquals(punkte, rs.getFloat("Punkte"));
-                    assertEquals(modul, rs.getString("Modul"));
-                    assertFalse(rs.next());
+                	ResultSet rs = stmt.executeQuery();
+                    while(rs.next()) {
+                    	if(frageId == rs.getInt("idFrage")) {
+                    		assertEquals(fragestellung, rs.getString("Fragestellung"));
+                            assertEquals(musterloesung, rs.getString("Musterloesung"));
+                            assertEquals(niveau, rs.getInt("Niveau"));
+                            assertEquals(gestellt, rs.getBoolean("gestellt"));
+                            assertEquals(themengebiet, rs.getString("Themengebiet"));
+                            assertEquals(fragekatalog, rs.getString("Fragekatalog"));
+                            assertEquals(punkte, rs.getFloat("Punkte"));
+                            assertEquals(modul, rs.getString("Modul"));
+                            assertEquals(grundLageNiveau, rs.getString("grundLageNiveau"));
+                            assertEquals(gut, rs.getString("gut"));
+                            assertEquals(sehrGut, rs.getString("sehrGut"));
+                    	}
+                    }
+                }
+                catch(Exception e) {
+                	e.printStackTrace();
                 }
             }
             finally

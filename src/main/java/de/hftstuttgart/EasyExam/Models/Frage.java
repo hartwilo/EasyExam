@@ -80,7 +80,7 @@ public class Frage {
 		Modul = modul;
 	}
  
-
+	
 	public String getGut() {
 		return gut;
 	}
