@@ -132,6 +132,7 @@ class TestDB {
             				"Insert Into Pruefung(idPruefung,Bezeichnung,Note,Fragekatalog_fk,Matrikelnr,PersNr) Values (1423, 'Qualitaetsmanagement SS2020', 1.0, 943829, 121212, 123454);" + 
             				"Insert Into Pruefung(idPruefung,Bezeichnung,Note,Fragekatalog_fk,Matrikelnr,PersNr) Values (3425, 'Beschaffung und Logistik WS20/21', 1.7, 239857, 161616, 123453);");
             
+            System.out.println("Datenbank erstellt");
            /*PreparedStatement ps = connection
                     .prepareStatement("INSERT INTO books VALUES (?, ?, ?, ?, ?);");
 

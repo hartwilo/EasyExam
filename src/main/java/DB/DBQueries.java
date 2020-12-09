@@ -41,8 +41,6 @@ public class DBQueries {
 	 * @param modul
 	 * @throws SQLException
 	 */
-
-	// Save/Create a new question in the db
 	public int frageSpeichern(Frage frage) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 
@@ -78,7 +76,13 @@ public class DBQueries {
 		return stmt.executeUpdate();
 	}
 
-	// Load all questions
+	/**
+	 * Load all questions
+	 * 
+	 * @param katalog
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet alleFrageLaden(String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
@@ -90,7 +94,14 @@ public class DBQueries {
 
 	}
 
-	// Load questions based on topic
+	/**
+	 * Load questions based on topic
+	 * 
+	 * @param themengebiet
+	 * @param katalog
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet frageLaden_themengebiet(String themengebiet, String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
@@ -102,7 +113,14 @@ public class DBQueries {
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 
-	// Load questions based on diff level
+	/**
+	 * Load questions based on different level
+	 * 
+	 * @param niveau
+	 * @param katalog
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet frageLaden_niveau(int niveau, String katalog) throws SQLException {
 		String niv = Integer.toString(niveau);
 		DBConn.connection.setAutoCommit(true);
@@ -116,7 +134,15 @@ public class DBQueries {
 
 	}
 
-	// Load questions based on diff. level and topic
+	/**
+	 * Load questions based on diff. level and topic
+	 * 
+	 * @param niveau
+	 * @param themengebiet
+	 * @param katalog
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet frageLaden_niveau_themengebiet(int niveau, String themengebiet, String katalog)
 			throws SQLException {
 		String niv = Integer.toString(niveau);
@@ -130,7 +156,13 @@ public class DBQueries {
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 
-	// Load all asked questions
+	/**
+	 * Load all asked questions
+	 * 
+	 * @param katalog
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet fragenLaden_gestellt(String katalog) throws SQLException {
 
 		DBConn.connection.setAutoCommit(true);
@@ -143,7 +175,14 @@ public class DBQueries {
 
 	}
 
-	// Ask a question to a student - change boolean property of the question
+	/**
+	 * Ask a question to a student - change boolean property of the question
+	 * 
+	 * @param frage
+	 * @param gestellt
+	 * @return
+	 * @throws SQLException
+	 */
 	public int frageStellen(Frage frage, Boolean gestellt) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
@@ -155,7 +194,12 @@ public class DBQueries {
 		return stmt.executeUpdate(query);
 	}
 
-	// Delete a single question
+	/**
+	 * Delete a single question
+	 * 
+	 * @param ID
+	 * @throws SQLException
+	 */
 	public void frageLoeschen(int ID) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
@@ -178,7 +222,12 @@ public class DBQueries {
 		}
 	}
 
-	// Delete an entire catalog of questions
+	/**
+	 * Delete an entire catalog of questions
+	 * 
+	 * @param katalog
+	 * @throws SQLException
+	 */
 	public void katalogLoeschen(String katalog) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
@@ -227,6 +276,12 @@ public class DBQueries {
 		return themengebiete;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return ObservableList with Fragekatalog
+	 * @throws SQLException
+	 */
 	public ObservableList<String> katalogeAuslesen() throws SQLException {
 		ObservableList<String> kataloge = FXCollections.observableArrayList();
 		Statement stmt = DBConn.connection.createStatement();
@@ -245,7 +300,20 @@ public class DBQueries {
 		return kataloge;
 	}
 
-	// Old method for saving questions, no longer used
+	/**
+	 * Old method for saving questions, no longer used
+	 * 
+	 * @param fragestellung
+	 * @param musterloesung
+	 * @param niveau
+	 * @param punkte
+	 * @param gestellt
+	 * @param themengebiet
+	 * @param fragekatalog
+	 * @param modul
+	 * @return
+	 * @throws SQLException
+	 */
 	public int frageSpeichern_SIDB(String fragestellung, String musterloesung, int niveau, double punkte,
 			String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException {
 		DBConn.connection.setAutoCommit(true);
@@ -258,6 +326,12 @@ public class DBQueries {
 		return stmt.executeUpdate(query);
 	}
 
+	/**
+	 * set gestellt=false for all methods 
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public int setAllFalse() throws SQLException {
 		DBConn.connection.setAutoCommit(true);
 		Statement stmt = DBConn.connection.createStatement();
