@@ -155,13 +155,29 @@ class DBQueriesTest {
         }
  
 	/**
-	 * Test method for {@link DB.DBQueries#frageLaden_niveau(int, String)}
+	 * Test method for {@link DB.DBQueries#testFrageLaden_themengebiet)}
 	 */
 	@Test
-	void testFrageLadenNiveau() {
+	void testFrageLaden_themengebiet() {
 		fail("not yet implemented");
 	}
-
+	
+	/**
+	 * Test method for {@link DB.DBQueries#frageLaden_Niveau(int, String)}
+	 */
+	@Test
+	void testFrageLaden_Niveau() {
+		fail("not yet implemented");
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#frageLaden_niveau_themengebiet(int, String, String)}
+	 */
+	@Test
+	void testFrageLaden_Niveau_themengebiet() {
+		fail("not yet implemented");
+	}
+	
 	/**
 	 * Test method for {@link DB.BDQueries#fragenLaden_gestellt)}
 	 */
@@ -264,6 +280,14 @@ class DBQueriesTest {
 	void testFrageLoeschen() {
 		fail("Not yet implemented");
 	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#katalogLoeschen(String)}
+	 */
+	@Test
+	void testKatalogLoeschen() {
+		fail("not yet implemented");
+	}
 
 	/**
 	 * Test method for {@link DB.DBQueries#themengebieteAuslesen()}.
@@ -274,15 +298,17 @@ class DBQueriesTest {
 	}
 
 	/**
+	 * Test method for {@link DB.DBQueries#frageSpeichern_SIBD(String, String, int, double, String, String, String, String)}
+	 */
+	@Test
+	void testFrageSpeichern_SIBD() {
+		fail("not yet implemented");
+	}
+	/**
 	 * Test method for {@link DB.DBQueries#katalogeAuslesen()}.
 	 */
 	@Test
 	void testKatalogeAuslesen() {
 		fail("Not yet implemented");
 	}
-	
-	void tearDown() throws Exception {
-        
-    }
-
 }
