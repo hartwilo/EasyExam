@@ -55,7 +55,7 @@ public class PruefungController {
 	Protokoll protokoll = new Protokoll();
 
 	// Database related variables
-	DBQueries dbQuery = new DBQueries();
+	DBQueries dbQuery = new DBQueries(DBConn.connection);
 
 	public static String katalogName;
 	

@@ -124,7 +124,7 @@ public class FrageController {
 	@FXML
 	private Label katalogLabel;
 	
-	DBQueries dbQuery = new DBQueries();
+	DBQueries dbQuery = new DBQueries(DBConn.connection);
 	public static String themengebiet;
 	
 	

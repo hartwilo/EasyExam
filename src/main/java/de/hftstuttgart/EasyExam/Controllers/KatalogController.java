@@ -87,7 +87,7 @@ public class KatalogController {
 	@FXML
 	private ComboBox<String> katalogComboBox;
 	
-	static DBQueries dbQuery = new DBQueries();
+	static DBQueries dbQuery = new DBQueries(DBConn.connection);
 	public static String katalogName;
 	
 	

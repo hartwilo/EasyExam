@@ -22,7 +22,7 @@ public class UebersichtController {
 
 	private static final Logger log;
 
-	DBQueries dbQuery = new DBQueries();
+	DBQueries dbQuery = new DBQueries(DBConn.connection);
 
 	static {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");

@@ -27,6 +27,10 @@ public class DBQueries {
 
 	// Must be closed
 	public static ResultSet rs;
+	
+	public DBQueries(Connection conn) {
+		connection = conn;
+	}
 
 	/**
 	 * SQL-Query to save questions in Database
@@ -42,12 +46,12 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public int frageSpeichern(Frage frage) throws SQLException {
-		DBConn.connection.setAutoCommit(true);
+		connection.setAutoCommit(true);
 
 		String query = "INSERT INTO FRAGE(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) "
 				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
-		PreparedStatement stmt = DBConn.connection.prepareStatement(query);
+		PreparedStatement stmt = connection.prepareStatement(query);
 
 		String fragestellung = frage.getFrageStellung();
 		String musterloesung = frage.getMusterloesung();
@@ -84,8 +88,8 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public ResultSet alleFrageLaden(String katalog) throws SQLException {
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		String query = "SELECT * FROM Frage where Fragekatalog = " + "'" + katalog + "'";
 
@@ -103,8 +107,8 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public ResultSet frageLaden_themengebiet(String themengebiet, String katalog) throws SQLException {
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		String query = "Select * from Frage where themengebiet =" + "'" + themengebiet + "'" + " and Fragekatalog = "
 				+ "'" + katalog + "'";
@@ -123,8 +127,8 @@ public class DBQueries {
 	 */
 	public ResultSet frageLaden_niveau(int niveau, String katalog) throws SQLException {
 		String niv = Integer.toString(niveau);
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		String query = "Select * from Frage where niveau =" + "'" + niv + "'" + " and Fragekatalog = " + "'" + katalog
 				+ "'";
@@ -146,8 +150,8 @@ public class DBQueries {
 	public ResultSet frageLaden_niveau_themengebiet(int niveau, String themengebiet, String katalog)
 			throws SQLException {
 		String niv = Integer.toString(niveau);
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		String query = "Select * from Frage where niveau = " + "'" + niv + "'" + " and themengebiet = " + "'"
 				+ themengebiet + "'" + " and Fragekatalog = " + "'" + katalog + "'";
@@ -165,8 +169,8 @@ public class DBQueries {
 	 */
 	public ResultSet fragenLaden_gestellt(String katalog) throws SQLException {
 
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		String query = "SELECT * from Frage WHERE gestellt = 1 " + "AND Fragekatalog = " + "'" + katalog + "'";
 
@@ -184,8 +188,8 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public int frageStellen(Frage frage, Boolean gestellt) throws SQLException {
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 		int intGestellt = gestellt ? 1 : 0;
 		int id = frage.getID();
 		String query = "UPDATE Frage SET gestellt = " + intGestellt + " where idFrage = " + id;
@@ -201,8 +205,8 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public void frageLoeschen(int ID) throws SQLException {
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		String query = "DELETE FROM Frage WHERE idFrage = " + ID;
 
@@ -229,8 +233,8 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public void katalogLoeschen(String katalog) throws SQLException {
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("");
@@ -260,7 +264,7 @@ public class DBQueries {
 	 */
 	public ObservableList<String> themengebieteAuslesen(String katalog) throws SQLException {
 		ObservableList<String> themengebiete = FXCollections.observableArrayList();
-		Statement stmt = DBConn.connection.createStatement();
+		Statement stmt = connection.createStatement();
 
 		String query = "SELECT themengebiet FROM Frage where Fragekatalog = " + "'" + katalog + "'";
 
@@ -284,7 +288,7 @@ public class DBQueries {
 	 */
 	public ObservableList<String> katalogeAuslesen() throws SQLException {
 		ObservableList<String> kataloge = FXCollections.observableArrayList();
-		Statement stmt = DBConn.connection.createStatement();
+		Statement stmt = connection.createStatement();
 
 		String query = "SELECT Fragekatalog FROM Frage";
 
@@ -316,8 +320,8 @@ public class DBQueries {
 	 */
 	public int frageSpeichern_SIDB(String fragestellung, String musterloesung, int niveau, double punkte,
 			String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException {
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
 				+ "Values('" + fragestellung + "','" + musterloesung + "', '" + niveau + "', '" + punkte + "', '"
 				+ gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul + "')";
@@ -333,8 +337,8 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public int setAllFalse() throws SQLException {
-		DBConn.connection.setAutoCommit(true);
-		Statement stmt = DBConn.connection.createStatement();
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
 
 		String query = "UPDATE Frage SET gestellt = 0";
 

@@ -27,19 +27,20 @@ import de.hftstuttgart.EasyExam.Models.Frage;
 class DBQueriesTest {
 
 	public static Connection connection;
-	DBQueries db =new DBQueries();
-	TestDB dbc = TestDB.getInstance();
+	static TestDB dbc = TestDB.getInstance();
 	//DBConn dbconn = new DBConn();
+	static DBQueries db;
 	
 	
 	/**
 	 * build DB Connection to TestDB
 	 */
-	void setUp() {
-		
+	@BeforeAll
+	static void setUp() {
         dbc.initDBConnection();
         dbc.handleDB();
         connection = TestDB.connection;
+        db =new DBQueries(connection);
         //connection = DBConn.connection;
 	}
 	
@@ -50,9 +51,6 @@ class DBQueriesTest {
 	void testFrageSpeichern() {
 		
         try {
-        	dbc.initDBConnection();
-            dbc.handleDB();
-            connection = TestDB.connection;
         	
         	try {
            /* try (Statement stmt=connection.createStatement())
