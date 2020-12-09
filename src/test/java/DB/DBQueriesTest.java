@@ -28,7 +28,6 @@ class DBQueriesTest {
 
 	public static Connection connection;
 	static TestDB dbc = TestDB.getInstance();
-	//DBConn dbconn = new DBConn();
 	static DBQueries db;
 	
 	
@@ -41,7 +40,6 @@ class DBQueriesTest {
         dbc.handleDB();
         connection = TestDB.connection;
         db =new DBQueries(connection);
-        //connection = DBConn.connection;
 	}
 	
 	/**
@@ -97,7 +95,7 @@ class DBQueriesTest {
                 {
                 	ResultSet rs = stmt.executeQuery();
                     while(rs.next()) {
-                    	if(frageId == rs.getInt("idFrage")) {
+                    	if(fragestellung.equals(rs.getString("Fragestellung"))) {
                     		assertEquals(fragestellung, rs.getString("Fragestellung"));
                             assertEquals(musterloesung, rs.getString("Musterloesung"));
                             assertEquals(niveau, rs.getInt("Niveau"));

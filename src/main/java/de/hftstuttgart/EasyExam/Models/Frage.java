@@ -111,7 +111,7 @@ public class Frage {
 		Modul = modul;
 		this.grundLageNiveau = grundLageNiveau;
 		this.gut = gut;
-		this.sehrGut = gut;
+		this.sehrGut = sehrGut;
 	}
 	
 	public Frage(String frageStellung, String musterloesung, int niveau, String themengebiet,

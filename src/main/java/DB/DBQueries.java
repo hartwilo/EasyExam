@@ -57,7 +57,7 @@ public class DBQueries {
 		String musterloesung = frage.getMusterloesung();
 		String themengebiet = frage.getThemengebiet();
 		String fragekatalog = frage.getFragekatalog();
-		String modul = "tbd"; // TODO!
+		String modul = frage.getModul(); // TODO!
 		String grundlage = frage.getGrundLageNiveau();
 		String gut = frage.getGut();
 		String sehrGut = frage.getSehrGut();
