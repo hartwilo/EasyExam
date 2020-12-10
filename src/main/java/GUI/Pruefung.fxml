@@ -68,7 +68,7 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4560f5" height="50.0" stroke="BLACK" strokeType="INSIDE" width="1310.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="50.0" stroke="BLACK" strokeType="INSIDE" width="1310.0" />
             <Button fx:id="zueruck" layoutX="1247.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" text="Back" />
             <MenuButton layoutX="1141.0" layoutY="13.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="97.0" text="Navigation">
               <items>
@@ -83,6 +83,8 @@
             </Label>
             <Button fx:id="aktualisieren" layoutX="616.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#aktualisieren" prefHeight="25.0" prefWidth="94.0" text="Aktualisieren" textFill="#4560f5" />
             <Button fx:id="pdfErstellen" layoutX="984.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#pdfErstellenClick" text="PDF erstellen" />
+            <Button fx:id="uebersicht" layoutX="719.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#uebersichtAnzeigen" prefHeight="25.0" prefWidth="94.0" text="Übersicht" />
+            <Button fx:id="test" layoutX="851.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#test" text="Test" />
          </children>
       </AnchorPane>
    </children>

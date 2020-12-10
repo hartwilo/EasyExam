@@ -52,7 +52,7 @@
       <Label layoutX="353.0" layoutY="339.0" text="Sehr Gut (zusätzlich zu Gut):" />
       <TextField fx:id="levelSehrGut" layoutX="350.0" layoutY="362.0" prefHeight="25.0" prefWidth="248.0" />
       <Button fx:id="zueruck" layoutX="457.0" layoutY="404.0" mnemonicParsing="false" onMouseClicked="#zueruck" prefHeight="25.0" prefWidth="61.0" text="Zurück" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4560f5" height="42.0" stroke="BLACK" strokeType="INSIDE" width="625.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="42.0" stroke="BLACK" strokeType="INSIDE" width="625.0" />
       <TextField fx:id="themengebietTextField" layoutX="348.0" layoutY="89.0" prefHeight="26.0" prefWidth="246.0" promptText="Themengebiet eingeben" />
       <Label fx:id="themenGebietEingebenLB" layoutX="347.0" layoutY="61.0" text="Themengebiet" />
       <Label fx:id="katalogLabel" layoutX="32.0" layoutY="18.0" textFill="#3b5aff">

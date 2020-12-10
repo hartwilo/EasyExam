@@ -60,7 +60,9 @@ public class PruefungController {
 	// Database related variables
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
 
-	public static String katalogName;
+	public static String katalogName; //remove ?
+	
+	public static ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 	
 	
 
@@ -159,8 +161,8 @@ public class PruefungController {
 	@FXML
 	private Button setFalse;
 
-	@FXML
-	private Button uebersicht;
+    @FXML
+    private Button uebersicht;
 
 	@FXML
 	private Button remove;
@@ -289,6 +291,32 @@ public class PruefungController {
 		}
 
 	}
+
+	public void showDetails(Frage frage, ObservableList<Frage> kompetenzStufe) {
+		frageStellungDetail.setText(frage.getFrageStellung());
+		frageStellungDetail.setEditable(false);
+		musterLoesungDetailliert.setText(frage.getMusterloesung());
+		musterLoesungDetailliert.setEditable(false);
+		punktZahlDetail.setText("   / " + frage.getPunkte());
+
+		grundlagenniveau.setCellValueFactory(new PropertyValueFactory<>("grundLageNiveau"));
+		gut.setCellValueFactory(new PropertyValueFactory<>("gut"));
+		sehrGut.setCellValueFactory(new PropertyValueFactory<>("sehrGut"));
+
+		kompetenzStufe.add(frage);
+		kompetenzlevelTabelle.setItems(kompetenzStufe);
+
+		frageStellungDetail.setWrapText(true);
+		musterLoesungDetailliert.setWrapText(true);
+	}
+	
+
+	//Returns true if the overview window is being shown and false otherwise
+	public boolean uebersichtIsShowing() {
+		if (UebersichtController.stage.isShowing()) return true;
+		else return false;
+	
+	}
 	
 												////////////// FXML Methods ///////////////////
 	
@@ -313,23 +341,11 @@ public class PruefungController {
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
-			frageStellungDetail.setText(frage.getFrageStellung());
-			frageStellungDetail.setEditable(false);
-			musterLoesungDetailliert.setText(frage.getMusterloesung());
-			musterLoesungDetailliert.setEditable(false);
-			punktZahlDetail.setText("   / " + frage.getPunkte());
-			
-			grundlagenniveau.setCellValueFactory(new PropertyValueFactory<>("grundLageNiveau"));
-			gut.setCellValueFactory(new PropertyValueFactory<>("gut"));
-			sehrGut.setCellValueFactory(new PropertyValueFactory<>("sehrGut"));
-			
-			kompetenzStufe.add(frage);
-			kompetenzlevelTabelle.setItems(kompetenzStufe);
+			showDetails(frage, kompetenzStufe);
 
 		}
 
-		frageStellungDetail.setWrapText(true);
-		musterLoesungDetailliert.setWrapText(true);
+		
 
 	}
 	
@@ -339,7 +355,7 @@ public class PruefungController {
 
 			Frage frage = getSelected();
 			dbQuery.frageStellen(frage, true);
-
+			
 			showQuestions();
 
 		}
@@ -394,6 +410,14 @@ public class PruefungController {
 		void aktualisieren(MouseEvent event) throws SQLException {
 			showQuestions();
 			log.info("Refresh");
+		}
+		
+		public void showUebersicht() throws SQLException, IOException {
+
+			katalogName = katalogeComboBox.getValue();
+
+			uController.show();
+
 		}
 		
 
@@ -451,46 +475,33 @@ public class PruefungController {
 		}
 		
 		
+		@FXML // Shows the overview if it isn't already showing, brings it to the front if the button is clicked after it's showing
+		void uebersichtAnzeigen(MouseEvent event) throws IOException, SQLException {
+			if(!uebersichtIsShowing()) {
+				showUebersicht();
+			} else if (!UebersichtController.stage.isFocused()) {
+				UebersichtController.stage.toFront();
+			}
+			
+		}
 		
+	
 		
 													///////////////////// Not implemented/ Currently working on. ///////////////////
 		
-		@FXML
-		void uebersichtAnzeigen(MouseEvent event) throws IOException, SQLException {
-
-			showUebersicht();
-		}
+	
 		
-		// Not implemented, not nessecary with current solution
-		public void showUebersicht() throws SQLException {
-
-			try {
-
-				ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
-				katalogName = katalogeComboBox.getValue();
-				String katalog = katalogName;
-
-				log.info("Catalog name static var is: " + katalogName);
-
-				dbQuery.fragenLaden_gestellt(katalog);
-				uController.show();
-
-				fillList(gestellteFragen);
-				// uController.fillAskedList(gestellteFragen);
-				uController.displayUebersicht(gestellteFragen);
-
-			} catch (IOException e) {
-				Logger logger = Logger.getLogger(getClass().getName());
-				log.warning("Not found!");
-			}
-
-		}
-
-		// Not implemented, not nessecary with current solution
-		public void overview() throws SQLException, IOException {
-			dbQuery.fragenLaden_gestellt(katalogName);
-			uController.show();
-
-		}
+															/////////////// Imp. func. Testing ///////////////////
+		
+		//The test button and method are used for debugging and testing features 
+		
+		@FXML
+	    private Button test;
+		
+	    @FXML
+	    void test(MouseEvent event) throws SQLException {
+	    	katalogName = katalogeComboBox.getValue();
+	    	dbQuery.fragenLaden_gestellt(katalogName);
+	    }
 
 }

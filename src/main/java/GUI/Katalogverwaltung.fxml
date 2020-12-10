@@ -49,7 +49,7 @@
             <Button fx:id="frageLoeschen" layoutX="949.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageLoeschen" prefHeight="26.0" prefWidth="78.0" text="Löschen" />
             <ComboBox fx:id="katalogComboBox" layoutX="16.0" layoutY="94.0" onMouseClicked="#katalogeLaden" prefHeight="26.0" prefWidth="904.0" />
             <Button fx:id="katalogLoeschen" layoutX="978.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#katalogLoeschen" prefHeight="26.0" prefWidth="50.0" text="-" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4560f5" height="49.0" layoutX="-1.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="1050.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="49.0" layoutX="-1.0" layoutY="-3.0" stroke="BLACK" strokeType="INSIDE" width="1050.0" />
             <Label layoutX="20.0" layoutY="4.0" prefHeight="17.0" prefWidth="450.0" text="HFT-Stuttgart EasyExam" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
