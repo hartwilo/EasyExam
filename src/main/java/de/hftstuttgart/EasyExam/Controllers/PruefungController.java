@@ -29,6 +29,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -40,6 +42,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javafx.util.Callback;
 
 
 public class PruefungController {
@@ -305,8 +308,8 @@ public class PruefungController {
 	 */
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
-
 		Frage frage = getSelected();
+		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
@@ -315,6 +318,13 @@ public class PruefungController {
 			musterLoesungDetailliert.setText(frage.getMusterloesung());
 			musterLoesungDetailliert.setEditable(false);
 			punktZahlDetail.setText("   / " + frage.getPunkte());
+			
+			grundlagenniveau.setCellValueFactory(new PropertyValueFactory<>("grundLageNiveau"));
+			gut.setCellValueFactory(new PropertyValueFactory<>("gut"));
+			sehrGut.setCellValueFactory(new PropertyValueFactory<>("sehrGut"));
+			
+			kompetenzStufe.add(frage);
+			kompetenzlevelTabelle.setItems(kompetenzStufe);
 
 		}
 
@@ -443,11 +453,6 @@ public class PruefungController {
 		
 		
 		
-		
-		
-		
-		
-		
 													///////////////////// Not implemented/ Currently working on. ///////////////////
 		
 		@FXML
@@ -485,38 +490,6 @@ public class PruefungController {
 		public void overview() throws SQLException, IOException {
 			dbQuery.fragenLaden_gestellt(katalogName);
 			uController.show();
-
-		}
-
-		// BUG Questions added multiple times. Not yet properly implemented
-		public void showKompetenzLevel(ObservableList<Frage> fragen) {
-
-			Frage frage = getSelected();
-			fragen.add(frage);
-
-			grundlagenniveau.setCellValueFactory(features -> new ReadOnlyStringWrapper(frage.getGrundLageNiveau()));
-			gut.setCellValueFactory(features -> new ReadOnlyStringWrapper(frage.getGut()));
-			sehrGut.setCellValueFactory(features -> new ReadOnlyStringWrapper(frage.getSehrGut()));
-
-			kompetenzlevelTabelle.setItems(fragen);
-			kompetenzlevelTabelle.setEditable(true);
-			kompetenzlevelTabelle.setFixedCellSize(25);
-		}
-
-		// BUG Questions added multiple times. Not yet properly implemented
-		public void showKompetenzLevel(Frage frage) {
-
-			frage = getSelected();
-
-			grundlagenniveau.setCellValueFactory(new PropertyValueFactory<>("grundLageNiveau"));
-			gut.setCellValueFactory(new PropertyValueFactory<>("gut"));
-			sehrGut.setCellValueFactory(new PropertyValueFactory<>("sehrGut"));
-
-			if (kompetenzlevelTabelle.getItems().contains(frage)) {
-				kompetenzlevelTabelle.getItems().add(frage);
-				kompetenzlevelTabelle.setEditable(true);
-				kompetenzlevelTabelle.setFixedCellSize(25);
-			}
 
 		}
 
