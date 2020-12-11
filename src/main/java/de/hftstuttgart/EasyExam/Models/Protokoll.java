@@ -15,7 +15,6 @@ public class Protokoll {
 		// Create a pdf table structure
 		PdfPTable table = new PdfPTable(3);
 		table.setWidthPercentage(100);
-		// ------------------------On créer l'objet cellule--------------------
 
 		PdfPCell cell = null;
 		// Thema

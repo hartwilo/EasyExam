@@ -1,4 +1,4 @@
-package de.hftstuttgart.EasyExam.Controllers;
+package de.hftstuttgart.EasyExam.Models;
 
 import java.util.Date;
 
@@ -16,7 +16,7 @@ import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
-import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Controllers.PruefungController;
 import javafx.collections.ObservableList;
 
 public class PDFCreate {

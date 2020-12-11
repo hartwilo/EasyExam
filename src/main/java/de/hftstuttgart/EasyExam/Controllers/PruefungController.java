@@ -17,8 +17,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
-import de.hftstuttgart.EasyExam.Controllers.PDFCreate;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -432,7 +432,7 @@ public class PruefungController {
 
 			// Fill list with questions in result set
 			fillList(fragen);
-			log.info(fragen.toString());
+			//log.info(fragen.toString());
 
 			FileChooser fc = new FileChooser();
 			Window stage = pdfErstellen.getScene().getWindow();
@@ -446,12 +446,13 @@ public class PruefungController {
 
 			if (file != null) {
 
-				String str = file.getAbsolutePath();
+				String path = file.getAbsolutePath();
+				FileOutputStream fos = new FileOutputStream(path);
 
 				try {
 
 					Document document = new Document();
-					PdfWriter.getInstance(document, new FileOutputStream(str));
+					PdfWriter.getInstance(document,fos);
 					document.open();
 					PDFCreate.addMetaData(document);
 					PDFCreate.addTitlePage(document, fragen);
