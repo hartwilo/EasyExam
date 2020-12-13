@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import com.itextpdf.text.log.SysoCounter;
 
 import de.hftstuttgart.EasyExam.Models.Frage;
+import javafx.collections.ObservableList;
 
 /**
  * @author Ruth Kallenberger
@@ -159,7 +160,18 @@ class DBQueriesTest {
 	 */
 	@Test
 	void testFrageLaden_themengebiet() {
-		fail("not yet implemented");
+		try {
+			db.frageSpeichern(frage);
+			ResultSet rs = db.frageLaden_themengebiet(frage.getThemengebiet(), frage.getFragekatalog());
+			while(rs.next()) {
+				assertEquals(frage.getThemengebiet(), rs.getString("themengebiet"));
+			}
+			
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+
 	}
 	
 	/**
@@ -167,7 +179,18 @@ class DBQueriesTest {
 	 */
 	@Test
 	void testFrageLaden_Niveau() {
-		fail("not yet implemented");
+		try {
+			db.frageSpeichern(frage);
+			ResultSet rs = db.frageLaden_niveau(frage.getNiveau(), frage.getFragekatalog());
+			
+			while(rs.next()) {
+				assertEquals(frage.getNiveau(), rs.getInt("Niveau"));
+			}
+		}
+			catch(SQLException e) {
+				fail(e.toString());
+			}
+		
 	}
 	
 	/**
@@ -175,8 +198,20 @@ class DBQueriesTest {
 	 */
 	@Test
 	void testFrageLaden_Niveau_themengebiet() {
-		fail("not yet implemented");
-	}
+		try {
+			db.frageSpeichern(frage);
+			ResultSet rs = db.frageLaden_niveau_themengebiet(frage.getNiveau(),frage.getThemengebiet(), frage.getFragekatalog());
+			
+			while(rs.next()) {
+				assertEquals(frage.getNiveau(), rs.getInt("niveau"));
+				assertEquals(frage.getThemengebiet(), rs.getString("themengebiet"));
+			}
+	
+			}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+}
 	
 	/**
 	 * Test method for {@link DB.BDQueries#fragenLaden_gestellt)}
@@ -278,7 +313,32 @@ class DBQueriesTest {
 	 */
 	@Test
 	void testFrageLoeschen() {
-		fail("Not yet implemented");
+		try {
+			
+			db.frageSpeichern(frage);
+            ResultSet rs1 = db.alleFrageLaden(fragekatalog);
+            while(rs1.next()) {
+            	if(fragestellung.equals(rs1.getString("Fragestellung"))) {
+            		frage.setID(rs1.getInt("idFrage"));
+            		System.out.println(rs1.getString("Fragestellung"));
+            		System.out.println(rs1.getInt("idFrage") + "   <-- ID in der Datenbank");
+            	}
+            }
+            System.out.println(frage.getID() + "    <-- ID Frageobjekt");
+			
+			//db.frageLoeschen(frage.getID());
+			String query = "Select * From Frage";
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				assertNotEquals(frage.getID(), rs.getInt("idFrage"));
+				System.out.println("IDS: " + rs.getInt("idFrage"));
+			}
+			
+		}
+		catch (SQLException e){
+			fail(e.toString());
+		}
 	}
 	
 	/**
@@ -294,8 +354,17 @@ class DBQueriesTest {
 	 */
 	@Test
 	void testThemengebieteAuslesen() {
-		fail("Not yet implemented");
-	}
+		try {
+			db.frageSpeichern(frage);
+			ObservableList<String> list = db.themengebieteAuslesen(frage.getFragekatalog());
+			assertEquals(frage.getThemengebiet(), list.get(0).toString());
+			
+			
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+		}
 
 	/**
 	 * Test method for {@link DB.DBQueries#frageSpeichern_SIBD(String, String, int, double, String, String, String, String)}
@@ -309,6 +378,14 @@ class DBQueriesTest {
 	 */
 	@Test
 	void testKatalogeAuslesen() {
-		fail("Not yet implemented");
+		try {
+			db.frageSpeichern(frage);
+			ObservableList<String> list = db.katalogeAuslesen();
+			assertEquals(frage.getFragekatalog(), list.get(0).toString());
+			
+		}
+		catch(SQLException e){
+			fail(e.toString());	
+		}
 	}
 }
