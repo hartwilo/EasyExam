@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -78,6 +79,17 @@ public class DBQueries {
 		stmt.setString(11, sehrGut);
 
 		return stmt.executeUpdate();
+	}
+	
+	public int studentSpeichern(Student student) throws SQLException {
+		connection.setAutoCommit(true);
+		
+		String query = "INSERT INTO Student(Nachname, Vorname, Semester, Punkte, Studiengang) "
+				+ "VALUES(?,?,?,?,?)";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		
+		
+		return 0;
 	}
 
 	/**
@@ -198,6 +210,7 @@ public class DBQueries {
 		return stmt.executeUpdate(query);
 	}
 
+	
 	/**
 	 * Delete a single question
 	 * 
@@ -207,23 +220,14 @@ public class DBQueries {
 	public void frageLoeschen(int ID) throws SQLException {
 		connection.setAutoCommit(true);
 		Statement stmt = connection.createStatement();
-
+		
 		String query = "DELETE FROM Frage WHERE idFrage = " + ID;
-
-		log.info("Last query: " + query);
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("");
-		alert.setHeaderText(null);
-		alert.setContentText("Möchten Sie die Frage wirklich löschen?");
-	// Only delete if ok is clicked
-		Optional<ButtonType> ok = alert.showAndWait();
-
-		if (ok.get() == ButtonType.OK) {
-
+		
 			int i = stmt.executeUpdate(query);
-			if (i == 1)
-				log.info("Question: " + ID + "succesfully deleted");
-		}
+			
+			if (i == 1)	
+			log.info("Question: " + ID + "succesfully deleted");
+
 	}
 
 	/**
@@ -236,23 +240,13 @@ public class DBQueries {
 		connection.setAutoCommit(true);
 		Statement stmt = connection.createStatement();
 
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("");
-		alert.setHeaderText(null);
-		alert.setContentText("Der Katalog " + katalog + " wird gelöscht");
-	// Only delete if ok is clicked
-		Optional<ButtonType> ok = alert.showAndWait();
+		String query = "DELETE FROM Frage WHERE Fragekatalog = " + "'" + katalog + "'";
+		log.info("Last query: " + query);
+		int i = stmt.executeUpdate(query);
 
-		if (ok.get() == ButtonType.OK) {
+		if (i == 1)
+		log.info(katalog + " succesfully deleted");
 
-			String query = "DELETE FROM Frage WHERE Fragekatalog = " + "'" + katalog + "'";
-			log.info("Last query: " + query);
-			int i = stmt.executeUpdate(query);
-
-			if (i == 1)
-				log.info(katalog + " succesfully deleted");
-
-		}
 	}
 
 	/**

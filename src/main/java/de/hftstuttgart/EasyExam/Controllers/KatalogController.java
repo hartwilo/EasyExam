@@ -2,6 +2,7 @@ package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import DB.DBConn;
@@ -16,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -173,7 +175,17 @@ public class KatalogController {
 			 */
 	void frageLoeschen(MouseEvent event) throws SQLException {
 		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
-		dbQuery.frageLoeschen(ID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("");
+		alert.setHeaderText(null);
+		alert.setContentText("Möchten Sie die Frage wirklich löschen?");
+		
+		Optional<ButtonType> ok = alert.showAndWait();
+
+		if (ok.get() == ButtonType.OK) {
+			dbQuery.frageLoeschen(ID);
+		}
+
 		fragenAnzeigen(); // Reload new, updated set of data into TableView
 
 	}
@@ -192,9 +204,21 @@ public class KatalogController {
 		if (katalogNameTextField.getText().isEmpty()) {
 			katalogName = katalogComboBox.getValue();
 		} else {
-			katalogName = katalogNameTextField.getText();
+			katalogName = katalogNameTextField.getText();	
 		}
-		dbQuery.katalogLoeschen(katalogName);
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("");
+		alert.setHeaderText(null);
+		alert.setContentText("Der Katalog " + katalogName + " wird gelöscht");
+		// Only delete if ok is clicked
+		Optional<ButtonType> ok = alert.showAndWait();
+		
+		if (ok.get() == ButtonType.OK) {
+			dbQuery.katalogLoeschen(katalogName);
+		}
+		
+		
 		fragenAnzeigen();
 	}
 

@@ -186,7 +186,8 @@ public class FrageController {
 
 			int status = 0;
 			try {
-				status = dbQuery.frageSpeichern(frage);
+				 dbQuery.frageSpeichern(frage);
+				 status = 1
 				;
 			} catch (Exception e) {
 				e.printStackTrace();

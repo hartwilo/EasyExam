@@ -97,7 +97,7 @@ public class UebersichtController {
 		ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 
 		String katalogName = PruefungController.katalogName;
-		log.info("Catalog name static var is: " + katalogName);
+		//log.info("Catalog name static var is: " + katalogName);
 		dbQuery.fragenLaden_gestellt(katalogName);
 
 		fillList(gestellteFragen);
@@ -148,7 +148,7 @@ public class UebersichtController {
 	}
 
 	public void niveauBerechnen() throws SQLException {
-		aktuellerNiveau.textProperty().bind(niv);
+		//aktuellerNiveau.textProperty().bind(niv);
 
 		String katalogName = PruefungController.katalogName;
 		log.info("Catalog name static var is: " + katalogName);
@@ -160,14 +160,14 @@ public class UebersichtController {
 
 		while (DBQueries.rs.next()) {
 			int i = DBQueries.rs.getInt("Niveau");
-			// log.info("XD"+frageNiveau);
+			// log.info("Test :"+ frageNiveau);
 			niveau = niveau + i;
 
 		}
 		double result  = niveau / askedQuestions;
 		String sResult = Double.toString(niveau / askedQuestions);
 		
-		log.info("Niv =  " + result);	
+		//log.info("Niv =  " + result);	
 		
 		if (result >= 1 && result < 2) {
 			level.setText("Schlecht");
