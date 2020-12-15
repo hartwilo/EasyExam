@@ -18,12 +18,14 @@ Studiengang VARCHAR(45));
 CREATE TABLE Pruefer
 (PersNr INTEGER PRIMARY KEY,
 Nachname VARCHAR(45) NOT NULL,
-Vorname VARCHAR(45) NOT NULL);
+Vorname VARCHAR(45) NOT NULL,
+eMail VARCHAR(255) NOT NULL,
+Passwort VARCHAR(45) NOT NULL);
 
 CREATE TABLE Frage
-(idFrage INTEGER PRIMARY KEY Identity(1,1),
-Fragestellung VARCHAR(255) NOT NULL,
-Musterloesung VARCHAR(255),
+(idFrage INTEGER PRIMARY KEY auto_increment,
+Fragestellung text NOT NULL,
+Musterloesung text,
 Niveau INTEGER NOT NULL,
 Punkte FLOAT NOT NULL,
 gestellt TINYINT,
@@ -43,9 +45,6 @@ Matrikelnr INTEGER,
 PersNr INTEGER,
 CONSTRAINT fk_PersNr FOREIGN KEY (PersNr) REFERENCES Pruefer (PersNr) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT fk_Matrikelnr FOREIGN KEY (Matrikelnr) REFERENCES Student (Matrikelnr) ON DELETE CASCADE ON UPDATE CASCADE);
-
-
-
 
 CREATE TABLE Fragenloesung
 (idFragenloesung INTEGER PRIMARY KEY, 
