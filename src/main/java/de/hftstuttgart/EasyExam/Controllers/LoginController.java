@@ -16,6 +16,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import DB.DBConn;
+import DB.DBQueries;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -71,7 +72,8 @@ public class LoginController implements Initializable {
 	
 	@FXML
     private JFXButton PasswordVergessen;
-
+	public DBQueries dbQueries = new DBQueries(DBConn.connection);
+	
 //	@FXML
 //	void LoginClick(ActionEvent event) throws IOException {
 //
@@ -131,30 +133,36 @@ public class LoginController implements Initializable {
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 
-	// Method to check the login data in the DB
+	// Method to check the ogin data in the DB
 	private String LogIn() {
 
 		String eMail = UsernameTextField.getText().toString();
 		String Password = PasswordField.getText().toString();
+		String vergleichsPW = null;
 
 		// query
-		String sql = "SELECT * FROM pruefer WHERE eMail=? AND Password = ?";
 		try {
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, eMail);
-			stmt.setString(2, Password);
-			resultSet = stmt.executeQuery();
+			resultSet = dbQueries.getLoginData(eMail);
 
 			if (!resultSet.next()) {
 				lblErrors.setTextFill(Color.TOMATO);
-				lblErrors.setText("Bitte geben Sie rechtige eMail oder Password ein");
+				lblErrors.setText("Die Email ist falsch. Bitte geben Sie eine richtige Email ein");
 				System.err.println("Login Error");
 				return "Error";
 
 			} else {
-
-				return "Login ist erfolgreich";
-
+				vergleichsPW = resultSet.getString("Passwort");
+				System.out.println(vergleichsPW);
+				if(!vergleichsPW.equals(Password)) {
+					lblErrors.setTextFill(Color.TOMATO);
+					lblErrors.setText("Das Passwort ist falsch");
+					System.err.println("Login Error");
+					return "Error";
+				}
+				else{
+					return "Login ist erfolgreich";
+				}
+				
 			}
 
 		} catch (SQLException e) {

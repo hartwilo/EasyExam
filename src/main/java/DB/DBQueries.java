@@ -376,6 +376,11 @@ public class DBQueries {
 		return stmt.executeUpdate(query);
 	}
 
+	public ResultSet getLoginData(String email) throws SQLException{
+		Statement stmt = connection.createStatement();
+		String query = "SELECT eMail, Passwort FROM pruefer WHERE eMail=" + "'" + email + "'";
+		return stmt.executeQuery(query);
+	}
 	
 
 }
