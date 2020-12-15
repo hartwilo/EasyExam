@@ -28,6 +28,7 @@ import de.hftstuttgart.EasyExam.Main.Main;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
+import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -336,54 +337,113 @@ public class PruefungController {
 	}
 	
 	public String getFilePath() {
-			
+		
+		
+		
+		// Set default path to //Set default path to 'C:\Users\...\
+		String defaultPath = System.getProperty("user.home");
+		File userDirectory = new File(defaultPath);
+		
+		// If not found set to c:\......\
+		if(!userDirectory.canRead()) {
+		    userDirectory = new File("c:/");
+		}
+		
 		FileChooser chooser = new FileChooser();
+		chooser.setInitialDirectory(userDirectory);
 		chooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter("Excel files", "*.xlsx") ); //"CSV files (*.csv)", "*.csv"
 		File selected = chooser.showOpenDialog(Main.mainWindow);	
-		String path = selected.getPath();
+		try {
+			String path = selected.getPath();
+			log.info(path);	
+			return path;
+		} catch (Exception e) {
+			log.warning("Path not found" +System.lineSeparator());
+			e.printStackTrace();
+			return null;
+		}
 		
-		log.info(path);	
-		return path;
 	}
 
-	public void addToSql() {
-
-		try {
-
-			// Keep track of time
-			long start = System.currentTimeMillis();
-
+	public ObservableList<Student> readFromXlsx(String xlsxPath) throws SQLException, IOException {
+		
+		ObservableList<Student> studenten = FXCollections.observableArrayList();
+		int listIndex = 0;
+				
+		
 			// Select file with a File Choser
-			String xlsxPath = getFilePath();
-
-			// Create workbook object with poi libaries
+			
+			// Create workbook object 
 			Workbook workbook = new XSSFWorkbook(xlsxPath);
-
-			// Iterateor for the exel table in the sheet
+			// Create a sheet in the workbook
 			Sheet firstSheet = workbook.getSheetAt(0);
+			// Iterateor for the exel table in the sheet
 			Iterator<Row> rowIterator = firstSheet.iterator();
 			
-			// Skip header row
-			rowIterator.next(); 
+			// Skip head row 
+			//rowIterator.next(); 
 			
+			
+			//Iterate the rows of the exel file
 			while (rowIterator.hasNext()) {
-				Row nextRow = rowIterator.next();
+				log.info("Iterating new row......");
+				Student student = new Student();
+				Row nextRow = rowIterator.next();	
 				Iterator<Cell> cellIterator = nextRow.cellIterator();
-
+				
+				
+				int iteration = 0;
+			
+			//Go through cells of a single row - Asign cell value to student.obj attributes
+				log.info("Iterating cells.....");
 				while (cellIterator.hasNext()) {
+					
 					Cell nextCell = cellIterator.next();
-					String vorname = nextCell.getStringCellValue();
-					String nachname = nextCell.getStringCellValue();
-					int semester = (int) nextCell.getNumericCellValue();
-					String studiengang = nextCell.getStringCellValue();
-
+					int columnIndex = nextCell.getColumnIndex();
+					
+					switch (columnIndex) {
+					case 0:
+						int matrikelnr = (int) nextCell.getNumericCellValue();
+						student.setMatrikelnr(matrikelnr);
+						break;
+					case 1:
+						String vorname = nextCell.getStringCellValue();
+						student.setVorname(vorname);
+						break;
+					case 2:
+						String nachname = nextCell.getStringCellValue();
+						student.setNachname(nachname);
+						break;
+					case 3:
+						int semester = (int) nextCell.getNumericCellValue();
+						student.setSemester(semester);
+						break;
+					case 4:
+						String studiengang = nextCell.getStringCellValue();
+						student.setStudiengang(studiengang);
+						break;
+					}
+					
+					
+					log.info("Iteration  " + iteration + " : " + student.getMatrikelnr() + " " + student.getVorname()
+										+ " " + student.getNachname() + " " + student.getSemester() + " "
+												+ student.getStudiengang());
+					 
+	
+					iteration++;
 				}
-			}
+				log.info("Adding to Observablelist : " + student.toString());
+				studenten.add(student);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			}
+			// Add the student to the list	
+			
+			for (int i = studenten.size(); i > 0; i--) {
+				
+				log.info("List content at index " + listIndex + " : " + studenten.get(listIndex).toString());
+				listIndex++;
+			}
+			return studenten;
 
 	}
 	
@@ -391,9 +451,10 @@ public class PruefungController {
 	
 
     @FXML
-    void studentSelektieren(MouseEvent event) {
-    	getFilePath();
-
+    void studentSelektieren(MouseEvent event) throws SQLException, IOException {
+    	String xlsxPath = getFilePath();
+    	ObservableList<Student> studenten = readFromXlsx(xlsxPath);
+    	dbQuery.studentenSpeichern(studenten);
     }
 	
 

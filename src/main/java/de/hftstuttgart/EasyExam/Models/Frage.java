@@ -50,9 +50,7 @@ public class Frage {
 	private String grundLageNiveau;
 	private String gut;
 	private String sehrGut;
-	
-	
-	
+
 	
 	public Frage(String frageStellung, String musterloesung, int niveau, String themengebiet,
 			String fragekatalog, float punkte, boolean gestelltbool, String modul) {

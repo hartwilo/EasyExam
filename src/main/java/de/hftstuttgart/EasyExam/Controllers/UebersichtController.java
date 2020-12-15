@@ -149,7 +149,6 @@ public class UebersichtController {
 
 	public void niveauBerechnen() throws SQLException {
 		//aktuellerNiveau.textProperty().bind(niv);
-
 		String katalogName = PruefungController.katalogName;
 		log.info("Catalog name static var is: " + katalogName);
 		dbQuery.fragenLaden_gestellt(katalogName);

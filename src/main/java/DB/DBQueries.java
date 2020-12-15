@@ -81,15 +81,40 @@ public class DBQueries {
 		return stmt.executeUpdate();
 	}
 	
-	public int studentSpeichern(Student student) throws SQLException {
+	// Takes a list of students form the Controller as a paramter and saves it'c content into the DB
+	public int studentenSpeichern(ObservableList<Student> studenten) throws SQLException {
 		connection.setAutoCommit(true);
 		
-		String query = "INSERT INTO Student(Nachname, Vorname, Semester, Punkte, Studiengang) "
+		//0 update unsuccessful- 1 update successful
+		int status = 0;
+		
+		String query = "INSERT INTO Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) "
 				+ "VALUES(?,?,?,?,?)";
 		PreparedStatement stmt = connection.prepareStatement(query);
+
 		
+		for (Student student : studenten) {
+			int matrikelnr = student.getMatrikelnr();
+			String nachname = student.getNachname();
+			String vorname = student.getVorname();
+			int semester = student.getSemester();
+			String studiengang = student.getStudiengang();
+			
+			stmt.setInt(1, matrikelnr);
+			stmt.setString(2, nachname);
+			stmt.setString(3, vorname);
+			stmt.setInt(4, semester);
+			stmt.setString(5, studiengang);
+			
+			
+			log.info("Student : " + student.toString());
+			log.info("Result Set: " + query);
+			status = stmt.executeUpdate();
+	
+		}
 		
-		return 0;
+		//Successful - Unsuccessful ?
+		return status;
 	}
 
 	/**
@@ -119,6 +144,7 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 	public ResultSet frageLaden_themengebiet(String themengebiet, String katalog) throws SQLException {
+		
 		connection.setAutoCommit(true);
 		Statement stmt = connection.createStatement();
 

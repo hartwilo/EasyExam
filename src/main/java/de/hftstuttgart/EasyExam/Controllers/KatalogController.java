@@ -219,7 +219,7 @@ public class KatalogController {
 		}
 		
 		
-		fragenAnzeigen();
+		fragenAnzeigen(); // Reload new, updated set of data into TableView ??
 	}
 
 	
