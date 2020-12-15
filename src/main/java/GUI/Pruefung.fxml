@@ -72,8 +72,8 @@
             <Button fx:id="zueruck" layoutX="1247.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#zueruckDurchfuehrung" text="Back" />
             <MenuButton layoutX="1141.0" layoutY="13.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="97.0" text="Navigation">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
+                <MenuItem fx:id="FragekatalogErstellen" mnemonicParsing="false" onAction="#FragekatalogErstellenClick" text="Fragekatalog Erstellen" />
+                <MenuItem fx:id="StatistikAnsehen" mnemonicParsing="false" onAction="#StatistikAnsehenClick" text="Statistik Ansehen" />
               </items>
             </MenuButton>
             <Label layoutX="25.0" layoutY="8.0" prefHeight="17.0" prefWidth="450.0" text="HFT-Stuttgart EasyExam" textFill="WHITE">

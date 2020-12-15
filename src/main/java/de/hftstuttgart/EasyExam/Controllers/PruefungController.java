@@ -33,12 +33,14 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
@@ -188,6 +190,12 @@ public class PruefungController {
 	
     @FXML
     private Button studentSelektieren;
+    
+    @FXML
+    private MenuItem FragekatalogErstellen;
+
+    @FXML
+    private MenuItem StatistikAnsehen;
 	
 	
 															/////////////// Java Methods //////////////
@@ -618,6 +626,26 @@ public class PruefungController {
 
 		}
 		
+		@FXML // GUI Navigation - Go to Pruefung starten screen
+		void FragekatalogErstellenClick(ActionEvent event) {
+			try {
+				StartController.setWindow("Katalogverwaltung");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		@FXML // GUI Navigation - Go to StatistikAnsehen screen (SOON)
+		void StatistikAnsehenClick(ActionEvent event) {
+//			try {
+//				StartController.setWindow("StatistikAnsehen");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}
 		
 		@FXML // Shows the overview if it isn't already showing, brings it to the front if the button is clicked after it's showing
 		void uebersichtAnzeigen(MouseEvent event) throws IOException, SQLException {
