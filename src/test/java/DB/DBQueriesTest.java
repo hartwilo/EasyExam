@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import com.itextpdf.text.log.SysoCounter;
 
 import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Models.Pruefer;
 import javafx.collections.ObservableList;
 
 /**
@@ -386,6 +387,27 @@ class DBQueriesTest {
 		}
 		catch(SQLException e){
 			fail(e.toString());	
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#getLoginData(String)}
+	 */
+	@Test
+	void testGetLoginData() {
+		try {
+			Pruefer pruefer = new Pruefer(555555,"Mosler","Christof","christof.mosler@hft-stuttgart.de", "datenschutz");
+			Statement stmt = connection.createStatement();
+			String query = "Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values(555555,'Mosler','Christof','christof.mosler@hft-stuttgart.de', 'datenschutz')";
+			stmt.executeUpdate(query);
+			ResultSet rs = db.getLoginData(pruefer.geteMail());
+			assertEquals(pruefer.geteMail(), rs.getString("eMail"));
+			assertEquals(pruefer.getPasswort(), rs.getString("Passwort"));
+			
+			stmt.executeUpdate("DELETE FROM Pruefer WHERE PersNr=" + "'" + pruefer.getPersNr() + "'");
+		}
+		catch(SQLException e) {
+			fail(e.toString());
 		}
 	}
 }
