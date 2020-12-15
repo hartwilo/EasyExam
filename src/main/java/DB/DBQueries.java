@@ -58,7 +58,7 @@ public class DBQueries {
 		String musterloesung = frage.getMusterloesung();
 		String themengebiet = frage.getThemengebiet();
 		String fragekatalog = frage.getFragekatalog();
-		String modul = frage.getModul(); // TODO!
+		String modul = frage.getModul(); 				//TODO!
 		String grundlage = frage.getGrundLageNiveau();
 		String gut = frage.getGut();
 		String sehrGut = frage.getSehrGut();
@@ -108,7 +108,7 @@ public class DBQueries {
 			
 			
 			log.info("Student : " + student.toString());
-			log.info("Result Set: " + query);
+			log.info("Query : 	" + query);
 			status = stmt.executeUpdate();
 	
 		}
@@ -133,6 +133,16 @@ public class DBQueries {
 		log.info("Result Set: " + query);
 		return DBQueries.rs = stmt.executeQuery(query);
 
+	}
+	
+	public ResultSet studentenLaden() throws SQLException {
+		connection.setAutoCommit(false);
+		Statement stmt = connection.createStatement();
+		String query = "Select * FROM Student";
+		
+		return DBQueries.rs = stmt.executeQuery(query);
+		
+		
 	}
 
 	/**
@@ -365,5 +375,7 @@ public class DBQueries {
 		log.info("Last query: " + query);
 		return stmt.executeUpdate(query);
 	}
+
+	
 
 }

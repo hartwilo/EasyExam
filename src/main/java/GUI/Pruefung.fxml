@@ -52,7 +52,7 @@
             <TextField fx:id="studName" layoutX="924.0" layoutY="72.0" prefHeight="26.0" prefWidth="146.0" promptText="Student Name" />
             <TextField fx:id="matNr" layoutX="1081.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Matr.Nr" />
             <DatePicker layoutX="1169.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Datum" />
-            <Button fx:id="studentenLaden" layoutX="1260.0" layoutY="73.0" mnemonicParsing="false" text="+" />
+            <Button fx:id="studentenLaden" layoutX="1260.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#import_xlsx" text="+" />
             <Button fx:id="frageStellen" layoutX="616.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#frageStellen" prefHeight="25.0" prefWidth="63.0" text="Ask" textFill="#2dbc28" />
             <Button fx:id="remove" layoutX="689.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#nichtStellen" text="Remove" textFill="#ff0101" />
             <ComboBox fx:id="katalogeComboBox" layoutX="26.0" layoutY="72.0" onMouseClicked="#katalogeLaden" prefHeight="26.0" prefWidth="570.0" promptText="Katalog selektieren" />

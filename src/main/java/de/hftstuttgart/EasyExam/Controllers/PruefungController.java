@@ -66,7 +66,8 @@ public class PruefungController {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
 		log = Logger.getLogger(DBConn.class.getName());
 	}
-
+	
+	StudentController sController = new StudentController();
 	UebersichtController uController = new UebersichtController();
 	Protokoll protokoll = new Protokoll();
 
@@ -443,6 +444,8 @@ public class PruefungController {
 				log.info("List content at index " + listIndex + " : " + studenten.get(listIndex).toString());
 				listIndex++;
 			}
+			
+			workbook.close();
 			return studenten;
 
 	}
@@ -451,10 +454,16 @@ public class PruefungController {
 	
 
     @FXML
-    void studentSelektieren(MouseEvent event) throws SQLException, IOException {
+    void import_xlsx(MouseEvent event) throws SQLException, IOException {
     	String xlsxPath = getFilePath();
     	ObservableList<Student> studenten = readFromXlsx(xlsxPath);
     	dbQuery.studentenSpeichern(studenten);
+    }
+    
+
+    @FXML
+    void studentSelektieren(MouseEvent event) throws IOException {
+    	sController.show();
     }
 	
 

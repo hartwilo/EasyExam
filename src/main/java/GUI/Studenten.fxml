@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#studentenAnzeigen" prefHeight="580.0" prefWidth="1039.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.StudentController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="44.0" stroke="BLACK" strokeType="INSIDE" width="1039.0" />
+      <Label layoutX="29.0" layoutY="4.0" prefHeight="17.0" prefWidth="450.0" text="HFT-Stuttgart EasyExam" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="881.0" layoutY="4.0" prefHeight="35.0" prefWidth="127.0" text="Studenten" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TableView id="fragenTabelle" fx:id="fragetabelle" layoutX="23.0" layoutY="69.0" prefHeight="428.0" prefWidth="988.0">
+         <columns>
+            <TableColumn id="themaCol" fx:id="fxcolumn_matnr" minWidth="0.0" prefWidth="96.0" text="MatNr" />
+            <TableColumn id="niveauCol" fx:id="fxcolumn_vorname" minWidth="0.0" prefWidth="108.0" text="Vorname" />
+            <TableColumn id="frageStellungCol" fx:id="fxcolumn_nachname" maxWidth="1.7976931348623157E308" prefWidth="194.0" text="Nachname" />
+            <TableColumn id="punkteCol" fx:id="fxcolumn_semester" minWidth="0.0" prefWidth="111.0" text="Semester" />
+            <TableColumn id="musterloesungCol" fx:id="fxcolumn_studiengang" minWidth="0.0" prefWidth="502.0" text="Studiengang" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>
