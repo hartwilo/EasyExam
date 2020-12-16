@@ -57,8 +57,8 @@
             </Label>
             <MenuButton layoutX="929.0" layoutY="9.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="97.0" text="Navigation">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                  <MenuItem fx:id="PrüfungStarten" mnemonicParsing="false" onAction="#PrüfungStartenClick" text="Prüfung Starten" />
+                  <MenuItem fx:id="StatistikAnsehen" mnemonicParsing="false" onAction="#StatistikAnsehenClick" text="Statistik Ansehen" />
                </items>
             </MenuButton>
        

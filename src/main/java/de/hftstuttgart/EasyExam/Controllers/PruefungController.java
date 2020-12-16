@@ -1,11 +1,19 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.logging.Logger;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -16,18 +24,23 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import DB.DBConn;
 import DB.DBQueries;
+import de.hftstuttgart.EasyExam.Main.Main;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
+import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
@@ -40,7 +53,9 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
 
@@ -53,7 +68,8 @@ public class PruefungController {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
 		log = Logger.getLogger(DBConn.class.getName());
 	}
-
+	
+	StudentController sController = new StudentController();
 	UebersichtController uController = new UebersichtController();
 	Protokoll protokoll = new Protokoll();
 
@@ -61,7 +77,6 @@ public class PruefungController {
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
 
 	public static String katalogName; //remove ?
-	
 	public static ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 	
 	
@@ -143,7 +158,7 @@ public class PruefungController {
 
 	// Buttons
 
-    @FXML
+    @FXML // Old Refresh Button
     private Button aktualisieren;
 
 	@FXML
@@ -173,10 +188,17 @@ public class PruefungController {
 	@FXML
 	private Button pdfErstellen;
 	
+    @FXML
+    private Button studentSelektieren;
+    
+    @FXML
+    private MenuItem FragekatalogErstellen;
+
+    @FXML
+    private MenuItem StatistikAnsehen;
 	
 	
-	
-																	/////////////// Java Methods //////////////
+															/////////////// Java Methods //////////////
 	
 	//Show wanted questions in View Table
 	public void showQuestions() throws SQLException {
@@ -211,13 +233,13 @@ public class PruefungController {
 		// Select based on level and topic
 		if (themengebiet != null && !nivalle.isSelected()) {
 			dbQuery.frageLaden_niveau_themengebiet(niv, themengebiet, katalog);
-			// Select based on topic
+		// Select based on topic
 		} else if (themengebiet != null && nivalle.isSelected()) {
 			dbQuery.frageLaden_themengebiet(themengebiet, katalog);
-			// Select based on level
+		// Select based on level
 		} else if (themengebiet == null && !nivalle.isSelected()) {
 			dbQuery.frageLaden_niveau(niv, katalog);
-			// Select all
+		// Select all
 		} else {
 			dbQuery.alleFrageLaden(katalog);
 		}
@@ -225,7 +247,9 @@ public class PruefungController {
 
 	// Create Frage.objs from result set and add to list
 	public void fillList(ObservableList<Frage> fragen) throws SQLException {
+		
 		while (DBQueries.rs.next()) {
+			
 			// Prep variables for Frage constructor
 			int ID = DBQueries.rs.getInt("idFrage");
 			String thema = DBQueries.rs.getString("Themengebiet");
@@ -241,8 +265,9 @@ public class PruefungController {
 			String gut = DBQueries.rs.getString("gut");
 			String sehrGut = DBQueries.rs.getString("SehrGut");
 
-			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
-					modul, grundlage, gut, sehrGut));
+			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog,
+						 punkte, istGestellt, modul, grundlage, gut, sehrGut));
+																														
 		}
 	}
 
@@ -292,7 +317,9 @@ public class PruefungController {
 
 	}
 
+	//Fill view with a questions details
 	public void showDetails(Frage frage, ObservableList<Frage> kompetenzStufe) {
+		
 		frageStellungDetail.setText(frage.getFrageStellung());
 		frageStellungDetail.setEditable(false);
 		musterLoesungDetailliert.setText(frage.getMusterloesung());
@@ -318,7 +345,134 @@ public class PruefungController {
 	
 	}
 	
+	public String getFilePath() {
+		
+		
+		
+		// Set default path to //Set default path to 'C:\Users\...\
+		String defaultPath = System.getProperty("user.home");
+		File userDirectory = new File(defaultPath);
+		
+		// If not found set to c:\......\
+		if(!userDirectory.canRead()) {
+		    userDirectory = new File("c:/");
+		}
+		
+		FileChooser chooser = new FileChooser();
+		chooser.setInitialDirectory(userDirectory);
+		chooser.getExtensionFilters().addAll( new FileChooser.ExtensionFilter("Excel files", "*.xlsx") ); //"CSV files (*.csv)", "*.csv"
+		File selected = chooser.showOpenDialog(Main.mainWindow);	
+		try {
+			String path = selected.getPath();
+			log.info(path);	
+			return path;
+		} catch (Exception e) {
+			log.warning("Path not found" +System.lineSeparator());
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+
+	public ObservableList<Student> readFromXlsx(String xlsxPath) throws SQLException, IOException {
+		
+		ObservableList<Student> studenten = FXCollections.observableArrayList();
+		int listIndex = 0;
+				
+		
+			// Select file with a File Choser
+			
+			// Create workbook object 
+			Workbook workbook = new XSSFWorkbook(xlsxPath);
+			// Create a sheet in the workbook
+			Sheet firstSheet = workbook.getSheetAt(0);
+			// Iterateor for the exel table in the sheet
+			Iterator<Row> rowIterator = firstSheet.iterator();
+			
+			// Skip head row 
+			//rowIterator.next(); 
+			
+			
+			//Iterate the rows of the exel file
+			while (rowIterator.hasNext()) {
+				log.info("Iterating new row......");
+				Student student = new Student();
+				Row nextRow = rowIterator.next();	
+				Iterator<Cell> cellIterator = nextRow.cellIterator();
+				
+				
+				int iteration = 0;
+			
+			//Go through cells of a single row - Asign cell value to student.obj attributes
+				log.info("Iterating cells.....");
+				while (cellIterator.hasNext()) {
+					
+					Cell nextCell = cellIterator.next();
+					int columnIndex = nextCell.getColumnIndex();
+					
+					switch (columnIndex) {
+					case 0:
+						int matrikelnr = (int) nextCell.getNumericCellValue();
+						student.setMatrikelnr(matrikelnr);
+						break;
+					case 1:
+						String vorname = nextCell.getStringCellValue();
+						student.setVorname(vorname);
+						break;
+					case 2:
+						String nachname = nextCell.getStringCellValue();
+						student.setNachname(nachname);
+						break;
+					case 3:
+						int semester = (int) nextCell.getNumericCellValue();
+						student.setSemester(semester);
+						break;
+					case 4:
+						String studiengang = nextCell.getStringCellValue();
+						student.setStudiengang(studiengang);
+						break;
+					}
+					
+					
+					log.info("Iteration  " + iteration + " : " + student.getMatrikelnr() + " " + student.getVorname()
+										+ " " + student.getNachname() + " " + student.getSemester() + " "
+												+ student.getStudiengang());
+					 
+	
+					iteration++;
+				}
+				log.info("Adding to Observablelist : " + student.toString());
+				studenten.add(student);
+
+			}
+			// Add the student to the list	
+			
+			for (int i = studenten.size(); i > 0; i--) {
+				
+				log.info("List content at index " + listIndex + " : " + studenten.get(listIndex).toString());
+				listIndex++;
+			}
+			
+			workbook.close();
+			return studenten;
+
+	}
+	
 												////////////// FXML Methods ///////////////////
+	
+
+    @FXML
+    void import_xlsx(MouseEvent event) throws SQLException, IOException {
+    	String xlsxPath = getFilePath();
+    	ObservableList<Student> studenten = readFromXlsx(xlsxPath);
+    	dbQuery.studentenSpeichern(studenten);
+    }
+    
+
+    @FXML
+    void studentSelektieren(MouseEvent event) throws IOException {
+    	sController.show();
+    }
 	
 
 	@FXML /*
@@ -336,16 +490,14 @@ public class PruefungController {
 	 */
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
+		
 		Frage frage = getSelected();
 		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-
 			showDetails(frage, kompetenzStufe);
-
 		}
-
-		
+	
 
 	}
 	
@@ -355,7 +507,6 @@ public class PruefungController {
 
 			Frage frage = getSelected();
 			dbQuery.frageStellen(frage, true);
-			
 			showQuestions();
 
 		}
@@ -366,7 +517,6 @@ public class PruefungController {
 
 			Frage frage = getSelected();
 			dbQuery.frageStellen(frage, false);
-
 			showQuestions();
 
 		}
@@ -385,9 +535,9 @@ public class PruefungController {
 				 * values in the database.
 				 */
 		public void katalogeLaden(MouseEvent event) throws SQLException {
-
-			katalogeComboBox.setItems(dbQuery.katalogeAuslesen());
-
+			
+			ObservableList<String> kataloge = dbQuery.katalogeAuslesen();
+			katalogeComboBox.setItems(kataloge);
 			showQuestions();
 
 		}
@@ -399,8 +549,10 @@ public class PruefungController {
 		public void themengebieteLaden(MouseEvent event) throws SQLException {
 
 			if (katalogeComboBox.getValue() != null) {
+				
 				String katalog = katalogeComboBox.getValue();
-				themen.setItems(dbQuery.themengebieteAuslesen(katalog));
+				ObservableList<String> themengebiete = dbQuery.themengebieteAuslesen(katalog);
+				themen.setItems(themengebiete);
 
 				showQuestions();
 			}
@@ -415,7 +567,6 @@ public class PruefungController {
 		public void showUebersicht() throws SQLException, IOException {
 
 			katalogName = katalogeComboBox.getValue();
-
 			uController.show();
 
 		}
@@ -446,12 +597,12 @@ public class PruefungController {
 
 			if (file != null) {
 
-				String path = file.getAbsolutePath();
-				FileOutputStream fos = new FileOutputStream(path);
+				String path = file.getAbsolutePath();	
 
 				try {
 
 					Document document = new Document();
+					FileOutputStream fos = new FileOutputStream(path);
 					PdfWriter.getInstance(document,fos);
 					document.open();
 					PDFCreate.addMetaData(document);
@@ -459,6 +610,7 @@ public class PruefungController {
 					PDFCreate.addContent(document, fragen);
 
 					document.close();
+					fos.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 
@@ -470,14 +622,34 @@ public class PruefungController {
 		
 		@FXML // Navigation Function - Go back to starter Screen.
 		void zueruckDurchfuehrung(MouseEvent event) throws IOException {
-
 			StartController.setWindow("StartScreen");
 
 		}
 		
+		@FXML // GUI Navigation - Go to Pruefung starten screen
+		void FragekatalogErstellenClick(ActionEvent event) {
+			try {
+				StartController.setWindow("Katalogverwaltung");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		@FXML // GUI Navigation - Go to StatistikAnsehen screen (SOON)
+		void StatistikAnsehenClick(ActionEvent event) {
+//			try {
+//				StartController.setWindow("StatistikAnsehen");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}
 		
 		@FXML // Shows the overview if it isn't already showing, brings it to the front if the button is clicked after it's showing
 		void uebersichtAnzeigen(MouseEvent event) throws IOException, SQLException {
+			
 			if(!uebersichtIsShowing()) {
 				showUebersicht();
 			} else if (!UebersichtController.stage.isFocused()) {
@@ -488,7 +660,7 @@ public class PruefungController {
 		
 	
 		
-													///////////////////// Not implemented/ Currently working on. ///////////////////
+											///////////////////// Not implemented/ Currently working on. ///////////////////
 		
 	
 		

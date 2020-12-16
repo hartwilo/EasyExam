@@ -9,6 +9,10 @@ public class Student{
 	private int semester;
 	private String studiengang;
 	
+	public Student() {
+		
+	}
+	
 	public Student(int matrikelnr, String vorname, String nachname, int semester, String studiengang) {
 		super();
 		this.matrikelnr = matrikelnr;
@@ -59,6 +63,18 @@ public class Student{
 	}
 
 	
-
+	public String toString() {
+		
+		int m = this.getMatrikelnr(); 
+		String v = this.getVorname();
+		String n = this.getNachname(); 
+		int s = this.getSemester();
+		String g = this.getStudiengang(); 
+		
+		String output = m + " " +v+ " " + n+ " " +s+ " " + g;
+		
+		return output;
+		
+	}
 	
 }

@@ -76,5 +76,7 @@ public class StartController {
 	void statistikAnsehen(MouseEvent event) {
 		System.out.println("Good luck son!");
 	}
+	
+	
 
 }
