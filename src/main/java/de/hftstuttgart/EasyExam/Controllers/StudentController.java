@@ -2,19 +2,25 @@ package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import DB.DBConn;
 import DB.DBQueries;
+import de.hftstuttgart.EasyExam.Main.Main;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,15 +29,23 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class StudentController {
+	private static final Logger log;
+
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+		log = Logger.getLogger(DBConn.class.getName());
+	}
 	
 	Stage stage = new Stage();
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
+	public Student selectedStudent = new Student();
+	
 
     @FXML
     private AnchorPane pane;
 
     @FXML
-    private TableView<Student> fragetabelle;
+    private TableView<Student> studentenTabelle;
 
     @FXML
     private TableColumn<Student, Number > fxcolumn_matnr;
@@ -48,28 +62,75 @@ public class StudentController {
     @FXML
     private TableColumn<Student, String > fxcolumn_studiengang;
     
-    
-    
-
     @FXML
-    void studentenAnzeigen(MouseEvent event) throws SQLException {
-    	
+    private Button selektieren;
+    
+    
+    @FXML
+    void studentenAnzeigen(MouseEvent event) throws SQLException {  	
     	displayStudents();
-    	
-    	
-    	
-    	
-    	
-    	
+   	
     }
+    
+	@FXML
+	void studentSelektieren(MouseEvent event) {
+		
+		try {
+			
+			PruefungController pController = LoginController.loader.getController();
+
+			
+			selectedStudent = select();
+			
+			log.info(selectedStudent.toString());
+
+			String name_nachname = selectedStudent.getVorname() + " " + selectedStudent.getNachname();
+			int matrikel = selectedStudent.getMatrikelnr();
+			String matnr = String.valueOf(matrikel);
+			
+			pController.setStudent(selectedStudent);
+			
+					
+		} catch (NullPointerException e) {
+			log.warning("No student selected from TableView");
+			e.printStackTrace();
+		}
+	}
+    
+	
+	public Student select() {
+		
+		
+		try {
+			
+			int matnr = studentenTabelle.getSelectionModel().getSelectedItem().getMatrikelnr();
+			int semester = studentenTabelle.getSelectionModel().getSelectedItem().getSemester();
+			String vorname = studentenTabelle.getSelectionModel().getSelectedItem().getVorname();
+			String nachname = studentenTabelle.getSelectionModel().getSelectedItem().getNachname();
+			String studiengang = studentenTabelle.getSelectionModel().getSelectedItem().getStudiengang();
+			
+			selectedStudent.setMatrikelnr(matnr);
+			selectedStudent.setNachname(nachname);
+			selectedStudent.setVorname(vorname);
+			selectedStudent.setSemester(semester);
+			selectedStudent.setStudiengang(studiengang);
+
+			return selectedStudent;
+			
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			
+			return selectedStudent;
+		}
+	}
+    
     
     public void displayStudents() throws SQLException {
 		ObservableList<Student> studenten = FXCollections.observableArrayList();
+		
 		dbQuery.studentenLaden();
-
+		
 		fillList(studenten);
-
-
 		showInTable(studenten); 
 		
 		
@@ -91,6 +152,7 @@ public class StudentController {
 
 	// Set up table and columns and start displaying list
 	public void showInTable(ObservableList<Student> studenten) {
+		
 		fxcolumn_matnr
 				.setCellValueFactory(new PropertyValueFactory<>("matrikelnr"));
 		fxcolumn_vorname
@@ -101,8 +163,10 @@ public class StudentController {
 				.setCellValueFactory(new PropertyValueFactory<>("semester"));
 		fxcolumn_studiengang
 				.setCellValueFactory(new PropertyValueFactory<>("studiengang"));
-		fragetabelle.setFixedCellSize(25);
-		fragetabelle.setItems(studenten);
+		studentenTabelle.setFixedCellSize(25);
+		
+		studentenTabelle.setItems(studenten);
+		
 	}
 	
 	

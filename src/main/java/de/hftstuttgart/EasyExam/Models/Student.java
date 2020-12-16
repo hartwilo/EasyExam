@@ -71,7 +71,12 @@ public class Student{
 		int s = this.getSemester();
 		String g = this.getStudiengang(); 
 		
-		String output = m + " " +v+ " " + n+ " " +s+ " " + g;
+		String output = 
+		 "MatNr :" + m + System.lineSeparator()
+		+"Vorname :"	+v+ System.lineSeparator() 
+		+"Nachname :"	+n+ System.lineSeparator() 
+		+"Semester :"	+s+ System.lineSeparator()
+		+"Studiengang :"	+g;
 		
 		return output;
 		

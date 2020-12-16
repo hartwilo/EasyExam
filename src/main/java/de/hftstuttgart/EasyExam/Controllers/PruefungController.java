@@ -31,10 +31,14 @@ import de.hftstuttgart.EasyExam.Models.Protokoll;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -78,6 +82,11 @@ public class PruefungController {
 
 	public static String katalogName; //remove ?
 	public static ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
+		
+
+	public StringProperty vName = new SimpleStringProperty();
+	public StringProperty nName = new SimpleStringProperty();
+	public	StringProperty mNr = new SimpleStringProperty();
 	
 	
 
@@ -119,8 +128,7 @@ public class PruefungController {
 	@FXML
 	private TextArea musterLoesungDetailliert;
 
-	@FXML
-	private TextField studName;
+	@FXML TextField studName;
 
 	@FXML
 	private TextField matNr;
@@ -458,20 +466,69 @@ public class PruefungController {
 
 	}
 	
+	public void print() {
+		System.out.println("Controller pruefung");
+	}
+	
 												////////////// FXML Methods ///////////////////
 	
 
     @FXML
-    void import_xlsx(MouseEvent event) throws SQLException, IOException {
-    	String xlsxPath = getFilePath();
-    	ObservableList<Student> studenten = readFromXlsx(xlsxPath);
-    	dbQuery.studentenSpeichern(studenten);
-    }
-    
+	public void import_xlsx(MouseEvent event) throws SQLException, IOException {
+		String xlsxPath = getFilePath();
+		ObservableList<Student> studenten = readFromXlsx(xlsxPath);
+		dbQuery.studentenSpeichern(studenten);
+	}
 
-    @FXML
-    void studentSelektieren(MouseEvent event) throws IOException {
-    	sController.show();
+	@FXML
+	public void studentSelektieren(MouseEvent event) throws IOException {
+		 FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Studenten.fxml"));
+
+		try {
+			
+			sController.show();
+			Student student = sController.select();
+			log.info("pCon - " +student.toString());
+			
+			setStudent(student);
+		} catch (Exception e ) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/*
+	 * @FXML public void studentSelektieren2(MouseEvent event) throws IOException {
+	 * FXMLLoader loader = new
+	 * FXMLLoader(getClass().getResource("/GUI/Studenten.fxml"));
+	 * 
+	 * try {
+	 * 
+	 * Parent root = (Parent) loader.load(); StudentController sController =
+	 * loader.getController();
+	 * 
+	 * Stage stage = new Stage(); stage.setScene(new Scene(root)); stage.show();
+	 * Student student = sController.select(); log.info("pCon - " +
+	 * student.toString());
+	 * 
+	 * setStudent(student); } catch (Exception e) { e.printStackTrace(); }
+	 * 
+	 * }
+	 */
+    
+    public void setStudent(Student student) {
+    	
+    	String name_nachname = student.getVorname() + " "
+    						+  student.getNachname();
+    	String matnr = String.valueOf(student.getMatrikelnr());
+    	
+    	vName.setValue(name_nachname);
+    	mNr.setValue(matnr);
+    	
+    	studName.textProperty().bind(vName);
+    	matNr.textProperty().bind(mNr);
+	
+    	
     }
 	
 

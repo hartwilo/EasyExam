@@ -16,6 +16,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import DB.DBConn;
+import de.hftstuttgart.EasyExam.Main.Main;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -79,19 +80,24 @@ public class LoginController implements Initializable {
 //
 //	}
 
+	static FXMLLoader loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung.fxml"));
+	
 	// Check if Login is successful
 	public void handleButtonAction(MouseEvent event) {
 
+		
+		
 		if (event.getSource() == Login) {
 
 			if (LogIn().equals("Login ist erfolgreich")) {
 
 				try {
+					
 					Node node = (Node) event.getSource();
 					Stage stage = (Stage) node.getScene().getWindow();
 					stage.close();
 
-					Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/GUI/StartScreen.fxml")));
+					Scene scene = new Scene(loader.load());
 					stage.setScene(scene);
 					stage.show();
 

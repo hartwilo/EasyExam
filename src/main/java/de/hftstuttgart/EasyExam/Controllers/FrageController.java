@@ -197,17 +197,10 @@ public class FrageController {
 				infoAnzeigen("Frage erfolgreich gespeichert in Katalog: " + frage.getFragekatalog());
 
 				
-				log.info(" " + System.lineSeparator() + "Question succesfuly saved: " + System.lineSeparator()
-						+ "Fragestellung: " + frage.getFrageStellung() + System.lineSeparator() 
-						+ "Lösung: " + frage.getMusterloesung() + System.lineSeparator() 
-						+ "Niveau: " + frage.getNiveau() + System.lineSeparator() 
-						+ "Punkte: " + frage.getPunkte() + System.lineSeparator()
-						+ "Gestellt: " + frage.isGestelltbool() + System.lineSeparator() 
-						+ "Thema: " + frage.getThemengebiet() + System.lineSeparator() 
-						+ "Fragekatalog: " + frage.getFragekatalog() + System.lineSeparator() 
-						+ "Grundlage Niveau: " + frage.getGrundLageNiveau() + System.lineSeparator() 
-						+ "Gut: " + frage.getGut() + System.lineSeparator() 
-						+ "Sehr gut: " + frage.getSehrGut() + System.lineSeparator());
+				log.info(" " + System.lineSeparator() 
+						+ "Question succesfuly saved.... " 
+						+ System.lineSeparator()
+						+ frage.toString());
 
 				StartController.setWindow("Katalogverwaltung");
 			}
