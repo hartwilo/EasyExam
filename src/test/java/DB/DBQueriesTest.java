@@ -326,7 +326,7 @@ class DBQueriesTest {
             }
             System.out.println(frage.getID() + "    <-- ID Frageobjekt");
 			
-			//db.frageLoeschen(frage.getID());
+			db.frageLoeschen(frage.getID());
 			String query = "Select * From Frage";
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
