@@ -17,11 +17,11 @@ public class DBConn {
     //Bachir Local
 //    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC","root","Bachir1991");
 	
-	String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+//	String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
 
-   	static String DbName = "jdbc:mysql://localhost:3306/easyexam";
+   	static String DbName = "jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC";
     static String DbUser = "root";
-    static String DbPass = "";
+    static String DbPass = "Bachir1991";
 	
 	public static void buildConn() {
 

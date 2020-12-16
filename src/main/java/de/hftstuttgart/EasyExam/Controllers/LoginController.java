@@ -37,6 +37,8 @@ import javafx.scene.input.MouseEvent;
  */
 public class LoginController implements Initializable {
 
+	ResetPasswordController rpController = new ResetPasswordController();
+
 	@FXML
 	private AnchorPane AnchorPane;
 
@@ -69,11 +71,11 @@ public class LoginController implements Initializable {
 
 	@FXML
 	private Label lblErrors;
-	
+
 	@FXML
-    private JFXButton PasswordVergessen;
+	private JFXButton PasswordVergessen;
 	public DBQueries dbQueries = new DBQueries(DBConn.connection);
-	
+
 //	@FXML
 //	void LoginClick(ActionEvent event) throws IOException {
 //
@@ -133,36 +135,34 @@ public class LoginController implements Initializable {
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 
-	// Method to check the ogin data in the DB
+	// Method to check the login data in the DB
 	private String LogIn() {
 
 		String eMail = UsernameTextField.getText().toString();
 		String Password = PasswordField.getText().toString();
 		String vergleichsPW = null;
 
-		// query
 		try {
 			resultSet = dbQueries.getLoginData(eMail);
 
 			if (!resultSet.next()) {
 				lblErrors.setTextFill(Color.TOMATO);
-				lblErrors.setText("Die Email ist falsch. Bitte geben Sie eine richtige Email ein");
+				lblErrors.setText("Die Email ist falsch.");
 				System.err.println("Login Error");
 				return "Error";
 
 			} else {
 				vergleichsPW = resultSet.getString("Passwort");
 				System.out.println(vergleichsPW);
-				if(!vergleichsPW.equals(Password)) {
+				if (!vergleichsPW.equals(Password)) {
 					lblErrors.setTextFill(Color.TOMATO);
 					lblErrors.setText("Das Passwort ist falsch");
 					System.err.println("Login Error");
 					return "Error";
-				}
-				else{
+				} else {
 					return "Login ist erfolgreich";
 				}
-				
+
 			}
 
 		} catch (SQLException e) {
@@ -172,13 +172,13 @@ public class LoginController implements Initializable {
 		}
 
 	}
-	
-	// reset a Password
-	 @FXML
-	    void PasswordVergessenClick(ActionEvent event) {
 
-	    }
-	 
+	// show forgotten password window
+	@FXML
+	void PasswordVergessenClick(ActionEvent event) throws Exception {
 
+		rpController.show();
+
+	}
 
 }
