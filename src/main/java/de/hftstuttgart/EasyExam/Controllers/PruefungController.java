@@ -1,12 +1,13 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,10 +18,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.log.SysoCounter;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXToggleButton;
+import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import DB.DBConn;
 import DB.DBQueries;
@@ -29,25 +31,24 @@ import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
 import de.hftstuttgart.EasyExam.Models.Student;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -57,14 +58,11 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Callback;
 
 
-public class PruefungController {
+public class PruefungController implements Initializable {
 
 	private static final Logger log;
 
@@ -195,17 +193,24 @@ public class PruefungController {
 	
 	@FXML
 	private Button pdfErstellen;
-	
-    @FXML
-    private Button studentSelektieren;
-    
+   
     @FXML
     private MenuItem FragekatalogErstellen;
 
     @FXML
     private MenuItem StatistikAnsehen;
+    
+    @FXML
+    private JFXToggleButton ask_switch;
+    
+    // JFoenix Compontents
+    @FXML
+    private JFXHamburger hamburger;
+
+    @FXML
+    private JFXDrawer drawer;
 	
-	
+    
 															/////////////// Java Methods //////////////
 	
 	//Show wanted questions in View Table
@@ -472,6 +477,22 @@ public class PruefungController {
 	
 												////////////// FXML Methods ///////////////////
 	
+	
+	@FXML
+	void showSideMenu(MouseEvent event) {
+		/*
+		 * HamburgerBackArrowBasicTransition transition = new
+		 * HamburgerBackArrowBasicTransition(hamburger); transition.setRate(-1);
+		 * 
+		 * transition.setRate(transition.getRate() * (-1)); transition.play();
+		 */
+		if (drawer.isShown() || drawer.isShowing()) {
+			drawer.close();
+		} else {
+			drawer.open();
+		}
+
+	}
 
     @FXML
 	public void import_xlsx(MouseEvent event) throws SQLException, IOException {
@@ -482,14 +503,12 @@ public class PruefungController {
 
 	@FXML
 	public void studentSelektieren(MouseEvent event) throws IOException {
-		 FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Studenten.fxml"));
 
 		try {
 			
 			sController.show();
 			Student student = sController.select();
-			log.info("pCon - " +student.toString());
-			
+			//log.info("pCon - " +student.toString());		
 			setStudent(student);
 		} catch (Exception e ) {
 			e.printStackTrace();
@@ -549,14 +568,78 @@ public class PruefungController {
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 		
 		Frage frage = getSelected();
+		Boolean asked = frage.isGestelltbool();
+		
+	
+		
 		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
 
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 			showDetails(frage, kompetenzStufe);
+			ask_switch.setSelected(asked);
+			
 		}
 	
 
 	}
+	
+	
+	@FXML
+	void ask_unas2k(MouseEvent event) {
+		Frage frage = getSelected();
+		
+		
+		
+		
+		/*
+		 * if (asked) { ask_switch.setSelected(); try { dbQuery.frageStellen(frage,
+		 * false); } catch (Exception e) { log.warning("Question couldn't be un-asked: "
+		 * + e.getMessage() + e.getCause()); } } else { try {
+		 * dbQuery.frageStellen(frage, true); } catch (Exception e) {
+		 * log.warning("Question couldn't be asked: " + e.getMessage() + e.getCause());
+		 * } }
+		 */
+	  
+	  }
+	 
+	
+		@FXML
+		void ask_unask(MouseEvent event) {
+			Frage frage = getSelected();
+			Boolean asked = frage.isGestelltbool();
+
+			if (asked) {
+				try {
+					unask();
+					ask_switch.setSelected(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					ask();
+					ask_switch.setSelected(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+	 
+	
+	 
+	 public void ask() throws SQLException {
+		 Frage frage = getSelected();
+			dbQuery.frageStellen(frage, true);
+			showQuestions(); 
+	 }
+	
+	 public void unask() throws SQLException {
+		 Frage frage = getSelected();
+			dbQuery.frageStellen(frage, false);
+			showQuestions();
+	 }
 	
 	// Ask a question
 		@FXML
@@ -733,5 +816,20 @@ public class PruefungController {
 	    	katalogName = katalogeComboBox.getValue();
 	    	dbQuery.fragenLaden_gestellt(katalogName);
 	    }
+
+
+		@Override
+		public void initialize(URL location, ResourceBundle resources) {
+			/*
+			 * boolean asked = ask_switch.selectedProperty().getValue();
+			 * ask_switch.selectedProperty().addListener((InvalidationListener) new
+			 * ChangeListener<JFXToggleButton>() {
+			 * 
+			 * @Override public void changed(ObservableValue<? extends JFXToggleButton> ov,
+			 * JFXToggleButton o, JFXToggleButton n) { try { dbQuery.frageStellen() } }
+			 * 
+			 * });
+			 */
+		}
 
 }

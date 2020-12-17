@@ -6,19 +6,11 @@ import java.util.logging.Logger;
 
 import DB.DBConn;
 import DB.DBQueries;
-import de.hftstuttgart.EasyExam.Main.Main;
-import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.Student;
-import javafx.beans.property.ReadOnlyDoubleWrapper;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -82,18 +74,16 @@ public class StudentController {
 			
 			selectedStudent = select();
 			
-			log.info(selectedStudent.toString());
+			//log.info(selectedStudent.toString());
 
-			String name_nachname = selectedStudent.getVorname() + " " + selectedStudent.getNachname();
-			int matrikel = selectedStudent.getMatrikelnr();
-			String matnr = String.valueOf(matrikel);
-			
 			pController.setStudent(selectedStudent);
+			this.stage.toBack();
 			
 					
 		} catch (NullPointerException e) {
-			log.warning("No student selected from TableView");
-			e.printStackTrace();
+			log.warning("No student selected from TableView "
+					+e.getMessage() + e.getCause());
+
 		}
 	}
     
@@ -118,7 +108,7 @@ public class StudentController {
 			return selectedStudent;
 			
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			log.info("No student selected " + e.getCause());
 			
 			return selectedStudent;
 		}

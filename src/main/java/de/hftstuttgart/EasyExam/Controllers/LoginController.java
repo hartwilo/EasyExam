@@ -80,7 +80,7 @@ public class LoginController implements Initializable {
 //
 //	}
 
-	static FXMLLoader loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung.fxml"));
+	static FXMLLoader loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung2.fxml"));
 	
 	// Check if Login is successful
 	public void handleButtonAction(MouseEvent event) {
@@ -144,7 +144,7 @@ public class LoginController implements Initializable {
 		String Password = PasswordField.getText().toString();
 
 		// query
-		String sql = "SELECT * FROM pruefer WHERE eMail=? AND Password = ?";
+		String sql = "SELECT * FROM pruefer WHERE eMail=? AND Passwort = ?";
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, eMail);

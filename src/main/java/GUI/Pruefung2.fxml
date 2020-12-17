@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fragenAnzeigen" prefHeight="774.0" prefWidth="1309.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.PruefungController">
+   <children>
+      <Group layoutX="45.0" layoutY="167.0" />
+      <Group layoutX="607.0" layoutY="167.0">
+         <children>
+            <JFXTextArea fx:id="frageStellungDetail" layoutX="9.0" layoutY="-46.0" prefHeight="241.0" prefWidth="673.0" promptText="Fragestellung :" />
+            <JFXTextArea fx:id="musterLoesungDetailliert" layoutX="10.0" layoutY="243.0" prefHeight="327.0" prefWidth="261.0" promptText="Musterlösung :" />
+            <Label layoutX="10.0" layoutY="209.0" prefHeight="17.0" prefWidth="65.0" text="Punktzahl :" />
+            <Label fx:id="punktZahlDetail" layoutX="617.0" layoutY="209.0" prefHeight="17.0" prefWidth="59.0" />
+            <TableView fx:id="kompetenzlevelTabelle" layoutX="279.0" layoutY="242.0" prefHeight="330.0" prefWidth="403.0">
+               <columns>
+                  <TableColumn fx:id="grundlagenniveau" prefWidth="130.0" text="Grundlagenniveau" />
+                  <TableColumn fx:id="gut" prefWidth="130.0" text="Gut" />
+                  <TableColumn fx:id="sehrGut" prefWidth="130.0" text="Sehr Gut" />
+               </columns>
+            </TableView>
+         </children>
+      </Group>
+      <Group layoutX="48.0" layoutY="86.0" />
+      <Group layoutX="1033.0" layoutY="713.0" />
+      <Button fx:id="setFalse" layoutX="679.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#setFalse" text="Set False" />
+      <TextField fx:id="studName" layoutX="925.0" layoutY="72.0" onMouseClicked="#studentSelektieren" prefHeight="26.0" prefWidth="146.0" promptText="Student Name" />
+      <TextField fx:id="matNr" layoutX="1081.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Matr.Nr" />
+      <DatePicker layoutX="1169.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Datum" />
+      <Button fx:id="studentenLaden" layoutX="1260.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#import_xlsx" text="+" />
+      <TableView fx:id="frageTabelle" layoutX="25.0" layoutY="144.0" onMousePressed="#detailsAnzeigen" prefHeight="595.0" prefWidth="570.0">
+        <columns>
+          <TableColumn fx:id="gestellt" prefWidth="51.99996566772461" text="Gestellt" />
+            <TableColumn fx:id="frageStellung" prefWidth="517.0" text="Fragestellung" />
+        </columns>
+      </TableView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="50.0" stroke="BLACK" strokeType="INSIDE" width="1310.0" />
+      <Label layoutX="25.0" layoutY="8.0" prefHeight="17.0" prefWidth="450.0" text="HFT-Stuttgart EasyExam" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <JFXHamburger fx:id="hamburger" layoutX="1258.0" layoutY="17.0" onMouseClicked="#showSideMenu" />
+      <JFXComboBox fx:id="katalogeComboBox" layoutX="25.0" layoutY="72.0" onMouseClicked="#katalogeLaden" prefHeight="25.0" prefWidth="570.0" promptText="Fragekatalog" />
+      <JFXComboBox fx:id="themen" layoutX="25.0" layoutY="109.0" onMouseClicked="#themengebieteLaden" prefHeight="25.0" prefWidth="374.0" promptText="Themengebiet" />
+      <JFXRadioButton fx:id="nivalle" layoutX="475.0" layoutY="117.0" onMouseClicked="#fragenAnzeigen" selected="true" text=" ">
+         <toggleGroup>
+            <ToggleGroup fx:id="niveau" />
+         </toggleGroup>
+      </JFXRadioButton>
+      <JFXRadioButton fx:id="niveau1" layoutX="506.0" layoutY="117.0" onMouseClicked="#fragenAnzeigen" text=" " toggleGroup="$niveau" />
+      <JFXRadioButton fx:id="niveau2" layoutX="537.0" layoutY="117.0" onMouseClicked="#fragenAnzeigen" text=" " toggleGroup="$niveau" />
+      <JFXRadioButton fx:id="niveau3" layoutX="567.0" layoutY="117.0" onMouseClicked="#fragenAnzeigen" text=" " toggleGroup="$niveau" />
+      <JFXDialog layoutX="436.0" layoutY="121.0" />
+      <Label layoutX="416.0" layoutY="116.0" prefHeight="20.0" prefWidth="53.0" text="Niveau :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <MenuButton layoutX="1155.0" layoutY="15.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="97.0" text="Navigation">
+        <items>
+          <MenuItem fx:id="FragekatalogErstellen" mnemonicParsing="false" onAction="#FragekatalogErstellenClick" text="Fragekatalog Erstellen" />
+          <MenuItem fx:id="StatistikAnsehen" mnemonicParsing="false" onAction="#StatistikAnsehenClick" text="Statistik Ansehen" />
+        </items>
+      </MenuButton>
+      <JFXToggleButton fx:id="ask_switch" layoutX="616.0" layoutY="64.0" onMouseClicked="#ask_unask" prefHeight="44.0" prefWidth="109.0" size="7.0" text=" Gestellt" toggleLineColor="#e17668" />
+      <JFXButton fx:id="uebersicht" buttonType="RAISED" layoutX="735.0" layoutY="74.0" onMouseClicked="#uebersichtAnzeigen" ripplerFill="#6e99b2" text="Übersicht" />
+      <JFXButton fx:id="pdfErstellen" buttonType="RAISED" layoutX="818.0" layoutY="74.0" onMouseClicked="#pdfErstellenClick" ripplerFill="#6e99b2" text="Protokollieren" />
+   </children>
+</AnchorPane>

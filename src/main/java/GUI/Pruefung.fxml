@@ -49,7 +49,7 @@
             <RadioButton fx:id="nivalle" layoutX="441.0" layoutY="113.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" selected="true" text="Alle" toggleGroup="$niveau" />
             <RadioButton fx:id="niveau3" layoutX="566.0" layoutY="113.0" mnemonicParsing="false" onMouseClicked="#fragenAnzeigen" text="3" toggleGroup="$niveau" />
             <Button fx:id="setFalse" layoutX="759.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#setFalse" text="Set False" />
-            <TextField fx:id="studName" layoutX="924.0" layoutY="72.0" prefHeight="26.0" prefWidth="146.0" promptText="Student Name" />
+            <TextField fx:id="studName" layoutX="924.0" layoutY="72.0" onMouseClicked="#studentSelektieren" prefHeight="26.0" prefWidth="146.0" promptText="Student Name" />
             <TextField fx:id="matNr" layoutX="1081.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Matr.Nr" />
             <DatePicker layoutX="1169.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Datum" />
             <Button fx:id="studentenLaden" layoutX="1260.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#import_xlsx" text="+" />
