@@ -17,10 +17,14 @@ import com.jfoenix.controls.JFXTextField;
 
 import DB.DBConn;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import DB.DBQueries;
 =======
 import de.hftstuttgart.EasyExam.Main.Main;
 >>>>>>> 4efcdeb (Students can be selected into the Pruefung view)
+=======
+import de.hftstuttgart.EasyExam.Main.Main;
+>>>>>>> 4efcdeba1316e2c7445e0d1c5bfd3adbb4667d46
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
