@@ -14,6 +14,16 @@
             <Glow />
          </effect>
       </JFXButton>
+      <JFXButton fx:id="PruefungProtokollieren" accessibleText="Protokollieren" prefHeight="61.0" prefWidth="186.0" style="-fx-background-color: #F8F8FF;" text="Pruefung Protokollieren">
+         <effect>
+            <Glow />
+         </effect>
+      </JFXButton>
+      <JFXButton fx:id="StudentenImportieren" accessibleText="StudentenImportieren" prefHeight="61.0" prefWidth="186.0" style="-fx-background-color: #F8F8FF;" text="Studenten Importieren">
+         <effect>
+            <Glow />
+         </effect>
+      </JFXButton>
       <JFXButton fx:id="StatistikAnsehen" accessibleText="StatistikAnsehen" prefHeight="61.0" prefWidth="186.0" style="-fx-background-color: #F8F8FF;" text="Statistik Ansehen">
          <effect>
             <Glow />

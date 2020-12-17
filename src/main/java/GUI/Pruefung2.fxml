@@ -46,7 +46,6 @@
       <TextField fx:id="studName" layoutX="925.0" layoutY="72.0" onMouseClicked="#studentSelektieren" prefHeight="26.0" prefWidth="146.0" promptText="Student Name" />
       <TextField fx:id="matNr" layoutX="1081.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Matr.Nr" />
       <DatePicker layoutX="1169.0" layoutY="72.0" prefHeight="26.0" prefWidth="81.0" promptText="Datum" />
-      <Button fx:id="studentenLaden" layoutX="1260.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#import_xlsx" text="+" />
       <TableView fx:id="frageTabelle" layoutX="25.0" layoutY="144.0" onMousePressed="#detailsAnzeigen" prefHeight="595.0" prefWidth="570.0">
         <columns>
           <TableColumn fx:id="gestellt" prefWidth="51.99996566772461" text="Gestellt" />
@@ -76,15 +75,9 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <MenuButton layoutX="1155.0" layoutY="15.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="97.0" text="Navigation">
-        <items>
-          <MenuItem fx:id="FragekatalogErstellen" mnemonicParsing="false" onAction="#FragekatalogErstellenClick" text="Fragekatalog Erstellen" />
-          <MenuItem fx:id="StatistikAnsehen" mnemonicParsing="false" onAction="#StatistikAnsehenClick" text="Statistik Ansehen" />
-        </items>
-      </MenuButton>
+
       <JFXToggleButton fx:id="ask_switch" layoutX="616.0" layoutY="64.0" onMouseClicked="#ask_unask" prefHeight="44.0" prefWidth="109.0" size="7.0" text=" Gestellt" toggleLineColor="#e17668" />
       <JFXButton fx:id="uebersicht" buttonType="RAISED" layoutX="735.0" layoutY="74.0" onMouseClicked="#uebersichtAnzeigen" ripplerFill="#6e99b2" text="Übersicht" />
-      <JFXButton fx:id="pdfErstellen" buttonType="RAISED" layoutX="818.0" layoutY="74.0" onMouseClicked="#pdfErstellenClick" ripplerFill="#6e99b2" text="Protokollieren" />
       <JFXDrawer fx:id="drawer" defaultDrawerSize="190.0" direction="RIGHT" layoutX="1122.0" layoutY="51.0" prefHeight="310.0" prefWidth="186.0" />
    </children>
 </AnchorPane>

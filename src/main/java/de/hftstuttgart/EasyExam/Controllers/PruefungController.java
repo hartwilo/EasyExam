@@ -32,13 +32,10 @@ import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
 import de.hftstuttgart.EasyExam.Models.Student;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,7 +47,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -175,9 +171,6 @@ public class PruefungController implements Initializable {
 	private Button start;
 
 	@FXML
-	private Button studentenLaden;
-
-	@FXML
 	private Button frageStellen;
 
 	@FXML
@@ -192,14 +185,11 @@ public class PruefungController implements Initializable {
 	@FXML
 	private Button zueruck;
 
-	@FXML
-	private Button pdfErstellen;
+	/*
+	 * @FXML private Button pdfErstellen;
+	 */
 
-	@FXML
-	private MenuItem FragekatalogErstellen;
 
-	@FXML
-	private MenuItem StatistikAnsehen;
 
 	@FXML
 	private JFXToggleButton ask_switch;
@@ -489,6 +479,12 @@ public class PruefungController implements Initializable {
 		dbQuery.studentenSpeichern(studenten);
 	}
 
+	public void studenten_importieren() throws SQLException, IOException {
+		String xlsxPath = getFilePath();
+		ObservableList<Student> studenten = readFromXlsx(xlsxPath);
+		dbQuery.studentenSpeichern(studenten);
+	}
+	
 	@FXML
 	public void studentSelektieren(MouseEvent event) throws IOException {
 
@@ -696,7 +692,53 @@ public class PruefungController implements Initializable {
 		// log.info(fragen.toString());
 
 		FileChooser fc = new FileChooser();
-		Window stage = pdfErstellen.getScene().getWindow();
+		//Window stage = pdfErstellen.getScene().getWindow();
+
+		fc.setTitle("Save to PDF");
+		fc.setInitialFileName("file name.pdf");
+
+		fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF File", "*.pdf"));
+
+		File file = fc.showSaveDialog(Main.mainWindow);
+
+		if (file != null) {
+
+			String path = file.getAbsolutePath();
+
+			try {
+
+				Document document = new Document();
+				FileOutputStream fos = new FileOutputStream(path);
+				PdfWriter.getInstance(document, fos);
+				document.open();
+				PDFCreate.addMetaData(document);
+				PDFCreate.addTitlePage(document, fragen);
+				PDFCreate.addContent(document, fragen);
+
+				document.close();
+				fos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+		}
+
+	}
+	
+	public void protokollieren() throws SQLException {
+		String katalogName = katalogeComboBox.getValue();
+
+		ObservableList<Frage> fragen = FXCollections.observableArrayList();
+		// Load DBQueries Result set with all asked questions
+		// log.info("kat name is: " +katalogName);
+		dbQuery.fragenLaden_gestellt(katalogName);
+
+		// Fill list with questions in result set
+		fillList(fragen);
+		// log.info(fragen.toString());
+
+		FileChooser fc = new FileChooser();
+		Window stage = Main.mainWindow;
 
 		fc.setTitle("Save to PDF");
 		fc.setInitialFileName("file name.pdf");
@@ -726,7 +768,6 @@ public class PruefungController implements Initializable {
 
 			}
 		}
-
 	}
 
 	@FXML // Navigation Function - Go back to starter Screen.
@@ -810,6 +851,22 @@ public class PruefungController implements Initializable {
 							try {
 								StartController.setWindow("StatistikAnsehen");
 							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case "Protokollieren":
+							try {
+								protokollieren();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case "StudentenImportieren":
+							try {
+								studenten_importieren();
+							} catch (IOException | SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
