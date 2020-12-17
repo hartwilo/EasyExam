@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
@@ -20,7 +21,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fragenAnzeigen" prefHeight="774.0" prefWidth="1309.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.PruefungController">
    <children>
@@ -59,7 +59,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <JFXHamburger fx:id="hamburger" layoutX="1258.0" layoutY="17.0" onMouseClicked="#showSideMenu" />
+      <JFXHamburger fx:id="hamburger" alignment="CENTER" layoutX="1258.0" layoutY="17.0" onMouseClicked="#showSideMenu" />
       <JFXComboBox fx:id="katalogeComboBox" layoutX="25.0" layoutY="72.0" onMouseClicked="#katalogeLaden" prefHeight="25.0" prefWidth="570.0" promptText="Fragekatalog" />
       <JFXComboBox fx:id="themen" layoutX="25.0" layoutY="109.0" onMouseClicked="#themengebieteLaden" prefHeight="25.0" prefWidth="374.0" promptText="Themengebiet" />
       <JFXRadioButton fx:id="nivalle" layoutX="475.0" layoutY="117.0" onMouseClicked="#fragenAnzeigen" selected="true" text=" ">
@@ -85,5 +85,6 @@
       <JFXToggleButton fx:id="ask_switch" layoutX="616.0" layoutY="64.0" onMouseClicked="#ask_unask" prefHeight="44.0" prefWidth="109.0" size="7.0" text=" Gestellt" toggleLineColor="#e17668" />
       <JFXButton fx:id="uebersicht" buttonType="RAISED" layoutX="735.0" layoutY="74.0" onMouseClicked="#uebersichtAnzeigen" ripplerFill="#6e99b2" text="Übersicht" />
       <JFXButton fx:id="pdfErstellen" buttonType="RAISED" layoutX="818.0" layoutY="74.0" onMouseClicked="#pdfErstellenClick" ripplerFill="#6e99b2" text="Protokollieren" />
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="190.0" direction="RIGHT" layoutX="1122.0" layoutY="51.0" prefHeight="310.0" prefWidth="186.0" />
    </children>
 </AnchorPane>
