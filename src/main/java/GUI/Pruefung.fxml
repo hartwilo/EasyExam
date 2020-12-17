@@ -83,7 +83,7 @@
             </Label>
             <Button fx:id="pdfErstellen" layoutX="984.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#pdfErstellenClick" text="PDF erstellen" />
             <Button fx:id="uebersicht" layoutX="836.0" layoutY="716.0" mnemonicParsing="false" onMouseClicked="#uebersichtAnzeigen" prefHeight="25.0" prefWidth="94.0" text="Übersicht" />
-            <Button fx:id="studentSelektieren" layoutX="816.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#studentSelektieren" prefHeight="25.0" prefWidth="97.0" text="Selektieren" />
+          
          </children>
       </AnchorPane>
    </children>

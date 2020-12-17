@@ -587,14 +587,14 @@ public class PruefungController implements Initializable {
 
 		if (asked) {
 			try {
-				unask();
+				unask(frage);
 				ask_switch.setSelected(false);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
 			try {
-				ask();
+				ask(frage);
 				ask_switch.setSelected(true);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -604,14 +604,12 @@ public class PruefungController implements Initializable {
 
 	}
 
-	public void ask() throws SQLException {
-		Frage frage = getSelected();
+	public void ask(Frage frage) throws SQLException {
 		dbQuery.frageStellen(frage, true);
 		showQuestions();
 	}
 
-	public void unask() throws SQLException {
-		Frage frage = getSelected();
+	public void unask(Frage frage) throws SQLException {
 		dbQuery.frageStellen(frage, false);
 		showQuestions();
 	}
@@ -787,16 +785,6 @@ public class PruefungController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		/*
-		 * boolean asked = ask_switch.selectedProperty().getValue();
-		 * ask_switch.selectedProperty().addListener((InvalidationListener) new
-		 * ChangeListener<JFXToggleButton>() {
-		 * 
-		 * @Override public void changed(ObservableValue<? extends JFXToggleButton> ov,
-		 * JFXToggleButton o, JFXToggleButton n) { try { dbQuery.frageStellen() } }
-		 * 
-		 * });
-		 */
 
 		try {
 			VBox box = FXMLLoader.load(getClass().getResource("/GUI/DrawerContent.fxml"));

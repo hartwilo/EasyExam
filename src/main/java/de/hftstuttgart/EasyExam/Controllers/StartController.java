@@ -68,7 +68,7 @@ public class StartController {
 	@FXML //GUI Navigation - Go to PruefungsDurchfuehrung screen
 	void pruefungStarten(MouseEvent event) throws IOException {
 		
-		setWindow("Pruefung");
+		setWindow("Pruefung2");
 
 	}
 
