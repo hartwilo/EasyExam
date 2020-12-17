@@ -77,6 +77,19 @@ public class Frage {
 		this.gestelltbool = gestelltbool;
 		Modul = modul;
 	}
+	
+	public String toString() {
+		return "Fragestellung: " + this.frageStellung  + System.lineSeparator()
+		+ "Lösung: " + this.Musterloesung  + System.lineSeparator()
+		+ "Niveau: " + this.niveau  + System.lineSeparator()
+		+ "Punkte: " + this.punkte  + System.lineSeparator()
+		+ "Gestellt: "   + System.lineSeparator()
+		+ "Thema: " + this.themengebiet  + System.lineSeparator() 
+		+ "Fragekatalog: " + this.fragekatalog  + System.lineSeparator()
+		+ "Grundlage Niveau: " + this.grundLageNiveau  + System.lineSeparator()
+		+ "Gut: " +  this.gut  + System.lineSeparator()
+		+ "Sehr gut: " + this.sehrGut;  
+	}
  
 	
 	public String getGut() {
