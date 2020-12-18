@@ -40,7 +40,7 @@ import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
 class LoginControllerTest{
-	
+	LoginController login = new LoginController();
 
 	@Start
 	public void start(Stage stage) throws Exception {
@@ -92,7 +92,6 @@ class LoginControllerTest{
         dbc.handleDB();
         connection = TestDB.connection;
         //db =new DBQueries(connection);
-        LoginController login = new LoginController();
         
 		//Test with right LoginData
 		String email = "sebastian.speiser@hft-stuttgart.de";

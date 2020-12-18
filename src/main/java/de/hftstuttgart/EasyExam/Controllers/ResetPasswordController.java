@@ -105,7 +105,7 @@ public class ResetPasswordController {
 	}
 
 	// send an E-mail
-	public static void EmailSenden(String recipient) throws Exception {
+	public void EmailSenden(String recipient) throws Exception {
 
 		String host = "smtp.gmail.com";
 		final String from = "easyexam842@gmail.com";
@@ -137,7 +137,7 @@ public class ResetPasswordController {
 	}
 
 	// prepare a message
-	private static Message prepareMessage(Session session, String from, String recipient) {
+	private Message prepareMessage(Session session, String from, String recipient) {
 
 		Message message = new MimeMessage(session);
 		try {

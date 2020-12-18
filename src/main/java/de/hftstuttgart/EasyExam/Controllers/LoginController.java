@@ -113,13 +113,6 @@ public class LoginController implements Initializable {
 
 	}
 
-	// Build connection
-	public LoginController() {
-
-//		conn = DBConn.connection;
-
-	}
-
 	// show password if checkBox is selected // Noch nicht implementiert//
 	@FXML
 	void CheckBoxClick1(ActionEvent event) {
