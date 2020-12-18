@@ -19,9 +19,9 @@ public class DBConn {
 	
 //	String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
 
-   	static String DbName = "jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC";
+   	static String DbName = "jdbc:mysql://localhost:3306/easyexam";
     static String DbUser = "root";
-    static String DbPass = "Bachir1991";
+    static String DbPass = "";
 	
 	public static void buildConn() {
 
