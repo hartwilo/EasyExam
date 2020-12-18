@@ -8,10 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-class TestDB {
+public class TestDB {
     
     private static final TestDB testDB = new TestDB();
-    static Connection connection;
+    public static Connection connection;
     private static final String DB_PATH = System.getProperty("user.home") + "/" + "testdb.db";
 
     static {

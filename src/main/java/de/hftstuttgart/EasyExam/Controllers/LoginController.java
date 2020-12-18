@@ -113,13 +113,6 @@ public class LoginController implements Initializable {
 
 	}
 
-	// Build connection
-	public LoginController() {
-
-		conn = DBConn.connection;
-
-	}
-
 	// show password if checkBox is selected // Noch nicht implementiert//
 	@FXML
 	void CheckBoxClick1(ActionEvent event) {
@@ -132,6 +125,7 @@ public class LoginController implements Initializable {
 
 	// Connection to DB
 	Connection conn = null;
+//	conn = DBConn.connection;
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 
@@ -181,4 +175,43 @@ public class LoginController implements Initializable {
 
 	}
 
+	// Methods for Junit Testing 
+	public String LogInWithTestDBConn(Connection connection, String email, String password) {
+
+		String eMail = email;
+		String Password = password;
+		String vergleichsPW = null;
+
+		try {
+			DBQueries db = new DBQueries(connection);
+			resultSet = db.getLoginData(eMail);
+
+			if (!resultSet.next()) {
+				lblErrors.setTextFill(Color.TOMATO);
+				lblErrors.setText("Die Email ist falsch.");
+				System.err.println("Login Error");
+				return "Error";
+
+			} else {
+				vergleichsPW = resultSet.getString("Passwort");
+				System.out.println(vergleichsPW);
+				if (!vergleichsPW.equals(Password)) {
+					lblErrors.setTextFill(Color.TOMATO);
+					lblErrors.setText("Das Passwort ist falsch");
+					System.err.println("Login Error");
+					return "Error";
+				} else {
+					return "Login ist erfolgreich";
+				}
+
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			return "Exception";
+
+		}
+
+	}
+	
 }
