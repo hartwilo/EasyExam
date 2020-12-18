@@ -347,7 +347,22 @@ class DBQueriesTest {
 	 */
 	@Test
 	void testKatalogLoeschen() {
-		fail("not yet implemented");
+		
+		try {
+			db.frageSpeichern(frage);
+			db.katalogLoeschen(frage.getFragekatalog());
+			
+			String query = "Select * From Frage";
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				assertNotEquals(frage.getFragekatalog(), rs.getInt("Fragekatalog"));
+		}
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+		
 	}
 
 	/**
@@ -367,13 +382,7 @@ class DBQueriesTest {
 		}
 		}
 
-	/**
-	 * Test method for {@link DB.DBQueries#frageSpeichern_SIBD(String, String, int, double, String, String, String, String)}
-	 */
-	@Test
-	void testFrageSpeichern_SIBD() {
-		fail("not yet implemented");
-	}
+
 	/**
 	 * Test method for {@link DB.DBQueries#katalogeAuslesen()}.
 	 */

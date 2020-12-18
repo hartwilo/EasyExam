@@ -334,31 +334,7 @@ public class DBQueries {
 		return kataloge;
 	}
 
-	/**
-	 * Old method for saving questions, no longer used
-	 * 
-	 * @param fragestellung
-	 * @param musterloesung
-	 * @param niveau
-	 * @param punkte
-	 * @param gestellt
-	 * @param themengebiet
-	 * @param fragekatalog
-	 * @param modul
-	 * @return
-	 * @throws SQLException
-	 */
-	public int frageSpeichern_SIDB(String fragestellung, String musterloesung, int niveau, double punkte,
-			String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException {
-		connection.setAutoCommit(true);
-		Statement stmt = connection.createStatement();
-		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
-				+ "Values('" + fragestellung + "','" + musterloesung + "', '" + niveau + "', '" + punkte + "', '"
-				+ gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul + "')";
 
-		log.info("Last query: " + query);
-		return stmt.executeUpdate(query);
-	}
 
 	/**
 	 * set gestellt=false for all methods 
