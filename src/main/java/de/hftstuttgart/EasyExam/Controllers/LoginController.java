@@ -116,7 +116,7 @@ public class LoginController implements Initializable {
 	// Build connection
 	public LoginController() {
 
-		conn = DBConn.connection;
+//		conn = DBConn.connection;
 
 	}
 
@@ -132,6 +132,7 @@ public class LoginController implements Initializable {
 
 	// Connection to DB
 	Connection conn = null;
+//	conn = DBConn.connection;
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 
