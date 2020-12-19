@@ -550,11 +550,7 @@ public class PruefungController implements Initializable {
 
 	}
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> f03a5cd (xls import and student selection adapted to lsf_xls, Working on adding JPEG/PNG to protocoll document)
 	public void setStudent(Student student) {
 
 		String name = student.getVorname();
@@ -598,15 +594,14 @@ public class PruefungController implements Initializable {
 
 	}
 
-<<<<<<< HEAD
+
 	@FXML
 	void ask_unas2k(MouseEvent event) {
 		Frage frage = getSelected();
 
 
 	}
-=======
->>>>>>> f03a5cd (xls import and student selection adapted to lsf_xls, Working on adding JPEG/PNG to protocoll document)
+
 
 	@FXML
 	void ask_unask(MouseEvent event) {
