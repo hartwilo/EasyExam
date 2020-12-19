@@ -1,16 +1,19 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -29,6 +32,7 @@ import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Main.Main;
 import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
 import de.hftstuttgart.EasyExam.Models.Student;
@@ -43,7 +47,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -53,6 +59,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -343,7 +350,7 @@ public class PruefungController implements Initializable {
 
 	}
 
-	public String getFilePath() {
+	public String select_file() {
 
 		// Set default path to //Set default path to 'C:\Users\...\
 		String defaultPath = System.getProperty("user.home");
@@ -356,7 +363,7 @@ public class PruefungController implements Initializable {
 
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(userDirectory);
-		chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel files", "*.xlsx")); // "CSV files
+		chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel files", "*.xls")); // "CSV files
 																										// (*.csv)",
 																										// "*.csv"
 		File selected = chooser.showOpenDialog(Main.mainWindow);
@@ -365,67 +372,112 @@ public class PruefungController implements Initializable {
 			log.info(path);
 			return path;
 		} catch (Exception e) {
-			log.warning("Path not found" + System.lineSeparator());
-			e.printStackTrace();
+			log.warning("Path not found" + e.getMessage() +" " 
+			+e.getCause());
+			
 			return null;
 		}
 
+
 	}
 
-	public ObservableList<Student> readFromXlsx(String xlsxPath) throws SQLException, IOException {
-
+	// Reads all students in a .xls file and returns an observable list of these students
+	public ObservableList<Student> readFromXls(String xlsPath) throws SQLException, IOException {
+		
 		ObservableList<Student> studenten = FXCollections.observableArrayList();
+
 		int listIndex = 0;
+		
+		// Select file with a File Choser and pass it to input stream
 
-		// Select file with a File Choser
-
+		File xlsFile = new File(xlsPath);
+		FileInputStream input_xls = new FileInputStream(xlsFile);
+		
+		
 		// Create workbook object
-		Workbook workbook = new XSSFWorkbook(xlsxPath);
+		//Workbook workbook = new XSSFWorkbook(xlsxPath);
+		Workbook workbook = new HSSFWorkbook(input_xls);
 		// Create a sheet in the workbook
 		Sheet firstSheet = workbook.getSheetAt(0);
-		// Iterateor for the exel table in the sheet
+		// Iterateor for the excel table in the sheet
 		Iterator<Row> rowIterator = firstSheet.iterator();
 
-		// Skip head row
-		// rowIterator.next();
+		// Skip the rows that contain no relevant data
+		for (int i = 0; i < 3; i++) {
+			rowIterator.next();
+		}
 
-		// Iterate the rows of the exel file
+		// Iterate the remaining rows of the exel file
 		while (rowIterator.hasNext()) {
-			log.info("Iterating new row......");
+			
+			
+			log.info("-->   Iterating new row......");
 			Student student = new Student();
 			Row nextRow = rowIterator.next();
 			Iterator<Cell> cellIterator = nextRow.cellIterator();
-
 			int iteration = 0;
-
-			// Go through cells of a single row - Asign cell value to student.obj attributes
-			log.info("Iterating cells.....");
-			while (cellIterator.hasNext()) {
-
+			
+			// Go through cells of a single row - Assign cell value to student.obj attributes
+			log.info("-->  Iterating cells.....");
+			while (cellIterator.hasNext()) { 
+				
 				Cell nextCell = cellIterator.next();
 				int columnIndex = nextCell.getColumnIndex();
+				String cellType = nextCell.getCellType().toString();
 
 				switch (columnIndex) {
-				case 0:
-					int matrikelnr = (int) nextCell.getNumericCellValue();
-					student.setMatrikelnr(matrikelnr);
+				case 0: //Matnr Cell
+
+					if (cellType == "NUMERIC") {
+						int matrikelNr = (int) nextCell.getNumericCellValue();
+						student.setMatrikelnr(matrikelNr);
+					} else {
+
+						String s = nextCell.getStringCellValue();
+
+						if (s == "endHISsheet") {
+							
+							log.info("Read Last Row");
+							return studenten;
+							
+						} else {
+							
+							try {
+								
+								int matrikelNr = Integer.valueOf(s);
+								student.setMatrikelnr(matrikelNr);
+								
+							} catch (Exception e) {
+								log.warning("Couldnt read Student!" +e.getCause());
+							}
+						}
+					}
+
 					break;
-				case 1:
-					String vorname = nextCell.getStringCellValue();
-					student.setVorname(vorname);
-					break;
-				case 2:
-					String nachname = nextCell.getStringCellValue();
-					student.setNachname(nachname);
-					break;
-				case 3:
-					int semester = (int) nextCell.getNumericCellValue();
-					student.setSemester(semester);
-					break;
-				case 4:
+				case 2: //Studiengang cell
 					String studiengang = nextCell.getStringCellValue();
 					student.setStudiengang(studiengang);
 					break;
+				case 5: //Name - Nachname cell
+					String name = nextCell.getStringCellValue();
+					String vName = name.substring( 0, name.indexOf(","));
+					String nName = name.substring(name.lastIndexOf(',') +1).trim();
+
+					student.setVorname(vName);
+					student.setNachname(nName);
+					break;
+
+				case 10: //Semester Cell
+
+					if (cellType == "NUMERIC") {
+						int semester = (int) nextCell.getNumericCellValue();
+						student.setSemester(semester);
+					} else {
+						int semester = Integer.valueOf(nextCell.getStringCellValue());
+						student.setSemester(semester);
+					}
+
+
 				}
 
 				log.info("Iteration  " + iteration + " : " + student.getMatrikelnr() + " " + student.getVorname() + " "
@@ -433,11 +485,18 @@ public class PruefungController implements Initializable {
 
 				iteration++;
 			}
-			log.info("Adding to Observablelist : " + student.toString());
-			studenten.add(student);
-
+			
+			log.info("Adding to Observablelist : " +System.lineSeparator()
+			+ student.toString());
+			
+			//Make sure no missread students are added
+			if (student.getMatrikelnr() != 0) studenten.add(student);
+			
+			//Close files.
+			input_xls.close();
+			workbook.close();
 		}
-		// Add the student to the list
+		
 
 		for (int i = studenten.size(); i > 0; i--) {
 
@@ -449,21 +508,12 @@ public class PruefungController implements Initializable {
 		return studenten;
 
 	}
-
-	public void print() {
-		System.out.println("Controller pruefung");
-	}
+	
 
 	////////////// FXML Methods ///////////////////
 
-	@FXML
+	@FXML // to be deleted?
 	void showSideMenu(MouseEvent event) {
-		/*
-		 * HamburgerBackArrowBasicTransition transition = new
-		 * HamburgerBackArrowBasicTransition(hamburger); transition.setRate(-1);
-		 * 
-		 * transition.setRate(transition.getRate() * (-1)); transition.play();
-		 */
 		if (drawer.isShown() || drawer.isShowing()) {
 			drawer.close();
 		} else {
@@ -472,16 +522,16 @@ public class PruefungController implements Initializable {
 
 	}
 
-	@FXML
+	@FXML // To be deleted?
 	public void import_xlsx(MouseEvent event) throws SQLException, IOException {
-		String xlsxPath = getFilePath();
-		ObservableList<Student> studenten = readFromXlsx(xlsxPath);
+		String xlsxPath = select_file();
+		ObservableList<Student> studenten = readFromXls(xlsxPath);
 		dbQuery.studentenSpeichern(studenten);
 	}
 
 	public void studenten_importieren() throws SQLException, IOException {
-		String xlsxPath = getFilePath();
-		ObservableList<Student> studenten = readFromXlsx(xlsxPath);
+		String xlsxPath = select_file();
+		ObservableList<Student> studenten = readFromXls(xlsxPath);
 		dbQuery.studentenSpeichern(studenten);
 	}
 	
@@ -500,14 +550,18 @@ public class PruefungController implements Initializable {
 
 	}
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f03a5cd (xls import and student selection adapted to lsf_xls, Working on adding JPEG/PNG to protocoll document)
 	public void setStudent(Student student) {
 
-		String name_nachname = student.getVorname() + " " + student.getNachname();
+		String name = student.getVorname();
+		String nachname = student.getNachname();
 		String matnr = String.valueOf(student.getMatrikelnr());
 
-		vName.setValue(name_nachname);
+		vName.setValue(name +" "+ nachname);
 		mNr.setValue(matnr);
 
 		studName.textProperty().bind(vName);
@@ -544,12 +598,15 @@ public class PruefungController implements Initializable {
 
 	}
 
+<<<<<<< HEAD
 	@FXML
 	void ask_unas2k(MouseEvent event) {
 		Frage frage = getSelected();
 
 
 	}
+=======
+>>>>>>> f03a5cd (xls import and student selection adapted to lsf_xls, Working on adding JPEG/PNG to protocoll document)
 
 	@FXML
 	void ask_unask(MouseEvent event) {
@@ -585,8 +642,8 @@ public class PruefungController implements Initializable {
 		showQuestions();
 	}
 
-	// Ask a question
-	@FXML
+	
+	@FXML // Ask a question
 	void frageStellen(MouseEvent event) throws SQLException {
 
 		Frage frage = getSelected();
@@ -595,8 +652,8 @@ public class PruefungController implements Initializable {
 
 	}
 
-	// Un-Ask a question. (If ask button was clicked by mistake)
-	@FXML
+	
+	@FXML // Un-Ask a question. (If ask button was clicked by mistake)
 	void nichtStellen(MouseEvent event) throws SQLException {
 
 		Frage frage = getSelected();
@@ -656,15 +713,13 @@ public class PruefungController implements Initializable {
 	@FXML
 	public void pdfErstellenClick(MouseEvent event) throws FileNotFoundException, DocumentException, SQLException {
 		String katalogName = katalogeComboBox.getValue();
-
 		ObservableList<Frage> fragen = FXCollections.observableArrayList();
+		
 		// Load DBQueries Result set with all asked questions
-		// log.info("kat name is: " +katalogName);
 		dbQuery.fragenLaden_gestellt(katalogName);
 
 		// Fill list with questions in result set
 		fillList(fragen);
-		// log.info(fragen.toString());
 
 		FileChooser fc = new FileChooser();
 		//Window stage = pdfErstellen.getScene().getWindow();
@@ -685,10 +740,12 @@ public class PruefungController implements Initializable {
 				Document document = new Document();
 				FileOutputStream fos = new FileOutputStream(path);
 				PdfWriter.getInstance(document, fos);
+				
 				document.open();
+				
 				PDFCreate.addMetaData(document);
 				PDFCreate.addTitlePage(document, fragen);
-				PDFCreate.addContent(document, fragen);
+				PDFCreate.add_questions(document, fragen);
 
 				document.close();
 				fos.close();
@@ -697,8 +754,19 @@ public class PruefungController implements Initializable {
 
 			}
 		}
-
+		
+		//Set every 'asked' property to false after exam is done 
+		dbQuery.setAllFalse();
 	}
+	
+	/*
+	 * public Image add_notes() { FileChooser choser = new FileChooser();
+	 * 
+	 * try {
+	 * 
+	 * //Create an image object //return image; } catch (Exception e) {
+	 * e.printStackTrace(); return null; } }
+	 */
 	
 	public void protokollieren() throws SQLException {
 		String katalogName = katalogeComboBox.getValue();
@@ -728,15 +796,37 @@ public class PruefungController implements Initializable {
 
 			try {
 
-				Document document = new Document();
+				
+				Document pdfDocument = new Document();
 				FileOutputStream fos = new FileOutputStream(path);
-				PdfWriter.getInstance(document, fos);
-				document.open();
-				PDFCreate.addMetaData(document);
-				PDFCreate.addTitlePage(document, fragen);
-				PDFCreate.addContent(document, fragen);
+				PdfWriter.getInstance(pdfDocument, fos);
+				pdfDocument.open();
+				
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("");
+				alert.setHeaderText(null);
+				alert.setContentText("Möchten Sie notizien hinfügen?");
 
-				document.close();
+				// Ok -> Yes
+				Optional<ButtonType> ok = alert.showAndWait();
+
+				if (ok.get() == ButtonType.OK) {
+
+					//Create a new note obj -> it's chooser window is instantiated and shown
+					Note note = new Note(Main.mainWindow);
+					//Add an image to the pdf document
+					PDFCreate.add_image(pdfDocument, note.getImg());
+					
+
+				}
+				
+				/*
+				 * PDFCreate.addMetaData(pdfDocument); PDFCreate.addTitlePage(pdfDocument,
+				 * fragen); PDFCreate.addContent(pdfDocument, fragen);
+				 */
+				
+
+				pdfDocument.close();
 				fos.close();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -784,7 +874,7 @@ public class PruefungController implements Initializable {
 
 	}
 
-	///////////////////// Not implemented/ Currently working on. ///////////////////
+
 
 	/////////////// Imp. func. Testing ///////////////////
 

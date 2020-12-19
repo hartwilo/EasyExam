@@ -1,7 +1,9 @@
 package de.hftstuttgart.EasyExam.Main;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import de.hftstuttgart.EasyExam.Controllers.PruefungController;
 import de.hftstuttgart.EasyExam.Controllers.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,8 @@ public class Main extends Application {
 	public static FXMLLoader loader;
 	public static StartController controller;
 	public static String currentWindow;
+	
+	public static PruefungController pCon = new PruefungController();
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -45,7 +49,7 @@ public class Main extends Application {
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException, IOException {
 		
 		DB.DBConn.buildConn();
 		launch(args);
