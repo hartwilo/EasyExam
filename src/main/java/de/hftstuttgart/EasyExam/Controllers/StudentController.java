@@ -72,8 +72,7 @@ public class StudentController implements Initializable{
 		
 		try {
 			PruefungController pController = LoginController.loader.getController();
-			selectedStudent = select();
-			pController.comm();
+			selectedStudent = select();;
 			pController.setStudent(selectedStudent);
 			this.stage.toBack();
 			

@@ -553,9 +553,7 @@ public class PruefungController implements Initializable {
 
 	}
 
-	public void comm() {
-		System.out.println("Comm pass");
-	}
+
 
 	public void setStudent(Student student) {
 
@@ -841,6 +839,10 @@ public class PruefungController implements Initializable {
 				alert.setHeaderText(null);
 				alert.setContentText("Möchten Sie notizien hinfügen?");
 
+				PDFCreate.addMetaData(pdfDocument);
+				PDFCreate.addTitlePage(pdfDocument, fragen);
+				PDFCreate.add_questions(pdfDocument, fragen);
+
 				// Ok -> Yes
 				Optional<ButtonType> ok = alert.showAndWait();
 
@@ -854,14 +856,15 @@ public class PruefungController implements Initializable {
 
 				}
 				
-				/*
-				 * PDFCreate.addMetaData(pdfDocument); PDFCreate.addTitlePage(pdfDocument,
-				 * fragen); PDFCreate.addContent(pdfDocument, fragen);
-				 */
+				
+				 
+				 
 				
 
 				pdfDocument.close();
 				fos.close();
+				//Reset fields for gestellt and notes after exam is over and protocolled
+				dbQuery.reset();
 			} catch (Exception e) {
 				e.printStackTrace();
 

@@ -410,6 +410,18 @@ public class DBQueries {
 		log.info("Last query: " + query);
 		return stmt.executeUpdate(query);
 	}
+	
+	public void reset() throws SQLException {
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
+		
+		String query_gestellt = "UPDATE Frage SET gestellt = 0";
+		String query_notes = "UPDATE Frage SET Notizien = null";
+		
+		stmt.executeUpdate(query_gestellt);
+		stmt.executeUpdate(query_notes);
+		
+	}
 
 	
 

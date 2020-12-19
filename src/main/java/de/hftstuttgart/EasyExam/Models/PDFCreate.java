@@ -99,7 +99,7 @@ public class PDFCreate {
 	        
 	        addEmptyLine(preface, 10);
 	        
-	        preface.add(new Paragraph("Mündliche Prüfung " + fragen.get(1).getModul(), bigBold));
+	     //   preface.add(new Paragraph("Mündliche Prüfung " + fragen.get(1).getModul(), bigBold));
 	        preface.setAlignment(Element.ALIGN_MIDDLE);
 	        
 	        pdfDocument.add(preface);
@@ -114,7 +114,7 @@ public class PDFCreate {
 	  * @throws DocumentException
 	  */
 	 
-	 public static void add_questions(Document document, ObservableList<Frage> fragen) throws DocumentException {
+	 public static void add_questions(Document protokoll, ObservableList<Frage> fragen) throws DocumentException {
 
 		  	Anchor anchor = new Anchor("Prüfungsdurchführung", catFont);
 
@@ -137,54 +137,53 @@ public class PDFCreate {
 	        subCatPart.add(new Paragraph("Anhang 3"));
 
 	        // now add all this to the document
-	        document.add(catPart);
+	        protokoll.add(catPart);
 		 
 	 }
-	 
-	 /**
-	  * Erstellung der Fragetabelle
-	  * Enthält eine Tabelle aus Fragen
-	  * @param pdfDocument
-	  * @throws DocumentException
-	  */ 
-	 
-	 public static void add_image(Document document, Image img) {
+	
+	 //Add image to the pdf protocoll
+	 public static void add_image(Document protokoll, Image img) {
 		 
-		 // Formatting
-		 Anchor anchor = new Anchor("Noizien", catFont);
+		 
+		 //Scale image according to document size
+		 int indentation = 0;
+		 float scaler = ((protokoll.getPageSize().getWidth() - protokoll.leftMargin()
+	               - protokoll.rightMargin() - indentation) / img.getWidth()) * 100;
+		 img.scalePercent(scaler);
+		 
+		
+		 Anchor anchor = new Anchor("Beisitzer", catFont);
 		 Chapter catPart = new Chapter(new Paragraph(anchor), 2);
-		 Paragraph subPara = new Paragraph("Notizien", subFont);
+		 Paragraph subPara = new Paragraph("Notizien - Beisitzer", subFont);
 		 Section subCatPart = catPart.addSection(subPara);	
+		 
+		 img.setScaleToFitHeight(true);
 		 addEmptyLine(subPara, 2);
 		 
 		 subCatPart.add(img);
 		   
-		   
 		 
 		 try { //adding the picture of the note in the document
-			document.add(subCatPart);
+			 protokoll.add(subCatPart);
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
 	 }
 	 
-		/*
-		 * public static void add_notizien(Document document, String document_path) { //
-		 * Set default path to //Set default path to 'C:\Users\...\ String defaultPath =
-		 * System.getProperty("user.home"); File userDirectory = new File(defaultPath);
-		 * 
-		 * FileChooser chooser = new FileChooser();
-		 * chooser.setInitialDirectory(userDirectory);
-		 * chooser.getExtensionFilters().addAll(new
-		 * FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
-		 * 
-		 * File notes = chooser.showOpenDialog(Main.mainWindow); String note_path =
-		 * notes.getPath(); //Path of notes log.info("Selected image path : "
-		 * +note_path);
-		 * 
-		 * PdfReader reader = new PdfReader(src); PdfStamper stamper = new
-		 * PdfStamper(reader, new FileOutputStream(dest)); }
-		 */
+	 
+	 //Not properly implemented yet
+	 public static void add_prof_notes(Document document, Note note) {
+
+		 
+		 Anchor anchor = new Anchor("Notizien", catFont);
+		 Chapter catPart = new Chapter(new Paragraph(anchor), 3);
+		 Paragraph subPara = new Paragraph("Notizien - Prof", subFont);
+		 Section subCatPart = catPart.addSection(subPara);	
+		 
+		 //subCatPart.add(note.getText());
+	 }
+	 
+	
 	 
 	 /**
 	  * Erstellen und Befüllen einer Tabelle mit den Prüfungsfragen, Antworten und erreichten 

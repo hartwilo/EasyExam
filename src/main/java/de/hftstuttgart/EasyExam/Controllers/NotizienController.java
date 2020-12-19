@@ -53,7 +53,6 @@ public class NotizienController implements Initializable {
 			
 			Note note = new Note();
 			String to_be_saved = text_output.getValue();
-			System.out.println(to_be_saved);
 			note.setText(to_be_saved);
 
 			dbQueries.notizienSpeichern(note, this.frage);
