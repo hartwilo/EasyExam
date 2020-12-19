@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +32,31 @@ public class DBQueries {
 	
 	public DBQueries(Connection conn) {
 		connection = conn;
+	} 
+	
+	
+	//Temporarily save notes in the db 
+	public int notizienSpeichern(Note note, Frage frage) throws SQLException {
+		
+		//set to false
+		connection.setAutoCommit(true);
+		
+		try {
+			  String query = "update Frage set Notizien = ? where idFrage = ?";
+		      PreparedStatement preparedStmt = connection.prepareStatement(query);
+		      preparedStmt.setString   (1, note.getText());
+		      preparedStmt.setInt   (2, frage.getID());
+		      
+		      log.info(preparedStmt.toString());
+		      
+		      return preparedStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			log.warning("Notes not saved in the database!" +e.getMessage() +e.getCause());
+			e.printStackTrace();
+			return 0;
+		}
+				
 	}
 
 	/**

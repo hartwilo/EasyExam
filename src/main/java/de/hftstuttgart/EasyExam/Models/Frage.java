@@ -141,6 +141,10 @@ public class Frage {
 		this.sehrGut = gut;
 	}
 
+	public Frage() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

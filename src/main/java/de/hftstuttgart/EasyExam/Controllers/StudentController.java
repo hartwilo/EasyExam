@@ -176,7 +176,7 @@ public class StudentController {
 		 * stage.setOnShowing(new EventHandler<WindowEvent>() {
 		 * 
 		 * @Override public void handle(WindowEvent event) { try { uebersicht();
-		 * log.info("breh"); } catch (SQLException e) { e.printStackTrace(); } } });
+		 * log.info(""); } catch (SQLException e) { e.printStackTrace(); } } });
 		 */
 
 	}

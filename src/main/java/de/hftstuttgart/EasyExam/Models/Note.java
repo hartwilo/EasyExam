@@ -24,7 +24,17 @@ public class Note {
 	Image img;
 	
 	
+	String text;
 	
+	
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String user_input) {
+		this.text = user_input;
+	}
+
 	// The IMG in the note is selected via a FileChooser on the @Param window
 	public Note(Window window) throws BadElementException, MalformedURLException, IOException {
 		
@@ -57,7 +67,7 @@ public class Note {
 	 */
 	
 	public Note() {
-	
+		
 	}
 	
 	public Image getImg() {

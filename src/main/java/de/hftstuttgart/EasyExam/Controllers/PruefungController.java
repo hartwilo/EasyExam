@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXToggleButton;
@@ -47,6 +48,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -66,6 +68,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 public class PruefungController implements Initializable {
@@ -76,7 +79,7 @@ public class PruefungController implements Initializable {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
 		log = Logger.getLogger(DBConn.class.getName());
 	}
-
+	Stage noteStage = new Stage();
 	StudentController sController = new StudentController();
 	UebersichtController uController = new UebersichtController();
 	Protokoll protokoll = new Protokoll();
@@ -167,6 +170,8 @@ public class PruefungController implements Initializable {
 	private TableColumn<Frage, String> sehrGut;
 
 	// Buttons
+	@FXML
+	private JFXButton notizien;
 
 	@FXML // Old Refresh Button
 	private Button aktualisieren;
@@ -295,7 +300,7 @@ public class PruefungController implements Initializable {
 	}
 
 	// Create a frage.obj from the selected question in the View Table
-	public Frage getSelected() {
+	public Frage get_selected_question() {
 
 		try {
 			Boolean gestellt = frageTabelle.getSelectionModel().getSelectedItem().isGestelltbool();
@@ -581,7 +586,7 @@ public class PruefungController implements Initializable {
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 
-		Frage frage = getSelected();
+		Frage frage = get_selected_question();
 		Boolean asked = frage.isGestelltbool();
 
 		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
@@ -597,7 +602,7 @@ public class PruefungController implements Initializable {
 
 	@FXML
 	void ask_unas2k(MouseEvent event) {
-		Frage frage = getSelected();
+		Frage frage = get_selected_question();
 
 
 	}
@@ -605,7 +610,7 @@ public class PruefungController implements Initializable {
 
 	@FXML
 	void ask_unask(MouseEvent event) {
-		Frage frage = getSelected();
+		Frage frage = get_selected_question();
 		Boolean asked = frage.isGestelltbool();
 
 		if (asked) {
@@ -637,11 +642,44 @@ public class PruefungController implements Initializable {
 		showQuestions();
 	}
 
+	@FXML
+	void addNotizien(MouseEvent event) {
+
+		FXMLLoader fxmlLoader = new FXMLLoader();
+
+		try {
+
+			fxmlLoader.setLocation(getClass().getResource("/GUI/Notizien.fxml"));
+			Scene scene = new Scene(fxmlLoader.load());
+			NotizienController nController = fxmlLoader.getController();
+
+			noteStage.setTitle("Übersicht - Alle gestellte fragen ");
+			noteStage.setScene(scene);
+			noteStage.centerOnScreen();
+			noteStage.setResizable(false);
+			noteStage.show();
+
+			try {
+
+				int idFrage = get_selected_question().getID();
+				nController.frage.setID(idFrage);
+
+			} catch (Exception e) {
+				log.warning("Can't add notes: No question selected...");
+			}
+
+		} catch (IOException e) {
+			log.warning("Cant load View : Notizien.fxml"); // +e.getMessage() +e.getCause()
+			e.printStackTrace();
+		}
+
+	}
+
 	
 	@FXML // Ask a question
 	void frageStellen(MouseEvent event) throws SQLException {
 
-		Frage frage = getSelected();
+		Frage frage = get_selected_question();
 		dbQuery.frageStellen(frage, true);
 		showQuestions();
 
@@ -651,7 +689,7 @@ public class PruefungController implements Initializable {
 	@FXML // Un-Ask a question. (If ask button was clicked by mistake)
 	void nichtStellen(MouseEvent event) throws SQLException {
 
-		Frage frage = getSelected();
+		Frage frage = get_selected_question();
 		dbQuery.frageStellen(frage, false);
 		showQuestions();
 

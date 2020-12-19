@@ -30,7 +30,7 @@ public class Main extends Application {
 
 	private void showMainView() throws IOException {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/GUI/Login.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/GUI/Pruefung2.fxml"));
 		
 		//TO-DO: Make GUI elements re-sizable
 		Main.scene = new Scene(root);
