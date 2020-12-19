@@ -500,24 +500,7 @@ public class PruefungController implements Initializable {
 
 	}
 
-	/*
-	 * @FXML public void studentSelektieren2(MouseEvent event) throws IOException {
-	 * FXMLLoader loader = new
-	 * FXMLLoader(getClass().getResource("/GUI/Studenten.fxml"));
-	 * 
-	 * try {
-	 * 
-	 * Parent root = (Parent) loader.load(); StudentController sController =
-	 * loader.getController();
-	 * 
-	 * Stage stage = new Stage(); stage.setScene(new Scene(root)); stage.show();
-	 * Student student = sController.select(); log.info("pCon - " +
-	 * student.toString());
-	 * 
-	 * setStudent(student); } catch (Exception e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 */
+
 
 	public void setStudent(Student student) {
 
@@ -553,7 +536,7 @@ public class PruefungController implements Initializable {
 
 		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
 
-		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+		if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
 			showDetails(frage, kompetenzStufe);
 			ask_switch.setSelected(asked);
 
@@ -565,14 +548,6 @@ public class PruefungController implements Initializable {
 	void ask_unas2k(MouseEvent event) {
 		Frage frage = getSelected();
 
-		/*
-		 * if (asked) { ask_switch.setSelected(); try { dbQuery.frageStellen(frage,
-		 * false); } catch (Exception e) { log.warning("Question couldn't be un-asked: "
-		 * + e.getMessage() + e.getCause()); } } else { try {
-		 * dbQuery.frageStellen(frage, true); } catch (Exception e) {
-		 * log.warning("Question couldn't be asked: " + e.getMessage() + e.getCause());
-		 * } }
-		 */
 
 	}
 
