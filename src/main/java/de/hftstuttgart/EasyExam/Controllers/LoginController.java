@@ -80,13 +80,11 @@ public class LoginController implements Initializable {
 //
 //	}
 
-	static FXMLLoader loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung2.fxml"));
+	static FXMLLoader loader;
 	
 	// Check if Login is successful
 	public void handleButtonAction(MouseEvent event) {
 
-		
-		
 		if (event.getSource() == Login) {
 
 			if (LogIn().equals("Login ist erfolgreich")) {
@@ -111,7 +109,7 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung2.fxml"));
 
 	}
 

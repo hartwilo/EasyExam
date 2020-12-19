@@ -1,7 +1,9 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import DB.DBConn;
@@ -11,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -20,7 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class StudentController {
+public class StudentController implements Initializable{
 	private static final Logger log;
 
 	static {
@@ -68,14 +71,9 @@ public class StudentController {
 	void studentSelektieren(MouseEvent event) {
 		
 		try {
-			
 			PruefungController pController = LoginController.loader.getController();
-
-			
 			selectedStudent = select();
-			
-			//log.info(selectedStudent.toString());
-
+			pController.comm();
 			pController.setStudent(selectedStudent);
 			this.stage.toBack();
 			
@@ -179,6 +177,12 @@ public class StudentController {
 		 * log.info(""); } catch (SQLException e) { e.printStackTrace(); } } });
 		 */
 
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

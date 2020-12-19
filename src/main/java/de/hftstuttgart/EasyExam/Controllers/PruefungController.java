@@ -542,19 +542,20 @@ public class PruefungController implements Initializable {
 	
 	@FXML
 	public void studentSelektieren(MouseEvent event) throws IOException {
-
+		
 		try {
-
+			StudentController sController = new StudentController();
 			sController.show();
-			Student student = sController.select();
-			// log.info("pCon - " +student.toString());
-			setStudent(student);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	public void comm() {
+		System.out.println("Comm pass");
+	}
 
 	public void setStudent(Student student) {
 
