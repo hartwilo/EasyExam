@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -22,6 +23,8 @@ import javafx.scene.input.MouseEvent;
 
 
 public class NotizienController implements Initializable {
+	private final static Logger log = Logger.getLogger(NotizienController.class.getName());
+	
 	
 	//DBqueries Instance
 	private Connection db_connection = DBConn.connection;
@@ -42,7 +45,11 @@ public class NotizienController implements Initializable {
     @FXML
     void addNotes(MouseEvent event) throws SQLException {
     	
-		if (note_input.getText() != null) {
+    	dbQueries.frage_selektieren(frage);
+    	if (DBQueries.rs.next()) 
+    		frage.setID(DBQueries.rs.getInt("idFrage"));
+    	
+		if (frage.getID() != 0) {
 			
 			Note note = new Note();
 			String to_be_saved = text_output.getValue();
@@ -50,6 +57,8 @@ public class NotizienController implements Initializable {
 			note.setText(to_be_saved);
 
 			dbQueries.notizienSpeichern(note, this.frage);
+		} else {
+			log.warning("No question selected!");
 		}
 	}
     
@@ -63,6 +72,7 @@ public class NotizienController implements Initializable {
 				@Override
 				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 					
+					//Bind the StringProperty to the input field -> automatically updated on input
 					text_output.set(note_input.getText());
 					System.out.println(text_output.getValue());
 					

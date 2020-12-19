@@ -107,6 +107,15 @@ public class DBQueries {
 		return stmt.executeUpdate();
 	}
 	
+	public ResultSet frage_selektieren(Frage frage) throws SQLException {
+		int idFrage = frage.getID();
+		connection.setAutoCommit(true);
+		String query = "Select * from Frage where idFrage = "+idFrage;
+		Statement stmt = connection.createStatement();
+		
+		return DBQueries.rs = stmt.executeQuery(query);
+	}
+	
 	// Takes a list of students form the Controller as a paramter and saves it'c content into the DB
 	public int studentenSpeichern(ObservableList<Student> studenten) throws SQLException {
 		connection.setAutoCommit(true);
