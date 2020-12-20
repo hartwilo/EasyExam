@@ -401,7 +401,7 @@ public class PruefungController {
 
 		for (Notes aNotes : notes) {
 			Row row = sheet.createRow(++rowCount);
-			writeNotes(aNotes, row);
+			//writeNotes(aNotes, row);
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
@@ -410,7 +410,7 @@ public class PruefungController {
 
 	}
 
-	private void writeNotes(Notes aNotes, Row row) {
+	/*private void writeNotes(Notes aNotes, Row row) {
 
 		Cell cell = row.createCell(1);
 		cell.setCellValue(aNotes.getTitle());
@@ -421,7 +421,7 @@ public class PruefungController {
 		cell = row.createCell(3);
 		cell.setCellValue(aNotes.getPrice());
 
-	}
+	}*/
 
 	/*
 	 * sheet.setColumnWidth(0, 6000); sheet.setColumnWidth(1, 4000);
@@ -457,7 +457,7 @@ public class PruefungController {
 
 	
 
-}
+
 
 	public ObservableList<Student> readFromXlsx(String xlsxPath) throws SQLException, IOException {
 
