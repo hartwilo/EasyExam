@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -24,9 +25,10 @@
          <columns>
             <TableColumn id="themaCol" fx:id="fxcolumn_thema" minWidth="0.0" prefWidth="96.0" text="Thema" />
             <TableColumn id="niveauCol" fx:id="fxcolumn_niveau" minWidth="0.0" prefWidth="108.0" text="Niveau" />
-            <TableColumn id="frageStellungCol" fx:id="fxcolumn_fragestellung" maxWidth="1.7976931348623157E308" prefWidth="194.0" text="Fragestellung" />
-            <TableColumn id="punkteCol" fx:id="fxcolumn_punkte" minWidth="0.0" prefWidth="111.0" text="Punkte" />
-            <TableColumn id="musterloesungCol" fx:id="fxcolumn_musterloesung" minWidth="0.0" prefWidth="502.0" text="Musterlösung" />
+            <TableColumn id="frageStellungCol" fx:id="fxcolumn_fragestellung" maxWidth="1.7976931348623157E308" prefWidth="131.0" text="Fragestellung" />
+            <TableColumn id="punkteCol" fx:id="fxcolumn_punkte" minWidth="0.0" prefWidth="174.0" text="Punkte" />
+            <TableColumn id="musterloesungCol" fx:id="fxcolumn_musterloesung" minWidth="0.0" prefWidth="369.0" text="Musterlösung" />
+            <TableColumn fx:id="fxcolumn_erreichte_punkte" prefWidth="109.0" text="Erreichte Punkte" />
          </columns>
       </TableView>
       <Label layoutX="37.0" layoutY="528.0" text="Bisher erreichte Niveau :">
@@ -34,11 +36,13 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="aktuellerNiveau" layoutX="772.0" layoutY="531.0" prefHeight="17.0" prefWidth="0.0" />
+      <Label fx:id="aktuellerNiveau" layoutX="410.0" layoutY="528.0" prefHeight="17.0" prefWidth="44.0" />
       <Label fx:id="level" layoutX="196.0" layoutY="528.0" textFill="#ff9900">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <JFXTextField fx:id="erreichte_punkte" layoutX="909.0" layoutY="516.0" prefHeight="25.0" prefWidth="99.0" />
+      <Label layoutX="742.0" layoutY="528.0" text="Erreichte Punkte eingeben :" />
    </children>
 </AnchorPane>

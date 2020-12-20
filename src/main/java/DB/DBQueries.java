@@ -35,7 +35,18 @@ public class DBQueries {
 	} 
 	
 	
-	//Temporarily save notes in the db 
+	public int erreichte_punkte_speichern(Frage frage, double punkte) throws SQLException {
+		String query = "update Frage set Punkte_erreicht = ? where idFrage = ?";
+		PreparedStatement preparedStmt = connection.prepareStatement(query);
+		
+		preparedStmt.setDouble(1, punkte);
+		preparedStmt.setInt(2, frage.getID());
+		
+		return preparedStmt.executeUpdate();
+	}
+	
+	
+	//Add notes to a question - DB - Notizien: Deafult = NULL, Reset on protokollieren() / exam end.
 	public int notizienSpeichern(Note note, Frage frage) throws SQLException {
 		
 		//set to false
@@ -394,6 +405,12 @@ public class DBQueries {
 		log.info("Last query: " + query);
 		return stmt.executeUpdate(query);
 	}
+	
+	public ResultSet select_erreichte_punkte(Frage frage) throws SQLException {
+		String query = "SELECT * FROM Frage WHERE idFrage = " +frage.getID();
+		Statement stmt = connection.createStatement();		
+		return DBQueries.rs = stmt.executeQuery(query);
+	}
 
 	/**
 	 * set gestellt=false for all methods 
@@ -417,9 +434,11 @@ public class DBQueries {
 		
 		String query_gestellt = "UPDATE Frage SET gestellt = 0";
 		String query_notes = "UPDATE Frage SET Notizien = null";
+		String query_erreichte_punkte = "UPDATE Frage SET Punkte_erreicht = 0";
 		
 		stmt.executeUpdate(query_gestellt);
 		stmt.executeUpdate(query_notes);
+		stmt.executeUpdate(query_erreichte_punkte);
 		
 	}
 

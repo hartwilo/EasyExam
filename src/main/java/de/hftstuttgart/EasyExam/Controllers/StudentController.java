@@ -74,7 +74,7 @@ public class StudentController implements Initializable{
 			PruefungController pController = LoginController.loader.getController();
 			selectedStudent = select();;
 			pController.setStudent(selectedStudent);
-			this.stage.toBack();
+			stage.close();
 			
 					
 		} catch (NullPointerException e) {
