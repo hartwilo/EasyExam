@@ -5,17 +5,21 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -373,85 +377,46 @@ public class PruefungController {
 	// neuen Button einfügen oder anders lösen
 	public Button excelErstellen;
 
-	public void writeExcel(ObservableList<Notes> notes, String xlsxNewPath) throws IOException {
+	public void writeExcel(int note, String xlsxPath) throws IOException {
 		
-		/*File Location andere Variante
-		 * 
-		File currDir = new File(".");
-		String path = currDir.getAbsolutePath();
-		String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";*/
+		int matrk = 654321;
+		xlsxPath = getFilePath();
+		int testNote = 170;
 		
-		FileChooser fc = new FileChooser();
+		InputStream inp = new FileInputStream(xlsxPath); 
+	    Workbook wb = WorkbookFactory.create(inp); 
+	    Sheet sheet = wb.getSheetAt(1); 
+	    Row row;
+	    
+	    	for(int rowIndex = 0; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+	    		 row = sheet.getRow(rowIndex);
+	    				 if (row != null) {
+	    					    Cell cell = row.getCell(0);
+	    					    if (cell != null) {
+	    					      // Found column and there is value in the cell.
+	    					      double cellValueMaybeNull = cell.getNumericCellValue();
+	    					      if(cellValueMaybeNull == matrk) {
+	    					    	  Row rowNote = sheet.getRow(rowIndex);
+	    					    	  Cell cellNeu = rowNote.getCell(6);
+	    					    	  cellNeu.setCellValue(note);
+	    					      }
+	    					      // Do something with the cellValueMaybeNull here ...
+	    					      // break; ???
+	    					    }
+	    					  }		
+	    	}
+	   
+	     
+	    FileOutputStream fileOut = new FileOutputStream("wb.xls"); 
+	    wb.write(fileOut); 
+	    fileOut.close(); 
+		
+		
 
-		Window stage = excelErstellen.getScene().getWindow();
-
-		fc.setTitle("Save to XLSX");
-		fc.setInitialFileName("file name.xlsx");
-
-		fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XLSX File", "*.xlsx"));
-
-		File file = fc.showSaveDialog(stage);
-		String excelFilePath = file.getAbsolutePath();
-		;
-
-		Workbook workbook = new XSSFWorkbook();
-		Sheet sheet = workbook.createSheet("Notizen");
-
-		int rowCount = 0;
-
-		for (Notes aNotes : notes) {
-			Row row = sheet.createRow(++rowCount);
-			//writeNotes(aNotes, row);
-		}
-
-		try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
-			workbook.write(outputStream);
-		}
-
+		
 	}
 
-	/*private void writeNotes(Notes aNotes, Row row) {
-
-		Cell cell = row.createCell(1);
-		cell.setCellValue(aNotes.getTitle());
-
-		cell = row.createCell(2);
-		cell.setCellValue(aNotes.getAuthor());
-
-		cell = row.createCell(3);
-		cell.setCellValue(aNotes.getPrice());
-
-	}*/
-
-	/*
-	 * sheet.setColumnWidth(0, 6000); sheet.setColumnWidth(1, 4000);
-	 * 
-	 * Row header = sheet.createRow(0);
-	 * 
-	 * CellStyle headerStyle = workbook.createCellStyle();
-	 * headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-	 * headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-	 * 
-	 * XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-	 * font.setFontName("Arial"); font.setFontHeightInPoints((short) 16);
-	 * font.setBold(true); headerStyle.setFont(font);
-	 * 
-	 * Cell headerCell = header.createCell(0); headerCell.setCellValue("Name");
-	 * headerCell.setCellStyle(headerStyle);
-	 * 
-	 * headerCell = header.createCell(1); headerCell.setCellValue("Age");
-	 * headerCell.setCellStyle(headerStyle);
-	 * 
-	 * // Stil Inhalt der Tabelle CellStyle style = workbook.createCellStyle();
-	 * style.setWrapText(true);
-	 * 
-	 * Row row = sheet.createRow(2); Cell cell = row.createCell(0);
-	 * cell.setCellValue("John Smith"); cell.setCellStyle(style);
-	 * 
-	 * cell = row.createCell(1); cell.setCellValue(20); cell.setCellStyle(style);
-	 */
-
-	// Inhalt der Tabelle in Excel Datei
+	
 
 
 
@@ -744,5 +709,25 @@ public class PruefungController {
 		katalogName = katalogeComboBox.getValue();
 		dbQuery.fragenLaden_gestellt(katalogName);
 	}
+	
+	/*
+	 * Notizen und erreichte Punktzahl in Notes speichern, wenn frage ist gestellt muss noch als EInscränkung dazu und dann 
+	 * in PDFcreate aufrufen und mit dem PDF ausgeben oder noch der Frage hinzufügen
+	 */
+	
 
+	private TextArea notesTextArea;
+	
+	public Notes notizenSpeichern() throws SQLException {	
+	
+				
+		
+		String ep = erreichtePunkte.getText();
+		Float erPu = Float.parseFloat(ep);
+		String notes = notesTextArea.getText();
+		
+		return new Notes(notes, erPu);
+		
+	}
+	
 }
