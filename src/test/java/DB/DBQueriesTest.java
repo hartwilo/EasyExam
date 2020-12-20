@@ -350,16 +350,23 @@ class DBQueriesTest {
 		
 		try {
 			db.frageSpeichern(frage);
-			db.katalogLoeschen(frage.getFragekatalog());
-			
 			String query = "Select * From Frage";
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+			
+				
+			
+			db.katalogLoeschen(frage.getFragekatalog());
 			while(rs.next()) {
+				System.out.println(rs.getString("Fragekatalog"));
+				System.out.println(rs.getString("Fragestellung"));
+				System.out.println("testtest");
+			}
+			while (rs.next()){
+			assertNotEquals(frage.getFragekatalog(), rs.getString("Fragekatalog"));
+			}	
 				
-				assertEquals(frage.getFragekatalog(), rs.getInt("Fragekatalog"));
-				
-		}
+		
 		}
 		catch(SQLException e) {
 			fail(e.toString());
