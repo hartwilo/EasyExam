@@ -65,6 +65,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -332,8 +333,10 @@ public class PruefungController implements Initializable {
 	}
 
 	// Fill view with a questions details
-	public void showDetails(Frage frage, ObservableList<Frage> kompetenzStufe) {
+	public void showDetails(Frage frage) {
 
+		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
+		
 		frageStellungDetail.setText(frage.getFrageStellung());
 		frageStellungDetail.setEditable(false);
 		musterLoesungDetailliert.setText(frage.getMusterloesung());
@@ -592,19 +595,35 @@ public class PruefungController implements Initializable {
 
 		Frage frage = get_selected_question();
 		Boolean asked = frage.isGestelltbool();
+		
+		showDetails(frage);
+		ask_switch.setSelected(asked);
 
-		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
+		
+		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+			if (asked) {
+				try {
+					unask(frage);
+					ask_switch.setSelected(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					ask(frage);
+					ask_switch.setSelected(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-		if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
-			showDetails(frage, kompetenzStufe);
-			ask_switch.setSelected(asked);
+			}
 
 		}
 
 	}
 
 
-	@FXML
+	@FXML //to be deleted
 	void ask_unas2k(MouseEvent event) {
 		Frage frage = get_selected_question();
 
@@ -933,6 +952,59 @@ public class PruefungController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		
+		frageTabelle.setOnKeyPressed((KeyEvent ke) ->
+        {
+        	
+        	Frage selected = new Frage();
+            switch (ke.getCode())
+      
+            {
+                case DOWN:
+                	
+                	selected = frageTabelle.getSelectionModel().getSelectedItem();
+                	ask_switch.setSelected(selected.isGestelltbool());
+                	showDetails(selected);
+                	
+                    ke.consume();
+                    break;
+               
+                case UP:
+                	selected = frageTabelle.getSelectionModel().getSelectedItem();
+                	ask_switch.setSelected(selected.isGestelltbool());
+                	showDetails(selected);
+                    ke.consume();
+                    break;
+                case ENTER:
+                	 selected = frageTabelle.getSelectionModel().getSelectedItem();
+                	 Boolean asked = selected.isGestelltbool();
+                	 ask_switch.setSelected(asked);
+                	 if (asked) {
+             			try {
+             				unask(selected);
+             				ask_switch.setSelected(false);
+             			} catch (Exception e) {
+             				e.printStackTrace();
+             			}
+             		} else {
+             			try {
+             				ask(selected);
+             				ask_switch.setSelected(true);
+             			} catch (Exception e) {
+             				e.printStackTrace();
+             			}
+
+             		}
+                	showDetails(selected);
+                    ke.consume();
+                    break;
+                default:
+                    break;
+            }
+        });
+	
+		
 
 		try {
 			VBox box = FXMLLoader.load(getClass().getResource("/GUI/DrawerContent.fxml"));
@@ -1018,6 +1090,8 @@ public class PruefungController implements Initializable {
 
 			}
 
+			
+			
 			HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
 			transition.setRate(-1);
 			hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
