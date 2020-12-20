@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.controlsfx.control.PopOver;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -96,6 +97,9 @@ public class PruefungController implements Initializable {
 
 	@FXML
 	private AnchorPane anchorPane;
+	
+	@FXML
+    private Label label_musterloesung;
 
 	// ComboBoxes
 
@@ -315,6 +319,7 @@ public class PruefungController implements Initializable {
 			String gut = frageTabelle.getSelectionModel().getSelectedItem().getGut();
 			String sehrGut = frageTabelle.getSelectionModel().getSelectedItem().getSehrGut();
 			String themengebiet = frageTabelle.getSelectionModel().getSelectedItem().getThemengebiet();
+			
 
 			return new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul, grundlage,
 					gut, sehrGut);
@@ -978,6 +983,38 @@ public class PruefungController implements Initializable {
 					});
 
 				}
+
+				// Build PopOver look and feel
+				Label popover_musterloesung = new Label();
+				VBox vBox = new VBox(popover_musterloesung);
+				
+		        
+		        vBox.setPrefHeight(600.0);
+		        vBox.setPrefWidth(800.0);
+		        
+		        //vBox.setStyle("-fx-background-color :#F399D7"); // for setting the background color
+		        //Create PopOver and add look and feel
+		        PopOver popOver = new PopOver(vBox);
+		        
+		       
+		        // Event handlers for Mouse hover
+		        label_musterloesung.setOnMouseEntered(mouseEvent -> {
+					
+					try {
+						Frage frage = get_selected_question();
+						popover_musterloesung.setText(frage.getMusterloesung());
+					} catch (Exception e) {
+						log.warning("No question selected " + e.getMessage() + "--" + e.getCause());
+					}
+					 
+		            //Show PopOver when mouse enters label
+		            popOver.show(label_musterloesung);
+		        });
+
+		        label_musterloesung.setOnMouseExited(mouseEvent -> {
+		            //Hide PopOver when mouse exits label
+		            popOver.hide();
+		        });
 
 			}
 
