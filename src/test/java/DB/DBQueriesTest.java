@@ -356,7 +356,9 @@ class DBQueriesTest {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				assertNotEquals(frage.getFragekatalog(), rs.getInt("Fragekatalog"));
+				
+				assertEquals(frage.getFragekatalog(), rs.getInt("Fragekatalog"));
+				
 		}
 		}
 		catch(SQLException e) {
