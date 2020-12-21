@@ -1,34 +1,48 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
+
+import com.jfoenix.controls.JFXTextField;
+import com.sun.glass.events.KeyEvent;
 
 import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 
-public class UebersichtController {
+public class UebersichtController implements Initializable {
 
 	private static final Logger log;
 
@@ -41,6 +55,8 @@ public class UebersichtController {
 
 	public static Stage stage = new Stage();
 	private StringProperty niv = new SimpleStringProperty();
+	private StringProperty erp = new SimpleStringProperty(); //erreichte punkte
+	
 
 
 	// Table and its columns
@@ -61,32 +77,58 @@ public class UebersichtController {
 
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_musterloesung;
+	
+	@FXML
+	private TableColumn<Frage, Number> fxcolumn_erreichte_punkte;
+	
+	// TextFields
 
-	// Labels
+	@FXML
+	private JFXTextField erreichte_punkte;
+
+	 // Labels    
     @FXML
     private Label aktuellerNiveau;
     
     @FXML
     private Label level;
+    
+    public Frage get_selected_question() {
+    	try {
+			Boolean gestellt = fragetabelle.getSelectionModel().getSelectedItem().isGestelltbool();
+			int id = fragetabelle.getSelectionModel().getSelectedItem().getID();
+			int niv = fragetabelle.getSelectionModel().getSelectedItem().getNiveau();
+			float punkte = (float) fragetabelle.getSelectionModel().getSelectedItem().getPunkte();
+			String stellung = fragetabelle.getSelectionModel().getSelectedItem().getFrageStellung();
+			String loesung = fragetabelle.getSelectionModel().getSelectedItem().getMusterloesung();
+			String fragekatalog = fragetabelle.getSelectionModel().getSelectedItem().getFragekatalog();
+			String modul = fragetabelle.getSelectionModel().getSelectedItem().getModul();
+			String grundlage = fragetabelle.getSelectionModel().getSelectedItem().getGrundLageNiveau();
+			String gut = fragetabelle.getSelectionModel().getSelectedItem().getGut();
+			String sehrGut = fragetabelle.getSelectionModel().getSelectedItem().getSehrGut();
+			String themengebiet = fragetabelle.getSelectionModel().getSelectedItem().getThemengebiet();
+			Float erreichtePunkte = fragetabelle.getSelectionModel().getSelectedItem().getErreichtePunkte();
+
+			return new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul, grundlage,
+					gut, sehrGut, erreichtePunkte);
+
+		} catch (Exception e) {
+			log.warning("No question from table selected, details cant be read!");
+			return null;
+		}
+    }
+    
 
 	public void show() throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(getClass().getResource("/GUI/Uebersicht.fxml"));
 		Scene scene = new Scene(fxmlLoader.load());
-		// Stage stage = new Stage();
 		stage.setTitle("Übersicht - Alle gestellte fragen ");
 		stage.setScene(scene);
 		stage.centerOnScreen();
 		stage.setResizable(false);
 		stage.show();
 
-		// A possible substitute for "on mouse entered" FXML method
-		/*
-		 * stage.setOnShowing(new EventHandler<WindowEvent>() {
-		 * 
-		 * @Override public void handle(WindowEvent event) { try { uebersicht();
-		 * log.info("breh"); } catch (SQLException e) { e.printStackTrace(); } } });
-		 */
 
 	}
 
@@ -127,25 +169,36 @@ public class UebersichtController {
 			String grundlage = DBQueries.rs.getString("grundLageNiveau");
 			String gut = DBQueries.rs.getString("gut");
 			String sehrGut = DBQueries.rs.getString("SehrGut");
-
+			Float erreichte_punkte = DBQueries.rs.getFloat("Punkte_erreicht");
+			
 			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
-					modul, grundlage, gut, sehrGut));
+					modul, grundlage, gut, sehrGut, erreichte_punkte));
 		}
 	}
 
 	// Set up table and columns and start displaying list
 	public void showInUebersichtTable(ObservableList<Frage> fragen) {
+		
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
-		fxcolumn_punkte.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
+		fxcolumn_punkte
+				.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getPunkte()));
 		fxcolumn_thema
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getThemengebiet()));
-		fxcolumn_niveau.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
+		fxcolumn_niveau
+				.setCellValueFactory(features -> new ReadOnlyIntegerWrapper(features.getValue().getNiveau()));
 		fxcolumn_musterloesung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getMusterloesung()));
+		
+		fxcolumn_erreichte_punkte
+				.setCellValueFactory(features -> new ReadOnlyDoubleWrapper(features.getValue().getErreichtePunkte()));
+		
+		fxcolumn_erreichte_punkte.setEditable(true);
 		fragetabelle.setFixedCellSize(25);
 		fragetabelle.setItems(fragen);
 	}
+	
+
 
 	public void niveauBerechnen() throws SQLException {
 		//aktuellerNiveau.textProperty().bind(niv);
@@ -183,8 +236,25 @@ public class UebersichtController {
 		
 
 	}
-
+	
+	public void set_erreichte_punkte() {
+		
+		try {
+			Frage frage = get_selected_question();
+			dbQuery.erreichte_punkte_speichern(frage, Double.valueOf(erp.getValue()));
+			uebersicht();
+			
+		} catch (Exception e ) {
+			log.warning("Accuired points could not be saved" 
+					+e.getMessage() +" " +e.getCause());
+		}
+		
+	}
+	
+	
 	///////////////// FXML Methods ////////////////////
+	
+	
 
 	@FXML
 	void showQuestions(MouseEvent event) throws SQLException {
@@ -199,6 +269,36 @@ public class UebersichtController {
 	@FXML
 	void test(MouseEvent event) throws SQLException {
 		niveauBerechnen();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+	
+		erreichte_punkte.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                	erp.set(newValue);
+                	erreichte_punkte.setText(newValue);
+                	System.out.println(erp + " <- err.punkte");
+                } else {
+                	System.out.println("No number key pressed!");
+                	erp.set(""); 
+                	erreichte_punkte.setText("");
+                }
+            }
+        });
+		
+		erreichte_punkte.setOnKeyPressed(event -> {
+			   if(event.getCode() == KeyCode.ENTER){
+			    set_erreichte_punkte();
+			    erreichte_punkte.setText("");
+			   }
+			}); 
+		
+		
+		
 	}
 
 }

@@ -5,70 +5,75 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.ss.util.CellAddress;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.controlsfx.control.PopOver;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.log.SysoCounter;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXToggleButton;
+import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Main.Main;
 import de.hftstuttgart.EasyExam.Models.Frage;
-import de.hftstuttgart.EasyExam.Models.Notes;
+import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Callback;
 
-public class PruefungController {
+public class PruefungController implements Initializable {
 
 	private static final Logger log;
 
@@ -76,7 +81,7 @@ public class PruefungController {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
 		log = Logger.getLogger(DBConn.class.getName());
 	}
-
+	Stage noteStage = new Stage();
 	StudentController sController = new StudentController();
 	UebersichtController uController = new UebersichtController();
 	Protokoll protokoll = new Protokoll();
@@ -87,8 +92,15 @@ public class PruefungController {
 	public static String katalogName; // remove ?
 	public static ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 
+	public StringProperty vName = new SimpleStringProperty();
+	public StringProperty nName = new SimpleStringProperty();
+	public StringProperty mNr = new SimpleStringProperty();
+
 	@FXML
 	private AnchorPane anchorPane;
+	
+	@FXML
+    private Label label_musterloesung;
 
 	// ComboBoxes
 
@@ -126,7 +138,7 @@ public class PruefungController {
 	private TextArea musterLoesungDetailliert;
 
 	@FXML
-	private TextField studName;
+	TextField studName;
 
 	@FXML
 	private TextField matNr;
@@ -163,6 +175,8 @@ public class PruefungController {
 	private TableColumn<Frage, String> sehrGut;
 
 	// Buttons
+	@FXML
+	private JFXButton notizien;
 
 	@FXML // Old Refresh Button
 	private Button aktualisieren;
@@ -172,9 +186,6 @@ public class PruefungController {
 
 	@FXML
 	private Button start;
-
-	@FXML
-	private Button studentenLaden;
 
 	@FXML
 	private Button frageStellen;
@@ -191,17 +202,21 @@ public class PruefungController {
 	@FXML
 	private Button zueruck;
 
-	@FXML
-	private Button pdfErstellen;
+	/*
+	 * @FXML private Button pdfErstellen;
+	 */
+
+
 
 	@FXML
-	private Button studentSelektieren;
+	private JFXToggleButton ask_switch;
+
+	// JFoenix Compontents
+	@FXML
+	private JFXHamburger hamburger;
 
 	@FXML
-	private MenuItem FragekatalogErstellen;
-
-	@FXML
-	private MenuItem StatistikAnsehen;
+	private JFXDrawer drawer;
 
 	/////////////// Java Methods //////////////
 
@@ -290,7 +305,7 @@ public class PruefungController {
 	}
 
 	// Create a frage.obj from the selected question in the View Table
-	public Frage getSelected() {
+	public Frage get_selected_question() {
 
 		try {
 			Boolean gestellt = frageTabelle.getSelectionModel().getSelectedItem().isGestelltbool();
@@ -305,6 +320,7 @@ public class PruefungController {
 			String gut = frageTabelle.getSelectionModel().getSelectedItem().getGut();
 			String sehrGut = frageTabelle.getSelectionModel().getSelectedItem().getSehrGut();
 			String themengebiet = frageTabelle.getSelectionModel().getSelectedItem().getThemengebiet();
+			
 
 			return new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul, grundlage,
 					gut, sehrGut);
@@ -317,13 +333,15 @@ public class PruefungController {
 	}
 
 	// Fill view with a questions details
-	public void showDetails(Frage frage, ObservableList<Frage> kompetenzStufe) {
+	public void showDetails(Frage frage) {
 
+		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
+		
 		frageStellungDetail.setText(frage.getFrageStellung());
 		frageStellungDetail.setEditable(false);
 		musterLoesungDetailliert.setText(frage.getMusterloesung());
 		musterLoesungDetailliert.setEditable(false);
-		punktZahlDetail.setText("   / " + frage.getPunkte());
+		punktZahlDetail.setText(""+frage.getPunkte());
 
 		grundlagenniveau.setCellValueFactory(new PropertyValueFactory<>("grundLageNiveau"));
 		gut.setCellValueFactory(new PropertyValueFactory<>("gut"));
@@ -345,7 +363,7 @@ public class PruefungController {
 
 	}
 
-	public String getFilePath() {
+	public String select_file() {
 
 		// Set default path to //Set default path to 'C:\Users\...\
 		String defaultPath = System.getProperty("user.home");
@@ -358,7 +376,7 @@ public class PruefungController {
 
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(userDirectory);
-		chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel files", "*.xlsx")); // "CSV files
+		chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel files", "*.xls")); // "CSV files
 																										// (*.csv)",
 																										// "*.csv"
 		File selected = chooser.showOpenDialog(Main.mainWindow);
@@ -367,116 +385,112 @@ public class PruefungController {
 			log.info(path);
 			return path;
 		} catch (Exception e) {
-			log.warning("Path not found" + System.lineSeparator());
-			e.printStackTrace();
+			log.warning("Path not found" + e.getMessage() +" " 
+			+e.getCause());
+			
 			return null;
 		}
 
+
 	}
 
-	// neuen Button einfügen oder anders lösen
-	public Button excelErstellen;
-
-	
-	/**
-	 * Methode to write grade of selected student into excel sheet
-	 * 
-	 * @param note
-	 * @param xlsxPath
-	 * @throws IOException
-	 */
-	public void writeExcel(int note, String xlsxPath) throws IOException {
+	// Reads all students in a .xls file and returns an observable list of these students
+	public ObservableList<Student> readFromXls(String xlsPath) throws SQLException, IOException {
 		
-		//Testdaten (werden noch durch Daten des jeweiligen Studenten ersetzt)
-		int matrk = 654321;
-		xlsxPath = getFilePath();
-		int testNote = 170;
-		
-		InputStream inp = new FileInputStream(xlsxPath); 
-	    Workbook wb = WorkbookFactory.create(inp); 
-	    Sheet sheet = wb.getSheetAt(1); 
-	    Row row;
-	    
-	    	for(int rowIndex = 0; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
-	    		 row = sheet.getRow(rowIndex);
-	    				 if (row != null) {
-	    					    Cell cell = row.getCell(0);
-	    					    if (cell != null) {
-	    					      // Found column and there is value in the cell.
-	    					      double cellValueMaybeNull = cell.getNumericCellValue();
-	    					      if(cellValueMaybeNull == matrk) {
-	    					    	  Row rowNote = sheet.getRow(rowIndex);
-	    					    	  Cell cellNeu = rowNote.getCell(6);
-	    					    	  cellNeu.setCellValue(note);
-	    					      }
-	    					    }
-	    					  }		
-	    	}
-	   
-	     
-	    FileOutputStream fileOut = new FileOutputStream("wb.xls"); 
-	    wb.write(fileOut); 
-	    fileOut.close(); 
-		
-		
-
-		
-	}
-
-	public ObservableList<Student> readFromXlsx(String xlsxPath) throws SQLException, IOException {
-
 		ObservableList<Student> studenten = FXCollections.observableArrayList();
+
 		int listIndex = 0;
+		
+		// Select file with a File Choser and pass it to input stream
 
-		// Select file with a File Choser
-
+		File xlsFile = new File(xlsPath);
+		FileInputStream input_xls = new FileInputStream(xlsFile);
+		
+		
 		// Create workbook object
-		Workbook workbook = new XSSFWorkbook(xlsxPath);
+		//Workbook workbook = new XSSFWorkbook(xlsxPath);
+		Workbook workbook = new HSSFWorkbook(input_xls);
 		// Create a sheet in the workbook
 		Sheet firstSheet = workbook.getSheetAt(0);
-		// Iterateor for the exel table in the sheet
+		// Iterateor for the excel table in the sheet
 		Iterator<Row> rowIterator = firstSheet.iterator();
 
-		// Skip head row
-		// rowIterator.next();
+		// Skip the rows that contain no relevant data
+		for (int i = 0; i < 3; i++) {
+			rowIterator.next();
+		}
 
-		// Iterate the rows of the exel file
+		// Iterate the remaining rows of the exel file
 		while (rowIterator.hasNext()) {
-			log.info("Iterating new row......");
+			
+			
+			log.info("-->   Iterating new row......");
 			Student student = new Student();
 			Row nextRow = rowIterator.next();
 			Iterator<Cell> cellIterator = nextRow.cellIterator();
-
 			int iteration = 0;
-
-			// Go through cells of a single row - Asign cell value to student.obj attributes
-			log.info("Iterating cells.....");
-			while (cellIterator.hasNext()) {
-
+			
+			// Go through cells of a single row - Assign cell value to student.obj attributes
+			log.info("-->  Iterating cells.....");
+			while (cellIterator.hasNext()) { 
+				
 				Cell nextCell = cellIterator.next();
 				int columnIndex = nextCell.getColumnIndex();
+				String cellType = nextCell.getCellType().toString();
 
 				switch (columnIndex) {
-				case 0:
-					int matrikelnr = (int) nextCell.getNumericCellValue();
-					student.setMatrikelnr(matrikelnr);
+				case 0: //Matnr Cell
+
+					if (cellType == "NUMERIC") {
+						int matrikelNr = (int) nextCell.getNumericCellValue();
+						student.setMatrikelnr(matrikelNr);
+					} else {
+
+						String s = nextCell.getStringCellValue();
+
+						if (s == "endHISsheet") {
+							
+							log.info("Read Last Row");
+							return studenten;
+							
+						} else {
+							
+							try {
+								
+								int matrikelNr = Integer.valueOf(s);
+								student.setMatrikelnr(matrikelNr);
+								
+							} catch (Exception e) {
+								log.warning("Couldnt read Student!" +e.getCause());
+							}
+						}
+					}
+
 					break;
-				case 1:
-					String vorname = nextCell.getStringCellValue();
-					student.setVorname(vorname);
-					break;
-				case 2:
-					String nachname = nextCell.getStringCellValue();
-					student.setNachname(nachname);
-					break;
-				case 3:
-					int semester = (int) nextCell.getNumericCellValue();
-					student.setSemester(semester);
-					break;
-				case 4:
+				case 2: //Studiengang cell
 					String studiengang = nextCell.getStringCellValue();
 					student.setStudiengang(studiengang);
 					break;
+				case 5: //Name - Nachname cell
+					String name = nextCell.getStringCellValue();
+					String vName = name.substring( 0, name.indexOf(","));
+					String nName = name.substring(name.lastIndexOf(',') +1).trim();
+
+					student.setVorname(vName);
+					student.setNachname(nName);
+					break;
+
+				case 10: //Semester Cell
+
+					if (cellType == "NUMERIC") {
+						int semester = (int) nextCell.getNumericCellValue();
+						student.setSemester(semester);
+					} else {
+						int semester = Integer.valueOf(nextCell.getStringCellValue());
+						student.setSemester(semester);
+					}
+
+
 				}
 
 				log.info("Iteration  " + iteration + " : " + student.getMatrikelnr() + " " + student.getVorname() + " "
@@ -484,11 +498,18 @@ public class PruefungController {
 
 				iteration++;
 			}
-			log.info("Adding to Observablelist : " + student.toString());
-			studenten.add(student);
-
+			
+			log.info("Adding to Observablelist : " +System.lineSeparator()
+			+ student.toString());
+			
+			//Make sure no missread students are added
+			if (student.getMatrikelnr() != 0) studenten.add(student);
+			
+			//Close files.
+			input_xls.close();
+			workbook.close();
 		}
-		// Add the student to the list
+		
 
 		for (int i = studenten.size(); i > 0; i--) {
 
@@ -500,19 +521,60 @@ public class PruefungController {
 		return studenten;
 
 	}
+	
 
 	////////////// FXML Methods ///////////////////
 
-	@FXML
-	void import_xlsx(MouseEvent event) throws SQLException, IOException {
-		String xlsxPath = getFilePath();
-		ObservableList<Student> studenten = readFromXlsx(xlsxPath);
+	@FXML // to be deleted?
+	void showSideMenu(MouseEvent event) {
+		if (drawer.isShown() || drawer.isShowing()) {
+			drawer.close();
+		} else {
+			drawer.open();
+		}
+
+	}
+
+	@FXML // To be deleted?
+	public void import_xlsx(MouseEvent event) throws SQLException, IOException {
+		String xlsxPath = select_file();
+		ObservableList<Student> studenten = readFromXls(xlsxPath);
 		dbQuery.studentenSpeichern(studenten);
 	}
 
+	public void studenten_importieren() throws SQLException, IOException {
+		String xlsxPath = select_file();
+		ObservableList<Student> studenten = readFromXls(xlsxPath);
+		dbQuery.studentenSpeichern(studenten);
+	}
+	
 	@FXML
-	void studentSelektieren(MouseEvent event) throws IOException {
-		sController.show();
+	public void studentSelektieren(MouseEvent event) throws IOException {
+		
+		try {
+			StudentController sController = new StudentController();
+			sController.show();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+
+	public void setStudent(Student student) {
+
+		String name = student.getVorname();
+		String nachname = student.getNachname();
+		String matnr = String.valueOf(student.getMatrikelnr());
+
+		vName.setValue(name +" "+ nachname);
+		mNr.setValue(matnr);
+
+		studName.textProperty().bind(vName);
+		matNr.textProperty().bind(mNr);
+
 	}
 
 	@FXML /*
@@ -531,30 +593,126 @@ public class PruefungController {
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
 
-		Frage frage = getSelected();
-		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
+		Frage frage = get_selected_question();
+		Boolean asked = frage.isGestelltbool();
+		
+		showDetails(frage);
+		ask_switch.setSelected(asked);
 
+		
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-			showDetails(frage, kompetenzStufe);
+			if (asked) {
+				try {
+					unask(frage);
+					ask_switch.setSelected(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					ask(frage);
+					ask_switch.setSelected(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+
 		}
 
 	}
 
-	// Ask a question
+
+	@FXML //to be deleted
+	void ask_unas2k(MouseEvent event) {
+		Frage frage = get_selected_question();
+
+
+	}
+
+
 	@FXML
+	void ask_unask(MouseEvent event) {
+		Frage frage = get_selected_question();
+		Boolean asked = frage.isGestelltbool();
+
+		if (asked) {
+			try {
+				unask(frage);
+				ask_switch.setSelected(false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				ask(frage);
+				ask_switch.setSelected(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
+	public void ask(Frage frage) throws SQLException {
+		dbQuery.frageStellen(frage, true);
+		showQuestions();
+	}
+
+	public void unask(Frage frage) throws SQLException {
+		dbQuery.frageStellen(frage, false);
+		showQuestions();
+	}
+
+	@FXML
+	void addNotizien(MouseEvent event) {
+
+		FXMLLoader fxmlLoader = new FXMLLoader();
+
+		try {
+
+			fxmlLoader.setLocation(getClass().getResource("/GUI/Notizien.fxml"));
+			Scene scene = new Scene(fxmlLoader.load());
+			NotizienController nController = fxmlLoader.getController();
+
+			noteStage.setTitle("Übersicht - Alle gestellte fragen ");
+			noteStage.setScene(scene);
+			noteStage.centerOnScreen();
+			noteStage.setResizable(false);
+			noteStage.show();
+
+			try {
+
+				int idFrage = get_selected_question().getID();
+				nController.frage.setID(idFrage);
+
+			} catch (Exception e) {
+				log.warning("Can't add notes: No question selected...");
+			}
+
+		} catch (IOException e) {
+			log.warning("Cant load View : Notizien.fxml"); // +e.getMessage() +e.getCause()
+			e.printStackTrace();
+		}
+
+	}
+
+	
+	@FXML // Ask a question
 	void frageStellen(MouseEvent event) throws SQLException {
 
-		Frage frage = getSelected();
+		Frage frage = get_selected_question();
 		dbQuery.frageStellen(frage, true);
 		showQuestions();
 
 	}
 
-	// Un-Ask a question. (If ask button was clicked by mistake)
-	@FXML
+	
+	@FXML // Un-Ask a question. (If ask button was clicked by mistake)
 	void nichtStellen(MouseEvent event) throws SQLException {
 
-		Frage frage = getSelected();
+		Frage frage = get_selected_question();
 		dbQuery.frageStellen(frage, false);
 		showQuestions();
 
@@ -611,6 +769,63 @@ public class PruefungController {
 	@FXML
 	public void pdfErstellenClick(MouseEvent event) throws FileNotFoundException, DocumentException, SQLException {
 		String katalogName = katalogeComboBox.getValue();
+		ObservableList<Frage> fragen = FXCollections.observableArrayList();
+		
+		// Load DBQueries Result set with all asked questions
+		dbQuery.fragenLaden_gestellt(katalogName);
+
+		// Fill list with questions in result set
+		fillList(fragen);
+
+		FileChooser fc = new FileChooser();
+		//Window stage = pdfErstellen.getScene().getWindow();
+
+		fc.setTitle("Save to PDF");
+		fc.setInitialFileName("file name.pdf");
+
+		fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF File", "*.pdf"));
+
+		File file = fc.showSaveDialog(Main.mainWindow);
+
+		if (file != null) {
+
+			String path = file.getAbsolutePath();
+
+			try {
+
+				Document document = new Document();
+				FileOutputStream fos = new FileOutputStream(path);
+				PdfWriter.getInstance(document, fos);
+				
+				document.open();
+				
+				PDFCreate.addMetaData(document);
+				PDFCreate.addTitlePage(document, fragen);
+				PDFCreate.add_questions(document, fragen);
+
+				document.close();
+				fos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+		}
+		
+		//Set every 'asked' property to false after exam is done 
+		dbQuery.setAllFalse();
+	}
+	
+	/*
+	 * public Image add_notes() { FileChooser choser = new FileChooser();
+	 * 
+	 * try {
+	 * 
+	 * //Create an image object //return image; } catch (Exception e) {
+	 * e.printStackTrace(); return null; } }
+	 */
+	
+	public void protokollieren() throws SQLException {
+		String katalogName = katalogeComboBox.getValue();
 
 		ObservableList<Frage> fragen = FXCollections.observableArrayList();
 		// Load DBQueries Result set with all asked questions
@@ -622,7 +837,7 @@ public class PruefungController {
 		// log.info(fragen.toString());
 
 		FileChooser fc = new FileChooser();
-		Window stage = pdfErstellen.getScene().getWindow();
+		Window stage = Main.mainWindow;
 
 		fc.setTitle("Save to PDF");
 		fc.setInitialFileName("file name.pdf");
@@ -637,22 +852,48 @@ public class PruefungController {
 
 			try {
 
-				Document document = new Document();
+				
+				Document pdfDocument = new Document();
 				FileOutputStream fos = new FileOutputStream(path);
-				PdfWriter.getInstance(document, fos);
-				document.open();
-				PDFCreate.addMetaData(document);
-				PDFCreate.addTitlePage(document, fragen);
-				PDFCreate.addContent(document, fragen);
+				PdfWriter.getInstance(pdfDocument, fos);
+				pdfDocument.open();
+				
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("");
+				alert.setHeaderText(null);
+				alert.setContentText("Möchten Sie notizien hinfügen?");
 
-				document.close();
+				PDFCreate.addMetaData(pdfDocument);
+				PDFCreate.addTitlePage(pdfDocument, fragen);
+				PDFCreate.add_questions(pdfDocument, fragen);
+
+				// Ok -> Yes
+				Optional<ButtonType> ok = alert.showAndWait();
+
+				if (ok.get() == ButtonType.OK) {
+
+					//Create a new note obj -> it's chooser window is instantiated and shown
+					Note note = new Note(Main.mainWindow);
+					//Add an image to the pdf document
+					PDFCreate.add_image(pdfDocument, note.getImg());
+					
+
+				}
+				
+				
+				 
+				 
+				
+
+				pdfDocument.close();
 				fos.close();
+				//Reset fields for gestellt and notes after exam is over and protocolled
+				dbQuery.reset();
 			} catch (Exception e) {
 				e.printStackTrace();
 
 			}
 		}
-
 	}
 
 	@FXML // Navigation Function - Go back to starter Screen.
@@ -694,7 +935,7 @@ public class PruefungController {
 
 	}
 
-	///////////////////// Not implemented/ Currently working on. ///////////////////
+
 
 	/////////////// Imp. func. Testing ///////////////////
 
@@ -708,25 +949,171 @@ public class PruefungController {
 		katalogName = katalogeComboBox.getValue();
 		dbQuery.fragenLaden_gestellt(katalogName);
 	}
-	
-	/*
-	 * Notizen und erreichte Punktzahl in Notes speichern, wenn frage ist gestellt muss noch als EInscränkung dazu und dann 
-	 * in PDFcreate aufrufen und mit dem PDF ausgeben oder noch der Frage hinzufügen
-	 */
-	
 
-	private TextArea notesTextArea;
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		frageTabelle.getStylesheets().add("/css/@fragetabelle.css");
+		frageStellung.setResizable(false);
+		gestellt.setResizable(false);
+		kompetenzlevelTabelle.getStylesheets().add("/css/@fragetabelle.css");
+		
+		
+		
+		frageTabelle.setOnKeyPressed((KeyEvent ke) ->
+        {
+        	
+        	Frage selected = new Frage();
+            switch (ke.getCode())
+      
+            {
+                case DOWN:
+                	
+                	selected = frageTabelle.getSelectionModel().getSelectedItem();
+                	ask_switch.setSelected(selected.isGestelltbool());
+                	showDetails(selected);
+                	
+                    ke.consume();
+                    break;
+               
+                case UP:
+                	selected = frageTabelle.getSelectionModel().getSelectedItem();
+                	ask_switch.setSelected(selected.isGestelltbool());
+                	showDetails(selected);
+                    ke.consume();
+                    break;
+                case ENTER:
+                	 selected = frageTabelle.getSelectionModel().getSelectedItem();
+                	 Boolean asked = selected.isGestelltbool();
+                	 ask_switch.setSelected(asked);
+                	 if (asked) {
+             			try {
+             				unask(selected);
+             				ask_switch.setSelected(false);
+             			} catch (Exception e) {
+             				e.printStackTrace();
+             			}
+             		} else {
+             			try {
+             				ask(selected);
+             				ask_switch.setSelected(true);
+             			} catch (Exception e) {
+             				e.printStackTrace();
+             			}
+
+             		}
+                	showDetails(selected);
+                    ke.consume();
+                    break;
+                default:
+                    break;
+            }
+        });
 	
-	public Notes notizenSpeichern() throws SQLException {	
-	
+		
+
+		try {
+			VBox box = FXMLLoader.load(getClass().getResource("/GUI/DrawerContent.fxml"));
+
+			drawer.setSidePane(box);
+			for (Node node : box.getChildren()) {
+				if (node.getAccessibleText() != null) {
+					node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+						switch (node.getAccessibleText()) {
+
+						// GUI Navigation - Go to Pruefung starten screen
+						case "FragekatalogErstellen":
+							try {
+								StartController.setWindow("Katalogverwaltung");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+
+						// GUI Navigation - Go to StatistikAnsehen screen (SOON)
+						case "StatistikAnsehen":
+							try {
+								StartController.setWindow("StatistikAnsehen");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case "Protokollieren":
+							try {
+								protokollieren();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case "StudentenImportieren":
+							try {
+								studenten_importieren();
+							} catch (IOException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						}
+
+					});
+
+				}
+
+				// Build PopOver look and feel
+				Label popover_musterloesung = new Label();
+				VBox vBox = new VBox(popover_musterloesung);
 				
-		
-		String ep = erreichtePunkte.getText();
-		Float erPu = Float.parseFloat(ep);
-		String notes = notesTextArea.getText();
-		
-		return new Notes(notes, erPu);
-		
+		        
+		        vBox.setPrefHeight(600.0);
+		        vBox.setPrefWidth(800.0);
+		        
+		        //vBox.setStyle("-fx-background-color :#F399D7"); // for setting the background color
+		        //Create PopOver and add look and feel
+		        PopOver popOver = new PopOver(vBox);
+		        
+		       
+		        // Event handlers for Mouse hover
+		        label_musterloesung.setOnMouseEntered(mouseEvent -> {
+					
+					try {
+						Frage frage = get_selected_question();
+						popover_musterloesung.setText(frage.getMusterloesung());
+					} catch (Exception e) {
+						log.warning("No question selected " + e.getMessage() + "--" + e.getCause());
+					}
+					 
+		            //Show PopOver when mouse enters label
+		            popOver.show(label_musterloesung);
+		        });
+
+		        label_musterloesung.setOnMouseExited(mouseEvent -> {
+		            //Hide PopOver when mouse exits label
+		            popOver.hide();
+		        });
+
+			}
+
+			
+			
+			HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
+			transition.setRate(-1);
+			hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
+				transition.setRate(transition.getRate() * -1);
+				transition.play();
+
+				if (drawer.isHidden()) {
+					drawer.close();
+				} else {
+					drawer.open();
+				}
+
+			});
+		} catch (IOException e1) {
+			Logger.getLogger(PruefungController.class.getName()).log(Level.SEVERE, null, e1);
+		}
+
 	}
-	
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="550.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.NotizienController">
+<children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="54.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="823.0" />
+      <Label layoutX="15.0" layoutY="9.0" prefHeight="31.0" prefWidth="260.0" text="HFT Stuttgart Easy Exam" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="713.0" layoutY="12.0" prefHeight="31.0" prefWidth="92.0" text="Notizien" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="note_input" layoutX="37.0" layoutY="108.0" prefHeight="361.0" prefWidth="738.0">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </JFXTextArea>
+      <JFXButton fx:id="save" layoutX="713.0" layoutY="495.0" onMouseClicked="#addNotes" text="Speichern" />
+      <Label layoutX="713.0" layoutY="61.0" prefHeight="39.0" prefWidth="92.0" text="Notizien" underline="true">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+</children>
+</AnchorPane>

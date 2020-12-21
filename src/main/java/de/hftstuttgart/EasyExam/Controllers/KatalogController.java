@@ -282,7 +282,7 @@ public class KatalogController {
 	@FXML // GUI Navigation - Go to Pruefung starten screen
 	void PrüfungStartenClick(ActionEvent event) {
 		try {
-			StartController.setWindow("Pruefung");
+			StartController.setWindow("Pruefung2");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

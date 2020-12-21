@@ -1,42 +1,7 @@
 package de.hftstuttgart.EasyExam.Models;
 
 public class Frage {
-	
-	/*
-	 * //* In the simplified Model, a single Class (Corresponding to one singular
-	 * DB table) is used to store all the details of a question
-	 * 
-	 */	
-	
-	//Model(Frage.Class).Variables(ISDB:=Values) --> New Model.class for question (I=int S=String(s) D=double/decimal B=Bool) 
-	//Model(Frage.Class).Variables(ISDB,TNBM:=Values) -->T = Themengebiet.class.getThemengebiet, M = MusterLoesung.class.getString....
-	
-	/*
-	 * JAVA LOGIC: is it nessecary/useful to create 3 different objects and only story
-	 * a single string in them? Why not just instantly Store that string value in a
-	 * variable in the Frage.class -> Removes need for extra classes, tables := Extra SQL/Java Logic -> Reduces Complexity
-	 * (fewer Queries, fewer ResultSets, fewer while loops)
-	 */
-	
-	
-	/*
-	 * In the old Model, Themengebiet, Niveau, Musterloesung etc were treated as
-	 * seperate Objects, each only storing a String value (Bezeichnung, Modul etc)
-	 * and an Int value only used for SQL. This could be simplified if Model,
-	 * Themengebiet, Niveau, Musterloesung etc are treated as String Variables of a
-	 * Question instead of differenet Classes each only containing a String and Int
-	 * Value. (Note: The user can't and shouldn't be able to manipulate the int ID
-	 * value as it is something managed by the DBMS)
-	 * 
-	 */
-	
-	
-	/*
-	 * A single instance of a question represents a line/entry in the DB. A set of
-	 * such lines represents a Catalog
-	 */
-	
-	
+
 
 	private int ID;
 	private String frageStellung;
@@ -50,9 +15,11 @@ public class Frage {
 	private String grundLageNiveau;
 	private String gut;
 	private String sehrGut;
+	private String Notizien;
+	private float erreichtePunkte;
 
 	
-	public Frage(String frageStellung, String musterloesung, int niveau, String themengebiet,
+	public Frage(int iD2, String frageStellung, String musterloesung, int niveau, String themengebiet,
 			String fragekatalog, float punkte, boolean gestelltbool, String modul) {
 		this.frageStellung = frageStellung;
 		Musterloesung = musterloesung;
@@ -65,7 +32,7 @@ public class Frage {
 	}
 	
 	public Frage(int iD, String frageStellung, String musterloesung, int niveau, String themengebiet,
-			String fragekatalog, float punkte, boolean gestelltbool, String modul) {
+			String fragekatalog, float punkte, boolean gestelltbool, String modul, Float erreichtePunkte) {
 		super();
 		ID = iD;
 		this.frageStellung = frageStellung;
@@ -75,7 +42,21 @@ public class Frage {
 		this.fragekatalog = fragekatalog;
 		this.punkte = punkte;
 		this.gestelltbool = gestelltbool;
-		Modul = modul;
+		this.Modul = modul;
+		this.erreichtePunkte = erreichtePunkte;
+	}
+	
+	public String toString() {
+		return "Fragestellung: " + this.frageStellung  + System.lineSeparator()
+		+ "Lösung: " + this.Musterloesung  + System.lineSeparator()
+		+ "Niveau: " + this.niveau  + System.lineSeparator()
+		+ "Punkte: " + this.punkte  + System.lineSeparator()
+		+ "Gestellt: "   + System.lineSeparator()
+		+ "Thema: " + this.themengebiet  + System.lineSeparator() 
+		+ "Fragekatalog: " + this.fragekatalog  + System.lineSeparator()
+		+ "Grundlage Niveau: " + this.grundLageNiveau  + System.lineSeparator()
+		+ "Gut: " +  this.gut  + System.lineSeparator()
+		+ "Sehr gut: " + this.sehrGut;  
 	}
  
 	
@@ -96,7 +77,7 @@ public class Frage {
 	}
 
 	public Frage(int iD, String frageStellung, String musterloesung, int niveau, String themengebiet,
-			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau, String gut, String sehrGut) {
+			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau, String gut, String sehrGut, Float erreichtePunkte) {
 		super();
 		ID = iD;
 		this.frageStellung = frageStellung;
@@ -110,7 +91,26 @@ public class Frage {
 		this.grundLageNiveau = grundLageNiveau;
 		this.gut = gut;
 		this.sehrGut = sehrGut;
+		this.erreichtePunkte = erreichtePunkte;
 	}
+	public Frage(int iD, String frageStellung, String musterloesung, int niveau, String themengebiet,
+			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau, String gut, String sehrGut) {
+
+		ID = iD;
+		this.frageStellung = frageStellung;
+		Musterloesung = musterloesung;
+		this.niveau = niveau;
+		this.themengebiet = themengebiet;
+		this.fragekatalog = fragekatalog;
+		this.punkte = punkte;
+		this.gestelltbool = gestelltbool;
+		Modul = modul;
+		this.grundLageNiveau = grundLageNiveau;
+		this.gut = gut;
+		this.sehrGut = sehrGut;
+
+	}
+	
 	
 	public Frage(String frageStellung, String musterloesung, int niveau, String themengebiet,
 			String fragekatalog, float punkte, boolean gestelltbool, String modul, String grundLageNiveau, String gut, String sehrGut) {
@@ -126,6 +126,10 @@ public class Frage {
 		this.grundLageNiveau = grundLageNiveau;
 		this.gut = gut;
 		this.sehrGut = gut;
+	}
+
+	public Frage() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getID() {
@@ -225,6 +229,22 @@ public class Frage {
 
 	public void setGrundLageNiveau(String grundLageNiveau) {
 		this.grundLageNiveau = grundLageNiveau;
+	}
+
+	public String getNotizien() {
+		return Notizien;
+	}
+
+	public void setNotizien(String notizien) {
+		Notizien = notizien;
+	}
+
+	public float getErreichtePunkte() {
+		return erreichtePunkte;
+	}
+
+	public void setErreichtePunkte(float erreichtePunkte) {
+		this.erreichtePunkte = erreichtePunkte;
 	}
 	
 	

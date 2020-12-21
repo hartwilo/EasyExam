@@ -16,7 +16,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import DB.DBConn;
-import DB.DBQueries;
+import de.hftstuttgart.EasyExam.Main.Main;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -36,8 +36,6 @@ import javafx.scene.input.MouseEvent;
  *
  */
 public class LoginController implements Initializable {
-
-	ResetPasswordController rpController = new ResetPasswordController();
 
 	@FXML
 	private AnchorPane AnchorPane;
@@ -71,10 +69,9 @@ public class LoginController implements Initializable {
 
 	@FXML
 	private Label lblErrors;
-
+	
 	@FXML
-	private JFXButton PasswordVergessen;
-	public DBQueries dbQueries = new DBQueries(DBConn.connection);
+    private JFXButton PasswordVergessen;
 
 //	@FXML
 //	void LoginClick(ActionEvent event) throws IOException {
@@ -83,6 +80,8 @@ public class LoginController implements Initializable {
 //
 //	}
 
+	static FXMLLoader loader;
+	
 	// Check if Login is successful
 	public void handleButtonAction(MouseEvent event) {
 
@@ -91,11 +90,12 @@ public class LoginController implements Initializable {
 			if (LogIn().equals("Login ist erfolgreich")) {
 
 				try {
+					
 					Node node = (Node) event.getSource();
 					Stage stage = (Stage) node.getScene().getWindow();
 					stage.close();
 
-					Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/GUI/StartScreen.fxml")));
+					Scene scene = new Scene(loader.load());
 					stage.setScene(scene);
 					stage.show();
 
@@ -109,7 +109,14 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung2.fxml"));
+
+	}
+
+	// Build connection
+	public LoginController() {
+
+		conn = DBConn.connection;
 
 	}
 
@@ -118,14 +125,13 @@ public class LoginController implements Initializable {
 	void CheckBoxClick1(ActionEvent event) {
 
 		if (CheckBox1.isSelected()) {
-
+			
 		}
 
 	}
 
 	// Connection to DB
 	Connection conn = null;
-//	conn = DBConn.connection;
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 
@@ -134,75 +140,24 @@ public class LoginController implements Initializable {
 
 		String eMail = UsernameTextField.getText().toString();
 		String Password = PasswordField.getText().toString();
-		String vergleichsPW = null;
 
+		// query
+		String sql = "SELECT * FROM pruefer WHERE eMail=? AND Passwort = ?";
 		try {
-			resultSet = dbQueries.getLoginData(eMail);
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, eMail);
+			stmt.setString(2, Password);
+			resultSet = stmt.executeQuery();
 
 			if (!resultSet.next()) {
 				lblErrors.setTextFill(Color.TOMATO);
-				lblErrors.setText("Die Email ist falsch.");
+				lblErrors.setText("Bitte geben Sie rechtige eMail oder Password ein");
 				System.err.println("Login Error");
 				return "Error";
 
 			} else {
-				vergleichsPW = resultSet.getString("Passwort");
-				System.out.println(vergleichsPW);
-				if (!vergleichsPW.equals(Password)) {
-					lblErrors.setTextFill(Color.TOMATO);
-					lblErrors.setText("Das Passwort ist falsch");
-					System.err.println("Login Error");
-					return "Error";
-				} else {
-					return "Login ist erfolgreich";
-				}
 
-			}
-
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			return "Exception";
-
-		}
-
-	}
-
-	// show forgotten password window
-	@FXML
-	void PasswordVergessenClick(ActionEvent event) throws Exception {
-
-		rpController.show();
-
-	}
-
-	// Methods for Junit Testing 
-	public String LogInWithTestDBConn(Connection connection, String email, String password) {
-
-		String eMail = email;
-		String Password = password;
-		String vergleichsPW = null;
-
-		try {
-			DBQueries db = new DBQueries(connection);
-			resultSet = db.getLoginData(eMail);
-
-			if (!resultSet.next()) {
-				lblErrors.setTextFill(Color.TOMATO);
-				lblErrors.setText("Die Email ist falsch.");
-				System.err.println("Login Error");
-				return "Error";
-
-			} else {
-				vergleichsPW = resultSet.getString("Passwort");
-				System.out.println(vergleichsPW);
-				if (!vergleichsPW.equals(Password)) {
-					lblErrors.setTextFill(Color.TOMATO);
-					lblErrors.setText("Das Passwort ist falsch");
-					System.err.println("Login Error");
-					return "Error";
-				} else {
-					return "Login ist erfolgreich";
-				}
+				return "Login ist erfolgreich";
 
 			}
 
@@ -214,4 +169,12 @@ public class LoginController implements Initializable {
 
 	}
 	
+	// reset a Password
+	 @FXML
+	    void PasswordVergessenClick(ActionEvent event) {
+
+	    }
+	 
+
+
 }

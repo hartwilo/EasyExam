@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +32,42 @@ public class DBQueries {
 	
 	public DBQueries(Connection conn) {
 		connection = conn;
+	} 
+	
+	
+	public int erreichte_punkte_speichern(Frage frage, double punkte) throws SQLException {
+		String query = "update Frage set Punkte_erreicht = ? where idFrage = ?";
+		PreparedStatement preparedStmt = connection.prepareStatement(query);
+		
+		preparedStmt.setDouble(1, punkte);
+		preparedStmt.setInt(2, frage.getID());
+		
+		return preparedStmt.executeUpdate();
+	}
+	
+	
+	//Add notes to a question - DB - Notizien: Deafult = NULL, Reset on protokollieren() / exam end.
+	public int notizienSpeichern(Note note, Frage frage) throws SQLException {
+		
+		//set to false
+		connection.setAutoCommit(true);
+		
+		try {
+			  String query = "update Frage set Notizien = ? where idFrage = ?";
+		      PreparedStatement preparedStmt = connection.prepareStatement(query);
+		      preparedStmt.setString   (1, note.getText());
+		      preparedStmt.setInt   (2, frage.getID());
+		      
+		      log.info(preparedStmt.toString());
+		      
+		      return preparedStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			log.warning("Notes not saved in the database!" +e.getMessage() +e.getCause());
+			e.printStackTrace();
+			return 0;
+		}
+				
 	}
 
 	/**
@@ -79,6 +116,15 @@ public class DBQueries {
 		stmt.setString(11, sehrGut);
 
 		return stmt.executeUpdate();
+	}
+	
+	public ResultSet frage_selektieren(Frage frage) throws SQLException {
+		int idFrage = frage.getID();
+		connection.setAutoCommit(true);
+		String query = "Select * from Frage where idFrage = "+idFrage;
+		Statement stmt = connection.createStatement();
+		
+		return DBQueries.rs = stmt.executeQuery(query);
 	}
 	
 	// Takes a list of students form the Controller as a paramter and saves it'c content into the DB
@@ -334,7 +380,37 @@ public class DBQueries {
 		return kataloge;
 	}
 
+	/**
+	 * Old method for saving questions, no longer used
+	 * 
+	 * @param fragestellung
+	 * @param musterloesung
+	 * @param niveau
+	 * @param punkte
+	 * @param gestellt
+	 * @param themengebiet
+	 * @param fragekatalog
+	 * @param modul
+	 * @return
+	 * @throws SQLException
+	 */
+	public int frageSpeichern_SIDB(String fragestellung, String musterloesung, int niveau, double punkte,
+			String gestellt, String themengebiet, String fragekatalog, String modul) throws SQLException {
+		connection.setAutoCommit(true);
+		Statement stmt = connection.createStatement();
+		String query = "INSERT INTO Frage(Fragestellung, Musterloesung, Niveau, Punkte, gestellt, themengebiet, Fragekatalog, Modul) "
+				+ "Values('" + fragestellung + "','" + musterloesung + "', '" + niveau + "', '" + punkte + "', '"
+				+ gestellt + "', '" + themengebiet + "', '" + fragekatalog + "', '" + modul + "')";
 
+		log.info("Last query: " + query);
+		return stmt.executeUpdate(query);
+	}
+	
+	public ResultSet select_erreichte_punkte(Frage frage) throws SQLException {
+		String query = "SELECT * FROM Frage WHERE idFrage = " +frage.getID();
+		Statement stmt = connection.createStatement();		
+		return DBQueries.rs = stmt.executeQuery(query);
+	}
 
 	/**
 	 * set gestellt=false for all methods 
@@ -351,12 +427,21 @@ public class DBQueries {
 		log.info("Last query: " + query);
 		return stmt.executeUpdate(query);
 	}
-
-	public ResultSet getLoginData(String email) throws SQLException{
+	
+	public void reset() throws SQLException {
+		connection.setAutoCommit(true);
 		Statement stmt = connection.createStatement();
-		String query = "SELECT eMail, Passwort FROM pruefer WHERE eMail=" + "'" + email + "'";
-		return stmt.executeQuery(query);
+		
+		String query_gestellt = "UPDATE Frage SET gestellt = 0";
+		String query_notes = "UPDATE Frage SET Notizien = null";
+		String query_erreichte_punkte = "UPDATE Frage SET Punkte_erreicht = 0";
+		
+		stmt.executeUpdate(query_gestellt);
+		stmt.executeUpdate(query_notes);
+		stmt.executeUpdate(query_erreichte_punkte);
+		
 	}
+
 	
 
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fragenAnzeigen" prefHeight="774.0" prefWidth="1309.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.PruefungController">
+   <children>
+      <Group layoutX="45.0" layoutY="167.0" />
+      <Group layoutX="607.0" layoutY="167.0">
+         <children>
+            <JFXTextArea fx:id="frageStellungDetail" editable="false" focusColor="#408dd4" layoutX="10.0" layoutY="-8.0" prefHeight="221.0" prefWidth="673.0" />
+            <JFXTextArea fx:id="musterLoesungDetailliert" editable="false" focusColor="#408dd4" layoutX="8.0" layoutY="269.0" prefHeight="228.0" prefWidth="677.0" />
+            <Label layoutX="552.0" layoutY="231.0" prefHeight="17.0" prefWidth="65.0" text="Punktzahl :" />
+            <Label fx:id="punktZahlDetail" layoutX="637.0" layoutY="231.0" prefHeight="17.0" prefWidth="59.0" />
+            <TableView fx:id="kompetenzlevelTabelle" layoutX="9.0" layoutY="497.0" prefHeight="87.0" prefWidth="676.0">
+               <columns>
+                  <TableColumn fx:id="grundlagenniveau" prefWidth="262.0" text="Grundlagenniveau" />
+                  <TableColumn fx:id="gut" prefWidth="152.0" text="Gut" />
+                  <TableColumn fx:id="sehrGut" prefWidth="261.0" text="Sehr Gut" />
+               </columns>
+            </TableView>
+            <Label layoutX="9.0" layoutY="-47.0" prefHeight="17.0" prefWidth="91.0" text="Fragestellung:" />
+            <Label fx:id="label_musterloesung" layoutX="10.0" layoutY="231.0" prefHeight="17.0" prefWidth="91.0" text="Musterlösung:" />
+      
+                        <JFXToggleButton fx:id="ask_switch" layoutX="97.0" layoutY="-59.0" onMouseClicked="#ask_unask" prefHeight="25.0" prefWidth="45.0" size="7.0" text=" " toggleColor="#408dd4" toggleLineColor="#f54747" />
+            <JFXDrawer fx:id="drawer" defaultDrawerSize="190.0" direction="RIGHT" layoutX="508.0" layoutY="-166.0" prefHeight="727.0" prefWidth="16.0" />
+            <JFXButton fx:id="notizien" buttonType="RAISED" layoutX="559.0" layoutY="-93.0" onMouseClicked="#addNotizien" ripplerFill="#6e99b2" text="Notizen" />
+         </children>
+      </Group>
+      <Group layoutX="48.0" layoutY="86.0" />
+      <Group layoutX="1033.0" layoutY="713.0" />
+      <Button fx:id="setFalse" layoutX="679.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#setFalse" text="Set False" />
+      <TableView fx:id="frageTabelle" fixedCellSize="50.0" layoutX="25.0" layoutY="155.0" onMousePressed="#detailsAnzeigen" prefHeight="595.0" prefWidth="566.0">
+        <columns>
+          <TableColumn fx:id="gestellt" prefWidth="51.0" />
+            <TableColumn fx:id="frageStellung" prefWidth="513.0" text="Fragen" />
+        </columns>
+      </TableView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="66.0" stroke="BLACK" strokeType="INSIDE" width="1310.0" />
+      <JFXHamburger fx:id="hamburger" alignment="CENTER" layoutX="1255.0" layoutY="23.0" onMouseClicked="#showSideMenu" stylesheets="@../css/@hamburger.css" />
+      <JFXComboBox fx:id="katalogeComboBox" focusColor="#408dd4" layoutX="25.0" layoutY="72.0" onMouseClicked="#katalogeLaden" prefHeight="25.0" prefWidth="1126.0" promptText="Fragekatalog" />
+      <JFXComboBox fx:id="themen" focusColor="#408dd4" layoutX="25.0" layoutY="109.0" onMouseClicked="#themengebieteLaden" prefHeight="25.0" prefWidth="383.0" promptText="Themengebiet" />
+      <JFXRadioButton fx:id="nivalle" layoutX="475.0" layoutY="118.0" onMouseClicked="#fragenAnzeigen" selected="true" text=" ">
+         <toggleGroup>
+            <ToggleGroup fx:id="niveau" />
+         </toggleGroup>
+      </JFXRadioButton>
+      <JFXRadioButton fx:id="niveau1" layoutX="506.0" layoutY="118.0" onMouseClicked="#fragenAnzeigen" text=" " toggleGroup="$niveau" />
+      <JFXRadioButton fx:id="niveau2" layoutX="537.0" layoutY="118.0" onMouseClicked="#fragenAnzeigen" text=" " toggleGroup="$niveau" />
+      <JFXRadioButton fx:id="niveau3" layoutX="567.0" layoutY="118.0" onMouseClicked="#fragenAnzeigen" text=" " toggleGroup="$niveau" />
+      <JFXDialog layoutX="436.0" layoutY="121.0" />
+      <Label layoutX="416.0" layoutY="116.0" prefHeight="21.0" prefWidth="59.0" text="Niveau :">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="studName" editable="false" layoutX="998.0" layoutY="21.0" onMouseClicked="#studentSelektieren" prefHeight="26.0" prefWidth="146.0" promptText="Student Name" />
+      <TextField fx:id="matNr" editable="false" layoutX="1154.0" layoutY="21.0" prefHeight="26.0" prefWidth="81.0" promptText="Matr.Nr" />
+      <Label layoutX="25.0" layoutY="13.0" prefHeight="17.0" prefWidth="450.0" text="HFT-Stuttgart EasyExam" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="uebersicht" buttonType="RAISED" layoutX="1217.0" layoutY="74.0" onMouseClicked="#uebersichtAnzeigen" prefHeight="25.0" prefWidth="89.0" ripplerFill="#408dd4" text="Übersicht" />
+   </children>
+</AnchorPane>
