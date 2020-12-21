@@ -377,8 +377,17 @@ public class PruefungController {
 	// neuen Button einfügen oder anders lösen
 	public Button excelErstellen;
 
+	
+	/**
+	 * Methode to write grade of selected student into excel sheet
+	 * 
+	 * @param note
+	 * @param xlsxPath
+	 * @throws IOException
+	 */
 	public void writeExcel(int note, String xlsxPath) throws IOException {
 		
+		//Testdaten (werden noch durch Daten des jeweiligen Studenten ersetzt)
 		int matrk = 654321;
 		xlsxPath = getFilePath();
 		int testNote = 170;
@@ -400,8 +409,6 @@ public class PruefungController {
 	    					    	  Cell cellNeu = rowNote.getCell(6);
 	    					    	  cellNeu.setCellValue(note);
 	    					      }
-	    					      // Do something with the cellValueMaybeNull here ...
-	    					      // break; ???
 	    					    }
 	    					  }		
 	    	}
@@ -415,14 +422,6 @@ public class PruefungController {
 
 		
 	}
-
-	
-
-
-
-	
-
-
 
 	public ObservableList<Student> readFromXlsx(String xlsxPath) throws SQLException, IOException {
 
