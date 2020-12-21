@@ -39,7 +39,8 @@
             <Label fx:id="label_musterloesung" layoutX="10.0" layoutY="231.0" prefHeight="17.0" prefWidth="91.0" text="Musterlösung:" />
       
                         <JFXToggleButton fx:id="ask_switch" layoutX="97.0" layoutY="-59.0" onMouseClicked="#ask_unask" prefHeight="25.0" prefWidth="45.0" size="7.0" text=" " toggleColor="#408dd4" toggleLineColor="#f54747" />
-            <JFXDrawer fx:id="drawer" defaultDrawerSize="190.0" direction="RIGHT" layoutX="508.0" layoutY="-166.0" prefHeight="773.0" prefWidth="196.0" />
+            <JFXDrawer fx:id="drawer" defaultDrawerSize="190.0" direction="RIGHT" layoutX="508.0" layoutY="-166.0" prefHeight="727.0" prefWidth="16.0" />
+            <JFXButton fx:id="notizien" buttonType="RAISED" layoutX="559.0" layoutY="-93.0" onMouseClicked="#addNotizien" ripplerFill="#6e99b2" text="Notizen" />
          </children>
       </Group>
       <Group layoutX="48.0" layoutY="86.0" />
@@ -53,7 +54,7 @@
       </TableView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="66.0" stroke="BLACK" strokeType="INSIDE" width="1310.0" />
       <JFXHamburger fx:id="hamburger" alignment="CENTER" layoutX="1255.0" layoutY="23.0" onMouseClicked="#showSideMenu" stylesheets="@../css/@hamburger.css" />
-      <JFXComboBox fx:id="katalogeComboBox" focusColor="#408dd4" layoutX="25.0" layoutY="72.0" onMouseClicked="#katalogeLaden" prefHeight="25.0" prefWidth="1185.0" promptText="Fragekatalog" />
+      <JFXComboBox fx:id="katalogeComboBox" focusColor="#408dd4" layoutX="25.0" layoutY="72.0" onMouseClicked="#katalogeLaden" prefHeight="25.0" prefWidth="1126.0" promptText="Fragekatalog" />
       <JFXComboBox fx:id="themen" focusColor="#408dd4" layoutX="25.0" layoutY="109.0" onMouseClicked="#themengebieteLaden" prefHeight="25.0" prefWidth="383.0" promptText="Themengebiet" />
       <JFXRadioButton fx:id="nivalle" layoutX="475.0" layoutY="118.0" onMouseClicked="#fragenAnzeigen" selected="true" text=" ">
          <toggleGroup>
@@ -77,6 +78,5 @@
          </font>
       </Label>
       <JFXButton fx:id="uebersicht" buttonType="RAISED" layoutX="1217.0" layoutY="74.0" onMouseClicked="#uebersichtAnzeigen" prefHeight="25.0" prefWidth="89.0" ripplerFill="#408dd4" text="Übersicht" />
-      <JFXButton fx:id="notizien" buttonType="RAISED" layoutX="919.0" layoutY="22.0" onMouseClicked="#addNotizien" opacity="0.0" ripplerFill="#6e99b2" text="Notizien" />
    </children>
 </AnchorPane>
