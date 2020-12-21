@@ -953,10 +953,11 @@ public class PruefungController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		frageTabelle.getStylesheets().add("/css/@fragetabelle.css");
+//		frageTabelle.getStylesheets().add(this.getClass().getResource("../../../../css/@fragetabelle.css").toExternalForm());
+		frageTabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
 		frageStellung.setResizable(false);
 		gestellt.setResizable(false);
-		kompetenzlevelTabelle.getStylesheets().add("/css/@fragetabelle.css");
+		kompetenzlevelTabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
 		
 		
 		
