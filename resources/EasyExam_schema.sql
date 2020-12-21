@@ -35,7 +35,7 @@ Modul VARCHAR(255),
 grundLageNiveau VARCHAR(255),
 gut VARCHAR(255),
 sehrGut VARCHAR(255),
-Notizen text(500) null,
+Notizien text(500) null,
 Punkte_erreicht FLOAT null);
 
 CREATE TABLE Pruefung
