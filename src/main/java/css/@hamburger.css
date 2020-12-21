@@ -1,0 +1,7 @@
+.jfx-hamburger {
+	-fx-background-color: transparent;
+}
+
+.jfx-hamburger StackPane {
+	-fx-background-color: #ffffff;
+}

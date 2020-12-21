@@ -341,7 +341,7 @@ public class PruefungController implements Initializable {
 		frageStellungDetail.setEditable(false);
 		musterLoesungDetailliert.setText(frage.getMusterloesung());
 		musterLoesungDetailliert.setEditable(false);
-		punktZahlDetail.setText("   / " + frage.getPunkte());
+		punktZahlDetail.setText(""+frage.getPunkte());
 
 		grundlagenniveau.setCellValueFactory(new PropertyValueFactory<>("grundLageNiveau"));
 		gut.setCellValueFactory(new PropertyValueFactory<>("gut"));
@@ -952,6 +952,12 @@ public class PruefungController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		frageTabelle.getStylesheets().add("/css/@fragetabelle.css");
+		frageStellung.setResizable(false);
+		gestellt.setResizable(false);
+		kompetenzlevelTabelle.getStylesheets().add("/css/@fragetabelle.css");
+		
 		
 		
 		frageTabelle.setOnKeyPressed((KeyEvent ke) ->

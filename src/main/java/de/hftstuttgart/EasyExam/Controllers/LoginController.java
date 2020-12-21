@@ -125,7 +125,7 @@ public class LoginController implements Initializable {
 	void CheckBoxClick1(ActionEvent event) {
 
 		if (CheckBox1.isSelected()) {
-
+			
 		}
 
 	}

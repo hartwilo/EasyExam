@@ -20,9 +20,9 @@ public class Note {
 	FileChooser chooser;
 
 	
-	String path;
-	Image img;
 	
+	Image img;
+	String path;
 	
 	String text;
 	

@@ -8,20 +8,20 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#showQuestions" prefHeight="580.0" prefWidth="1039.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.UebersichtController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#showQuestions" prefHeight="643.0" prefWidth="1077.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.UebersichtController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="44.0" stroke="BLACK" strokeType="INSIDE" width="1039.0" />
-      <Label layoutX="29.0" layoutY="4.0" prefHeight="17.0" prefWidth="450.0" text="HFT-Stuttgart EasyExam" textFill="WHITE">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f54747" height="55.0" stroke="BLACK" strokeType="INSIDE" width="1077.0" />
+      <Label layoutX="21.0" layoutY="10.0" prefHeight="35.0" prefWidth="458.0" text="HFT-Stuttgart EasyExam" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="881.0" layoutY="4.0" prefHeight="35.0" prefWidth="127.0" text="Übersicht" textFill="WHITE">
+      <Label layoutX="928.0" layoutY="10.0" prefHeight="35.0" prefWidth="127.0" text="Übersicht" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TableView id="fragenTabelle" fx:id="fragetabelle" layoutX="23.0" layoutY="69.0" prefHeight="428.0" prefWidth="988.0">
+      <TableView id="fragenTabelle" fx:id="fragetabelle" layoutX="32.0" layoutY="82.0" prefHeight="471.0" prefWidth="1013.0" stylesheets="@../css/@fragetabelle.css">
          <columns>
             <TableColumn id="themaCol" fx:id="fxcolumn_thema" minWidth="0.0" prefWidth="96.0" text="Thema" />
             <TableColumn id="niveauCol" fx:id="fxcolumn_niveau" minWidth="0.0" prefWidth="108.0" text="Niveau" />
@@ -31,18 +31,21 @@
             <TableColumn fx:id="fxcolumn_erreichte_punkte" prefWidth="109.0" text="Erreichte Punkte" />
          </columns>
       </TableView>
-      <Label layoutX="37.0" layoutY="528.0" text="Bisher erreichte Niveau :">
+      <Label layoutX="32.0" layoutY="584.0" text="Bisher erreichte Niveau :">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="aktuellerNiveau" layoutX="410.0" layoutY="528.0" prefHeight="17.0" prefWidth="44.0" />
-      <Label fx:id="level" layoutX="196.0" layoutY="528.0" textFill="#ff9900">
+      <Label fx:id="aktuellerNiveau" layoutX="290.0" layoutY="584.0" prefHeight="17.0" prefWidth="44.0" />
+      <Label fx:id="level" layoutX="179.0" layoutY="584.0" prefHeight="17.0" prefWidth="127.0" textFill="#ff9900">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="erreichte_punkte" layoutX="909.0" layoutY="516.0" prefHeight="25.0" prefWidth="99.0" />
-      <Label layoutX="742.0" layoutY="528.0" text="Erreichte Punkte eingeben :" />
+      <JFXTextField fx:id="erreichte_punkte" focusColor="#408dd4" layoutX="946.0" layoutY="570.0" prefHeight="25.0" prefWidth="99.0" />
+      <Label layoutX="779.0" layoutY="582.0" text="Erreichte Punkte eingeben :">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
    </children>
 </AnchorPane>
