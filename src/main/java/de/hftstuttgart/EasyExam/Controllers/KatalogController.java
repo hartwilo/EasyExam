@@ -54,6 +54,9 @@ public class KatalogController {
 
 	@FXML
 	public Button frageLoeschen;
+	
+	@FXML
+	public Button frageBearbeiten;
 
 	@FXML
 	public Button katalogSpeichern;
@@ -268,6 +271,38 @@ public class KatalogController {
 	} else {
 		warnungAnzeigen("Ausgewählten Fragekatalog bitte überprüfen!");
 	}
+		
+	}
+	@FXML /*
+	 * Edit a question 
+	 */
+		void frageBearbeiten(MouseEvent event) throws IOException, SQLException {
+		
+		if(katalogNameTextField.getText().isEmpty() && katalogComboBox.getValue()==null) {
+			warnungAnzeigen("Bitte Fragekatalog auswählen!");
+			System.out.println("zweig1");
+		}
+		else if (katalogComboBox.getValue()==null) {
+			katalogName = katalogNameTextField.getText();
+			System.out.println("zweig2");
+			log.info("Adding question to: "+katalogName);
+			StartController.setWindow("Frageverwaltung");
+		}
+		else if (katalogNameTextField.getText().isEmpty()) {
+			katalogName = katalogComboBox.getValue();
+			System.out.println("zweig3");
+			log.info("Adding question to: "+katalogName);
+			StartController.setWindow("Frageverwaltung");
+		}
+		else if(katalogComboBox.getItems().contains(katalogNameTextField.getText())){
+		katalogName = katalogComboBox.getValue();
+		System.out.println("zweig4");
+		log.info("New Catalog creation in progress. Save new question to create "+katalogName);
+		log.info("Adding question to: "+katalogName);
+		StartController.setWindow("Frageverwaltung");
+		} else {
+		warnungAnzeigen("Ausgewählten Fragekatalog bitte überprüfen!");
+		}
 		
 	}
 
