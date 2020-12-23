@@ -47,6 +47,17 @@ class DBQueriesTest {
     String sehrGut="sehrGut";
     Frage frage = new Frage(fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul, grundLageNiveau, gut, sehrGut);
     
+    String fragestellung2 = "ab";
+    String musterloesung2 = "bc";
+    int niveau2 = 2;
+    float punkte3 = 2;
+    boolean gestellt3 = false;
+    String themengebiet2 = "Informatik";
+    String fragekatalog2 = "36";
+    String modul2 = "Prog2";
+    Frage frage3 = new Frage(fragestellung2, musterloesung2, niveau2, themengebiet2, fragekatalog2, punkte3, gestellt3, modul2, grundLageNiveau, gut, sehrGut);
+    
+    
 	
 	
 	/**
@@ -59,6 +70,8 @@ class DBQueriesTest {
         connection = TestDB.connection;
         db =new DBQueries(connection);
 	}
+	
+	
 	
 	/**
 	 * Test method for {@link DB.DBQueries#frageSpeichern(Frage frage)}.
@@ -78,7 +91,7 @@ class DBQueriesTest {
         	    boolean gestellt=false;
         	    String gestellt2="false";
         	    String themengebiet="Mathe";
-        	    String fragekatalog="35";
+        	    String fragekatalog="36";
         	    String modul="Mathe2";
         	    String grundLageNiveau="grundLageNiveau";
         	    String gut="gut";
@@ -120,6 +133,7 @@ class DBQueriesTest {
                             assertEquals(sehrGut, rs.getString("sehrGut"));
                     	}
                     }
+                    
                 }
                 catch(Exception e) {
                 	e.printStackTrace();
@@ -350,22 +364,22 @@ class DBQueriesTest {
 		
 		try {
 			db.frageSpeichern(frage);
+			db.frageSpeichern(frage3);
+
+				
+			
+			db.katalogLoeschen(frage.getFragekatalog());
+			db.katalogLoeschen(fragekatalog);
 			String query = "Select * From Frage";
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
-				
-			
-			db.katalogLoeschen(frage.getFragekatalog());
-			while(rs.next()) {
-				System.out.println(rs.getString("Fragekatalog"));
-				System.out.println(rs.getString("Fragestellung"));
-				System.out.println("testtest");
-			}
 			while (rs.next()){
-			assertNotEquals(frage.getFragekatalog(), rs.getString("Fragekatalog"));
-			}	
-				
+				assertNotEquals(frage.getFragekatalog(), rs.getString("Fragekatalog")); 
+				}
+			
+			//assertNotEquals(frage.getFragekatalog(), rs.getString("Fragekatalog"));
+		
 		
 		}
 		catch(SQLException e) {
