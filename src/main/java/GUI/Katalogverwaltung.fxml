@@ -35,6 +35,7 @@
             <Button id="katalogAnlegen" fx:id="katalogAnlegen" layoutX="926.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="26.0" prefWidth="50.0" text="+" />
             <TableView id="fragenTabelle" fx:id="fragetabelle" layoutX="16.0" layoutY="127.4000015258789" prefHeight="429.0" prefWidth="1012.0" stylesheets="@../css/@fragetabelle.css">
               <columns>
+              	<TableColumn fx:id="auswahl" prefWidth="51.99996566772461" text="Auswahl" />
                 <TableColumn id="frageStellungCol" fx:id="fxcolumn_fragestellung" maxWidth="1.7976931348623157E308" prefWidth="259.0" text="Fragestellung" />
                 <TableColumn id="punkteCol" fx:id="fxcolumn_punkte" minWidth="0.0" prefWidth="46.0" text="Punkte" />
                   <TableColumn id="themaCol" fx:id="fxcolumn_thema" minWidth="0.0" prefWidth="96.0" text="Thema" />

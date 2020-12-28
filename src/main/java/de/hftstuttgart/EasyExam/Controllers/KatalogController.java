@@ -1,8 +1,10 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import DB.DBConn;
@@ -24,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -99,6 +102,8 @@ public class KatalogController {
 	@FXML
 	private ComboBox<String> katalogComboBox;
 	
+	private boolean auswahl;
+	
 	static DBQueries dbQuery = new DBQueries(DBConn.connection);
 	public static String katalogName;
 	
@@ -106,6 +111,84 @@ public class KatalogController {
 	
 //////////////////Java Methods //////////////////////
 
+public void initialize(URL location, ResourceBundle resources) {
+		
+//		frageTabelle.getStylesheets().add(this.getClass().getResource("../../../../css/@fragetabelle.css").toExternalForm());
+		fragetabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
+		
+		
+		
+		fragetabelle.setOnKeyPressed((KeyEvent ke) ->
+        {
+        	
+        	Frage selected = new Frage();
+            switch (ke.getCode())
+      
+            {
+                case DOWN:
+                	
+                	selected = fragetabelle.getSelectionModel().getSelectedItem();
+                	auswahl = selected.isGestelltbool();
+                	
+                    ke.consume();
+                    break;
+               
+                case UP:
+                	selected = fragetabelle.getSelectionModel().getSelectedItem();
+                	auswahl = selected.isGestelltbool();
+                    ke.consume();
+                    break;
+                case ENTER:
+                	selected = fragetabelle.getSelectionModel().getSelectedItem();
+                	auswahl = selected.isGestelltbool();
+                	 if (auswahl) {
+             			try {
+             				selected.setGestelltbool(false);
+             			} catch (Exception e) {
+             				e.printStackTrace();
+             			}
+             		} else {
+             			try {
+             				selected.setGestelltbool(true);
+             			} catch (Exception e) {
+             				e.printStackTrace();
+             			}
+
+             		}
+                    ke.consume();
+                    break;
+                default:
+                    break;
+            }
+        });
+		}
+		public Frage get_selected_question() {
+		
+			try {
+				Boolean gestellt = fragetabelle.getSelectionModel().getSelectedItem().isGestelltbool();
+				int id = fragetabelle.getSelectionModel().getSelectedItem().getID();
+				int niv = fragetabelle.getSelectionModel().getSelectedItem().getNiveau();
+				float punkte = (float) fragetabelle.getSelectionModel().getSelectedItem().getPunkte();
+				String stellung = fragetabelle.getSelectionModel().getSelectedItem().getFrageStellung();
+				String loesung = fragetabelle.getSelectionModel().getSelectedItem().getMusterloesung();
+				String fragekatalog = fragetabelle.getSelectionModel().getSelectedItem().getFragekatalog();
+				String modul = fragetabelle.getSelectionModel().getSelectedItem().getModul();
+				String grundlage = fragetabelle.getSelectionModel().getSelectedItem().getGrundLageNiveau();
+				String gut = fragetabelle.getSelectionModel().getSelectedItem().getGut();
+				String sehrGut = fragetabelle.getSelectionModel().getSelectedItem().getSehrGut();
+				String themengebiet = fragetabelle.getSelectionModel().getSelectedItem().getThemengebiet();
+				
+		
+				return new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul, grundlage,
+						gut, sehrGut);
+		
+			} catch (Exception e) {
+				log.warning("No question from table selected, details cant be read!");
+				return null;
+			}
+		
+		}
+	
 
 // This method loads relevant question data into a ViewTable in the GUI
 	public void fragenAnzeigen() throws SQLException {
@@ -282,26 +365,27 @@ public class KatalogController {
 			warnungAnzeigen("Bitte Fragekatalog auswählen!");
 			System.out.println("zweig1");
 		}
-		else if (katalogComboBox.getValue()==null) {
+		/*else if (katalogComboBox.getValue()==null) {
 			katalogName = katalogNameTextField.getText();
 			System.out.println("zweig2");
 			log.info("Adding question to: "+katalogName);
 			StartController.setWindow("Frageverwaltung");
-		}
+			if(auswahl==true) {
+				warnungAnzeigen("Bitte Frage auswählen");
+			
+		}*/
 		else if (katalogNameTextField.getText().isEmpty()) {
-			katalogName = katalogComboBox.getValue();
-			System.out.println("zweig3");
-			log.info("Adding question to: "+katalogName);
-			StartController.setWindow("Frageverwaltung");
-		}
-		else if(katalogComboBox.getItems().contains(katalogNameTextField.getText())){
-		katalogName = katalogComboBox.getValue();
-		System.out.println("zweig4");
-		log.info("New Catalog creation in progress. Save new question to create "+katalogName);
-		log.info("Adding question to: "+katalogName);
-		StartController.setWindow("Frageverwaltung");
-		} else {
-		warnungAnzeigen("Ausgewählten Fragekatalog bitte überprüfen!");
+			if(auswahl==true) {
+				warnungAnzeigen("Bitte Frage auswählen");
+			}
+			else {
+				katalogName = katalogComboBox.getValue();
+				System.out.println("zweig3");
+				log.info("Update Question from: "+katalogName);
+				Frage frageUpdate = new Frage();
+				FragebearbeitungController.setFrage(frageUpdate);
+				StartController.setWindow("Fragebearbeitung");
+			}
 		}
 		
 	}
