@@ -36,7 +36,7 @@ public class Main extends Application {
 		Main.scene = new Scene(root);
 		Main.scene.setRoot(root);
 		mainWindow.setScene(scene);
-		Main.mainWindow.setResizable(false); 
+		Main.mainWindow.setResizable(true); 
 		
 		/*
 		 * The current View - Windows are always set to a fixed Size -> TO-DO: Make GUI
