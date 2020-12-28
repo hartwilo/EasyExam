@@ -42,6 +42,8 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -206,10 +208,18 @@ public class PruefungController implements Initializable {
 	 * @FXML private Button pdfErstellen;
 	 */
 
-
-
+	// Switches
 	@FXML
 	private JFXToggleButton ask_switch;
+
+	@FXML
+	private JFXToggleButton grundlage_switch;
+
+	@FXML
+	private JFXToggleButton gut_switch;
+
+	@FXML
+	private JFXToggleButton sehrgut_switch;
 
 	// JFoenix Compontents
 	@FXML
@@ -952,15 +962,70 @@ public class PruefungController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-//		frageTabelle.getStylesheets().add(this.getClass().getResource("../../../../css/@fragetabelle.css").toExternalForm());
-		frageTabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
-		frageStellung.setResizable(false);
-		gestellt.setResizable(false);
-		kompetenzlevelTabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
-		
-		
-		
+
+		// Handle achieved points by switching the toggle for grundlageNiveau on/off
+		grundlage_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
+
+				Frage frage = get_selected_question();
+
+				if (oldValue == false && newValue == true) {
+					frage.setErreichtePunkte((float) (frage.getPunkte() * 0.15));
+					gut_switch.selectedProperty().set(false);
+					sehrgut_switch.selectedProperty().set(false);
+
+				} else {
+					frage.setErreichtePunkte(0);
+				}
+
+				System.out.println(frage.getErreichtePunkte());
+
+			}
+		});
+
+		// Handle achieved points by switching the toggle for gut on/off
+		gut_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
+				Frage frage = get_selected_question();
+
+				if (oldValue == false && newValue == true) {
+					frage.setErreichtePunkte((float) (frage.getPunkte() * 0.45));
+					grundlage_switch.selectedProperty().set(false);
+					sehrgut_switch.selectedProperty().set(false);
+
+				} else {
+					frage.setErreichtePunkte(0);
+				}
+				System.out.println(frage.getErreichtePunkte());
+
+			}
+		});
+
+		// Handle achieved points by switching the toggle for gut on/off
+		sehrgut_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
+				Frage frage = get_selected_question();
+
+				if (oldValue == false && newValue == true) {
+					frage.setErreichtePunkte((float) (frage.getPunkte()));
+					grundlage_switch.selectedProperty().set(false);
+					gut_switch.selectedProperty().set(false);
+
+				} else {
+					frage.setErreichtePunkte(0);
+				}
+				System.out.println(frage.getErreichtePunkte());
+
+			}
+		});
+
+		// Navigate frageTabelle with the arrow keys and ENTER button
 		frageTabelle.setOnKeyPressed((KeyEvent ke) ->
         {
         	
