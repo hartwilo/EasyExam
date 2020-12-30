@@ -35,14 +35,15 @@ public class DBQueries {
 	} 
 	
 	
-	public int erreichte_punkte_speichern(Frage frage, double punkte) throws SQLException {
+	public void erreichte_punkte_speichern(Frage frage, double punkte) throws SQLException {
+		connection.setAutoCommit(true);
 		String query = "update Frage set Punkte_erreicht = ? where idFrage = ?";
 		PreparedStatement preparedStmt = connection.prepareStatement(query);
 		
 		preparedStmt.setDouble(1, punkte);
 		preparedStmt.setInt(2, frage.getID());
-		
-		return preparedStmt.executeUpdate();
+		log.info("Last query: "+ preparedStmt);
+		preparedStmt.executeUpdate();
 	}
 	
 	
@@ -182,7 +183,7 @@ public class DBQueries {
 	}
 	
 	public ResultSet studentenLaden() throws SQLException {
-		connection.setAutoCommit(false);
+		connection.setAutoCommit(true);
 		Statement stmt = connection.createStatement();
 		String query = "Select * FROM Student";
 		
@@ -405,11 +406,15 @@ public class DBQueries {
 		log.info("Last query: " + query);
 		return stmt.executeUpdate(query);
 	}
-	
-	public ResultSet select_erreichte_punkte(Frage frage) throws SQLException {
-		String query = "SELECT * FROM Frage WHERE idFrage = " +frage.getID();
-		Statement stmt = connection.createStatement();		
-		return DBQueries.rs = stmt.executeQuery(query);
+
+	public Float select_erreichte_punkte(Frage frage) throws SQLException {
+		String query = "SELECT Punkte_erreicht FROM Frage WHERE idFrage = " + frage.getID();
+		Statement stmt = connection.createStatement();
+		DBQueries.rs = stmt.executeQuery(query);
+		if (DBQueries.rs.next()) {
+			return DBQueries.rs.getFloat("Punkte_erreicht");
+		} else
+			return null;
 	}
 
 	/**
@@ -436,9 +441,15 @@ public class DBQueries {
 		String query_notes = "UPDATE Frage SET Notizien = null";
 		String query_erreichte_punkte = "UPDATE Frage SET Punkte_erreicht = 0";
 		
-		stmt.executeUpdate(query_gestellt);
-		stmt.executeUpdate(query_notes);
-		stmt.executeUpdate(query_erreichte_punkte);
+		
+		int a = stmt.executeUpdate(query_gestellt);
+		if (a == 1)log.info("Res bool: " +stmt);
+		int b = stmt.executeUpdate(query_notes);
+		if (b == 1)log.info("Res Notes: " +stmt);
+		int c =stmt.executeUpdate(query_erreichte_punkte);
+		//System.out.print("c = " +c);
+		if (c == 1)log.info("Res ERP: " +stmt);
+	
 		
 	}
 	

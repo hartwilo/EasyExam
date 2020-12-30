@@ -27,7 +27,7 @@ public class Main extends Application {
 		showMainView();
 
 	}
-
+ 
 	private void showMainView() throws IOException {
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/GUI/Login.fxml"));
