@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -18,6 +19,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.controlsfx.control.PopOver;
 
@@ -521,6 +523,48 @@ public class PruefungController implements Initializable {
 		return studenten;
 
 	}
+	
+public void writeExcel(int note) throws IOException {
+		
+		double matrk = 654321;
+		String xlsxPath = select_file();
+		int testNote = 170;
+		
+		InputStream inp = new FileInputStream(xlsxPath); 
+	    Workbook wb = WorkbookFactory.create(inp); 
+	    Sheet sheet = wb.getSheetAt(0); 
+	    Row row;
+	    
+	    	for(int rowIndex = 4; rowIndex <= 6; rowIndex++) {
+	    		 row = sheet.getRow(rowIndex);
+	    		
+	    				 if (row != null) {
+	    					    Cell cell = row.getCell(0);
+	    					    if (cell != null) {
+	    					      // Found column and there is value in the cell.
+	    					      double cellValueMaybeNull = cell.getNumericCellValue();
+	    					    	//String cellValueMaybeNull = cell.getStringCellValue();
+	    					    	//int matrikel = Integer.parseInt(cellValueMaybeNull);
+	    					      System.out.println(cellValueMaybeNull);
+	    					    	if(cellValueMaybeNull == matrk) {	    					    	 
+	    					    	  Cell cellNeu = row.getCell(6);
+	    					    	  System.out.println("CellNeu: "+cellNeu);
+	    					    	  cellNeu.setCellValue(note);
+	    					    	  System.out.println("Note: "+note);
+	    					      } 
+	    					      // Do something with the cellValueMaybeNull here ...
+	    					      // break; ???
+	    					    }
+	    					  }		
+	    	}
+	   
+	     
+	    FileOutputStream fileOut = new FileOutputStream("wb.xls"); 
+	    wb.write(fileOut); 
+	    fileOut.close(); }
+	
+	
+	
 	
 
 	////////////// FXML Methods ///////////////////
@@ -1044,7 +1088,11 @@ public class PruefungController implements Initializable {
 						case "Protokollieren":
 							try {
 								protokollieren();
+								writeExcel(170);
 							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
