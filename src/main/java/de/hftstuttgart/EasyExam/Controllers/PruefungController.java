@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -19,7 +18,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.controlsfx.control.PopOver;
 
@@ -395,7 +393,7 @@ public class PruefungController implements Initializable {
 
 
 	}
-    
+
 	// Reads all students in a .xls file and returns an observable list of these students
 	public ObservableList<Student> readFromXls(String xlsPath) throws SQLException, IOException {
 		
@@ -523,40 +521,6 @@ public class PruefungController implements Initializable {
 		return studenten;
 
 	}
-	
-public void writeExcel(int note, String xlsxPath) throws IOException {
-		
-		int matrk = 654321;
-		xlsxPath = select_file();
-		int testNote = 170;
-		
-		InputStream inp = new FileInputStream(xlsxPath); 
-	    Workbook wb = WorkbookFactory.create(inp); 
-	    Sheet sheet = wb.getSheetAt(1); 
-	    Row row;
-	    
-	    	for(int rowIndex = 0; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
-	    		 row = sheet.getRow(rowIndex);
-	    				 if (row != null) {
-	    					    Cell cell = row.getCell(0);
-	    					    if (cell != null) {
-	    					      // Found column and there is value in the cell.
-	    					      double cellValueMaybeNull = cell.getNumericCellValue();
-	    					      if(cellValueMaybeNull == matrk) {
-	    					    	  Row rowNote = sheet.getRow(rowIndex);
-	    					    	  Cell cellNeu = rowNote.getCell(6);
-	    					    	  cellNeu.setCellValue(note);
-	    					      }
-	    					      // Do something with the cellValueMaybeNull here ...
-	    					      // break; ???
-	    					    }
-	    					  }		
-	    	}
-	   
-	     
-	    FileOutputStream fileOut = new FileOutputStream("wb.xls"); 
-	    wb.write(fileOut); 
-	    fileOut.close(); }
 	
 
 	////////////// FXML Methods ///////////////////
@@ -1079,11 +1043,11 @@ public void writeExcel(int note, String xlsxPath) throws IOException {
 							break;
 						case "Protokollieren":
 							try {
-								protokollieren();								
+								protokollieren();
 							} catch (SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							} 
+							}
 							break;
 						case "StudentenImportieren":
 							try {
