@@ -42,6 +42,7 @@ CREATE TABLE Pruefung
 (idPruefung INTEGER PRIMARY KEY,
 Bezeichnung VARCHAR(45) NOT NULL,
 Note FLOAT,
+Punkte_gesamt FLOAT null,
 Fragekatalog_fk INTEGER,
 Matrikelnr INTEGER,
 PersNr INTEGER,
