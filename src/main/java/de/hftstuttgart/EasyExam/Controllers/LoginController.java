@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +31,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -37,9 +40,8 @@ import javafx.scene.input.MouseEvent;
  *
  */
 public class LoginController implements Initializable {
-	
-	static FXMLLoader loader;
 
+	static FXMLLoader loader;
 	ResetPasswordController rpController = new ResetPasswordController();
 
 	@FXML
@@ -71,6 +73,12 @@ public class LoginController implements Initializable {
 
 	@FXML
 	private JFXPasswordField PasswordField;
+
+	@FXML
+	private Label showPasswordIcon;
+
+	@FXML
+	private Label hidePasswordIcon;
 
 	@FXML
 	private Label lblErrors;
@@ -110,18 +118,58 @@ public class LoginController implements Initializable {
 		}
 	}
 
+	// Check if Login is successful "Enter press"
+	@FXML
+	void LoginWithEnter(KeyEvent event) {
+		PasswordField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				if (event.getCode().equals(KeyCode.ENTER)) {
+
+					if (LogIn().equals("Login ist erfolgreich")) {
+						try {
+							Node node = (Node) event.getSource();
+							Stage stage = (Stage) node.getScene().getWindow();
+							stage.close();
+
+							Scene scene = new Scene(loader.load());
+							stage.setScene(scene);
+							stage.show();
+
+						} catch (IOException e) {
+
+							System.err.println(e.getMessage());
+						}
+					}
+				}
+			}
+		});
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung2.fxml"));
-
+		showPasswordIcon.setVisible(false);
 	}
 
-	// show password if checkBox is selected // Noch nicht implementiert//
+	// show password if checkBox is selected
 	@FXML
 	void CheckBoxClick1(ActionEvent event) {
 
 		if (CheckBox1.isSelected()) {
+			hidePasswordIcon.setVisible(false);
+			showPasswordIcon.setVisible(true);
+			PasswordField.setPromptText(PasswordField.getText());
+			PasswordField.setText("");
+			PasswordField.setDisable(true);
 
+		} else {
+			showPasswordIcon.setVisible(false);
+			hidePasswordIcon.setVisible(true);
+			PasswordField.setText(PasswordField.getPromptText());
+			PasswordField.setPromptText("");
+			PasswordField.setDisable(false);
 		}
 
 	}
@@ -178,7 +226,7 @@ public class LoginController implements Initializable {
 
 	}
 
-	// Methods for Junit Testing 
+	// Methods for Junit Testing
 	public String LogInWithTestDBConn(Connection connection, String email, String password) {
 
 		String eMail = email;
@@ -216,5 +264,5 @@ public class LoginController implements Initializable {
 		}
 
 	}
-	
+
 }
