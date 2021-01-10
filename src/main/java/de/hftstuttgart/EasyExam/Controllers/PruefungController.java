@@ -103,7 +103,7 @@ public class PruefungController implements Initializable {
 	public StringProperty nName = new SimpleStringProperty();
 	public StringProperty mNr = new SimpleStringProperty();
 	
-	Student studi = new Student();
+	Student studie = new Student();
 	
 	int selected_table_row; 
 
@@ -642,7 +642,7 @@ public class PruefungController implements Initializable {
 		studName.textProperty().bind(vName);
 		matNr.textProperty().bind(mNr);
 		
-		studi = student;
+		studie = student;
 		
 
 	}
@@ -968,7 +968,7 @@ public class PruefungController implements Initializable {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("");
 				alert.setHeaderText(null);
-				alert.setContentText("Möchten Sie notizien hinfügen?");
+				alert.setContentText("Möchten Sie Notizen hinfügen?");
 
 				PDFCreate.addMetaData(pdfDocument);
 				PDFCreate.addTitlePage(pdfDocument, fragen, studCon.globStud, logCon.globPruef);
