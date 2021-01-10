@@ -93,6 +93,11 @@ public class UebersichtController implements Initializable {
     @FXML
     private Label level;
     
+    /**
+	 * Create a frage.obj from the selected question in the View Table
+	 * 
+	 * @return
+	 */
     public Frage get_selected_question() {
     	try {
 			Boolean gestellt = fragetabelle.getSelectionModel().getSelectedItem().isGestelltbool();
@@ -118,7 +123,11 @@ public class UebersichtController implements Initializable {
 		}
     }
     
-
+    /**
+     * The method opens the overview screen
+     * 
+     * @throws IOException
+     */
 	public void show() throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(getClass().getResource("/GUI/Uebersicht.fxml"));
@@ -134,7 +143,12 @@ public class UebersichtController implements Initializable {
 
 	/////////// Java Methods ////////////////////
 
-	// Show all asked questions in the table
+	
+	/**
+	 * Show all asked questions in the table
+	 * 
+	 * @throws SQLException
+	 */
 	public void uebersicht() throws SQLException {
 		ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 
@@ -152,7 +166,13 @@ public class UebersichtController implements Initializable {
 		
 	}
 
-	// Fill an observable list with questions from the DBQueries Result Set
+	
+	/**
+	 * Fill an observable list with questions from the DBQueries Result Set
+	 * 
+	 * @param fragen ObservableList with Frage objects 
+	 * @throws SQLException
+	 */
 	public void fillList(ObservableList<Frage> fragen) throws SQLException {
 		while (DBQueries.rs.next()) {
 			// Prep variables for Frage constructor
@@ -176,7 +196,12 @@ public class UebersichtController implements Initializable {
 		}
 	}
 
-	// Set up table and columns and start displaying list
+	
+	/**
+	 * Set up table and columns and start displaying list
+	 * 
+	 * @param fragen ObservableList with Frage objects 
+	 */
 	public void showInUebersichtTable(ObservableList<Frage> fragen) {
 		
 		fxcolumn_fragestellung
@@ -199,7 +224,11 @@ public class UebersichtController implements Initializable {
 	}
 	
 
-
+	/**
+	 * The method is used to determinate the level
+	 * 
+	 * @throws SQLException
+	 */
 	public void niveauBerechnen() throws SQLException {
 		//aktuellerNiveau.textProperty().bind(niv);
 		String katalogName = PruefungController.katalogName;
@@ -237,6 +266,10 @@ public class UebersichtController implements Initializable {
 
 	}
 	
+	/**
+	 * The method sets the points to the question
+	 * 
+	 */
 	public void set_erreichte_punkte() {
 		
 		try {
@@ -255,7 +288,12 @@ public class UebersichtController implements Initializable {
 	///////////////// FXML Methods ////////////////////
 	
 	
-
+	/**
+	 * The method shows all questions 
+	 * 
+	 * @param event
+	 * @throws SQLException
+	 */
 	@FXML
 	void showQuestions(MouseEvent event) throws SQLException {
 		uebersicht();
@@ -263,14 +301,24 @@ public class UebersichtController implements Initializable {
 	}
 
 	/////////////// Testing Methods ////////////////////
+	
 	@FXML
 	private Button test;
 
+	/**
+	 * The method tests the method niveauBerechnen
+	 * 
+	 * @param event
+	 * @throws SQLException
+	 */
 	@FXML
 	void test(MouseEvent event) throws SQLException {
 		niveauBerechnen();
 	}
 
+	/**
+	 * initialize
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		

@@ -62,13 +62,23 @@ public class StudentController implements Initializable{
     @FXML
     private Button selektieren;
     
-    
+    /**
+     * The method display students 
+     * 
+     * @param event MouseEvent 
+     * @throws SQLException
+     */
     @FXML
     void studentenAnzeigen(MouseEvent event) throws SQLException {  	
     	displayStudents();
    	
     }
     
+    /**
+     * The method is used to select a student 
+     * 
+     * @param event MouseEvent 
+     */
 	@FXML
 	void studentSelektieren(MouseEvent event) {
 		
@@ -86,7 +96,11 @@ public class StudentController implements Initializable{
 		}
 	}
     
-	
+	/**
+	 * The method is used to create a student object and return the selected student 
+	 * 
+	 * @return selected Student object 
+	 */
 	public Student select() {
 		
 		
@@ -116,7 +130,11 @@ public class StudentController implements Initializable{
 		}
 	}
     
-    
+    /**
+     * The method is used to load and show students 
+     * 
+     * @throws SQLException
+     */
     public void displayStudents() throws SQLException {
 		ObservableList<Student> studenten = FXCollections.observableArrayList();
 		
@@ -128,7 +146,12 @@ public class StudentController implements Initializable{
 		
 	}
 
-	// Fill an observable list with questions from the DBQueries Result Set
+    /**
+     * Fill an observable list with questions from the DBQueries Result Set
+     * 
+     * @param studenten observaleList with student objects 
+     * @throws SQLException
+     */
 	public void fillList(ObservableList<Student> studenten) throws SQLException {
 		while (DBQueries.rs.next()) {
 			// Prep variables for Frage constructor
@@ -141,8 +164,12 @@ public class StudentController implements Initializable{
 			studenten.add(new Student(matnr, vorname, nachname, semester, studiengang));
 		}
 	}
-
-	// Set up table and columns and start displaying list
+ 
+	/**
+	 * Set up table and columns and start displaying list
+	 * 
+	 * @param studenten ObservableList with student objects 
+	 */
 	public void showInTable(ObservableList<Student> studenten) {
 		
 		fxcolumn_matnr
@@ -161,7 +188,11 @@ public class StudentController implements Initializable{
 		
 	}
 	
-	
+	/**
+	 * The method opens the Studenten screen which shows all students 
+	 * 
+	 * @throws IOException
+	 */
 	public void show() throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(getClass().getResource("/GUI/Studenten.fxml"));
@@ -183,6 +214,9 @@ public class StudentController implements Initializable{
 
 	}
 
+	/**
+	 * initialize 
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
