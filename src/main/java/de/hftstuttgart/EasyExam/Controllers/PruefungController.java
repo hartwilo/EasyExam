@@ -102,6 +102,8 @@ public class PruefungController implements Initializable {
 	public StringProperty nName = new SimpleStringProperty();
 	public StringProperty mNr = new SimpleStringProperty();
 	
+	Student studie = new Student();
+	
 	int selected_table_row; 
 
 	@FXML
@@ -637,6 +639,9 @@ public class PruefungController implements Initializable {
 
 		studName.textProperty().bind(vName);
 		matNr.textProperty().bind(mNr);
+		
+		studi = student;
+		
 
 	}
 
