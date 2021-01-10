@@ -91,7 +91,7 @@ public class PDFCreate {
 	        
 	        addEmptyLine(preface, 1);
 	        // Überschrift - Pruefungsname / Katalogname
-	        preface.add(new Paragraph("Prüfung TEST", catFont));
+	        preface.add(new Paragraph(conn.frageKatalog, catFont));
 	        
 	        addEmptyLine(preface, 1);
 	        // Pruefer, Student, Datum
