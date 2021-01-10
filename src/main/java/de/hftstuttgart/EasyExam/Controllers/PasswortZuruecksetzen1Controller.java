@@ -70,11 +70,12 @@ public class PasswortZuruecksetzen1Controller implements Initializable {
 		if (NeuesPasswort.getText().equals(PasswortWiederholung.getText())) {
 			try {
 
-				String updateQuery = "UPDATE Pruefer SET Passwort = ? where eMail ="+user+"";
+				String updateQuery = "UPDATE Pruefer SET Passwort = ? where eMail =?";
 
 				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC","root","Bachir1991");
 			    stmt = conn.prepareStatement(updateQuery);
 				stmt.setString(1, PasswortWiederholung.getText());
+				stmt.setString(2, eMail.getText());
 				stmt.executeUpdate();
 
 				System.out.println("Passwort wurde erfolgreich geändert");

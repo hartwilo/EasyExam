@@ -167,7 +167,13 @@ public class ResetPasswordController extends PasswortZuruecksetzen1Controller {
 			message.setFrom(new InternetAddress(from));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			message.setSubject("Passwort zurücksetzen");
-			message.setText("Hallo XY ,\n hier ist Ihre Code:" + randomCode);
+			message.setText("Hallo,"+
+					        "\nhier ist Ihre Verifizierungscode: " + randomCode+"\n"+
+					        "Diese E-Mail wurde automatisch generiert"+"\n"+
+					        "Sollten Sie das Zurücksetzen Ihrer Zugangsdaten naicht angefordert haben, betrachten Sie diese E-Mail"+"\n"+
+					        "bitte als gegenstandslos"+"\n"+"\n"+
+					        "Mit freundlichen Grüßen,"+"\n"+
+					        "Ihr EasyExam Team");
 			return message;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
