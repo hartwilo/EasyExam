@@ -18,6 +18,7 @@ import com.jfoenix.controls.JFXTextField;
 import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Main.Main;
+import de.hftstuttgart.EasyExam.Models.Pruefer;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -39,6 +40,14 @@ import javafx.scene.input.MouseEvent;
 public class LoginController implements Initializable {
 	
 	static FXMLLoader loader;
+	
+	private String eMail;
+	private String Password;
+	private String vergleichsPW;
+	public Pruefer pruefer;
+	public static Pruefer globPruef = null;
+
+	
 
 	ResetPasswordController rpController = new ResetPasswordController();
 
@@ -101,6 +110,8 @@ public class LoginController implements Initializable {
 					Scene scene = new Scene(loader.load());
 					stage.setScene(scene);
 					stage.show();
+					
+					
 
 				} catch (IOException e) {
 
@@ -131,16 +142,20 @@ public class LoginController implements Initializable {
 //	conn = DBConn.connection;
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
+	
+	
 
 	// Method to check the login data in the DB
-	private String LogIn() {
+	public String LogIn() {
 
-		String eMail = UsernameTextField.getText().toString();
-		String Password = PasswordField.getText().toString();
-		String vergleichsPW = null;
+		eMail = UsernameTextField.getText().toString();
+		Password = PasswordField.getText().toString();
+		vergleichsPW = null;
+		
 
 		try {
 			resultSet = dbQueries.getLoginData(eMail);
+			
 
 			if (!resultSet.next()) {
 				lblErrors.setTextFill(Color.TOMATO);
@@ -157,8 +172,18 @@ public class LoginController implements Initializable {
 					System.err.println("Login Error");
 					return "Error";
 				} else {
+					System.out.println("akt. Email: " + eMail);
+					System.out.println("Conn: " + DBConn.connection.toString());
+					try{
+						globPruef = dbQueries.getPruefer(eMail);
+						System.out.println(globPruef.getVorname() + " " + globPruef.getNachname());
+					}catch(Exception e) {
+						e.toString();
+					}
 					return "Login ist erfolgreich";
+					
 				}
+				
 
 			}
 
@@ -167,6 +192,7 @@ public class LoginController implements Initializable {
 			return "Exception";
 
 		}
+		
 
 	}
 
@@ -177,13 +203,16 @@ public class LoginController implements Initializable {
 		rpController.show();
 
 	}
+	
+
+	
 
 	// Methods for Junit Testing 
 	public String LogInWithTestDBConn(Connection connection, String email, String password) {
 
-		String eMail = email;
-		String Password = password;
-		String vergleichsPW = null;
+		eMail = email;
+		Password = password;
+		vergleichsPW = null;
 
 		try {
 			DBQueries db = new DBQueries(connection);
@@ -216,5 +245,20 @@ public class LoginController implements Initializable {
 		}
 
 	}
+
+	public String geteMail() {
+		return eMail;
+	}
+
+
+	public String getPassword() {
+		return Password;
+	}
+
+
+	public String getVergleichsPW() {
+		return vergleichsPW;
+	}
+	
 	
 }

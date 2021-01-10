@@ -86,7 +86,7 @@ public class PDFCreate {
 	  * @throws DocumentException
 	  */
 	 
-	 public static void addTitlePage(Document pdfDocument, ObservableList<Frage> fragen) throws DocumentException {
+	 public static void addTitlePage(Document pdfDocument, ObservableList<Frage> fragen, Student student, Pruefer pruefer) throws DocumentException {
 	        Paragraph preface = new Paragraph();
 	        
 	        addEmptyLine(preface, 1);
@@ -95,7 +95,7 @@ public class PDFCreate {
 	        
 	        addEmptyLine(preface, 1);
 	        // Pruefer, Student, Datum
-	        preface.add(new Paragraph("Pruefer: Pruefer einfügen "+"; " + "Student: Student einfügen "+ "; " + new Date(), smallBold));
+	        preface.add(new Paragraph("Pruefer: "+ pruefer.getVorname() + " "+ pruefer.getNachname() +"; " + " Student: "+ student.getMatrikelnr() + ", "+ student.getVorname() + " " + student.getNachname() +  "; " + new Date(), smallBold));
 	        
 	        addEmptyLine(preface, 10);
 	        

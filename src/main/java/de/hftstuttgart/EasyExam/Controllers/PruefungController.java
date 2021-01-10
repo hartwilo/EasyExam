@@ -88,6 +88,9 @@ public class PruefungController implements Initializable {
 
 	// Database related variables
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
+	StudentController studCon = new StudentController();
+	LoginController logCon = new LoginController();
+	
 
 	public static String katalogName; // remove ?
 	public static ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
@@ -792,15 +795,16 @@ public class PruefungController implements Initializable {
 			String path = file.getAbsolutePath();
 
 			try {
-
+				
 				Document document = new Document();
 				FileOutputStream fos = new FileOutputStream(path);
 				PdfWriter.getInstance(document, fos);
 				
+				
 				document.open();
 				
 				PDFCreate.addMetaData(document);
-				PDFCreate.addTitlePage(document, fragen);
+				PDFCreate.addTitlePage(document, fragen, studCon.selectedStudent, LoginController.globPruef);
 				PDFCreate.add_questions(document, fragen);
 
 				document.close();
@@ -864,7 +868,7 @@ public class PruefungController implements Initializable {
 				alert.setContentText("Möchten Sie notizien hinfügen?");
 
 				PDFCreate.addMetaData(pdfDocument);
-				PDFCreate.addTitlePage(pdfDocument, fragen);
+				PDFCreate.addTitlePage(pdfDocument, fragen, studCon.selectedStudent, logCon.globPruef);
 				PDFCreate.add_questions(pdfDocument, fragen);
 
 				// Ok -> Yes
@@ -886,6 +890,7 @@ public class PruefungController implements Initializable {
 				
 
 				pdfDocument.close();
+				System.out.println(logCon.globPruef.getNachname()+logCon.globPruef.getVorname());
 				fos.close();
 				//Reset fields for gestellt and notes after exam is over and protocolled
 				dbQuery.reset();

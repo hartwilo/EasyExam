@@ -8,14 +8,19 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import com.mysql.cj.x.protobuf.MysqlxSql.StmtExecute;
+
+import de.hftstuttgart.EasyExam.Controllers.LoginController;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.Note;
+import de.hftstuttgart.EasyExam.Models.Pruefer;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+
 
 public class DBQueries {
 
@@ -446,6 +451,18 @@ public class DBQueries {
 		Statement stmt = connection.createStatement();
 		String query = "SELECT eMail, Passwort FROM pruefer WHERE eMail=" + "'" + email + "'";
 		return stmt.executeQuery(query);
+	}
+	
+	public Pruefer getPruefer (String prueferMail) throws SQLException {
+		
+			Statement stmt = connection.createStatement();
+			String query = "SELECT PersNr, Nachname, Vorname from Pruefer WHERE email = " + "'" + prueferMail + "'";
+			ResultSet rs = stmt.executeQuery(query);
+			Pruefer pruefer = null;
+			while(rs.next()) {	
+			pruefer = new Pruefer(rs.getInt("PersNr"), rs.getString("Nachname"), rs.getString("Vorname"));
+			}
+			return pruefer;
 	}
 
 	

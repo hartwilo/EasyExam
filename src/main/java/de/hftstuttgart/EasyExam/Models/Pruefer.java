@@ -1,5 +1,12 @@
 package de.hftstuttgart.EasyExam.Models;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+
+import com.itextpdf.text.log.SysoCounter;
+
+import DB.DBQueries;
+
 public class Pruefer {
 
 	private int persNr;
@@ -25,7 +32,10 @@ public class Pruefer {
 		this.eMail = eMail;
 		this.passwort = passwort;
 	}
-
+	
+	public Pruefer() {
+		
+	};
 
 
 	public int getPersNr() {
