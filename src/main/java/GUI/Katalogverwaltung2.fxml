@@ -43,6 +43,7 @@
               </columns>
             </TableView>
             <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="767.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="26.0" prefWidth="78.0" text="Neue Frage" />
+            <Button id="frageBearbeiten" fx:id="frageBearbeiten" layoutX="682" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageBearbeiten" prefHeight="26.0" prefWidth="78.0" text="Frage bearbeiten" />
             <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="864.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
             <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="62.0" onAction="#katalogNameLesen" prefHeight="26.0" prefWidth="961.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
             <Button fx:id="frageLoeschen" layoutX="949.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageLoeschen" prefHeight="26.0" prefWidth="78.0" text="Löschen" />
