@@ -111,10 +111,16 @@ public class KatalogController {
 	
 //////////////////Java Methods //////////////////////
 
+	/**
+	 * method to initialize the window
+	 * 
+	 * @param location URL
+	 * @param resources ResourceBundle 
+	 */
 public void initialize(URL location, ResourceBundle resources) {
 		
 //		frageTabelle.getStylesheets().add(this.getClass().getResource("../../../../css/@fragetabelle.css").toExternalForm());
-		fragetabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
+//		fragetabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
 		
 		
 		
@@ -162,6 +168,12 @@ public void initialize(URL location, ResourceBundle resources) {
             }
         });
 		}
+
+		/**
+		 * The method initializes the selected question 
+		 * 
+		 * @return selected Question 
+		 */
 		public Frage get_selected_question() {
 		
 			try {
@@ -190,12 +202,16 @@ public void initialize(URL location, ResourceBundle resources) {
 		}
 	
 
-// This method loads relevant question data into a ViewTable in the GUI
+	/**
+	 * This method loads relevant question data into a ViewTable in the GUI
+	 * 
+	 * @throws SQLException
+	 */
 	public void fragenAnzeigen() throws SQLException {
 
 		ObservableList<Frage> frageListe = FXCollections.observableArrayList();
 
-// Load DBQueries Result Set with questions from DB
+		// Load DBQueries Result Set with questions from DB
 		katalogName = katalogComboBox.getValue();
 		DBQueries.rs = dbQuery.alleFrageLaden(katalogName);
 
@@ -204,6 +220,12 @@ public void initialize(URL location, ResourceBundle resources) {
 
 	}
 
+	/**
+	 * This method adds questions to a list 
+	 * 
+	 * @param fragen ObservableList with Frage objects 
+	 * @throws SQLException
+	 */
 	public void fillList(ObservableList<Frage> fragen) throws SQLException {
 		while (DBQueries.rs.next()) {
 
@@ -218,14 +240,17 @@ public void initialize(URL location, ResourceBundle resources) {
 			String modul = DBQueries.rs.getString("Modul");
 			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
 
-// Add Question Objects to list
+			// Add Question Objects to list
 			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
 					modul));
 		}
 	}
 	
-	
-// Define structure of FXML Table Cells you want to display data with
+	/**
+	 * Define structure of FXML Table Cells you want to display data with
+	 * 
+	 * @param fragen ObservableList with Frage objects 
+	 */
 	public void showInMainTable(ObservableList<Frage> fragen) {
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
@@ -241,31 +266,43 @@ public void initialize(URL location, ResourceBundle resources) {
 		fragetabelle.setFixedCellSize(25);
 		fragetabelle.setItems(fragen);
 	}
-	
-//Evt Warning-Klasse anlegen	
-		private void warnungAnzeigen(String warnung) {
+		
+	/**
+	 * The method shows a warning with a individual text
+	 * 
+	 * @param warnung String with text for warning message 
+	 */
+	private void warnungAnzeigen(String warnung) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("");
 			alert.setHeaderText(null);
 			alert.setContentText(warnung);
 			alert.showAndWait();
-		}
+	}
 
 
 //////////////// FXML methods ////////////////
 
-	@FXML /*
-			 * This method loads relevant question data into a ViewTable in the GUI (as soon
-			 * as the mouse is entered into the GUI)
-			 */
+	/**
+	 * This method loads relevant question data into a ViewTable in the GUI (as soon
+ 	 * as the mouse is entered into the GUI)
+	 * 
+	 * @param event button is clicked
+	 * @throws SQLException
+	 */
+	@FXML 
 	public void fragenLaden(MouseEvent event) throws SQLException {
 		fragenAnzeigen();
 
 	}
 
-	@FXML /*
-			 * This method deletes questions from a currently Selected question catalog
-			 */
+	/**
+	 * This method deletes questions from a currently Selected question catalog
+	 * 
+	 * @param event button is clicked
+	 * @throws SQLException
+	 */
+	@FXML 
 	void frageLoeschen(MouseEvent event) throws SQLException {
 		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -283,16 +320,26 @@ public void initialize(URL location, ResourceBundle resources) {
 
 	}
 
-	@FXML /*
-			 * The following method is used to fill the Catalog ComboBox with all existing
-			 * values in the database.
-			 */
+	/**
+	 * The following method is used to fill the Catalog ComboBox with all existing
+ 	 * values in the database.
+	 * 
+	 * @param event 
+	 * @throws SQLException
+	 */
+	@FXML
 	private void katalogeLaden(MouseEvent event) throws SQLException {
 		katalogComboBox.setItems(dbQuery.katalogeAuslesen());
 		fragenAnzeigen(); 
 	}
 
-	@FXML /* Delete the selected catalog of questions */
+	/**
+	 * Delete the selected catalog of questions
+	 * 
+	 * @param event button is clicked
+	 * @throws SQLException
+	 */
+	@FXML
 	void katalogLoeschen(MouseEvent event) throws SQLException {
 		if (katalogNameTextField.getText().isEmpty()) {
 			katalogName = katalogComboBox.getValue();
@@ -315,18 +362,27 @@ public void initialize(URL location, ResourceBundle resources) {
 		fragenAnzeigen(); // Reload new, updated set of data into TableView ??
 	}
 
-	
-	@FXML /*
-			 * Method currently not used
-			 */
+	/**
+	 * Create a catalog with questions 
+	 * 
+	 * @param event button is clicked 
+	 * @throws IOException
+	 */
+	@FXML
 	void katalogAnlegen(MouseEvent event) throws IOException {
 		
 		StartController.setWindow("Katalogverwaltung");
 	}
 
-	@FXML /*
-			 * Add a question to the selected catalog. If none is selected a new catalog name must be provided in the relevant TextArea.
-			 */
+	/**
+	 * Add a question to the selected catalog. 
+	 * If none is selected a new catalog name must be provided in the relevant TextArea.
+	 * 
+	 * @param event button is clicked 
+	 * @throws IOException
+	 * @throws SQLException
+	 */
+	@FXML 
 	void frageAnlegen(MouseEvent event) throws IOException, SQLException {
 		
 		if(katalogNameTextField.getText().isEmpty() && katalogComboBox.getValue()==null) {
@@ -356,9 +412,16 @@ public void initialize(URL location, ResourceBundle resources) {
 	}
 		
 	}
-	@FXML /*
-	 * Edit a question 
+	
+	/**
+	 * The method is used to edit an existing question 
+	 * It's not working and in implementation 
+	 * 
+	 * @param event button is clicked 
+	 * @throws IOException
+	 * @throws SQLException
 	 */
+	@FXML
 		void frageBearbeiten(MouseEvent event) throws IOException, SQLException {
 		
 		if(katalogNameTextField.getText().isEmpty() && katalogComboBox.getValue()==null) {
@@ -390,15 +453,24 @@ public void initialize(URL location, ResourceBundle resources) {
 		
 	}
 
-	@FXML /*
-			 * GUI Navigation - Save all current changes and go back to the start screen
-			 */
+	/**
+	 * GUI Navigation - Save all current changes and go back to the start screen
+	 * 
+	 * @param event button is clicked 
+	 * @throws IOException
+	 */
+	@FXML
 	void katalogSpeichern(MouseEvent event) throws IOException {
 
 		StartController.setWindow("Startscreen");
 	}
 
-	@FXML // GUI Navigation - Go to Pruefung starten screen
+	/**
+	 * GUI Navigation - Go to Pruefung starten screen
+	 * 
+	 * @param event ActionEvent navigation is clicked 
+	 */
+	@FXML 
 	void PrüfungStartenClick(ActionEvent event) {
 		try {
 			StartController.setWindow("Pruefung2");
@@ -409,7 +481,12 @@ public void initialize(URL location, ResourceBundle resources) {
 
 	}
 
-	@FXML // GUI Navigation - Go to StatistikAnsehen screen (SOON)
+	/**
+	 * GUI Navigation - Go to StatistikAnsehen screen 
+	 * 
+	 * @param event ActionEvent navigation is clicked 
+	 */
+	@FXML 
 	void StatistikAnsehenClick(ActionEvent event) {
 //		try {
 //			StartController.setWindow("StatistikAnsehen");
@@ -419,6 +496,12 @@ public void initialize(URL location, ResourceBundle resources) {
 //		}
 
 	}
+	
+	/**
+	 * The method saves the name of the catalog with questions into a variable 
+	 * 
+	 * @param event ActionEvent 
+	 */
 	@FXML
 	void katalogNameLesen(ActionEvent event) {
 		katalogName = katalogNameTextField.getText();
