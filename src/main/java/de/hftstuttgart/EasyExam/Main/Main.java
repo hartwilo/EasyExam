@@ -1,6 +1,8 @@
 package de.hftstuttgart.EasyExam.Main;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 
 import de.hftstuttgart.EasyExam.Controllers.PruefungController;
@@ -31,10 +33,12 @@ public class Main extends Application {
 	private void showMainView() throws IOException {
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/GUI/Login.fxml"));
+//		URL urlCss = new File("src/main/java/css/fragetabelle.css").toURL();
 		
 		//TO-DO: Make GUI elements re-sizable
 		Main.scene = new Scene(root);
 		Main.scene.setRoot(root);
+//		scene.getStylesheets().add(urlCss.toExternalForm());
 		mainWindow.setScene(scene);
 		Main.mainWindow.setResizable(true); 
 		
