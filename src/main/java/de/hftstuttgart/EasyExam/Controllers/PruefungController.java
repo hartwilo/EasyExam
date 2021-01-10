@@ -101,6 +101,8 @@ public class PruefungController implements Initializable {
 	public StringProperty vName = new SimpleStringProperty();
 	public StringProperty nName = new SimpleStringProperty();
 	public StringProperty mNr = new SimpleStringProperty();
+	
+	int selected_table_row; 
 
 	@FXML
 	private AnchorPane anchorPane;
@@ -213,6 +215,10 @@ public class PruefungController implements Initializable {
 	 */
 
 	// Switches
+	
+	@FXML
+	private ToggleGroup point_switches;
+	
 	@FXML
 	private JFXToggleButton ask_switch;
 
@@ -337,6 +343,8 @@ public class PruefungController implements Initializable {
 			String sehrGut = frageTabelle.getSelectionModel().getSelectedItem().getSehrGut();
 			String themengebiet = frageTabelle.getSelectionModel().getSelectedItem().getThemengebiet();
 			
+			//Note the last selected question from the topic
+			selected_table_row = frageTabelle.getSelectionModel().getSelectedIndex();
 
 			return new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul, grundlage,
 					gut, sehrGut, errPunkte);
@@ -352,7 +360,7 @@ public class PruefungController implements Initializable {
 	public void showDetails(Frage frage) {
 		
 		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
-		
+		handle_point_switches();
 		frageStellungDetail.setText(frage.getFrageStellung());
 		frageStellungDetail.setEditable(false);
 		musterLoesungDetailliert.setText(frage.getMusterloesung());
@@ -370,38 +378,43 @@ public class PruefungController implements Initializable {
 		frageStellungDetail.setWrapText(true);
 		musterLoesungDetailliert.setWrapText(true);
 		
-		handle_point_switches();
+		
+		//System.out.println(frage.getErreichtePunkte());
 	}
 	
+	// Toggles the correct correct switch when already answered questions get
+	// selected again from the question table
 	public void handle_point_switches() {
+		
 		Frage frage = get_selected_question();
-		Float f = (float) (frage.getErreichtePunkte() / frage.getPunkte());
+		
+		try {
+			Float erp = dbQuery.select_erreichte_punkte(frage);
+			Float f = (float) (erp / frage.getPunkte());
+			// f -> % of achieved points:
 
-		System.out.println("handle point switches:" +f);
+			// not answered or 0 points
 
-		if (f == 0) {
-			grundlage_switch.setSelected(false);
-			gut_switch.setSelected(false);
-			sehrgut_switch.setSelected(false);
-		} else if (f < 0.3) {
-			grundlage_switch.setSelected(true);
-			gut_switch.setSelected(false);
-			sehrgut_switch.setSelected(false);
-		}
+			if (f <= 0.3) { // 30%
+				grundlage_switch.setSelected(true);
 
-		if (f >= 0.3 && f < 0.6) {
-			grundlage_switch.setSelected(false);
-			gut_switch.setSelected(true);
-			sehrgut_switch.setSelected(false);
-		}
+			}  if (f >= 0.3 && f < 0.6) { // 60%
+				gut_switch.setSelected(true);
+			}  if (f >= 0.6) { // 60-100%
+				sehrgut_switch.setSelected(true);
+			} if (f == 0)  {
+				System.out.print("question was not asked or 0 points achieved");
+				grundlage_switch.setSelected(false);
+				gut_switch.setSelected(false);
+				sehrgut_switch.setSelected(false);
+			}
 
-		if (f >= 0.6) {
-			grundlage_switch.setSelected(false);
-			gut_switch.setSelected(false);
-			sehrgut_switch.setSelected(true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
-
+		
 	}
 
 	// Returns true if the overview window is being shown and false otherwise
@@ -642,7 +655,7 @@ public class PruefungController implements Initializable {
 	 */
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
-
+		loadQuestions();
 		Frage frage = get_selected_question();
 		Boolean asked = frage.isGestelltbool();
 		
@@ -714,6 +727,42 @@ public class PruefungController implements Initializable {
 		dbQuery.frageStellen(frage, false);
 		showQuestions();
 	}
+	
+	/*
+	 * Build PopOver look and feel
+	 * @Param content that will be displayed in the popover 
+	 */
+	public PopOver buildPopOver(String content) {
+		
+		
+		Label label = new Label(content);
+		VBox vBox = new VBox(label);
+
+		vBox.setPrefHeight(600.0);
+		vBox.setPrefWidth(800.0);
+		
+		return new PopOver(vBox);
+	}
+	
+	@FXML
+	void handlePopOver_ml(MouseEvent event) {
+		
+		try {
+			Frage frage = get_selected_question();
+			PopOver popFrage = buildPopOver(frage.getMusterloesung());
+			popFrage.show(label_musterloesung);
+
+			label_musterloesung.setOnMouseExited(mouseEvent -> {
+				// Hide PopOver when mouse exits label
+				popFrage.hide();
+			});
+
+		} catch (Exception e) {
+			log.warning("No question selected " + e.getMessage() + "--" + e.getCause());
+		}
+
+	}
+		
 
 	@FXML
 	void addNotizien(MouseEvent event) {
@@ -1004,8 +1053,17 @@ public class PruefungController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
 
+		// Make sure the table doesn't lose the selected question
+		frageTabelle.getSelectionModel().selectedIndexProperty().addListener(e -> {
+			int selectedRow = frageTabelle.getSelectionModel().getSelectedIndex();
+			frageTabelle.requestFocus();
+			frageTabelle.getSelectionModel().select(selectedRow);
+			frageTabelle.getFocusModel().focus(selectedRow);
+		});
+				
+		
+		
 		// Handle achieved points by switching the toggle for grundlageNiveau on/off
 		grundlage_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
 
@@ -1016,16 +1074,18 @@ public class PruefungController implements Initializable {
 
 				if (oldValue == false && newValue == true) {
 					frage.setErreichtePunkte((float) (frage.getPunkte() * 0.15));
-					gut_switch.selectedProperty().set(false);
-					sehrgut_switch.selectedProperty().set(false);
-
-				} else {
+					/*
+					 * gut_switch.selectedProperty().set(false);
+					 * sehrgut_switch.selectedProperty().set(false);
+					 */
+				} else if (newValue == false){
 					frage.setErreichtePunkte(0);
+					System.out.println("set to 0 from method: grundlage");
 				}
 				try {
 					dbQuery.erreichte_punkte_speichern(frage, frage.getErreichtePunkte());
 				} catch (SQLException e) {
-					log.warning("Achieved points can not be saved into the database!" + e.getMessage() + e.getCause());
+					log.warning("Achieved points can not be saved into the database! " + e.getMessage());
 				}
 				erreichte_punkte.setText(String.valueOf(frage.getErreichtePunkte()));
 
@@ -1034,18 +1094,16 @@ public class PruefungController implements Initializable {
 
 		// Handle achieved points by switching the toggle for gut on/off
 		gut_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
-					
+
 			@Override
 			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
 				Frage frage = get_selected_question();
 
-				if (oldValue == false && newValue == true) {
+				if (newValue == true) {
 					frage.setErreichtePunkte((float) (frage.getPunkte() * 0.45));
-					grundlage_switch.selectedProperty().set(false);
-					sehrgut_switch.selectedProperty().set(false);
-
-				} else {
+				} else if (newValue == false){
 					frage.setErreichtePunkte(0);
+					System.out.println("set to 0 from method: gut");
 				}
 				try {
 					dbQuery.erreichte_punkte_speichern(frage, frage.getErreichtePunkte());
@@ -1064,14 +1122,13 @@ public class PruefungController implements Initializable {
 			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
 				Frage frage = get_selected_question();
 
-				if (oldValue == false && newValue == true) {
+				if (newValue == true) {
 					frage.setErreichtePunkte((float) (frage.getPunkte()));
-					grundlage_switch.selectedProperty().set(false);
-					gut_switch.selectedProperty().set(false);
-
-				} else {
+				} else if (newValue == false){
 					frage.setErreichtePunkte(0);
+					System.out.println("set to 0 from method: sehrgut");
 				}
+
 				try {
 					dbQuery.erreichte_punkte_speichern(frage, frage.getErreichtePunkte());
 				} catch (SQLException e) {
@@ -1082,59 +1139,59 @@ public class PruefungController implements Initializable {
 			}
 		});
 
-		// Navigate frageTabelle with the arrow keys and ENTER button
-		frageTabelle.setOnKeyPressed((KeyEvent ke) ->
-        {
-        	
-        	Frage selected = new Frage();
-            switch (ke.getCode())
-      
-            {
-                case DOWN:
-                	
-                	selected = frageTabelle.getSelectionModel().getSelectedItem();
-                	ask_switch.setSelected(selected.isGestelltbool());
-                	showDetails(selected);
-                	
-                    ke.consume();
-                    break;
-               
-                case UP:
-                	selected = frageTabelle.getSelectionModel().getSelectedItem();
-                	ask_switch.setSelected(selected.isGestelltbool());
-                	showDetails(selected);
-                    ke.consume();
-                    break;
-                case ENTER:
-                	 selected = frageTabelle.getSelectionModel().getSelectedItem();
-                	 Boolean asked = selected.isGestelltbool();
-                	 ask_switch.setSelected(asked);
-                	 if (asked) {
-             			try {
-             				unask(selected);
-             				ask_switch.setSelected(false);
-             			} catch (Exception e) {
-             				e.printStackTrace();
-             			}
-             		} else {
-             			try {
-             				ask(selected);
-             				ask_switch.setSelected(true);
-             			} catch (Exception e) {
-             				e.printStackTrace();
-             			}
-
-             		}
-                	showDetails(selected);
-                    ke.consume();
-                    break;
-                default:
-                    break;
-            }
-        });
-	
 		
+		
+		// Navigate frageTabelle with the arrow keys and ENTER button
+		frageTabelle.setOnKeyPressed((KeyEvent ke) -> {
 
+			Frage selected = new Frage();
+			switch (ke.getCode())
+
+			{
+			case DOWN:
+
+				selected = frageTabelle.getSelectionModel().getSelectedItem();
+				ask_switch.setSelected(selected.isGestelltbool());
+				showDetails(selected);
+
+				ke.consume();
+				break;
+
+			case UP:
+				selected = frageTabelle.getSelectionModel().getSelectedItem();
+				ask_switch.setSelected(selected.isGestelltbool());
+				showDetails(selected);
+				ke.consume();
+				break;
+			case ENTER:
+				selected = frageTabelle.getSelectionModel().getSelectedItem();
+				Boolean asked = selected.isGestelltbool();
+				ask_switch.setSelected(asked);
+				if (asked) {
+					try {
+						unask(selected);
+						ask_switch.setSelected(false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					try {
+						ask(selected);
+						ask_switch.setSelected(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				}
+				showDetails(selected);
+				ke.consume();
+				break;
+			default:
+				break;
+			}
+		});
+
+		// Side menu
 		try {
 			VBox box = FXMLLoader.load(getClass().getResource("/GUI/DrawerContent.fxml"));
 
@@ -1185,40 +1242,7 @@ public class PruefungController implements Initializable {
 
 				}
 
-				// Build PopOver look and feel
-				Label popover_musterloesung = new Label();
-				VBox vBox = new VBox(popover_musterloesung);
-				
-		        
-		        vBox.setPrefHeight(600.0);
-		        vBox.setPrefWidth(800.0);
-		        
-		        //vBox.setStyle("-fx-background-color :#F399D7"); // for setting the background color
-		        //Create PopOver and add look and feel
-		        PopOver popOver = new PopOver(vBox);
-		        
-		       
-		        // Event handlers for Mouse hover
-		        label_musterloesung.setOnMouseEntered(mouseEvent -> {
-					
-					try {
-						Frage frage = get_selected_question();
-						popover_musterloesung.setText(frage.getMusterloesung());
-					} catch (Exception e) {
-						log.warning("No question selected " + e.getMessage() + "--" + e.getCause());
-					}
-					 
-		            //Show PopOver when mouse enters label
-		            popOver.show(label_musterloesung);
-		        });
-
-		        label_musterloesung.setOnMouseExited(mouseEvent -> {
-		            //Hide PopOver when mouse exits label
-		            popOver.hide();
-		        });
-
 			}
-
 			
 			
 			HamburgerBackArrowBasicTransition transition = new HamburgerBackArrowBasicTransition(hamburger);
@@ -1239,4 +1263,14 @@ public class PruefungController implements Initializable {
 		}
 
 	}
+	
+
+    @FXML
+    private Button reset;
+    
+    @FXML
+    void reset(MouseEvent event) throws SQLException {
+    	dbQuery.reset();
+    }
+    
 }
