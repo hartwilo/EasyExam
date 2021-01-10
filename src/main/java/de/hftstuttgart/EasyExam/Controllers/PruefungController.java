@@ -102,7 +102,7 @@ public class PruefungController implements Initializable {
 	public StringProperty nName = new SimpleStringProperty();
 	public StringProperty mNr = new SimpleStringProperty();
 	
-	Student studie = new Student();
+	Student studi = new Student();
 	
 	int selected_table_row; 
 
