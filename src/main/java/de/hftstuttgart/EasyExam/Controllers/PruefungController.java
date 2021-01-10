@@ -27,6 +27,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
@@ -42,6 +43,8 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -150,7 +153,7 @@ public class PruefungController implements Initializable {
 	private Label punktZahlDetail;
 
 	@FXML
-	private TextField erreichtePunkte;
+	private JFXTextField erreichte_punkte;
 
 	// MainView Table (Left side of screen)
 
@@ -209,10 +212,18 @@ public class PruefungController implements Initializable {
 	 * @FXML private Button pdfErstellen;
 	 */
 
-
-
+	// Switches
 	@FXML
 	private JFXToggleButton ask_switch;
+
+	@FXML
+	private JFXToggleButton grundlage_switch;
+
+	@FXML
+	private JFXToggleButton gut_switch;
+
+	@FXML
+	private JFXToggleButton sehrgut_switch;
 
 	// JFoenix Compontents
 	@FXML
@@ -278,6 +289,7 @@ public class PruefungController implements Initializable {
 			String musterloesung = DBQueries.rs.getString("Musterloesung");
 			int niveau = DBQueries.rs.getInt("Niveau");
 			Float punkte = DBQueries.rs.getFloat("Punkte");
+			Float errPunkte = DBQueries.rs.getFloat("Punkte_erreicht");
 			Boolean istGestellt = DBQueries.rs.getBoolean("gestellt");
 			String modul = DBQueries.rs.getString("Modul");
 			String fragekatalog = DBQueries.rs.getString("Fragekatalog");
@@ -287,7 +299,7 @@ public class PruefungController implements Initializable {
 			String sehrGut = DBQueries.rs.getString("SehrGut");
 
 			fragen.add(new Frage(ID, fragestellung, musterloesung, niveau, thema, fragekatalog, punkte, istGestellt,
-					modul, grundlage, gut, sehrGut));
+					modul, grundlage, gut, sehrGut, errPunkte));
 
 		}
 	}
@@ -315,6 +327,7 @@ public class PruefungController implements Initializable {
 			int id = frageTabelle.getSelectionModel().getSelectedItem().getID();
 			int niv = frageTabelle.getSelectionModel().getSelectedItem().getNiveau();
 			float punkte = (float) frageTabelle.getSelectionModel().getSelectedItem().getPunkte();
+			float errPunkte = (float) frageTabelle.getSelectionModel().getSelectedItem().getErreichtePunkte();
 			String stellung = frageTabelle.getSelectionModel().getSelectedItem().getFrageStellung();
 			String loesung = frageTabelle.getSelectionModel().getSelectedItem().getMusterloesung();
 			String fragekatalog = frageTabelle.getSelectionModel().getSelectedItem().getFragekatalog();
@@ -326,7 +339,7 @@ public class PruefungController implements Initializable {
 			
 
 			return new Frage(id, stellung, loesung, niv, themengebiet, fragekatalog, punkte, gestellt, modul, grundlage,
-					gut, sehrGut);
+					gut, sehrGut, errPunkte);
 
 		} catch (Exception e) {
 			log.warning("No question from table selected, details cant be read!");
@@ -337,7 +350,7 @@ public class PruefungController implements Initializable {
 
 	// Fill view with a questions details
 	public void showDetails(Frage frage) {
-
+		
 		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
 		
 		frageStellungDetail.setText(frage.getFrageStellung());
@@ -345,6 +358,7 @@ public class PruefungController implements Initializable {
 		musterLoesungDetailliert.setText(frage.getMusterloesung());
 		musterLoesungDetailliert.setEditable(false);
 		punktZahlDetail.setText(""+frage.getPunkte());
+		erreichte_punkte.setText(String.valueOf(frage.getErreichtePunkte()));
 
 		grundlagenniveau.setCellValueFactory(new PropertyValueFactory<>("grundLageNiveau"));
 		gut.setCellValueFactory(new PropertyValueFactory<>("gut"));
@@ -355,6 +369,39 @@ public class PruefungController implements Initializable {
 
 		frageStellungDetail.setWrapText(true);
 		musterLoesungDetailliert.setWrapText(true);
+		
+		handle_point_switches();
+	}
+	
+	public void handle_point_switches() {
+		Frage frage = get_selected_question();
+		Float f = (float) (frage.getErreichtePunkte() / frage.getPunkte());
+
+		System.out.println("handle point switches:" +f);
+
+		if (f == 0) {
+			grundlage_switch.setSelected(false);
+			gut_switch.setSelected(false);
+			sehrgut_switch.setSelected(false);
+		} else if (f < 0.3) {
+			grundlage_switch.setSelected(true);
+			gut_switch.setSelected(false);
+			sehrgut_switch.setSelected(false);
+		}
+
+		if (f >= 0.3 && f < 0.6) {
+			grundlage_switch.setSelected(false);
+			gut_switch.setSelected(true);
+			sehrgut_switch.setSelected(false);
+		}
+
+		if (f >= 0.6) {
+			grundlage_switch.setSelected(false);
+			gut_switch.setSelected(false);
+			sehrgut_switch.setSelected(true);
+		}
+		
+
 	}
 
 	// Returns true if the overview window is being shown and false otherwise
@@ -958,14 +1005,84 @@ public class PruefungController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-//		frageTabelle.getStylesheets().add(this.getClass().getResource("../../../../css/@fragetabelle.css").toExternalForm());
-		frageTabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
-		frageStellung.setResizable(false);
-		gestellt.setResizable(false);
-		kompetenzlevelTabelle.getStylesheets().add("../../../../css/@fragetabelle.css");
-		
-		
-		
+
+		// Handle achieved points by switching the toggle for grundlageNiveau on/off
+		grundlage_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
+
+				Frage frage = get_selected_question();
+
+				if (oldValue == false && newValue == true) {
+					frage.setErreichtePunkte((float) (frage.getPunkte() * 0.15));
+					gut_switch.selectedProperty().set(false);
+					sehrgut_switch.selectedProperty().set(false);
+
+				} else {
+					frage.setErreichtePunkte(0);
+				}
+				try {
+					dbQuery.erreichte_punkte_speichern(frage, frage.getErreichtePunkte());
+				} catch (SQLException e) {
+					log.warning("Achieved points can not be saved into the database!" + e.getMessage() + e.getCause());
+				}
+				erreichte_punkte.setText(String.valueOf(frage.getErreichtePunkte()));
+
+			}
+		});
+
+		// Handle achieved points by switching the toggle for gut on/off
+		gut_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
+					
+			@Override
+			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
+				Frage frage = get_selected_question();
+
+				if (oldValue == false && newValue == true) {
+					frage.setErreichtePunkte((float) (frage.getPunkte() * 0.45));
+					grundlage_switch.selectedProperty().set(false);
+					sehrgut_switch.selectedProperty().set(false);
+
+				} else {
+					frage.setErreichtePunkte(0);
+				}
+				try {
+					dbQuery.erreichte_punkte_speichern(frage, frage.getErreichtePunkte());
+				} catch (SQLException e) {
+					log.warning("Achieved points can not be saved into the database!" + e.getMessage() + e.getCause());
+				}
+				erreichte_punkte.setText(String.valueOf(frage.getErreichtePunkte()));
+
+			}
+		});
+
+		// Handle achieved points by switching the toggle for sehrGut on/off
+		sehrgut_switch.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> selected, Boolean oldValue, Boolean newValue) {
+				Frage frage = get_selected_question();
+
+				if (oldValue == false && newValue == true) {
+					frage.setErreichtePunkte((float) (frage.getPunkte()));
+					grundlage_switch.selectedProperty().set(false);
+					gut_switch.selectedProperty().set(false);
+
+				} else {
+					frage.setErreichtePunkte(0);
+				}
+				try {
+					dbQuery.erreichte_punkte_speichern(frage, frage.getErreichtePunkte());
+				} catch (SQLException e) {
+					log.warning("Achieved points can not be saved into the database!" + e.getMessage() + e.getCause());
+				}
+				erreichte_punkte.setText(String.valueOf(frage.getErreichtePunkte()));
+
+			}
+		});
+
+		// Navigate frageTabelle with the arrow keys and ENTER button
 		frageTabelle.setOnKeyPressed((KeyEvent ke) ->
         {
         	
