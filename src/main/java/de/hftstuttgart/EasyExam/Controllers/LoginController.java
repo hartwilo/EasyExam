@@ -95,7 +95,11 @@ public class LoginController implements Initializable {
 //
 //	}
 
-	// Check if Login is successful
+	/**
+	 * Check if Login is successful
+	 * 
+	 * @param event Login button is clicked 
+	 */
 	public void handleButtonAction(MouseEvent event) {
 
 		if (event.getSource() == Login) {
@@ -121,6 +125,9 @@ public class LoginController implements Initializable {
 		}
 	}
 
+	/**
+	 * initialize the LoginController
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loader = new FXMLLoader(Main.class.getResource("/GUI/Pruefung2.fxml"));
@@ -144,8 +151,11 @@ public class LoginController implements Initializable {
 	ResultSet resultSet = null;
 	
 	
-
-	// Method to check the login data in the DB
+	/**
+	 * Method to check the login data in the DB
+	 * 
+	 * @return String with error or login 
+	 */
 	public String LogIn() {
 
 		eMail = UsernameTextField.getText().toString();
@@ -196,7 +206,12 @@ public class LoginController implements Initializable {
 
 	}
 
-	// show forgotten password window
+	/**
+	 * show forgotten password window
+	 * 
+	 * @param event button is clicked 
+	 * @throws Exception
+	 */ 
 	@FXML
 	void PasswordVergessenClick(ActionEvent event) throws Exception {
 
@@ -204,10 +219,14 @@ public class LoginController implements Initializable {
 
 	}
 	
-
-	
-
-	// Methods for Junit Testing 
+	/**
+	 * Methods for Junit Testing 
+	 * 
+	 * @param connection Connection for test database 
+	 * @param email String with the email address 
+	 * @param password String with the password 
+	 * @return String with error or login 
+	 */
 	public String LogInWithTestDBConn(Connection connection, String email, String password) {
 
 		eMail = email;
@@ -246,16 +265,29 @@ public class LoginController implements Initializable {
 
 	}
 
+	/**
+	 * The method returns the email address
+	 * 
+	 * @return email 
+	 */
 	public String geteMail() {
 		return eMail;
 	}
 
-
+	/**
+	 * The method returns the password 
+	 * 
+	 * @return password 
+	 */
 	public String getPassword() {
 		return Password;
 	}
 
-
+	/**
+	 * The method returns an password to compare with 
+	 * 
+	 * @return password to compare 
+	 */
 	public String getVergleichsPW() {
 		return vergleichsPW;
 	}

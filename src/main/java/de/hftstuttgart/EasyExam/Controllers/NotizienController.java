@@ -42,6 +42,12 @@ public class NotizienController implements Initializable {
     @FXML
     private JFXButton save;
 
+    /**
+     * method to add Notes to a selected question 
+     * 
+     * @param event 
+     * @throws SQLException
+     */
     @FXML
     void addNotes(MouseEvent event) throws SQLException {
     	
@@ -61,7 +67,9 @@ public class NotizienController implements Initializable {
 		}
 	}
     
-
+    /**
+     * initialize
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
