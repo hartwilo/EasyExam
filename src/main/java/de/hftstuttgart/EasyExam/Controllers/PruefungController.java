@@ -96,6 +96,7 @@ public class PruefungController implements Initializable {
 	
 
 	public static String katalogName; // remove ?
+	public static String frageKatalog;
 	public static ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 
 	public StringProperty vName = new SimpleStringProperty();
@@ -261,6 +262,7 @@ public class PruefungController implements Initializable {
 		// Get relevant data from the View for the query object
 		String themengebiet = themen.getValue();
 		String katalog = katalogeComboBox.getValue();
+		frageKatalog = katalogeComboBox.getValue();
 		int niv = 0;
 		if (niveau1.isSelected()) {
 			niv = 1;
@@ -969,7 +971,7 @@ public class PruefungController implements Initializable {
 				alert.setContentText("Möchten Sie Notizen hinfügen?");
 
 				PDFCreate.addMetaData(pdfDocument);
-				PDFCreate.addTitlePage(pdfDocument, fragen, studCon.selectedStudent, logCon.globPruef);
+				PDFCreate.addTitlePage(pdfDocument, fragen, studCon.globStud, logCon.globPruef);
 				PDFCreate.add_questions(pdfDocument, fragen);
 
 				// Ok -> Yes

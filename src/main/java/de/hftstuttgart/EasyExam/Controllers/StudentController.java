@@ -35,6 +35,8 @@ public class StudentController implements Initializable{
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
 	public Student selectedStudent = new Student();
 	
+	public static Student globStud;
+	
 
     @FXML
     private AnchorPane pane;
@@ -72,7 +74,7 @@ public class StudentController implements Initializable{
 		
 		try {
 			PruefungController pController = LoginController.loader.getController();
-			selectedStudent = select();;
+			selectedStudent = select();
 			pController.setStudent(selectedStudent);
 			stage.close();
 			
@@ -101,6 +103,9 @@ public class StudentController implements Initializable{
 			selectedStudent.setVorname(vorname);
 			selectedStudent.setSemester(semester);
 			selectedStudent.setStudiengang(studiengang);
+			
+			globStud = new Student(matnr, vorname, nachname, semester, studiengang);
+			System.out.println("Selektierter Student ist: " + globStud.getVorname() + globStud.getNachname());
 
 			return selectedStudent;
 			
