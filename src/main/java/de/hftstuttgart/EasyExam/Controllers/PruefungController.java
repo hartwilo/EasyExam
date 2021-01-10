@@ -526,7 +526,7 @@ public class PruefungController implements Initializable {
 	
 public void writeExcel(int note) throws IOException {
 		
-		double matrk = 654321;
+		double matrk = 123456;
 		String xlsxPath = select_file();
 		int testNote = 170;
 		
