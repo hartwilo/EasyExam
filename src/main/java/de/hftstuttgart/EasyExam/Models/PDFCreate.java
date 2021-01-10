@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import com.google.common.collect.Table.Cell;
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
@@ -205,10 +206,13 @@ public class PDFCreate {
 	     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 	     table.addCell(c1);
 	     
-	     c1 = new PdfPCell(new Phrase("Punktezahl"));
+	     
+	     c1 = new PdfPCell(new Phrase("Punkte"));
 	     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
 	     table.addCell(c1);
 	     table.setHeaderRows(1);
+	     
+	     
 	     
 	     
 	     //Befüllung der Tabelle mit Prüfungsfragen, Antworten und erreichter Punktzahl
@@ -218,7 +222,8 @@ public class PDFCreate {
 	     for (Frage frage : fragen) {
 	     table.addCell(frage.getFrageStellung());
 	     table.addCell(frage.getMusterloesung());
-	     table.addCell(String.valueOf(frage.getPunkte()));
+	     table.addCell(String.valueOf(frage.getErreichtePunkte()) + " / " + String.valueOf(frage.getPunkte()));
+	     
 
 	     
 	     
