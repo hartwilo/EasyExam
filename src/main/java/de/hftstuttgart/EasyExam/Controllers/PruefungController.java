@@ -243,7 +243,11 @@ public class PruefungController implements Initializable {
 
 	/////////////// Java Methods //////////////
 
-	// Show wanted questions in View Table
+	/**
+	 * Show wanted questions in View Table
+	 * 
+	 * @throws SQLException
+	 */
 	public void showQuestions() throws SQLException {
 		ObservableList<Frage> fragen = FXCollections.observableArrayList();
 
@@ -256,7 +260,11 @@ public class PruefungController implements Initializable {
 
 	}
 
-	// Fill DBQueries Result Set with the wanted questions
+	/**
+	 * Fill DBQueries Result Set with the wanted questions
+	 * 
+	 * @throws SQLException
+	 */ 
 	public void loadQuestions() throws SQLException {
 
 		// Get relevant data from the View for the query object
@@ -287,7 +295,12 @@ public class PruefungController implements Initializable {
 		}
 	}
 
-	// Create Frage.objs from result set and add to list
+	/**
+	 * Create Frage.objs from result set and add to list
+	 * 
+	 * @param fragen
+	 * @throws SQLException
+	 */
 	public void fillList(ObservableList<Frage> fragen) throws SQLException {
 
 		while (DBQueries.rs.next()) {
@@ -314,7 +327,11 @@ public class PruefungController implements Initializable {
 		}
 	}
 
-	// Display a list of questions in main the TableView on the left of the screen
+	/**
+	 * Display a list of questions in main the TableView on the left of the screen
+	 * 
+	 * @param fragen
+	 */
 	public void showInMainTable(ObservableList<Frage> fragen) {
 
 		frageStellung
@@ -329,7 +346,11 @@ public class PruefungController implements Initializable {
 		frageTabelle.setFixedCellSize(25);
 	}
 
-	// Create a frage.obj from the selected question in the View Table
+	/**
+	 * Create a frage.obj from the selected question in the View Table
+	 * 
+	 * @return
+	 */
 	public Frage get_selected_question() {
 
 		try {
@@ -360,7 +381,11 @@ public class PruefungController implements Initializable {
 
 	}
 
-	// Fill view with a questions details
+	/**
+	 * Fill view with a questions details
+	 * 
+	 * @param frage
+	 */
 	public void showDetails(Frage frage) {
 		
 		ObservableList<Frage> kompetenzStufe = FXCollections.observableArrayList();
@@ -386,8 +411,11 @@ public class PruefungController implements Initializable {
 		//System.out.println(frage.getErreichtePunkte());
 	}
 	
-	// Toggles the correct correct switch when already answered questions get
-	// selected again from the question table
+	/**
+	 * Toggles the correct correct switch when already answered questions get
+	 * selected again from the question table
+	 * 
+	 */
 	public void handle_point_switches() {
 		
 		Frage frage = get_selected_question();
@@ -421,7 +449,11 @@ public class PruefungController implements Initializable {
 		
 	}
 
-	// Returns true if the overview window is being shown and false otherwise
+	/**
+	 * Returns true if the overview window is being shown and false otherwise
+	 * 
+	 * @return
+	 */
 	public boolean uebersichtIsShowing() {
 		if (UebersichtController.stage.isShowing())
 			return true;
@@ -430,6 +462,11 @@ public class PruefungController implements Initializable {
 
 	}
 
+	/**
+	 * The method imports an excel file 
+	 * 
+	 * @return String with path or null
+	 */
 	public String select_file() {
 
 		// Set default path to //Set default path to 'C:\Users\...\
@@ -461,7 +498,14 @@ public class PruefungController implements Initializable {
 
 	}
 
-	// Reads all students in a .xls file and returns an observable list of these students
+	/**
+	 * Reads all students in a .xls file and returns an observable list of these students
+	 * 
+	 * @param xlsPath
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public ObservableList<Student> readFromXls(String xlsPath) throws SQLException, IOException {
 		
 		ObservableList<Student> studenten = FXCollections.observableArrayList();
@@ -592,7 +636,12 @@ public class PruefungController implements Initializable {
 
 	////////////// FXML Methods ///////////////////
 
-	@FXML // to be deleted?
+	/**
+	 * show side Menu
+	 * 
+	 * @param event
+	 */
+	@FXML 
 	void showSideMenu(MouseEvent event) {
 		if (drawer.isShown() || drawer.isShowing()) {
 			drawer.close();
@@ -602,7 +651,14 @@ public class PruefungController implements Initializable {
 
 	}
 
-	@FXML // To be deleted?
+	/**
+	 * import xlsx
+	 * 
+	 * @param event
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	@FXML
 	public void import_xlsx(MouseEvent event) throws SQLException, IOException {
 		String xlsxPath = select_file();
 		ObservableList<Student> studenten = readFromXls(xlsxPath);
@@ -615,6 +671,12 @@ public class PruefungController implements Initializable {
 		dbQuery.studentenSpeichern(studenten);
 	}
 	
+	/**
+	 * The method selects an student from an excel sheet 
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void studentSelektieren(MouseEvent event) throws IOException {
 		
@@ -628,8 +690,11 @@ public class PruefungController implements Initializable {
 
 	}
 
-
-
+	/**
+	 * setStudent 
+	 * 
+	 * @param student Student object 
+	 */
 	public void setStudent(Student student) {
 
 		String name = student.getVorname();
@@ -647,18 +712,24 @@ public class PruefungController implements Initializable {
 
 	}
 
-	@FXML /*
-			 * The following method is used to read data from the Database into the
-			 * TableView
-			 */
+	/**
+	 * The following method is used to read data from the Database into the TableView
+	 * 
+	 * @param event
+	 * @throws SQLException
+	 */
+	@FXML
 	public void fragenAnzeigen(MouseEvent event) throws SQLException {
 		showQuestions();
 
 	}
 
-	/*
-	 * Upon clicking on a TableView row corresponding to a Question, said Question's
-	 * details are displayed on the right side of the Screen/GUI
+	/**
+	 * Upon clicking on a TableView row corresponding to a Question, 
+	 * said Question's details are displayed on the right side of the Screen/GUI
+	 * 
+	 * @param event
+	 * @throws SQLException
 	 */
 	@FXML
 	void detailsAnzeigen(MouseEvent event) throws SQLException {
@@ -692,7 +763,11 @@ public class PruefungController implements Initializable {
 
 	}
 
-
+	/**
+	 * The method asks or unasks a question 
+	 * 
+	 * @param event 
+	 */
 	@FXML //to be deleted
 	void ask_unas2k(MouseEvent event) {
 		Frage frage = get_selected_question();
@@ -700,7 +775,11 @@ public class PruefungController implements Initializable {
 
 	}
 
-
+	/**
+	 * The method asks or unasks a question 
+	 * 
+	 * @param event 
+	 */
 	@FXML
 	void ask_unask(MouseEvent event) {
 		Frage frage = get_selected_question();
@@ -725,23 +804,35 @@ public class PruefungController implements Initializable {
 
 	}
 
+	/**
+	 * The method sets questions on asked 
+	 * 
+	 * @param frage Frage object 
+	 * @throws SQLException
+	 */
 	public void ask(Frage frage) throws SQLException {
 		dbQuery.frageStellen(frage, true);
 		showQuestions();
 	}
 
+	/**
+	 * The method sets questions on unasked 
+	 * 
+	 * @param frage Frage object 
+	 * @throws SQLException
+	 */
 	public void unask(Frage frage) throws SQLException {
 		dbQuery.frageStellen(frage, false);
 		showQuestions();
 	}
 	
-	/*
+	/**
 	 * Build PopOver look and feel
-	 * @Param content that will be displayed in the popover 
+	 * 
+	 * @param content that will be displayed in the popover 
+	 * @return
 	 */
 	public PopOver buildPopOver(String content) {
-		
-		
 		Label label = new Label(content);
 		VBox vBox = new VBox(label);
 
@@ -751,6 +842,11 @@ public class PruefungController implements Initializable {
 		return new PopOver(vBox);
 	}
 	
+	/**
+	 * handle PopOver
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void handlePopOver_ml(MouseEvent event) {
 		

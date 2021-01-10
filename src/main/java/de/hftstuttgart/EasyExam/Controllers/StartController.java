@@ -58,20 +58,36 @@ public class StartController {
 
 	
 	
-
-	@FXML //GUI Navigation - Go to KatalogErstellen screen
+	/**
+	 * GUI Navigation - Go to KatalogErstellen screen
+	 * 
+	 * @param event button is clicked 
+	 * @throws IOException
+	 */
+	@FXML 
 	void katalogErstellen(MouseEvent event) throws IOException {
 
 		setWindow("Katalogverwaltung");
 	}
 
-	@FXML //GUI Navigation - Go to PruefungsDurchfuehrung screen
+	/**
+	 * GUI Navigation - Go to PruefungsDurchfuehrung screen
+	 * 
+	 * @param event button is clicked 
+	 * @throws IOException
+	 */
+	@FXML 
 	void pruefungStarten(MouseEvent event) throws IOException {
 		
 		setWindow("Pruefung2");
 
 	}
 
+	/**
+	 * 
+	 * GUI Navigation - Go to Statistik screen 
+	 * @param event
+	 */
 	@FXML
 	void statistikAnsehen(MouseEvent event) {
 		System.out.println("Good luck son!");

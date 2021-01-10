@@ -58,7 +58,11 @@ public class ResetPasswordController {
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 
-	// Action event 
+	/**
+	 * The method sends an email to reset the password 
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void SendenClick(ActionEvent event) {
 		String Empfäger = eMailAdresse1.getText().toString();
@@ -79,7 +83,11 @@ public class ResetPasswordController {
 
 	}
 
-	// E-mail check in the DB
+	/**
+	 * The method checks the email address in the DB
+	 * 
+	 * @return
+	 */
 	private String checkEmail() {
 		String eMail = eMailAdresse1.getText().toString();
 
@@ -105,6 +113,12 @@ public class ResetPasswordController {
 	}
 
 	// send an E-mail
+	/**
+	 * The method sends an email from the host email address to the user eail address 
+	 * 
+	 * @param recipient String 
+	 * @throws Exception
+	 */
 	public void EmailSenden(String recipient) throws Exception {
 
 		String host = "smtp.gmail.com";
@@ -136,7 +150,14 @@ public class ResetPasswordController {
 
 	}
 
-	// prepare a message
+	/**
+	 * The method prepares an message 
+	 * 
+	 * @param session Session 
+	 * @param from String email 
+	 * @param recipient String 
+	 * @return
+	 */
 	private Message prepareMessage(Session session, String from, String recipient) {
 
 		Message message = new MimeMessage(session);
@@ -151,6 +172,11 @@ public class ResetPasswordController {
 		}
 		return null;
 	}
+	/**
+	 * The method shows the ResetPassword GUI
+	 * 
+	 * @throws IOException
+	 */
 	 public void show () throws IOException  {
 		 FXMLLoader fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(getClass().getResource("/GUI/ResetPassword.fxml"));
