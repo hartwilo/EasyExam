@@ -155,12 +155,13 @@ public class FragebearbeitungController {
 //			musterLoesungDetailliert.setWrapText(true);
 	}
 	
-	 
-	/*
-	 * The following method is used to update a Frage.obj from the user input in the
-	 * View (TextAreas and ComboBoxes)
-	 */
 
+		/**
+		 * The following method is used to update a Frage.obj from the user input in the
+		 * View (TextAreas and ComboBoxes)
+		 * 
+		 * @return question 
+		 */
 	public Frage updateFrageFromView() {
 
 		// Select topic from combobox
@@ -199,11 +200,14 @@ public class FragebearbeitungController {
 
 	}
 
-	/*
-	 * The following method is used to save questions into the database - Values are
-	 * entered into the GUI's corresponding TextAreas/Fields and/or chosen from the
-	 * ComboBox
+	
+	/**
 	 * 
+	 * The method is used to save questions into the database
+	 * Values are entered into the GUI's corresponding TextAreas/Fields an/or chosen from the ComboBox
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
 	 */
 	public void speichern() throws SQLException, IOException {
 
@@ -236,12 +240,11 @@ public class FragebearbeitungController {
 		}
 
 	}
-	 
-
-	/*
-	 * Displays a specific warning message.
+	
+	/**
+	 * Displays a specific warning message 
 	 * 
-	 * @Author - Bachir
+	 * @param warnung String with text for the alert 
 	 */
 	private void warnungAnzeigen(String warnung) {
 		Alert alert = new Alert(AlertType.WARNING);
@@ -251,11 +254,13 @@ public class FragebearbeitungController {
 		alert.showAndWait();
 	}
 
-	/*
-	 * Displays a message to the user; notifying that some event took place
+	/**
+	 * Displays a message to the user
+	 * notifying that some event took place
 	 * 
-	 * @Author - Bachir
-	 */ private void infoAnzeigen(String information) {
+	 * @param information String with text for the alert
+	 */
+	private void infoAnzeigen(String information) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("");
 		alert.setHeaderText(null);
@@ -263,12 +268,14 @@ public class FragebearbeitungController {
 		alert.showAndWait();
 	}
 
-	/*
-	 * The following method is used to make sure the input in the Points TextArea is
-	 * restricted to a positive double value => Numeric TextArea
+	
+	/**
+	 * The method is used to make sure the input in the Points TextArea is restricted to a positive double value 
+	 * => Numeric TextArea
 	 * 
-	 * @Author - Bachir
-	 */ private boolean punkteValidieren() {
+	 * @return
+	 */
+	private boolean punkteValidieren() {
 
 		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*))(\\.\\d+)?");
 		Matcher m = p.matcher(punktzahl.getText());
@@ -280,11 +287,10 @@ public class FragebearbeitungController {
 		}
 	}
 
-	/*
-	 * Returns true if the user has entered the data properly and false if otherwise
+	/**
+	 * Return true if the user has enteres the data properly and fals ig otherwise 
 	 * 
-	 * @Author - Bachir
-	 * 
+	 * @return boolean that shows if the Data is correct 
 	 */
 	private boolean frageDetailsKorrektEingegeben() {
 		if (punkteValidieren() && !frageStellungTextArea.getText().isEmpty()
@@ -298,25 +304,40 @@ public class FragebearbeitungController {
 	}
 	
 						/////////////////// FXML Methods ////////////////////
-	
-	@FXML // Save questions through the Speichern Button
+	/**
+	 * Save questions through the "Speichern" Button
+	 * 
+	 * @param event button is clicked 
+	 * @throws SQLException 
+	 * @throws IOException
+	 */
+	@FXML 
 	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 		speichern();
 		
 	}
 	
-	
-	@FXML /*
-			 *  The following method is used to fill the Topics ComboBox with all existing
-			 *  values in the database.
-			 */
+	/**
+	 * The method is used to fill the Topics ComboBox with all existing values in the database 
+	 * 
+	 * @param event Fragekatalog is selected 
+	 * @throws SQLException
+	 */
+	@FXML 
 	public void themengebieteLaden(MouseEvent event) throws SQLException {
 		String fragekatalog = KatalogController.katalogName;
 		themengebietComboBox.setItems(dbQuery.themengebieteAuslesen(fragekatalog));
 
 	}
 
-	@FXML // Save questions when ENTER key is pressed //Method is currently not used TO-DO:DELETE >?
+	/**
+	 * Save questions when ENTER key is pressed 
+	 * 
+	 * @param event ENTER key is pressed 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	@FXML // 
 	void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
 
 		if (event.getCode().equals(KeyCode.ENTER)) {
@@ -324,18 +345,33 @@ public class FragebearbeitungController {
 		}
 	}
 
-	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new question.
+	/**
+	 * GUI - Navigation - Go back to KatalogErstellen screen without creating a new question.
+	 * 
+	 * @param event button is clicked 
+	 * @throws IOException
+	 */
+	@FXML 
 	public void zueruck(MouseEvent event) throws IOException {
 		log.info("Adding question cancelled");
 		StartController.setWindow("Katalogverwaltung");
 	}
 	
-
+	/**
+	 * Not yet implemented 
+	 * 
+	 * @param event button is clicked 
+	 */
 	@FXML
 	void frageEditieren(MouseEvent event) {
 
 	}
 	
+	/**
+	 * shows the name of the selected katalog 
+	 * 
+	 * @param event 
+	 */
 	@FXML
     void showKatalog(MouseEvent event) {
 		katalogLabel.setText("Selektierter Katalog: " + KatalogController.katalogName);
