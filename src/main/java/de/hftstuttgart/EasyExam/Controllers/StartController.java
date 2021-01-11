@@ -62,7 +62,7 @@ public class StartController {
 	@FXML //GUI Navigation - Go to KatalogErstellen screen
 	void katalogErstellen(MouseEvent event) throws IOException {
 
-		setWindow("Katalogverwaltung");
+		setWindow("Katalogverwaltung2");
 	}
 
 	@FXML //GUI Navigation - Go to PruefungsDurchfuehrung screen

@@ -676,7 +676,7 @@ public class PruefungController implements Initializable {
 			Scene scene = new Scene(fxmlLoader.load());
 			NotizienController nController = fxmlLoader.getController();
 
-			noteStage.setTitle("Übersicht - Alle gestellte fragen ");
+			noteStage.setTitle("Übersicht - Alle gestellten fragen ");
 			noteStage.setScene(scene);
 			noteStage.centerOnScreen();
 			noteStage.setResizable(false);
@@ -861,7 +861,7 @@ public class PruefungController implements Initializable {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("");
 				alert.setHeaderText(null);
-				alert.setContentText("Möchten Sie notizien hinfügen?");
+				alert.setContentText("Möchten Sie Notizen hinfügen?");
 
 				PDFCreate.addMetaData(pdfDocument);
 				PDFCreate.addTitlePage(pdfDocument, fragen);
@@ -1025,7 +1025,7 @@ public class PruefungController implements Initializable {
 						// GUI Navigation - Go to Pruefung starten screen
 						case "FragekatalogErstellen":
 							try {
-								StartController.setWindow("Katalogverwaltung");
+								StartController.setWindow("Katalogverwaltung2");
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

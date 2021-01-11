@@ -30,6 +30,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -121,7 +123,7 @@ public class LoginController implements Initializable {
 	void CheckBoxClick1(ActionEvent event) {
 
 		if (CheckBox1.isSelected()) {
-
+			
 		}
 
 	}
@@ -214,7 +216,9 @@ public class LoginController implements Initializable {
 			return "Exception";
 
 		}
+		   
 
 	}
+	
 	
 }
