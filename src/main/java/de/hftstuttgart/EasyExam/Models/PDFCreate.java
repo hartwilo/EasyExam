@@ -142,7 +142,12 @@ public class PDFCreate {
 		 
 	 }
 	
-	 //Add image to the pdf protocoll
+	 /**
+	  * Add image to the pdf protocol
+	  * 
+	  * @param protokoll
+	  * @param img
+	  */
 	 public static void add_image(Document protokoll, Image img) {
 		 
 		 
@@ -171,8 +176,12 @@ public class PDFCreate {
 		}
 	 }
 	 
-	 
-	 //Not properly implemented yet
+	 /**
+	  * Not properly implemented yet
+	  * 
+	  * @param document
+	  * @param note
+	  */
 	 public static void add_prof_notes(Document document, Note note) {
 
 		 
@@ -232,6 +241,12 @@ public class PDFCreate {
 	     subCatPart.add(table);
 	 }
 	 
+	 /**
+	  * add empty line 
+	  * 
+	  * @param paragraph
+	  * @param number
+	  */
 	 private static void addEmptyLine(Paragraph paragraph, int number) {
 	        for (int i = 0; i < number; i++) {
 	            paragraph.add(new Paragraph(" "));

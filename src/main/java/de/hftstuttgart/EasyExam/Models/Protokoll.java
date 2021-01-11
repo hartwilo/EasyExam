@@ -9,7 +9,12 @@ import javafx.collections.ObservableList;
 public class Protokoll {
 
 	
-	
+	/**
+	 * The methfo is used to create a pdf document with data from the database  
+	 * 
+	 * @param fragen
+	 * @return
+	 */
 	public  PdfPTable fragenTabelle(ObservableList<Frage> fragen) {
 		
 		// Create a pdf table structure
@@ -51,7 +56,13 @@ public class Protokoll {
 	    return table;
 	} 
 	
-	
+	/**
+	 * The method is used to get a cell of a table 
+	 * 
+	 * @param text
+	 * @param alignment
+	 * @return
+	 */
 	private PdfPCell getCell(String text, int alignment) {
 	    PdfPCell cell = new PdfPCell(new Phrase(text));
 	    cell.setPadding(0);

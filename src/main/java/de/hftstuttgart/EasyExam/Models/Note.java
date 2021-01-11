@@ -18,24 +18,19 @@ public class Note {
 	private Logger log = Logger.getLogger(DBConn.class.getName());
 	
 	FileChooser chooser;
-
-	
-	
 	Image img;
 	String path;
-	
 	String text;
-	
-	
-	public String getText() {
-		return text;
-	}
 
-	public void setText(String user_input) {
-		this.text = user_input;
-	}
-
-	// The IMG in the note is selected via a FileChooser on the @Param window
+	
+	/**
+	 * The IMG in the note is selected via a FileChooser on the @Param window
+	 * 
+	 * @param window
+	 * @throws BadElementException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
 	public Note(Window window) throws BadElementException, MalformedURLException, IOException {
 		
 ;
@@ -65,45 +60,70 @@ public class Note {
 	 * 
 	 * }
 	 */
-	
+	/**
+	 * empty constructor 
+	 */
 	public Note() {
 		
 	}
 	
+	/**
+	 * The method is used to get an Image 
+	 * 
+	 * @return
+	 */
 	public Image getImg() {
 		return img;
 	}
 
-
+	/**
+	 * The method is used to set an Image 
+	 * 
+	 * @param img
+	 */
 	public void setImg(Image img) {
 		this.img = img;
 	}
 
-
+	/**
+	 * The method is used to get a Chooser 
+	 * 
+	 * @return
+	 */
 	public FileChooser getChooser() {
 		return chooser;
 	}
 
-
+	/**
+	 * The method is used to set a Chooser
+	 * 
+	 * @param chooser
+	 */
 	public void setChooser(FileChooser chooser) {
 		this.chooser = chooser;
 	}
 
-	
-	
-
+	/**
+	 * The method is used to get the path 
+	 * 
+	 * @return
+	 */
 	public String getPath() {
 		return path;
 	}
 
-
+	/**
+	 * The method is used to set the path 
+	 * 
+	 * @param path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
 
-
-	
-	// Sets the path of the Note via the objects file chooser
+	/**
+	 * Sets the path of the Note via the objects file chooser
+	 */
 	public void selectPath() {
 		/*
 		 * this.chooser.getExtensionFilters().addAll //-> (new
@@ -113,8 +133,24 @@ public class Note {
 		File file = this.chooser.showOpenDialog(stage);
 		
 		this.setPath(file.getAbsolutePath());
-			
-		
+	}
+	
+	/**
+	 * The method is used to get The text 
+	 * 
+	 * @return
+	 */
+	public String getText() {
+		return text;
+	}
+
+	/**
+	 * The method is used to set the text 
+	 * 
+	 * @param user_input
+	 */
+	public void setText(String user_input) {
+		this.text = user_input;
 	}
 	
 	
