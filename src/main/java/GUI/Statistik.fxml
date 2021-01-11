@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="601.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.FrageController">
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="601.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.StatistikController">
 <children>
       <Group layoutX="31.0" layoutY="21.0" />
       <Group layoutX="356.0" layoutY="218.0" />
@@ -31,7 +31,7 @@
           <CategoryAxis fx:id="notenLbl" label="Noten" side="BOTTOM" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="studentenAnzahlLbl" label="Anzahl an Studenten" side="LEFT" upperBound="19.0" />
+          <NumberAxis fx:id="studentenAnzahlLbl" label="Anzahl an Studenten" side="LEFT" />
         </yAxis>
       </BarChart>
 </children>

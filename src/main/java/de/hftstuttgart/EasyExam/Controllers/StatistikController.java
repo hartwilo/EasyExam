@@ -1,9 +1,9 @@
 package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
-
-
+import DB.DBConn;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +19,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public class StatistikController extends Application {
+public class StatistikController {
+	
+	private static final Logger log;
+
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+		log = Logger.getLogger(DBConn.class.getName());
+	}
 
     @FXML
     private Label katalogLabel;
@@ -32,21 +39,26 @@ public class StatistikController extends Application {
 
     @FXML
     private NumberAxis studentenAnzahlLbl;
+    
+    public static Stage stage = new Stage();
 
     
-   /* public void start(Stage stage) throws Exception {
-        Pane root = (Pane) FXMLLoader.load(getClass().getResource("GUI/Statistik.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        
-        
-    }*/
-    
+	public void show() throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(getClass().getResource("/GUI/Statistik.fxml"));
+		Scene scene = new Scene(fxmlLoader.load());
+		stage.setTitle("Notenverteilung");
+		stage.setScene(scene);
+		stage.centerOnScreen();
+		stage.setResizable(false);
+		stage.show();
+
+
+	}
     
 
-	@Override
-	public void start(Stage s) throws Exception {
+	
+	public void initialize()  {
 		try {
 			XYChart.Series<String, Number> series = new XYChart.Series<>();
 		
@@ -63,9 +75,6 @@ public class StatistikController extends Application {
     	series.getData().add(new XYChart.Data<>("4,0", 4));    	
     	series.getData().add(new XYChart.Data<>("5,0", 2));    	
     	notenverteilungTable.getData().add(series);  
-    	Scene scene = new Scene(notenverteilungTable, 640,480);
-    	s.setScene(scene);
-    	s.show();
     	System.out.println("erledigt");
     	
 	} catch(Exception e) {
