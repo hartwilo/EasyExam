@@ -5,9 +5,10 @@ public class Pruefung<Katalog> {
 	private int idPruefung;
 	private String bezeichnung;
 	private float note;
-	private Katalog fragekatalog;
-	private Student student;
-	private Pruefer pruefer;
+	private float punkteGesamt;
+	private String fragekatalog;
+	private int student_mtkr;
+	private int prueferNr;
 	
 	/**
 	 * Constructor with ID, bezeichnung, note, fragekatalog, student and pruefer
@@ -19,15 +20,16 @@ public class Pruefung<Katalog> {
 	 * @param student
 	 * @param pruefer
 	 */
-	public Pruefung(int idPruefung, String bezeichnung, float note, Katalog fragekatalog, Student student,
-			Pruefer pruefer) {
+	public Pruefung(int idPruefung, String bezeichnung, float note, float punkteGesamt, String fragekatalog, int student_mtkr,
+			int prueferNr) {
 		super();
 		this.idPruefung = idPruefung;
 		this.bezeichnung = bezeichnung;
 		this.note = note;
+		this.punkteGesamt = punkteGesamt;
 		this.fragekatalog = fragekatalog;
-		this.student = student;
-		this.pruefer = pruefer;
+		this.student_mtkr = student_mtkr;
+		this.prueferNr = prueferNr;
 	}
 
 	/**
@@ -83,13 +85,23 @@ public class Pruefung<Katalog> {
 	public void setNote(float note) {
 		this.note = note;
 	}
+	
+	
+
+	public float getPunkteGesamt() {
+		return punkteGesamt;
+	}
+
+	public void setPunkteGesamt(float punkteGesamt) {
+		this.punkteGesamt = punkteGesamt;
+	}
 
 	/**
 	 * The method is used to get the catalog
 	 * 
 	 * @return
 	 */
-	public Katalog getFragekatalog() {
+	public String getFragekatalog() {
 		return fragekatalog;
 	}
 
@@ -98,46 +110,27 @@ public class Pruefung<Katalog> {
 	 * 
 	 * @param fragekatalog
 	 */
-	public void setFragekatalog(Katalog fragekatalog) {
+	public void setFragekatalog(String fragekatalog) {
 		this.fragekatalog = fragekatalog;
 	}
-	
-	/**
-	 * The method is used to get the student 
-	 * 
-	 * @return
-	 */
-	public Student getStudent() {
-		return student;
+
+	public int getStudent_mtkr() {
+		return student_mtkr;
 	}
 
-	/**
-	 * The method is used to set the student 
-	 * 
-	 * @param student
-	 */
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudent_mtkr(int student_mtkr) {
+		this.student_mtkr = student_mtkr;
 	}
 
-	/**
-	 * The method is used to get the examiner
-	 * 
-	 * @return
-	 */
-	public Pruefer getPruefer() {
-		return pruefer;
+	public int getPrueferNr() {
+		return prueferNr;
 	}
 
-	/**
-	 * The method is used to set the examiner
-	 * 
-	 * @param pruefer
-	 */
-	public void setPruefer(Pruefer pruefer) {
-		this.pruefer = pruefer;
+	public void setPrueferNr(int prueferNr) {
+		this.prueferNr = prueferNr;
 	}
 	
+
 	
 	
 }
