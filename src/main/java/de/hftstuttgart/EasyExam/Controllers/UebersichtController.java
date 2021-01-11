@@ -47,6 +47,8 @@ public class UebersichtController implements Initializable {
 	private static final Logger log;
 
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
+	
+	public float gesPunktzahl=0;
 
 	static {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
@@ -151,7 +153,7 @@ public class UebersichtController implements Initializable {
 	 */
 	public void uebersicht() throws SQLException {
 		ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
-
+		
 		String katalogName = PruefungController.katalogName;
 		//log.info("Catalog name static var is: " + katalogName);
 		dbQuery.fragenLaden_gestellt(katalogName);
@@ -162,6 +164,19 @@ public class UebersichtController implements Initializable {
 
 		showInUebersichtTable(gestellteFragen); 
 		niveauBerechnen();
+		
+		set_erreichte_punkte();
+		
+		
+		
+		for(Frage frage : gestellteFragen) {
+			gesPunktzahl = gesPunktzahl + frage.getErreichtePunkte();
+		}
+		erreichte_punkte.setText(String.valueOf(gesPunktzahl));
+		
+		System.out.println(gesPunktzahl);
+		
+
 		
 		
 	}
@@ -337,15 +352,6 @@ public class UebersichtController implements Initializable {
                 }
             }
         });
-		
-		erreichte_punkte.setOnKeyPressed(event -> {
-			   if(event.getCode() == KeyCode.ENTER){
-			    set_erreichte_punkte();
-			    erreichte_punkte.setText("");
-			   }
-			}); 
-		
-		
 		
 	}
 
