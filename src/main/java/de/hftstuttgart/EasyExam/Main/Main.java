@@ -22,6 +22,9 @@ public class Main extends Application {
 	
 	public static PruefungController pCon = new PruefungController();
 
+	/**
+	 * The method calls showMainView() and sets the title of the view
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		mainWindow = primaryStage;
@@ -30,6 +33,11 @@ public class Main extends Application {
 
 	}
  
+	/**
+	 * The method is used to start Login screen
+	 * 
+	 * @throws IOException
+	 */
 	private void showMainView() throws IOException {
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/GUI/Login.fxml"));
@@ -53,6 +61,13 @@ public class Main extends Application {
 		
 	}
 
+	/**
+	 * The method is used to build the DB connection 
+	 * 
+	 * @param args
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws SQLException, IOException {
 		
 		DB.DBConn.buildConn();
