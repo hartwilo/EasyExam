@@ -28,6 +28,9 @@ public class DBConn {
     static String DbUser = "root";
     static String DbPass = "";
     
+    /**
+     * The method is used to connect to the Database.
+     */
 	public static void buildConn() {
 
 		try {

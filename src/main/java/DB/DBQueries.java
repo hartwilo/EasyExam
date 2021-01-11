@@ -39,7 +39,13 @@ public class DBQueries {
 		connection = conn;
 	} 
 	
-	
+	/**
+	 * The method is used to save points for a question into the database 
+	 * 
+	 * @param frage Frage object 
+	 * @param punkte double 
+	 * @throws SQLException
+	 */
 	public void erreichte_punkte_speichern(Frage frage, double punkte) throws SQLException {
 		connection.setAutoCommit(true);
 		String query = "update Frage set Punkte_erreicht = ? where idFrage = ?";
@@ -51,8 +57,14 @@ public class DBQueries {
 		preparedStmt.executeUpdate();
 	}
 	
-	
-	//Add notes to a question - DB - Notizien: Deafult = NULL, Reset on protokollieren() / exam end.
+	/**
+	 * Add notes to a question - DB - Notizien: Deafult = NULL, Reset on protokollieren() / exam end.
+	 * 
+	 * @param note Note object 
+	 * @param frage Frage object 
+	 * @return int, which shows if the notes are saved 
+	 * @throws SQLException
+	 */
 	public int notizienSpeichern(Note note, Frage frage) throws SQLException {
 		
 		//set to false
@@ -124,6 +136,13 @@ public class DBQueries {
 		return stmt.executeUpdate();
 	}
 	
+	/**
+	 * The method is used to select a question from the database 
+	 * 
+	 * @param frage Frage object 
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet frage_selektieren(Frage frage) throws SQLException {
 		int idFrage = frage.getID();
 		connection.setAutoCommit(true);
@@ -133,7 +152,13 @@ public class DBQueries {
 		return DBQueries.rs = stmt.executeQuery(query);
 	}
 	
-	// Takes a list of students form the Controller as a paramter and saves it'c content into the DB
+	/**
+	 * Takes a list of students form the Controller as a paramter and saves it'c content into the DB
+	 * 
+	 * @param studenten ObservaleList with Student objects 
+	 * @return int, which shows if the student is saved
+	 * @throws SQLException
+	 */
 	public int studentenSpeichern(ObservableList<Student> studenten) throws SQLException {
 		connection.setAutoCommit(true);
 		
@@ -187,6 +212,12 @@ public class DBQueries {
 
 	}
 	
+	/**
+	 * The method is used to load all students from the database 
+	 * 
+	 * @return ResultSet with students 
+	 * @throws SQLException
+	 */
 	public ResultSet studentenLaden() throws SQLException {
 		connection.setAutoCommit(true);
 		Statement stmt = connection.createStatement();
@@ -412,6 +443,13 @@ public class DBQueries {
 		return stmt.executeUpdate(query);
 	}
 
+	/**
+	 * The method is used to load the reached points from a question
+	 * 
+	 * @param frage
+	 * @return
+	 * @throws SQLException
+	 */
 	public Float select_erreichte_punkte(Frage frage) throws SQLException {
 		String query = "SELECT Punkte_erreicht FROM Frage WHERE idFrage = " + frage.getID();
 		Statement stmt = connection.createStatement();
@@ -438,6 +476,11 @@ public class DBQueries {
 		return stmt.executeUpdate(query);
 	}
 	
+	/**
+	 * The method is used to unask questions, delete notes and set points=0
+	 * 
+	 * @throws SQLException
+	 */
 	public void reset() throws SQLException {
 		connection.setAutoCommit(true);
 		Statement stmt = connection.createStatement();
@@ -458,12 +501,26 @@ public class DBQueries {
 		
 	}
 	
+	/**
+	 * The method is used to load LoginData for one user from the Database 
+	 * 
+	 * @param email String with email address
+	 * @return ResultSet with LoginData
+	 * @throws SQLException
+	 */
 	public ResultSet getLoginData(String email) throws SQLException{
 		Statement stmt = connection.createStatement();
 		String query = "SELECT eMail, Passwort FROM pruefer WHERE eMail=" + "'" + email + "'";
 		return stmt.executeQuery(query);
 	}
 	
+	/**
+	 * The method is used to load an examiner
+	 * 
+	 * @param prueferMail String with Email address  
+	 * @return Pruefer object 
+	 * @throws SQLException
+	 */
 	public Pruefer getPruefer (String prueferMail) throws SQLException {
 		
 			Statement stmt = connection.createStatement();
