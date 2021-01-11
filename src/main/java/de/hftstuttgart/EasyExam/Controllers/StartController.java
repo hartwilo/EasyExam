@@ -73,8 +73,8 @@ public class StartController {
 	}
 
 	@FXML
-	void statistikAnsehen(MouseEvent event) {
-		System.out.println("Good luck son!");
+	void statistikAnsehen(MouseEvent event) throws IOException {
+		setWindow("Statistik");
 	}
 	
 	

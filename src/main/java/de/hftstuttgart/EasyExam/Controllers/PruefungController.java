@@ -1016,12 +1016,12 @@ public class PruefungController implements Initializable {
 
 	@FXML // GUI Navigation - Go to StatistikAnsehen screen (SOON)
 	void StatistikAnsehenClick(ActionEvent event) {
-//			try {
-//				StartController.setWindow("StatistikAnsehen");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {	
+				StartController.setWindow("Statistik");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	@FXML // Shows the overview if it isn't already showing, brings it to the front if the
@@ -1214,7 +1214,7 @@ public class PruefungController implements Initializable {
 						// GUI Navigation - Go to StatistikAnsehen screen (SOON)
 						case "StatistikAnsehen":
 							try {
-								StartController.setWindow("StatistikAnsehen");
+								StartController.setWindow("Statistik");
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

@@ -411,12 +411,12 @@ public void initialize(URL location, ResourceBundle resources) {
 
 	@FXML // GUI Navigation - Go to StatistikAnsehen screen (SOON)
 	void StatistikAnsehenClick(ActionEvent event) {
-//		try {
-//			StartController.setWindow("StatistikAnsehen");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			StartController.setWindow("Statistik");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	@FXML

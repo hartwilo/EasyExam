@@ -14,6 +14,7 @@ import de.hftstuttgart.EasyExam.Controllers.LoginController;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.Pruefer;
+import de.hftstuttgart.EasyExam.Models.Pruefung;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -474,6 +475,36 @@ public class DBQueries {
 			pruefer = new Pruefer(rs.getInt("PersNr"), rs.getString("Nachname"), rs.getString("Vorname"));
 			}
 			return pruefer;
+	}
+	
+	public int pruefungSpeichern(Pruefung pruefung) throws SQLException {
+		connection.setAutoCommit(true);
+
+		String query = "INSERT INTO Pruefung(idPruefung, Bezeichnung, Note, Punkte_gesamt, Fragekatalog_fk, Matrikelnr, PersNr) "
+				+ "VALUES(?,?,?,?,?,?,?)";
+
+		PreparedStatement stmt = connection.prepareStatement(query);
+		
+		int idPruefung = pruefung.getIdPruefung();
+		String bezeichnung = pruefung.getBezeichnung();
+		float note = pruefung.getNote();
+		float punkte_gesamt = pruefung.getErreichtePunkte();
+		
+		
+		stmt.setInt(1, idPruefung);
+		stmt.setString(2, bezeichnung);
+		stmt.setFloat(3, note);
+		stmt.setFloat(4, punkte_gesamt);
+		/*stmt.setInt(5, fragekatalog_fk);
+		stmt.setInt(6, matrikelnr);
+		stmt.setInt(7, persnr);
+		int fragekatalog_fk = pruefung.getFragekatalog_fk();
+		int matrikelnr = pruefung.getMatrikelnr();
+		int persnr = pruefung.getPrueferNr();
+		*/
+		
+
+		return stmt.executeUpdate();
 	}
 
 	
