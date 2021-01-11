@@ -14,7 +14,8 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 
-
+import DB.DBConn;
+import DB.DBQueries;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,6 +58,8 @@ public class PasswortZuruecksetzen1Controller implements Initializable {
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 	
+	public DBQueries dbQueries = new DBQueries(DBConn.connection);
+
 	public String user; // hier soll den wert vom label eMail als Variable gespeichert werden um im updateQuery zu benutzen.
 
 	public static Label static_Label;
@@ -70,14 +73,8 @@ public class PasswortZuruecksetzen1Controller implements Initializable {
 		if (NeuesPasswort.getText().equals(PasswortWiederholung.getText())) {
 			try {
 
-				String updateQuery = "UPDATE Pruefer SET Passwort = ? where eMail =?";
-
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC","root","Bachir1991");
-			    stmt = conn.prepareStatement(updateQuery);
-				stmt.setString(1, PasswortWiederholung.getText());
-				stmt.setString(2, eMail.getText());
-				stmt.executeUpdate();
-
+				
+				dbQueries.passwortZuruecksetzen(String.valueOf(PasswortWiederholung), eMail.getText());
 				System.out.println("Passwort wurde erfolgreich geändert");
 				lblErrors.setTextFill(Color.GREEN);
 				lblErrors.setText("Passwort wurde erfolgreich geändert");
