@@ -5,15 +5,10 @@ package de.hftstuttgart.EasyExam.Controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
-
 import DB.DBConn;
 import DB.DBQueries;
 import javafx.event.ActionEvent;
@@ -51,35 +46,25 @@ public class PasswortZuruecksetzen1Controller implements Initializable {
 	@FXML
 	private Label lblErrors;
 
-//	public DBQueries dbQueries = new DBQueries(DBConn.connection);
-
-	// Connection to DB
-	Connection conn = null;
-	PreparedStatement stmt = null;
-	ResultSet resultSet = null;
-	
 	public DBQueries dbQueries = new DBQueries(DBConn.connection);
 
-	public String user; // hier soll den wert vom label eMail als Variable gespeichert werden um im updateQuery zu benutzen.
-
+	// static label to show value of JFXTextField eMailAdresse1 from
+	// "ResetPasswordController" in "PasswortZuruecksetzen1Controller"
 	public static Label static_Label;
 
-
-
+	// check new Password + change Password
 	@FXML
 	void btnSpeichernClick(ActionEvent event) {
-//		String user = eMail.getText();
 
 		if (NeuesPasswort.getText().equals(PasswortWiederholung.getText())) {
 			try {
 
-				
-				dbQueries.passwortZuruecksetzen(String.valueOf(PasswortWiederholung), eMail.getText());
+				dbQueries.passwortZuruecksetzen(String.valueOf(PasswortWiederholung.getText()), eMail.getText());
 				System.out.println("Passwort wurde erfolgreich geändert");
 				lblErrors.setTextFill(Color.GREEN);
 				lblErrors.setText("Passwort wurde erfolgreich geändert");
 			} catch (Exception e) {
-				// TODO: handle exception
+				System.err.println(e.getMessage());
 			}
 		} else {
 
@@ -89,6 +74,7 @@ public class PasswortZuruecksetzen1Controller implements Initializable {
 
 	}
 
+	// show "PasswortZuruecksetzen1" GUI
 	public void show() throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(getClass().getResource("/GUI/PasswortZuruecksetzen1.fxml"));
@@ -103,7 +89,7 @@ public class PasswortZuruecksetzen1Controller implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		static_Label = eMail;
-		
+
 	}
 
 }

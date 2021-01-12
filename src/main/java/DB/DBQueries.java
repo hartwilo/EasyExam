@@ -450,6 +450,7 @@ public class DBQueries {
 	}
 
 	public void passwortZuruecksetzen(String passwort, String email) throws SQLException {
+		
 		String updateQuery = "UPDATE Pruefer SET Passwort =" + "'" + passwort + "'" + " where eMail =" + "'" + email + "'";
 		Statement stmt = connection.createStatement(); 
 		stmt.executeUpdate(updateQuery);
