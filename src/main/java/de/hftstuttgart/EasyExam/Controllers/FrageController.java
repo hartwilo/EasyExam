@@ -29,21 +29,22 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class FrageController {
-	
+
 	private static final Logger log;
 
 	static {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
 		log = Logger.getLogger(DBConn.class.getName());
 	}
-	
+
 	/*
 	 * User Input - The following FXML Objects are the only means by which the user
 	 * can input data in the current View. The String values of the TextAreas/Fields
-	 * and Selected RadioButtons/ComboBox-Items are passed to the constructor for Frage.obj
+	 * and Selected RadioButtons/ComboBox-Items are passed to the constructor for
+	 * Frage.obj
 	 * 
-	 */ 
-	
+	 */
+
 	@FXML
 	private TextArea frageStellungTextArea;
 
@@ -58,7 +59,6 @@ public class FrageController {
 
 	@FXML
 	private ToggleGroup Niveau;
-	
 
 	@FXML
 	private RadioButton niveauRadioButton1;
@@ -68,33 +68,31 @@ public class FrageController {
 
 	@FXML
 	private RadioButton niveauRadioButton3;
-	
-	//@Author Jana
-	@FXML 
+
+	// @Author Jana
+	@FXML
 	private TextField levelGrundlagenniveau;
 
-	@FXML 
+	@FXML
 	private TextField levelGut;
 
-	@FXML 
+	@FXML
 	private TextField levelSehrGut;
-	
-	@FXML 
+
+	@FXML
 	private Label grunlagenniveauLB;
 
-	@FXML 
+	@FXML
 	private Label gutLB;
 
-	@FXML 
+	@FXML
 	private Label sehrGutLB;
 
-	@FXML 
+	@FXML
 	private ComboBox<String> themengebietComboBox;
 
-
-
 	// Buttons
-	
+
 	@FXML
 	private Button frageSpeichern;
 
@@ -108,7 +106,7 @@ public class FrageController {
 	private Button frageEditieren;
 
 	// Labels
-	
+
 	@FXML
 	private Label fragestellungEingebenLB;
 
@@ -120,16 +118,13 @@ public class FrageController {
 
 	@FXML
 	private Label themenGebietEingebenLB;
-	
+
 	@FXML
 	private Label katalogLabel;
-	
+
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
 	public static String themengebiet;
-	
-	
-	
-	 
+
 	/*
 	 * The following method is used to create a Frage.obj from the user input in the
 	 * View (TextAreas and ComboBoxes)
@@ -196,10 +191,7 @@ public class FrageController {
 			if (status == 1) { // If the Update was successful
 				infoAnzeigen("Frage erfolgreich gespeichert in Katalog: " + frage.getFragekatalog());
 
-				
-				log.info(" " + System.lineSeparator() 
-						+ "Question succesfuly saved.... " 
-						+ System.lineSeparator()
+				log.info(" " + System.lineSeparator() + "Question succesfuly saved.... " + System.lineSeparator()
 						+ frage.toString());
 
 				StartController.setWindow("Katalogverwaltung");
@@ -210,7 +202,6 @@ public class FrageController {
 		}
 
 	}
-	 
 
 	/*
 	 * Displays a specific warning message.
@@ -270,19 +261,18 @@ public class FrageController {
 		}
 
 	}
-	
-						/////////////////// FXML Methods ////////////////////
-	
+
+	/////////////////// FXML Methods ////////////////////
+
 	@FXML // Save questions through the Speichern Button
 	public void frageSpeichern(MouseEvent event) throws SQLException, IOException {
 		speichern();
-		
+
 	}
-	
-	
+
 	@FXML /*
-			 *  The following method is used to fill the Topics ComboBox with all existing
-			 *  values in the database.
+			 * The following method is used to fill the Topics ComboBox with all existing
+			 * values in the database.
 			 */
 	public void themengebieteLaden(MouseEvent event) throws SQLException {
 		String fragekatalog = KatalogController.katalogName;
@@ -290,7 +280,8 @@ public class FrageController {
 
 	}
 
-	@FXML // Save questions when ENTER key is pressed //Method is currently not used TO-DO:DELETE >?
+	@FXML // Save questions when ENTER key is pressed //Method is currently not used
+			// TO-DO:DELETE >?
 	void frageSpeichernOnEnter(KeyEvent event) throws SQLException, IOException {
 
 		if (event.getCode().equals(KeyCode.ENTER)) {
@@ -298,22 +289,33 @@ public class FrageController {
 		}
 	}
 
-	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new question.
+	@FXML // GUI - Navigation - Go back to KatalogErstellen screen without creating a new
+			// question.
 	public void zueruck(MouseEvent event) throws IOException {
 		log.info("Adding question cancelled");
 		StartController.setWindow("Katalogverwaltung");
 	}
-	
 
 	@FXML
 	void frageEditieren(MouseEvent event) {
 
 	}
-	
+
 	@FXML
-    void showKatalog(MouseEvent event) {
+	void showKatalog(MouseEvent event) {
 		katalogLabel.setText("Selektierter Katalog: " + KatalogController.katalogName);
-    }
-	
+	}
+
+											/// JUnit test Method////
+	public boolean punkteValidieren(String i) {
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*))(\\.\\d+)?");
+		Matcher m = p.matcher(i);
+
+		if (m.find() && m.group().equals(i)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

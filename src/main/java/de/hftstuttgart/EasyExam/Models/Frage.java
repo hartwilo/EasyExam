@@ -46,6 +46,7 @@ public class Frage {
 		this.erreichtePunkte = erreichtePunkte;
 	}
 	
+	
 	public String toString() {
 		return "Fragestellung: " + this.frageStellung  + System.lineSeparator()
 		+ "Lösung: " + this.Musterloesung  + System.lineSeparator()
@@ -205,7 +206,8 @@ public class Frage {
 	public boolean isGestelltbool() {
 		return gestelltbool;
 	}
-
+	
+	
 
 	public void setGestelltbool(boolean gestelltbool) {
 		this.gestelltbool = gestelltbool;

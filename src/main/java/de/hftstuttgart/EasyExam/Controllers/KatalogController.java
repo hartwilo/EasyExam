@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Frage;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -26,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -83,6 +85,8 @@ public class KatalogController {
 
 	@FXML
 	private TableView<de.hftstuttgart.EasyExam.Models.Frage> fragetabelle;
+	 @FXML
+	    private TableColumn<Frage, Boolean> auswahl2;
 
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_fragestellung;
@@ -227,6 +231,8 @@ public void initialize(URL location, ResourceBundle resources) {
 	
 // Define structure of FXML Table Cells you want to display data with
 	public void showInMainTable(ObservableList<Frage> fragen) {
+		auswahl2.setCellFactory(CheckBoxTableCell.forTableColumn(auswahl2));
+		auswahl2.setEditable(true);
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
 		fxcolumn_punkte
@@ -374,11 +380,12 @@ public void initialize(URL location, ResourceBundle resources) {
 				warnungAnzeigen("Bitte Frage auswählen");
 			
 		}*/
-		else if (katalogNameTextField.getText().isEmpty()) {
-			if(auswahl==true) {
+		else if (!(katalogComboBox.getValue()==null)) {
+			
+			
 				warnungAnzeigen("Bitte Frage auswählen");
-			}
-			else {
+		}
+			else{
 				katalogName = katalogComboBox.getValue();
 				System.out.println("zweig3");
 				log.info("Update Question from: "+katalogName);
@@ -388,7 +395,7 @@ public void initialize(URL location, ResourceBundle resources) {
 			}
 		}
 		
-	}
+	
 
 	@FXML /*
 			 * GUI Navigation - Save all current changes and go back to the start screen
