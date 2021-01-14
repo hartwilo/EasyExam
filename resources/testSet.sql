@@ -28,5 +28,6 @@ Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Theme
 Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Welche Dimensionen definiert ITIL 4?', 'Organisation und Menschen, Information und Technologie, Partner und Supplier, Value Streams und Prozesse', 2, 5, 0, 'ITIL', 'IT-Infrastrukturmanagement WS2020', 'IT-Infrastrukturmanagement', '4 Dimensionen', '-', '-');
 Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Nennen Sie Grundprinzipien von ITIL 4', 'Der Wertbeitrag steht im Vordergrund, Beginne ausgehend vom aktuellen Status, Gehe iterativ vor mit Feedback, Kollaboriere und fördere Visibilität, Denke und arbeite ganzheitlich, Mache es einfach und praktisch, Optimiere und automatisiere, ', 2, 7, 0, 'ITIL', 'IT-Infrastrukturmanagement WS2020', 'IT-Infrastrukturmanagement', '4 Grundprinzipien', '5-6 Grundprinzipien', '7 Grundprinzipien');
 
-Insert Into Pruefung(idPruefung,Bezeichnung,Note, Punkte_gesamt,Fragekatalog_fk,Matrikelnr,PersNr) Values (1423, 'Qualitaetsmanagement SS2020', 1.0, 60.0, 943829, 121212, 123454);
-Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Fragekatalog_fk,Matrikelnr,PersNr) Values (3425, 'Beschaffung und Logistik WS20/21', 1.7, 52.5, 239857, 161616, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, Punkte_gesamt, Matrikelnr,PersNr) Values (1423, 'GPM WS2020', 1.0, 60.0, 121212, 123454);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3425, 'GPM WS2020', 1.7, 52.5, 161616, 123453);
+
