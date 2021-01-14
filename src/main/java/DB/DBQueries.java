@@ -14,6 +14,7 @@ import de.hftstuttgart.EasyExam.Controllers.LoginController;
 import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.Pruefer;
+import de.hftstuttgart.EasyExam.Models.Pruefung;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -474,8 +475,32 @@ public class DBQueries {
 			pruefer = new Pruefer(rs.getInt("PersNr"), rs.getString("Nachname"), rs.getString("Vorname"));
 			}
 			return pruefer;
-	}
+	} 
 
+
+
+		
+	
+	
+	
+	public ObservableList<Pruefung> allePruefung() throws SQLException {
+		
+		Statement stmt = connection.createStatement();
+		String query = "SELECT * FROM pruefung";
+		ResultSet rs = stmt.executeQuery(query);	
+		Pruefung pruefung = null;
+		ObservableList<Pruefung> pruefungsList = FXCollections.observableArrayList();
+		
+		while (rs.next()) {
+			pruefung = new Pruefung(rs.getInt("idPruefung"), rs.getString("Bezeichnung"), rs.getFloat("Note"), rs.getFloat("Punkte_gesamt"), rs.getInt("Fragekatalog_fk"), rs.getInt("Matrikelnr"), rs.getInt("PersNr"));
+			pruefungsList.add(pruefung);			
+		} 
+		return pruefungsList;
+		
+		
+		
+		
+	}
 
 	
 
