@@ -48,37 +48,22 @@ public class StatistikController {
     private NumberAxis studentenAnzahlLbl;
     
     public static Stage stage = new Stage();
-
     
-	public void show() throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(getClass().getResource("/GUI/Statistik.fxml"));
-		Scene scene = new Scene(fxmlLoader.load());
-		stage.setTitle("Notenverteilung");
-		stage.setScene(scene);
-		stage.centerOnScreen();
-		stage.setResizable(false);
-		stage.show();
-
-
-	}
-	
-
-    
-	ArrayList<Float> Noten = new ArrayList<>();
+	ArrayList<Float> notenList = new ArrayList<>();
 	public ArrayList<Float> readGrades() throws SQLException {
 	 
-		int counter = 1;
-		int i = 0;
-		while(counter <= 2) {
 		
+		
+		
+		ObservableList <Pruefung> pruefungsList = db.allePruefung();
+		 int counter = pruefungsList.size();
+		
+		for(int i = 0; i<counter; i++) {
 		float note = db.allePruefung().get(i).getNote();
-		Noten.add(note);
-		i++;
-		counter++;
+		notenList.add(note);
 		}
-		System.out.println("Noten:" + Noten);
-		return Noten;		
+		System.out.println("Noten:" + notenList);
+		return notenList;		
 	}
 	
 
@@ -88,6 +73,7 @@ public class StatistikController {
 	
 	public void initialize() throws SQLException {
 		
+    		readGrades();
 		
 		    int counter1 = 0;
 			int counter2 = 0;
@@ -100,33 +86,48 @@ public class StatistikController {
 			int counter9 = 0;
 			int counter10 = 0;
 			int counter11 = 0;
-		for(float note : Noten) {		
 			
-			if(note == 1.0) {
-				counter1++;	
-				System.out.println(counter1);
-			} else if(note == 1.3) {
+		for(float note : notenList) {
+			
+			String s = String.valueOf(note);
+			
+			switch(s) {
+			case "1.0":
+				counter1++;
+				break;
+			case "1.3":
 				counter2++;
-			} else if(note == 1.7) {
+				break;
+			case "1.7":
 				counter3++;
-			} else if(note == 2.0) {
+				break;
+			case "2.0":
 				counter4++;
-			} else if(note == 2.3) {
+				break;
+			case "2.3":
 				counter5++;
-			} else if(note == 2.7) {
+				break;
+			case "2.7":
 				counter6++;
-			} else if(note == 3.0) {
+				break;
+			case "3.0":
 				counter7++;
-			} else if(note == 3.3) {
+				break;
+			case "3.3":
 				counter8++;
-			} else if(note == 3.7) {
+				break;
+			case "3.7":
 				counter9++;
-			} else if(note == 4.0) {
+				break;
+			case "4.0":
 				counter10++;
-			} else if(note == 5.0) {
+				break;
+			case "5.0":
 				counter11++;
-			} else {
-				System.out.println("Keine Note vorhanden");
+				break;
+			default:
+				System.out.println("Keine Noten eingetragen");
+				
 			}
 			}
 		
@@ -149,7 +150,7 @@ public class StatistikController {
     	series.getData().add(new XYChart.Data<>("5,0", counter11));    	
     	notenverteilungTable.getData().add(series);  
     	System.out.println("erledigt");
-    	readGrades();
+
     	
     	
 	} catch(Exception e) {
@@ -158,29 +159,4 @@ public class StatistikController {
 		
 	}
 	}
-    
-   /* public void showNotenverteilung(Stage primaryStage) {
-    	try {
-            // Load the fxml file and create a new stage for the popup.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(StartController.class.getResource("GUI/Statistik.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Notenverteilung");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the persons into the controller.
-            StatistikController controller = loader.getController();
-            controller.initialize();
-
-            dialogStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
 }
