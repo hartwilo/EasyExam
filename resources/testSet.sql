@@ -3,6 +3,7 @@ Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123455,'
 Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123457,'Kramer','Ralf','ralf.kramer@hft-stuttgart.de','passwort');
 Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123454,'Lueckemeyer','Gero','gero.lueckemeyer@hft-stuttgart.de','Passwort123');
 Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123453,'Dehdari','Payam','payam.dehdari@hft-stuttgart.de','logistik');
+Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (357593,'Prof','Essor','81halo','test');
 
 Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (121212, 'Hartwig', 'Lorenz', 6, 'WI');
 Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (131313, 'Jakobi', 'Jana', 5, 'WI');
