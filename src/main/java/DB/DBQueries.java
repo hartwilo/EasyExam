@@ -483,16 +483,16 @@ public class DBQueries {
 	
 	
 	
-	public ObservableList<Pruefung> allePruefung() throws SQLException {
+	public ObservableList<Pruefung> allePruefung(String katalog) throws SQLException {
 		
 		Statement stmt = connection.createStatement();
-		String query = "SELECT * FROM pruefung";
+		String query = "SELECT * FROM pruefung where Bezeichnung =" + "'" + katalog + "'";
 		ResultSet rs = stmt.executeQuery(query);	
 		Pruefung pruefung = null;
 		ObservableList<Pruefung> pruefungsList = FXCollections.observableArrayList();
 		
 		while (rs.next()) {
-			pruefung = new Pruefung(rs.getInt("idPruefung"), rs.getString("Bezeichnung"), rs.getFloat("Note"), rs.getFloat("Punkte_gesamt"), rs.getInt("Fragekatalog_fk"), rs.getInt("Matrikelnr"), rs.getInt("PersNr"));
+			pruefung = new Pruefung(rs.getInt("idPruefung"), rs.getString("Bezeichnung"), rs.getFloat("Note"), rs.getFloat("Punkte_gesamt"), rs.getInt("Matrikelnr"), rs.getInt("PersNr"));
 			pruefungsList.add(pruefung);			
 		} 
 		return pruefungsList;

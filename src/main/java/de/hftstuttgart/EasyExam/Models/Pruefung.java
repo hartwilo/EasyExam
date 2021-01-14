@@ -11,14 +11,13 @@ public class Pruefung<Katalog> {
 	private int prueferNr;
 	
 	
-	public Pruefung(int idPruefung, String bezeichnung, float note, float erreichtePunkte, int fragekatalog, int matrikelnr,
+	public Pruefung(int idPruefung, String bezeichnung, float note, float erreichtePunkte, int matrikelnr,
 			int prueferNr) {
 		super();
 		this.idPruefung = idPruefung;
 		this.bezeichnung = bezeichnung;
 		this.note = note;
 		this.erreichtePunkte = erreichtePunkte;
-		this.fragekatalog = fragekatalog;
 		this.matrikelnr = matrikelnr;
 		this.prueferNr = prueferNr;
 	}
@@ -63,15 +62,6 @@ public class Pruefung<Katalog> {
 		this.erreichtePunkte = erreichtePunkte;
 	}
 
-
-	public int getFragekatalog() {
-		return fragekatalog;
-	}
-
-
-	public void setFragekatalog(int fragekatalog) {
-		this.fragekatalog = fragekatalog;
-	}
 
 
 	public int getMatrikelnr() {
