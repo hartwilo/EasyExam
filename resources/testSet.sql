@@ -3,6 +3,7 @@ Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123455,'
 Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123457,'Kramer','Ralf','ralf.kramer@hft-stuttgart.de','passwort');
 Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123454,'Lueckemeyer','Gero','gero.lueckemeyer@hft-stuttgart.de','Passwort123');
 Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (123453,'Dehdari','Payam','payam.dehdari@hft-stuttgart.de','logistik');
+Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (357593,'Prof','Essor','81halo','test');
 
 Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (121212, 'Hartwig', 'Lorenz', 6, 'WI');
 Insert Into Student(Matrikelnr, Nachname, Vorname, Semester, Studiengang) Values (131313, 'Jakobi', 'Jana', 5, 'WI');
@@ -28,5 +29,24 @@ Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Theme
 Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Welche Dimensionen definiert ITIL 4?', 'Organisation und Menschen, Information und Technologie, Partner und Supplier, Value Streams und Prozesse', 2, 5, 0, 'ITIL', 'IT-Infrastrukturmanagement WS2020', 'IT-Infrastrukturmanagement', '4 Dimensionen', '-', '-');
 Insert Into Frage (Fragestellung, Musterloesung, Niveau, Punkte, gestellt, Themengebiet, Fragekatalog, Modul, grundLageNiveau, gut, sehrGut) Values ('Nennen Sie Grundprinzipien von ITIL 4', 'Der Wertbeitrag steht im Vordergrund, Beginne ausgehend vom aktuellen Status, Gehe iterativ vor mit Feedback, Kollaboriere und fördere Visibilität, Denke und arbeite ganzheitlich, Mache es einfach und praktisch, Optimiere und automatisiere, ', 2, 7, 0, 'ITIL', 'IT-Infrastrukturmanagement WS2020', 'IT-Infrastrukturmanagement', '4 Grundprinzipien', '5-6 Grundprinzipien', '7 Grundprinzipien');
 
-Insert Into Pruefung(idPruefung,Bezeichnung,Note, Punkte_gesamt,Fragekatalog_fk,Matrikelnr,PersNr) Values (1423, 'Qualitaetsmanagement SS2020', 1.0, 60.0, 943829, 121212, 123454);
-Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Fragekatalog_fk,Matrikelnr,PersNr) Values (3425, 'Beschaffung und Logistik WS20/21', 1.7, 52.5, 239857, 161616, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, Punkte_gesamt, Matrikelnr,PersNr) Values (1423, 'GPM WS2020', 1.0, 60.0, 121212, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3425, 'GPM WS2020', 1.0, 52.5, 131313, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3426, 'GPM WS2020', 1.7, 52.5, 161616, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3427, 'GPM WS2020', 1.7, 52.5, 151515, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3428, 'GPM WS2020', 2.3, 52.5, 161616, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3429, 'GPM WS2020', 2.7, 52.5, 151515, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3430, 'GPM WS2020', 3.0, 52.5, 161616, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3431, 'GPM WS2020', 3.0, 52.5, 141414, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3432, 'GPM WS2020', 3.0, 52.5, 161616, 123455);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3433, 'GPM WS2020', 4.0, 52.5, 171717, 123455);
+
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, Punkte_gesamt, Matrikelnr,PersNr) Values (3434, 'Logistik WS2016', 1.3, 60.0, 121212, 123454);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3435, 'Logistik WS2016', 1.7, 52.5, 131313, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3436, 'Logistik WS2016', 1.7, 52.5, 161616, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3437, 'Logistik WS2016', 2.3, 52.5, 151515, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3438, 'Logistik WS2016', 2.7, 52.5, 161616, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3439, 'Logistik WS2016', 2.7, 52.5, 151515, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3440, 'Logistik WS2016', 3.0, 52.5, 161616, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3441, 'Logistik WS2016', 3.0, 52.5, 141414, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3442, 'Logistik WS2016', 3.0, 52.5, 161616, 123453);
+Insert Into Pruefung(idPruefung,Bezeichnung,Note, punkte_gesamt, Matrikelnr,PersNr) Values (3443, 'Logistik WS2016', 4.0, 52.5, 171717, 123453);

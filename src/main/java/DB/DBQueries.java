@@ -532,6 +532,7 @@ public class DBQueries {
 			pruefer = new Pruefer(rs.getInt("PersNr"), rs.getString("Nachname"), rs.getString("Vorname"));
 			}
 			return pruefer;
+
 	}
 	/**
 	 * The method is used to save an exam per student
@@ -541,11 +542,15 @@ public class DBQueries {
 	 * @throws SQLException
 	 */
 
+	
+
+
+
 	public int pruefungSpeichern(Pruefung pruefung) throws SQLException {
 		connection.setAutoCommit(true);
 
-		String query = "INSERT INTO Pruefung(idPruefung, Bezeichnung, Note, Punkte_gesamt, Fragekatalog_fk, Matrikelnr, PersNr) "
-				+ "VALUES(?,?,?,?,?,?,?)";
+		String query = "INSERT INTO Pruefung(idPruefung, Bezeichnung, Note, Punkte_gesamt, Matrikelnr, PersNr) "
+				+ "VALUES(?,?,?,?,?,?)";
 
 		PreparedStatement stmt = connection.prepareStatement(query);
 		
@@ -553,7 +558,6 @@ public class DBQueries {
 		String bezeichnung = pruefung.getBezeichnung();
 		float note = pruefung.getNote();
 		float punkte_gesamt = pruefung.getPunkteGesamt();
-		String fragekatalog_fk = pruefung.getFragekatalog();
 		int matrikelnr = pruefung.getStudent_mtkr();
 		int persnr = pruefung.getPrueferNr();
 				
@@ -562,7 +566,6 @@ public class DBQueries {
 		stmt.setString(2, bezeichnung);
 		stmt.setFloat(3, note);
 		stmt.setFloat(4, punkte_gesamt);
-		stmt.setString(5, fragekatalog_fk);
 		stmt.setInt(6, matrikelnr);
 		stmt.setInt(7, persnr);
 	
@@ -570,16 +573,24 @@ public class DBQueries {
 		return stmt.executeUpdate();
 	}
 	
-	public ObservableList<Pruefung> allePruefung() throws SQLException {
+
+		
+	
+	
+	
+	public ObservableList<Pruefung> allePruefung(String katalog) throws SQLException {
 		
 		Statement stmt = connection.createStatement();
-		String query = "SELECT * FROM pruefung";
+		String query = "SELECT * FROM pruefung where Bezeichnung =" + "'" + katalog + "'";
+
 		ResultSet rs = stmt.executeQuery(query);	
 		Pruefung pruefung = null;
 		ObservableList<Pruefung> pruefungsList = FXCollections.observableArrayList();
 		
 		while (rs.next()) {
-			pruefung = new Pruefung(rs.getInt("idPruefung"), rs.getString("Bezeichnung"), rs.getFloat("Note"), rs.getFloat("Punkte_gesamt"), rs.getString("Fragekatalog_fk"), rs.getInt("Matrikelnr"), rs.getInt("PersNr"));
+			
+			pruefung = new Pruefung(rs.getInt("idPruefung"), rs.getString("Bezeichnung"), rs.getFloat("Note"), rs.getFloat("Punkte_gesamt"), rs.getInt("Matrikelnr"), rs.getInt("PersNr"));
+
 			pruefungsList.add(pruefung);			
 		} 
 		return pruefungsList;
@@ -588,6 +599,7 @@ public class DBQueries {
 		
 		
 	}
+
 	
 
 }

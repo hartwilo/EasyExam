@@ -30,7 +30,8 @@ Niveau INTEGER NOT NULL,
 Punkte FLOAT NOT NULL,
 gestellt TINYINT,
 Themengebiet VARCHAR(255),
-Fragekatalog VARCHAR(255),
+Fragekatalog VARCHAR(255), 
+INDEX(Fragekatalog),
 Modul VARCHAR(255),
 grundLageNiveau VARCHAR(255),
 gut VARCHAR(255),
@@ -43,9 +44,9 @@ CREATE TABLE Pruefung
 Bezeichnung VARCHAR(45) NOT NULL,
 Note FLOAT,
 Punkte_gesamt FLOAT null,
-Fragekatalog_fk INTEGER,
 Matrikelnr INTEGER,
 PersNr INTEGER,
+CONSTRAINT fk_Bezeichnung FOREIGN Key (Bezeichnung) REFERENCES Frage (Fragekatalog) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT fk_PersNr FOREIGN KEY (PersNr) REFERENCES Pruefer (PersNr) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT fk_Matrikelnr FOREIGN KEY (Matrikelnr) REFERENCES Student (Matrikelnr) ON DELETE CASCADE ON UPDATE CASCADE);
 
@@ -54,3 +55,4 @@ CREATE TABLE Fragenloesung
 Niveau INTEGER NOT NULL,
 Frage_fk INTEGER,
 CONSTRAINT fk_Frage FOREIGN KEY (Frage_fk) REFERENCES Frage (idFrage) ON DELETE CASCADE ON UPDATE CASCADE);
+

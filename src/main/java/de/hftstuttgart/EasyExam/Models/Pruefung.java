@@ -6,10 +6,10 @@ public class Pruefung<Katalog> {
 	private String bezeichnung;
 	private float note;
 	private float punkteGesamt;
-	private String fragekatalog;
 	private int student_mtkr;
 	private int prueferNr;
 	
+
 	/**
 	 * Constructor with ID, bezeichnung, note, fragekatalog, student and pruefer
 	 * 
@@ -20,15 +20,14 @@ public class Pruefung<Katalog> {
 	 * @param student
 	 * @param pruefer
 	 */
-	public Pruefung(int idPruefung, String bezeichnung, float note, float punkteGesamt, String fragekatalog, int student_mtkr,
-			int prueferNr) {
+
+	public Pruefung(int idPruefung, String bezeichnung, float note, float punkteGesamt, int student_mtkr,int prueferNr) {
 		super();
 		this.idPruefung = idPruefung;
 		this.bezeichnung = bezeichnung;
 		this.note = note;
-		this.punkteGesamt = punkteGesamt;
-		this.fragekatalog = fragekatalog;
-		this.student_mtkr = student_mtkr;
+		this.punkteGesamt = punkteGesamt;		
+		this.student_mtkr = student_mtkr;	
 		this.prueferNr = prueferNr;
 	}
 
@@ -96,27 +95,12 @@ public class Pruefung<Katalog> {
 		this.punkteGesamt = punkteGesamt;
 	}
 
-	/**
-	 * The method is used to get the catalog
-	 * 
-	 * @return
-	 */
-	public String getFragekatalog() {
-		return fragekatalog;
-	}
 
-	/**
-	 * The method is used to set the catalog
-	 * 
-	 * @param fragekatalog
-	 */
-	public void setFragekatalog(String fragekatalog) {
-		this.fragekatalog = fragekatalog;
-	}
 
 	public int getStudent_mtkr() {
 		return student_mtkr;
 	}
+
 
 	public void setStudent_mtkr(int student_mtkr) {
 		this.student_mtkr = student_mtkr;
