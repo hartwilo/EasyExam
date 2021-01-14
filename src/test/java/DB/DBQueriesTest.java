@@ -20,7 +20,11 @@ import org.junit.jupiter.api.Test;
 import com.itextpdf.text.log.SysoCounter;
 
 import de.hftstuttgart.EasyExam.Models.Frage;
+import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.Pruefer;
+import de.hftstuttgart.EasyExam.Models.Pruefung;
+import de.hftstuttgart.EasyExam.Models.Student;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -439,6 +443,356 @@ class DBQueriesTest {
 			stmt.executeUpdate("DELETE FROM Pruefer WHERE PersNr=" + "'" + pruefer.getPersNr() + "'");
 		}
 		catch(SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#erreichte_punkte_speichern(Frage, double)}
+	 */
+	@Test
+	void testErreichte_punkte_speichern() {
+		try {
+			Statement stmt = connection.createStatement();
+			int frageId=54321;
+    	    String fragestellung="frage";
+    	    String musterloesung="loesung";
+    	    int niveau=1;
+    	    float punkte=3;
+    	    String punkte2="3";
+    	    boolean gestellt=false;
+    	    String gestellt2="false";
+    	    String themengebiet="Mathe";
+    	    String fragekatalog="36";
+    	    String modul="Mathe2";
+    	    String grundLageNiveau="grundLageNiveau";
+    	    String gut="gut";
+    	    String sehrGut="sehrGut";
+    	    Frage fragePunkte = new Frage(frageId, fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul, grundLageNiveau, gut, sehrGut);
+    	    db.frageSpeichern(fragePunkte);
+    	   
+    	    String getFrage = "SELECT idFrage FROM Frage WHERE fragestellung=" + "'" + fragestellung + "'";
+    	    
+    	    ResultSet rs1 = stmt.executeQuery(getFrage);
+    	    while(rs1.next()) {
+    	    	frageId = rs1.getInt("idFrage");
+    	    }
+    	    
+    	    fragePunkte.setID(frageId);;
+    	    
+    	    double erpunkte = 2.5;
+    	    db.erreichte_punkte_speichern(fragePunkte, erpunkte);
+    	    
+    	    
+    	    
+    	    String query = "SELECT Punkte_erreicht FROM Frage WHERE idFrage=" + "'" + frageId + "'";
+    	    ResultSet rs = stmt.executeQuery(query);
+    	    
+    	    while(rs.next()) {
+    	    	assertEquals(rs.getDouble("Punkte_erreicht"), erpunkte);
+    	    }
+		}
+		catch (SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#frage_selektieren(Frage)}
+	 */
+	@Test
+	void testFrage_selektieren() {
+		try {
+			int frageId = 7843;
+			String fragestellung="testFrage";
+			String musterloesung="loesung";
+		    int niveau=1;
+		    float punkte=3;
+		    String punkte2="3";
+		    boolean gestellt=false;
+		    String gestellt2="false";
+		    String themengebiet="Mathe";
+		    String fragekatalog="36";
+		    String modul="Mathe2";
+		    String grundLageNiveau="grundLageNiveau";
+		    String gut="gut";
+		    String sehrGut="sehrGut";
+		    Frage fragePunkte = new Frage(fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul, grundLageNiveau, gut, sehrGut);
+		    db.frageSpeichern(fragePunkte);
+		    
+		    Statement stmt = connection.createStatement();
+		    
+		    String getFrage = "SELECT idFrage FROM Frage WHERE fragestellung=" + "'" + fragestellung + "'";
+    	    
+    	    ResultSet rs1 = stmt.executeQuery(getFrage);
+    	    while(rs1.next()) {
+    	    	frageId = rs1.getInt("idFrage");
+    	    }
+    	    
+    	    fragePunkte.setID(frageId);
+    	    ResultSet rs = db.frage_selektieren(fragePunkte);
+    	    while(rs.next()) {
+    	    	assertEquals(rs.getString("fragestellung"), fragestellung);
+    	    	assertEquals(rs.getString("musterloesung"), musterloesung);
+    	    	assertEquals(rs.getInt("niveau"), niveau);
+    	    	assertEquals(rs.getFloat("punkte"), punkte);
+    	    	assertEquals(rs.getBoolean("gestellt"), gestellt);
+    	    	assertEquals(rs.getString("themengebiet"), themengebiet);
+    	    	assertEquals(rs.getString("modul"), modul);
+    	    }
+    	    
+		}
+	    catch ( SQLException e) {
+	    	fail(e.toString());
+	    }
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#studentenSpeichern(ObservableList)}
+	 */
+	@Test
+	void testStudentenSpeichern() {
+		try {
+			ObservableList<Student> studenten = FXCollections.observableArrayList();
+			
+			Statement stmt = connection.createStatement();
+			
+			int matrikelnr = 123456;
+			String vorname = "Hans";
+			String nachname = "Müller";
+			int semester =5;
+			String studiengang = "WI";
+			
+			Student s1 = new Student(matrikelnr, vorname, nachname, semester, studiengang);
+			
+			int matrikelnr2 = 654321;
+			String vorname2 = "Gustav";
+			String nachname2 = "Maier";
+			int semester2 =7;
+			String studiengang2 = "Inf";
+			
+			Student s2 = new Student(matrikelnr2, vorname2, nachname2, semester2, studiengang2);
+			
+			studenten.add(s1);
+			studenten.add(s2);
+			
+			assertEquals(1, db.studentenSpeichern(studenten));
+			stmt.executeUpdate("DELETE FROM Student WHERE Matrikelnr=" + "'" + matrikelnr + "'");
+			stmt.executeUpdate("DELETE FROM Student WHERE Matrikelnr=" + "'" + matrikelnr2 + "'");
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#studentenLaden()}
+	 */
+	@Test
+	void testStudentenLaden() {
+		try {
+			ObservableList<Student> studenten = FXCollections.observableArrayList();;
+
+			int matrikelnr = 444444;
+			String vorname = "Hans";
+			String nachname = "Müller";
+			int semester =5;
+			String studiengang = "WI";
+			
+			Student s1 = new Student(matrikelnr, vorname, nachname, semester, studiengang);
+			studenten.add(s1);
+			
+			db.studentenSpeichern(studenten);
+			
+			ResultSet rs = db.studentenLaden();
+			
+			while(rs.next()) {
+				assertEquals(matrikelnr, rs.getInt("Matrikelnr"));
+				assertEquals(vorname, rs.getString("Vorname"));
+				assertEquals(nachname, rs.getString("Nachname"));
+				assertEquals(semester, rs.getInt("Semester"));
+				assertEquals(studiengang, rs.getString("Studiengang"));
+			}
+			
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#select_erreichte_punkte(Frage)}
+	 */
+	@Test
+	void testSelect_erreichte_punkte() {
+		try {
+			int frageId = 7843;
+			String fragestellung="MatheFrage";
+			String musterloesung="loesung";
+		    int niveau=1;
+		    float punkte=3;
+		    String punkte2="3";
+		    boolean gestellt=false;
+		    String gestellt2="false";
+		    String themengebiet="Mathe";
+		    String fragekatalog="36";
+		    String modul="Mathe2";
+		    String grundLageNiveau="grundLageNiveau";
+		    String gut="gut";
+		    String sehrGut="sehrGut";
+		    Frage fragePunkte = new Frage(fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul, grundLageNiveau, gut, sehrGut);
+		    db.frageSpeichern(fragePunkte);
+		    
+		    Statement stmt = connection.createStatement();
+		    
+		    String getFrage = "SELECT idFrage FROM Frage WHERE fragestellung=" + "'" + fragestellung + "'";
+    	    
+    	    ResultSet rs1 = stmt.executeQuery(getFrage);
+    	    while(rs1.next()) {
+    	    	frageId = rs1.getInt("idFrage");
+    	    }
+    	    
+    	    fragePunkte.setID(frageId);
+    	    
+    	    float erPunkte = 2;
+    	    db.erreichte_punkte_speichern(fragePunkte, erPunkte);
+    	    assertEquals(erPunkte, db.select_erreichte_punkte(fragePunkte));
+    	    
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#reset()}
+	 */
+	@Test
+	void testReset() {
+		try {
+			int frageId = 7843;
+			String fragestellung="MatheFrage";
+			String musterloesung="loesung";
+		    int niveau=1;
+		    float punkte=3;
+		    String punkte2="3";
+		    boolean gestellt=false;
+		    String gestellt2="false";
+		    String themengebiet="Mathe";
+		    String fragekatalog="36";
+		    String modul="Mathe2";
+		    String grundLageNiveau="grundLageNiveau";
+		    String gut="gut";
+		    String sehrGut="sehrGut";
+		    Note notizen = new Note();
+		    float erPunkte = 2;
+		    Frage fragePunkte = new Frage(fragestellung, musterloesung, niveau, themengebiet, fragekatalog, punkte, gestellt, modul, grundLageNiveau, gut, sehrGut);
+		    db.frageSpeichern(fragePunkte);
+		    
+		    Statement stmt = connection.createStatement();
+		    
+		    String getFrage = "SELECT idFrage FROM Frage WHERE fragestellung=" + "'" + fragestellung + "'";
+		  
+		    ResultSet rs1 = stmt.executeQuery(getFrage);
+		    while(rs1.next()) {
+		    	frageId = rs1.getInt("idFrage");
+		    }
+		    
+		    fragePunkte.setID(frageId);
+    	    db.erreichte_punkte_speichern(fragePunkte, erPunkte);
+    	    db.notizienSpeichern(notizen, fragePunkte);
+    	    db.reset();
+    	    String query = "SELECT gestellt, Notizien, Punkte_erreicht FROM Frage WHERE idFrage =" + "'" + frageId + "'";
+    	    ResultSet rs = stmt.executeQuery(query);
+    	    while(rs.next()) {
+    	    	assertEquals(rs.getBoolean("gestellt"), false);
+    	    	assertEquals(rs.getString("Notizien"), null);
+    	    	assertEquals(rs.getFloat("Punkte_erreicht"), 0);
+    	    }
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#getPruefer(String)}
+	 */
+	@Test
+	void testGetPruefer() {
+		try {
+			int persNr = 1234;
+			String nachname ="Müller";
+			String vorname = "Heinz";
+			String eMail ="abc@hft.de";
+			String passwort = "4321";
+			
+			Pruefer p = new Pruefer(persNr, nachname, vorname, eMail, passwort);
+			String query = "Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values (1234,'Müller','Heinz','abc@hft.de','4321')";
+			Statement stmt = connection.createStatement();
+			stmt.execute(query);
+			
+			assertEquals(p.getPersNr(), db.getPruefer(eMail).getPersNr());
+			
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#pruefungSpeichern(de.hftstuttgart.EasyExam.Models.Pruefung)}
+	 */
+	@Test 
+	void testPruefungSpeichern() {
+		try {
+			int idPruefung=3;
+			String bezeichnung="abc";
+			float note=2;
+			float punkteGesamt=25;
+			String fragekatalog="Mathe";
+			int student_mtkr=123456;
+			int prueferNr=1234;
+			
+			Pruefung pr = new Pruefung(idPruefung, bezeichnung, note, punkteGesamt, fragekatalog, student_mtkr, prueferNr);
+			
+			assertEquals(1, db.pruefungSpeichern(pr));
+		} catch (SQLException e) {
+			fail(e.toString());
+		}
+	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#allePruefung()}
+	 */
+	@Test
+	void testAllePruefung() {
+		try {
+			ObservableList<Pruefung> pruefung = FXCollections.observableArrayList();
+			int idPruefung=5;
+			String bezeichnung="def";
+			float note=2;
+			float punkteGesamt=25;
+			String fragekatalog="ITM";
+			int student_mtkr=123456;
+			int prueferNr=1234;
+			
+			Pruefung pr = new Pruefung(idPruefung, bezeichnung, note, punkteGesamt, fragekatalog, student_mtkr, prueferNr);
+			db.pruefungSpeichern(pr);
+			
+			pruefung = db.allePruefung();
+			for(int i = 0; i < pruefung.size(); i++) {
+				if(pruefung.get(i).getIdPruefung() == idPruefung) {
+					assertEquals(bezeichnung, pruefung.get(i).getBezeichnung());
+					assertEquals(note, pruefung.get(i).getNote());
+					assertEquals(punkteGesamt, pruefung.get(i).getPunkteGesamt());
+					assertEquals(fragekatalog, pruefung.get(i).getFragekatalog());
+					assertEquals(student_mtkr, pruefung.get(i).getStudent_mtkr());
+					assertEquals(prueferNr, pruefung.get(i).getPrueferNr());
+				}
+			}
+		}
+		catch (SQLException e) {
 			fail(e.toString());
 		}
 	}

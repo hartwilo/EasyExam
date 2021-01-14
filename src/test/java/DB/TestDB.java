@@ -106,11 +106,14 @@ public class TestDB {
             					"Modul VARCHAR(255)," + 
             					"grundLageNiveau VARCHAR(255)," + 
             					"gut VARCHAR(255)," + 
-            					"sehrGut VARCHAR(255));" + 
+            					"sehrGut VARCHAR(255)," + 
+            					"Notizien text null," +
+            					"Punkte_erreicht FLOAT null);" +
             					"CREATE TABLE Pruefung" + 
             					"(idPruefung INTEGER PRIMARY KEY," + 
             					"Bezeichnung VARCHAR(45) NOT NULL," + 
             					"Note FLOAT," + 
+            					"Punkte_gesamt FLOAT null," +
             					"Fragekatalog_fk INTEGER," + 
             					"Matrikelnr INTEGER," + 
             					"PersNr INTEGER," + 
