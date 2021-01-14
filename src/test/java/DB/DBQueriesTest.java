@@ -754,7 +754,7 @@ class DBQueriesTest {
 			int student_mtkr=123456;
 			int prueferNr=1234;
 			
-			Pruefung pr = new Pruefung(idPruefung, bezeichnung, note, punkteGesamt, fragekatalog, student_mtkr, prueferNr);
+			Pruefung pr = new Pruefung(idPruefung, bezeichnung, note, punkteGesamt, student_mtkr, prueferNr);
 			
 			assertEquals(1, db.pruefungSpeichern(pr));
 		} catch (SQLException e) {
@@ -777,16 +777,15 @@ class DBQueriesTest {
 			int student_mtkr=123456;
 			int prueferNr=1234;
 			
-			Pruefung pr = new Pruefung(idPruefung, bezeichnung, note, punkteGesamt, fragekatalog, student_mtkr, prueferNr);
+			Pruefung pr = new Pruefung(idPruefung, bezeichnung, note, punkteGesamt, student_mtkr, prueferNr);
 			db.pruefungSpeichern(pr);
 			
-			pruefung = db.allePruefung();
+			pruefung = db.allePruefung(bezeichnung);
 			for(int i = 0; i < pruefung.size(); i++) {
 				if(pruefung.get(i).getIdPruefung() == idPruefung) {
 					assertEquals(bezeichnung, pruefung.get(i).getBezeichnung());
 					assertEquals(note, pruefung.get(i).getNote());
 					assertEquals(punkteGesamt, pruefung.get(i).getPunkteGesamt());
-					assertEquals(fragekatalog, pruefung.get(i).getFragekatalog());
 					assertEquals(student_mtkr, pruefung.get(i).getStudent_mtkr());
 					assertEquals(prueferNr, pruefung.get(i).getPrueferNr());
 				}
