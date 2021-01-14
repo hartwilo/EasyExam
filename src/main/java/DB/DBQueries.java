@@ -566,8 +566,8 @@ public class DBQueries {
 		stmt.setString(2, bezeichnung);
 		stmt.setFloat(3, note);
 		stmt.setFloat(4, punkte_gesamt);
-		stmt.setInt(6, matrikelnr);
-		stmt.setInt(7, persnr);
+		stmt.setInt(5, matrikelnr);
+		stmt.setInt(6, persnr);
 	
 
 		return stmt.executeUpdate();

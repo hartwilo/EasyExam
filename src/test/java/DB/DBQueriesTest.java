@@ -750,7 +750,6 @@ class DBQueriesTest {
 			String bezeichnung="abc";
 			float note=2;
 			float punkteGesamt=25;
-			String fragekatalog="Mathe";
 			int student_mtkr=123456;
 			int prueferNr=1234;
 			
@@ -770,10 +769,9 @@ class DBQueriesTest {
 		try {
 			ObservableList<Pruefung> pruefung = FXCollections.observableArrayList();
 			int idPruefung=5;
-			String bezeichnung="def";
+			String bezeichnung="Qualitaetsmanagement SS2020";
 			float note=2;
 			float punkteGesamt=25;
-			String fragekatalog="ITM";
 			int student_mtkr=123456;
 			int prueferNr=1234;
 			
