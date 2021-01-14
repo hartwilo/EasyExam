@@ -442,4 +442,28 @@ class DBQueriesTest {
 			fail(e.toString());
 		}
 	}
+	
+	/**
+	 * Test method for {@link DB.DBQueries#passwortZuruecksetzen(String, String)}
+	 */
+	@Test
+	void testPasswortZuruecksetzen() {
+		try {
+			Pruefer pruefer = new Pruefer(555555,"Mosler","Christof","christof.mosler@hft-stuttgart.de", "datenschutz");
+			Statement stmt = connection.createStatement();
+			String query = "Insert Into Pruefer(PersNr, Nachname, Vorname, eMail, Passwort) Values(555555,'Mosler','Christof','christof.mosler@hft-stuttgart.de', 'datenschutz')";
+			stmt.executeUpdate(query);
+			db.passwortZuruecksetzen("ITM", "christof.mosler@hft-stuttgart.de");
+			String abfrage = "SELECT Passwort FROM Pruefer WHERE email = 'christof.mosler@hft-stuttgart.de'";
+			ResultSet rs = stmt.executeQuery(abfrage);
+			while(rs.next()) {
+				assertEquals("ITM", rs.getString("Passwort"));
+			}
+			
+			stmt.executeUpdate("DELETE FROM Pruefer WHERE PersNr=" + "'" + pruefer.getPersNr() + "'");
+		}
+		catch(SQLException e) {
+			fail(e.toString());
+		}
+	}
 }
