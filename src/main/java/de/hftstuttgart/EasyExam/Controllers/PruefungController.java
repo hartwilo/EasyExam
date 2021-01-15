@@ -1031,6 +1031,53 @@ public void writeExcel(int note) throws IOException {
 		uController.show();
 
 	}
+	
+	
+	public int noteBerechnen() {
+		int note = 0;
+		double maxPunkte=0;
+		UebersichtController ue = new UebersichtController();
+		ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
+		gestellteFragen.add(ue.get_selected_question());
+		for(Frage frage : gestellteFragen) {
+			maxPunkte = maxPunkte + frage.getPunkte();
+		}
+		float erreichtePunkte = ue.gesPunktzahl;
+		
+		float floatNote = erreichtePunkte/(float)maxPunkte;
+		
+		if(floatNote>=0.95) {
+			note = 100;
+		}else if(floatNote<0.95 && floatNote>=0.90) {
+			note = 130;
+		}else if(floatNote<0.90 && floatNote>=0.85) {
+			note = 170;
+		}else if(floatNote<0.85 && floatNote>=0.80) {
+			note = 200;
+		}else if(floatNote<0.80 && floatNote>=0.75) {
+			note = 230;
+		}else if(floatNote<0.75 && floatNote>=0.70) {
+			note = 270;
+		}else if(floatNote<0.70 && floatNote>=0.65) {
+			note = 300;
+		}else if(floatNote<0.65 && floatNote>=0.60) {
+			note = 330;
+		}else if(floatNote<0.60 && floatNote>=0.55) {
+			note = 370;
+		}else if(floatNote<0.55 && floatNote>=0.50) {
+			note = 400;
+		}else {
+			note = 500;
+		}
+		
+		
+		
+		
+		
+		
+		return note;
+	}
+	
 
 	@FXML
 	public void pdfErstellenClick(MouseEvent event) throws FileNotFoundException, DocumentException, SQLException {

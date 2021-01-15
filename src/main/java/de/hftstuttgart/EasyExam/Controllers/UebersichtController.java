@@ -311,6 +311,7 @@ public class UebersichtController implements Initializable {
 	 */
 	@FXML
 	void showQuestions(MouseEvent event) throws SQLException {
+		gesPunktzahl = 0;
 		uebersicht();
 
 	}
