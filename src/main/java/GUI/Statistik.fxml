@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="703.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.StatistikController">
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="674.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.StatistikController">
 <children>
       <Group layoutX="31.0" layoutY="21.0" />
       <Group layoutX="356.0" layoutY="218.0" />
@@ -31,7 +31,7 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <BarChart fx:id="notenverteilungTable" layoutX="54.0" layoutY="191.0" prefHeight="490.0" prefWidth="736.0" title="Notenverteilung">
+      <BarChart fx:id="notenverteilungTable" layoutX="54.0" layoutY="149.0" prefHeight="490.0" prefWidth="736.0" title="Notenverteilung">
         <xAxis>
           <CategoryAxis fx:id="notenLbl" label="Noten" side="BOTTOM" />
         </xAxis>
@@ -39,25 +39,20 @@
           <NumberAxis fx:id="studentenAnzahlLbl" label="Anzahl an Studenten" side="LEFT" />
         </yAxis>
       </BarChart>
-      <ComboBox fx:id="katalogWaehlenComboBox" layoutX="385.0" layoutY="65.0" onMousePressed="#katalogAuswahl" prefHeight="12.0" prefWidth="164.0" promptText="Katalog wählen" />
+      <ComboBox fx:id="katalogWaehlenComboBox" layoutX="196.0" layoutY="87.0" onMousePressed="#katalogAuswahl" prefHeight="12.0" prefWidth="164.0" promptText="Katalog wählen" />
       <MenuButton layoutX="729.0" layoutY="6.0" mnemonicParsing="false" text="Navigation">
         <items>
           <MenuItem fx:id="PrüfungStarten" mnemonicParsing="false" onAction="#PrüfungStartenClick" text="Prüfung Starten" />
           <MenuItem fx:id="FragekatalogErstellen" mnemonicParsing="false" onAction="#FrageKatalogErstellenClick" text="Fragekatalog Erstellen" />
-            <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
-              <content>
-                <CheckBox text="Click Me" />
-              </content>
-            </CustomMenuItem>
         </items>
       </MenuButton>
-      <ComboBox fx:id="sortierenComboBox" layoutX="385.0" layoutY="119.0" prefHeight="28.0" prefWidth="164.0" promptText="Ansicht wählen" />
-      <Label fx:id="katalogWaehlenLabel" layoutX="326.0" layoutY="69.0" prefHeight="20.0" prefWidth="51.0" text="Katalog:">
+      <ComboBox fx:id="sortierenComboBox" layoutX="556.0" layoutY="86.0" prefHeight="28.0" prefWidth="164.0" promptText="Ansicht wählen" />
+      <Label fx:id="katalogWaehlenLabel" layoutX="137.0" layoutY="91.0" prefHeight="20.0" prefWidth="51.0" text="Katalog:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="sortierenLabel" layoutX="295.0" layoutY="123.0" text="Sortiert nach:">
+      <Label fx:id="sortierenLabel" layoutX="466.0" layoutY="90.0" text="Sortiert nach:">
          <font>
             <Font size="14.0" />
          </font>
