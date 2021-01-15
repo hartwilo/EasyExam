@@ -35,7 +35,7 @@
             <Button id="katalogAnlegen" fx:id="katalogAnlegen" layoutX="926.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="26.0" prefWidth="50.0" text="+" />
             <TableView id="fragenTabelle" fx:id="fragetabelle" layoutX="16.0" layoutY="127.4000015258789" prefHeight="429.0" prefWidth="1012.0" stylesheets="@../css/@fragetabelle.css">
               <columns>
-              	<TableColumn fx:id="auswahl" prefWidth="51.99996566772461" text="Auswahl" />
+              	<!-- <TableColumn fx:id="auswahl" prefWidth="51.99996566772461" text="Auswahl" /> -->
                 <TableColumn id="frageStellungCol" fx:id="fxcolumn_fragestellung" maxWidth="1.7976931348623157E308" prefWidth="259.0" text="Fragestellung" />
                 <TableColumn id="punkteCol" fx:id="fxcolumn_punkte" minWidth="0.0" prefWidth="46.0" text="Punkte" />
                   <TableColumn id="themaCol" fx:id="fxcolumn_thema" minWidth="0.0" prefWidth="96.0" text="Thema" />
@@ -44,7 +44,7 @@
               </columns>
             </TableView>
             <Button id="frageAnlegen" fx:id="frageAnlegen" layoutX="767.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageAnlegen" prefHeight="26.0" prefWidth="78.0" text="Neue Frage" />
-            <Button id="frageBearbeiten" fx:id="frageBearbeiten" layoutX="682" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageBearbeiten" prefHeight="26.0" prefWidth="78.0" text="Frage bearbeiten" />
+            <!-- <Button id="frageBearbeiten" fx:id="frageBearbeiten" layoutX="682" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#frageBearbeiten" prefHeight="26.0" prefWidth="78.0" text="Frage bearbeiten" /> -->
             <Button id="katalogSpeichern" fx:id="katalogSpeichern" layoutX="864.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#katalogSpeichern" prefHeight="26.0" prefWidth="78.0" text="Speichern" />
             <TextField id="katalogNameTextField" fx:id="katalogNameTextField" layoutX="19.0" layoutY="62.0" onAction="#katalogNameLesen" prefHeight="26.0" prefWidth="904.0" promptText="Bitte geben Sie den Titel des Katalogs ein" />
             <Button fx:id="refresh" layoutX="925.0" layoutY="94.0" mnemonicParsing="false" onMouseClicked="#fragenLaden" prefHeight="26.0" prefWidth="102.0" text="Refresh" />

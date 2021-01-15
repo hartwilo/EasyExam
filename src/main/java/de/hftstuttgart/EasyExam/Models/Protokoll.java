@@ -10,7 +10,7 @@ public class Protokoll {
 
 	
 	/**
-	 * The methfo is used to create a pdf document with data from the database  
+	 * The method is used to create a pdf document with data from the database  
 	 * 
 	 * @param fragen
 	 * @return

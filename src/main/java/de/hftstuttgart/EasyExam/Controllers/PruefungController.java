@@ -36,6 +36,7 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
+import com.sun.prism.paint.Color;
 
 import DB.DBConn;
 import DB.DBQueries;
@@ -57,6 +58,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -77,6 +79,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -703,6 +708,8 @@ public void writeExcel(int note) throws IOException {
 		if (drawer.isShown() || drawer.isShowing()) {
 			drawer.close();
 		} else {
+			drawer.setOverLayVisible(false);
+			System.out.println(drawer.isOverLayVisible());
 			drawer.open();
 		}
 
@@ -1261,6 +1268,7 @@ public void writeExcel(int note) throws IOException {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		
 		// Make sure the table doesn't lose the selected question
 		frageTabelle.getSelectionModel().selectedIndexProperty().addListener(e -> {
 			int selectedRow = frageTabelle.getSelectionModel().getSelectedIndex();
@@ -1403,6 +1411,7 @@ public void writeExcel(int note) throws IOException {
 			VBox box = FXMLLoader.load(getClass().getResource("/GUI/DrawerContent.fxml"));
 
 			drawer.setSidePane(box);
+			drawer.setOverLayVisible(false);
 			for (Node node : box.getChildren()) {
 				if (node.getAccessibleText() != null) {
 					node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {

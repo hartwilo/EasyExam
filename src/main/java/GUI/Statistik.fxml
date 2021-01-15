@@ -4,9 +4,7 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.CustomMenuItem?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -39,7 +37,7 @@
           <NumberAxis fx:id="studentenAnzahlLbl" label="Anzahl an Studenten" side="LEFT" />
         </yAxis>
       </BarChart>
-      <ComboBox fx:id="katalogWaehlenComboBox" layoutX="196.0" layoutY="87.0" onMousePressed="#katalogAuswahl" prefHeight="12.0" prefWidth="164.0" promptText="Katalog wählen" />
+      <ComboBox fx:id="katalogWaehlenComboBox" layoutX="196.0" layoutY="87.0" onAction="#showData" onMousePressed="#showKataloge" prefHeight="12.0" prefWidth="164.0" promptText="Katalog wählen" />
       <MenuButton layoutX="729.0" layoutY="6.0" mnemonicParsing="false" text="Navigation">
         <items>
           <MenuItem fx:id="PrüfungStarten" mnemonicParsing="false" onAction="#PrüfungStartenClick" text="Prüfung Starten" />

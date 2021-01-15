@@ -58,8 +58,8 @@ public class KatalogController {
 	@FXML
 	public Button frageLoeschen;
 	
-	@FXML
-	public Button frageBearbeiten;
+//	@FXML
+//	public Button frageBearbeiten;
 
 	@FXML
 	public Button katalogSpeichern;
@@ -421,7 +421,7 @@ public void initialize(URL location, ResourceBundle resources) {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	@FXML
+	/*@FXML
 		void frageBearbeiten(MouseEvent event) throws IOException, SQLException {
 		
 		if(katalogNameTextField.getText().isEmpty() && katalogComboBox.getValue()==null) {
@@ -436,7 +436,7 @@ public void initialize(URL location, ResourceBundle resources) {
 			if(auswahl==true) {
 				warnungAnzeigen("Bitte Frage auswählen");
 			
-		}*/
+		}
 		else if (katalogNameTextField.getText().isEmpty()) {
 			if(auswahl==true) {
 				warnungAnzeigen("Bitte Frage auswählen");
@@ -451,7 +451,7 @@ public void initialize(URL location, ResourceBundle resources) {
 			}
 		}
 		
-	}
+	}*/
 
 	/**
 	 * GUI Navigation - Save all current changes and go back to the start screen
