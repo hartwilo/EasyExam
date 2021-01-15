@@ -380,7 +380,7 @@ public void initialize(URL location, ResourceBundle resources) {
 				warnungAnzeigen("Bitte Frage auswählen");
 			
 		}*/
-		else if (!(katalogComboBox.getValue()==null)) {
+		else if (auswahl == false) {
 			
 			
 				warnungAnzeigen("Bitte Frage auswählen");
