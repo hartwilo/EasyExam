@@ -44,7 +44,7 @@
           <MenuItem fx:id="FragekatalogErstellen" mnemonicParsing="false" onAction="#FrageKatalogErstellenClick" text="Fragekatalog Erstellen" />
         </items>
       </MenuButton>
-      <ComboBox fx:id="sortierenComboBox" layoutX="556.0" layoutY="86.0" prefHeight="28.0" prefWidth="164.0" promptText="Ansicht wählen" />
+      <ComboBox fx:id="sortierenComboBox" layoutX="556.0" layoutY="86.0" onAction="#showDataPunkte" onMouseClicked="#showSortierauswahl" prefHeight="28.0" prefWidth="164.0" promptText="Ansicht wählen" />
       <Label fx:id="katalogWaehlenLabel" layoutX="137.0" layoutY="91.0" prefHeight="20.0" prefWidth="51.0" text="Katalog:">
          <font>
             <Font size="14.0" />
