@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -16,6 +18,8 @@ import java.util.logging.Logger;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -526,16 +530,17 @@ public class PruefungController implements Initializable {
 	
 public void writeExcel(int note) throws IOException {
 		
-		double matrk = 123456;
+		double matrk = 654321;
 		String xlsxPath = select_file();
-		int testNote = 170;
+		int testNote = 230;
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		
 		InputStream inp = new FileInputStream(xlsxPath); 
 	    Workbook wb = WorkbookFactory.create(inp); 
 	    Sheet sheet = wb.getSheetAt(0); 
 	    Row row;
 	    
-	    	for(int rowIndex = 4; rowIndex <= 6; rowIndex++) {
+	    	for(int rowIndex = 4; rowIndex <= 15; rowIndex++) {
 	    		 row = sheet.getRow(rowIndex);
 	    		
 	    				 if (row != null) {
@@ -547,9 +552,17 @@ public void writeExcel(int note) throws IOException {
 	    					    	//int matrikel = Integer.parseInt(cellValueMaybeNull);
 	    					      System.out.println(cellValueMaybeNull);
 	    					    	if(cellValueMaybeNull == matrk) {	    					    	 
-	    					    	  Cell cellNeu = row.getCell(6);
-	    					    	  System.out.println("CellNeu: "+cellNeu);
-	    					    	  cellNeu.setCellValue(note);
+	    					    	  Cell cellNote = row.getCell(6);
+	    					    	  Cell cellDate = row.getCell(8);
+	    					    	  CellStyle cellStyle = wb.createCellStyle();
+	    					    	  CreationHelper createHelper = wb.getCreationHelper();
+	    					    	  cellStyle.setDataFormat(
+	    					    	      createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
+	    					    	  System.out.println("CellNeu: "+cellNote);
+	    					    	  cellNote.setCellValue(note);
+	    					    	  cellDate.setCellValue(new Date());
+	    					    	  cellDate.setCellStyle(cellStyle);
+	    					    	  
 	    					    	  System.out.println("Note: "+note);
 	    					      } 
 	    					      // Do something with the cellValueMaybeNull here ...
@@ -558,10 +571,10 @@ public void writeExcel(int note) throws IOException {
 	    					  }		
 	    	}
 	   
-	     
-	    FileOutputStream fileOut = new FileOutputStream("wb.xls"); 
+	    FileOutputStream fileOut = new FileOutputStream((xlsxPath)); 
 	    wb.write(fileOut); 
-	    fileOut.close(); }
+	    fileOut.close(); 
+	    }
 	
 	
 	
@@ -1088,7 +1101,7 @@ public void writeExcel(int note) throws IOException {
 						case "Protokollieren":
 							try {
 								protokollieren();
-								writeExcel(170);
+								writeExcel(230);
 							} catch (SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
