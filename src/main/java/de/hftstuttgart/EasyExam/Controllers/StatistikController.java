@@ -126,7 +126,20 @@ public class StatistikController {
 			}
 	});
     }
+    
+    
+    
 
+    @FXML
+    void showSortierauswahl(MouseEvent event) {
+
+    }
+    
+    
+    @FXML
+    void showDataPunkte(ActionEvent event) {
+
+    }
 
 
     
