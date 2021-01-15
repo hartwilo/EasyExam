@@ -1430,7 +1430,7 @@ public void writeExcel(int note) throws IOException {
 						case "Protokollieren":
 							try {
 								protokollieren();
-								writeExcel(230);
+								writeExcel(noteBerechnen());
 							} catch (SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
