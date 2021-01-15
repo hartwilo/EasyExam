@@ -40,7 +40,7 @@ Notizien text(500) null,
 Punkte_erreicht FLOAT null);
 
 CREATE TABLE Pruefung
-(idPruefung INTEGER PRIMARY KEY,
+(idPruefung INTEGER PRIMARY KEY auto_increment,
 Bezeichnung VARCHAR(45) NOT NULL,
 Note FLOAT,
 Punkte_gesamt FLOAT null,
