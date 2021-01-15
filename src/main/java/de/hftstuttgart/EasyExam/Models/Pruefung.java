@@ -30,6 +30,19 @@ public class Pruefung<Katalog> {
 		this.student_mtkr = student_mtkr;	
 		this.prueferNr = prueferNr;
 	}
+	
+
+	public Pruefung(String bezeichnung, float note, float punkteGesamt, int student_mtkr, int prueferNr) {
+		super();
+		this.bezeichnung = bezeichnung;
+		this.note = note;
+		this.punkteGesamt = punkteGesamt;
+		this.student_mtkr = student_mtkr;
+		this.prueferNr = prueferNr;
+	}
+
+
+
 
 	/**
 	 * The method is used to get the ID 

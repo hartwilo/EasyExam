@@ -549,20 +549,17 @@ public class DBQueries {
 	public int pruefungSpeichern(Pruefung pruefung) throws SQLException {
 		connection.setAutoCommit(true);
 
-		String query = "INSERT INTO Pruefung(idPruefung, Bezeichnung, Note, Punkte_gesamt, Matrikelnr, PersNr) "
-				+ "VALUES(?,?,?,?,?,?)";
+		String query = "INSERT INTO Pruefung(Bezeichnung, Note, Punkte_gesamt, Matrikelnr, PersNr) "
+				+ "VALUES(?,?,?,?,?)";
 
 		PreparedStatement stmt = connection.prepareStatement(query);
 		
-		int idPruefung = pruefung.getIdPruefung();
 		String bezeichnung = pruefung.getBezeichnung();
 		float note = pruefung.getNote();
 		float punkte_gesamt = pruefung.getPunkteGesamt();
 		int matrikelnr = pruefung.getStudent_mtkr();
 		int persnr = pruefung.getPrueferNr();
 				
-				
-		stmt.setInt(1, idPruefung);
 		stmt.setString(2, bezeichnung);
 		stmt.setFloat(3, note);
 		stmt.setFloat(4, punkte_gesamt);
