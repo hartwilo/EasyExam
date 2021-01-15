@@ -113,6 +113,7 @@ public class Pruefung<Katalog> {
 	public void setPrueferNr(int prueferNr) {
 		this.prueferNr = prueferNr;
 	}
+
 	
 
 	
