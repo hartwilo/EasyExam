@@ -45,6 +45,7 @@ import de.hftstuttgart.EasyExam.Models.Frage;
 import de.hftstuttgart.EasyExam.Models.Note;
 import de.hftstuttgart.EasyExam.Models.PDFCreate;
 import de.hftstuttgart.EasyExam.Models.Protokoll;
+import de.hftstuttgart.EasyExam.Models.Pruefung;
 import de.hftstuttgart.EasyExam.Models.Student;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -1033,8 +1034,8 @@ public void writeExcel(int note) throws IOException {
 	}
 	
 	
-	public int noteBerechnen() {
-		int note = 0;
+	public double noteBerechnen() {
+		double note = 0;
 		double maxPunkte=0;
 		UebersichtController ue = new UebersichtController();
 		ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
@@ -1047,33 +1048,28 @@ public void writeExcel(int note) throws IOException {
 		float floatNote = erreichtePunkte/(float)maxPunkte;
 		
 		if(floatNote>=0.95) {
-			note = 100;
+			note = 1.00;
 		}else if(floatNote<0.95 && floatNote>=0.90) {
-			note = 130;
+			note = 1.3;
 		}else if(floatNote<0.90 && floatNote>=0.85) {
-			note = 170;
+			note = 1.70;
 		}else if(floatNote<0.85 && floatNote>=0.80) {
-			note = 200;
+			note = 2.00;
 		}else if(floatNote<0.80 && floatNote>=0.75) {
-			note = 230;
+			note = 2.30;
 		}else if(floatNote<0.75 && floatNote>=0.70) {
-			note = 270;
+			note = 2.70;
 		}else if(floatNote<0.70 && floatNote>=0.65) {
-			note = 300;
+			note = 3.00;
 		}else if(floatNote<0.65 && floatNote>=0.60) {
-			note = 330;
+			note = 3.30;
 		}else if(floatNote<0.60 && floatNote>=0.55) {
-			note = 370;
+			note = 3.70;
 		}else if(floatNote<0.55 && floatNote>=0.50) {
-			note = 400;
+			note = 4.00;
 		}else {
-			note = 500;
-		}
-		
-		
-		
-		
-		
+			note = 5.00;
+		}	
 		
 		return note;
 	}
@@ -1438,8 +1434,9 @@ public void writeExcel(int note) throws IOException {
 							break;
 						case "Protokollieren":
 							try {
+								int note = (int)noteBerechnen()*100;
 								protokollieren();
-								writeExcel(noteBerechnen());
+								writeExcel(note);
 							} catch (SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -1491,6 +1488,24 @@ public void writeExcel(int note) throws IOException {
     @FXML
     void reset(MouseEvent event) throws SQLException {
     	dbQuery.reset();
+    }
+    
+    public void endPruefung() throws SQLException {
+    	
+    	UebersichtController ue = new UebersichtController();
+    	LoginController lc = new LoginController();
+    	StudentController st = new StudentController();
+ 
+    	
+    	String bez = katalogName;
+    	float note = (float)noteBerechnen();
+    	float punkteGes = ue.gesPunktzahl ;
+    	int studMatr = st.selectedStudent.getMatrikelnr();
+    	int persNr = lc.globPruef.getPersNr();
+    	
+    	Pruefung pruefung = new Pruefung(bez, note, punkteGes, studMatr, persNr);
+    	
+    	dbQuery.pruefungSpeichern(pruefung);
     }
     
 }
