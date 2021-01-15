@@ -14,6 +14,8 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -86,7 +89,7 @@ public class KatalogController {
 	@FXML
 	private TableView<de.hftstuttgart.EasyExam.Models.Frage> fragetabelle;
 	 @FXML
-	    private TableColumn<Frage, Boolean> auswahl2;
+	 private TableColumn<Frage, Boolean> auswahl2;
 
 	@FXML
 	private TableColumn<Frage, String> fxcolumn_fragestellung;
@@ -110,6 +113,8 @@ public class KatalogController {
 	
 	static DBQueries dbQuery = new DBQueries(DBConn.connection);
 	public static String katalogName;
+	
+	private CheckBox checkbox;
 	
 	
 	
@@ -187,7 +192,7 @@ public void initialize(URL location, ResourceBundle resources) {
 						gut, sehrGut);
 		
 			} catch (Exception e) {
-				log.warning("No question from table selected, details cant be read!");
+				log.warning("No question from table selected");
 				return null;
 			}
 		
@@ -231,8 +236,11 @@ public void initialize(URL location, ResourceBundle resources) {
 	
 // Define structure of FXML Table Cells you want to display data with
 	public void showInMainTable(ObservableList<Frage> fragen) {
+		
+		
 		auswahl2.setCellFactory(CheckBoxTableCell.forTableColumn(auswahl2));
 		auswahl2.setEditable(true);
+		auswahl2.setResizable(false);
 		fxcolumn_fragestellung
 				.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getFrageStellung()));
 		fxcolumn_punkte
@@ -380,16 +388,14 @@ public void initialize(URL location, ResourceBundle resources) {
 				warnungAnzeigen("Bitte Frage auswählen");
 			
 		}*/
-		else if (auswahl == false) {
-			
-			
+		else if (auswahl2.getCellData(get_selected_question()) == false) {
 				warnungAnzeigen("Bitte Frage auswählen");
 		}
 			else{
 				katalogName = katalogComboBox.getValue();
 				System.out.println("zweig3");
 				log.info("Update Question from: "+katalogName);
-				Frage frageUpdate = new Frage();
+				Frage frageUpdate = get_selected_question();
 				FragebearbeitungController.setFrage(frageUpdate);
 				StartController.setWindow("Fragebearbeitung");
 			}
