@@ -99,13 +99,39 @@ public class StatistikController {
 
     
     static String katalogName;
-    @FXML
-    void katalogAuswahl(MouseEvent event) throws SQLException {
-    	katalogWaehlenComboBox.setItems(db.katalogeAuslesen());
-       	initialize();
-    	
+    
 
+    @FXML
+   void showKataloge(MouseEvent event) throws SQLException {
+    	
+    	katalogWaehlenComboBox.setItems(db.katalogeAuslesen());
+    
+    	showData(null);
+    	
+    	
+    	
     }
+        
+        
+    @FXML
+    void showData(ActionEvent event) throws SQLException {
+    	
+	  	katalogWaehlenComboBox.setOnAction(e ->{
+	  		
+	  		 try {
+				initialize();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	});
+    }
+
+
+
+    
+    
+
 	ArrayList<Float> notenList = new ArrayList<>();
 	public ArrayList<Float> readGrades() throws SQLException {
 	
