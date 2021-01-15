@@ -9,6 +9,7 @@ import DB.DBConn;
 import DB.DBQueries;
 import de.hftstuttgart.EasyExam.Models.Pruefung;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -126,22 +127,6 @@ public class StatistikController {
 			}
 	});
     }
-    
-    
-    
-
-    @FXML
-    void showSortierauswahl(MouseEvent event) {
-
-    }
-    
-    
-    @FXML
-    void showDataPunkte(ActionEvent event) {
-
-    }
-
-
     
     
 
