@@ -97,6 +97,9 @@ public class UebersichtController implements Initializable {
     @FXML
     private Label level;
     
+    @FXML
+    private Button aktualisierenButton;
+    
     /**
 	 * Create a frage.obj from the selected question in the View Table
 	 * 
@@ -155,7 +158,7 @@ public class UebersichtController implements Initializable {
 	 */
 	public void uebersicht() throws SQLException {
 
-		
+		gestellteFragen.clear();
 		String katalogName = PruefungController.katalogName;
 		//log.info("Catalog name static var is: " + katalogName);
 		dbQuery.fragenLaden_gestellt(katalogName);
@@ -315,7 +318,11 @@ public class UebersichtController implements Initializable {
 	@FXML
 	void showQuestions(MouseEvent event) throws SQLException {
 		gesPunktzahl = 0;
+		maxPunktzahl = 0;
 		uebersicht();
+		System.out.println("GesPunkte: " + gesPunktzahl);
+		System.out.println("MaxPunkte: " + maxPunktzahl);
+		
 
 	}
 

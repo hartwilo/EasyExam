@@ -225,6 +225,9 @@ public class PruefungController implements Initializable {
 
 	@FXML
 	private Button zueruck;
+	
+	@FXML
+	private Button pruefungBeenden;
 
 	/*
 	 * @FXML private Button pdfErstellen;
@@ -1239,7 +1242,7 @@ public void writeExcel(int note) throws IOException {
 	@FXML // Shows the overview if it isn't already showing, brings it to the front if the
 			// button is clicked after it's showing
 	void uebersichtAnzeigen(MouseEvent event) throws IOException, SQLException {
-
+         
 		if (!uebersichtIsShowing()) {
 			showUebersicht();
 		} else if (!UebersichtController.stage.isFocused()) {
@@ -1492,7 +1495,7 @@ public void writeExcel(int note) throws IOException {
     	dbQuery.reset();
     }
     
-    public void endPruefung() throws SQLException {
+    public void endPruefung(MouseEvent event) throws SQLException {
     	
     	UebersichtController ue = new UebersichtController();
     	LoginController lc = new LoginController();
