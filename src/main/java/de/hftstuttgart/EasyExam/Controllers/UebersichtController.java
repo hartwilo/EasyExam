@@ -48,7 +48,8 @@ public class UebersichtController implements Initializable {
 
 	DBQueries dbQuery = new DBQueries(DBConn.connection);
 	
-	public float gesPunktzahl=0;
+	public static float gesPunktzahl=0;
+	public static float maxPunktzahl=0;
 
 	static {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
@@ -58,6 +59,7 @@ public class UebersichtController implements Initializable {
 	public static Stage stage = new Stage();
 	private StringProperty niv = new SimpleStringProperty();
 	private StringProperty erp = new SimpleStringProperty(); //erreichte punkte
+	ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
 	
 
 
@@ -152,7 +154,7 @@ public class UebersichtController implements Initializable {
 	 * @throws SQLException
 	 */
 	public void uebersicht() throws SQLException {
-		ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
+
 		
 		String katalogName = PruefungController.katalogName;
 		//log.info("Catalog name static var is: " + katalogName);
@@ -171,6 +173,7 @@ public class UebersichtController implements Initializable {
 		
 		for(Frage frage : gestellteFragen) {
 			gesPunktzahl = gesPunktzahl + frage.getErreichtePunkte();
+			maxPunktzahl = maxPunktzahl + (float)frage.getPunkte();
 		}
 		erreichte_punkte.setText(String.valueOf(gesPunktzahl));
 		

@@ -110,7 +110,8 @@ public class PruefungController implements Initializable {
 	public static String katalogName; // remove ?
 	public static String frageKatalog;
 	public static ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
-
+	ObservableList<Frage> fragen = FXCollections.observableArrayList();
+	
 	public StringProperty vName = new SimpleStringProperty();
 	public StringProperty nName = new SimpleStringProperty();
 	public StringProperty mNr = new SimpleStringProperty();
@@ -647,7 +648,10 @@ public class PruefungController implements Initializable {
 	
 public void writeExcel(int note) throws IOException {
 		
-		double matrk = 654321;
+	
+		
+		double matrk = studCon.globStud.getMatrikelnr();
+		System.out.println("Current matr: " + matrk);
 		String xlsxPath = select_file();
 		int testNote = 230;
 		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
@@ -1034,19 +1038,17 @@ public void writeExcel(int note) throws IOException {
 	}
 	
 	
-	public double noteBerechnen() {
+	public double noteBerechnen() throws SQLException {
 		double note = 0;
-		double maxPunkte=0;
+		
 		UebersichtController ue = new UebersichtController();
-		ObservableList<Frage> gestellteFragen = FXCollections.observableArrayList();
-		gestellteFragen.add(ue.get_selected_question());
-		for(Frage frage : gestellteFragen) {
-			maxPunkte = maxPunkte + frage.getPunkte();
-		}
-		float erreichtePunkte = ue.gesPunktzahl;
 		
-		float floatNote = erreichtePunkte/(float)maxPunkte;
-		
+		double floatNote = ue.gesPunktzahl/ue.maxPunktzahl;
+		System.out.println("erreichte Punkte: " + ue.gesPunktzahl);
+		System.out.println("max Punkte: " + ue.maxPunktzahl);
+		System.out.println("FloatNote: " + floatNote);
+
+ 		
 		if(floatNote>=0.95) {
 			note = 1.00;
 		}else if(floatNote<0.95 && floatNote>=0.90) {
@@ -1078,7 +1080,7 @@ public void writeExcel(int note) throws IOException {
 	@FXML
 	public void pdfErstellenClick(MouseEvent event) throws FileNotFoundException, DocumentException, SQLException {
 		String katalogName = katalogeComboBox.getValue();
-		ObservableList<Frage> fragen = FXCollections.observableArrayList();
+		
 		
 		// Load DBQueries Result set with all asked questions
 		dbQuery.fragenLaden_gestellt(katalogName);
@@ -1434,7 +1436,7 @@ public void writeExcel(int note) throws IOException {
 							break;
 						case "Protokollieren":
 							try {
-								int note = (int)noteBerechnen()*100;
+								int note = (int)(noteBerechnen()*100);
 								protokollieren();
 								writeExcel(note);
 							} catch (SQLException e1) {
