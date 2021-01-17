@@ -1,6 +1,7 @@
 package DB;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -597,6 +598,12 @@ public class DBQueries {
 		
 	}
 
+	public void passwortZuruecksetzen(String passwort, String email) throws SQLException {
+		
+		String updateQuery = "UPDATE Pruefer SET Passwort =" + "'" + passwort + "'" + " where eMail =" + "'" + email + "'";
+		Statement stmt = connection.createStatement(); 
+		stmt.executeUpdate(updateQuery);
+	}
 	
 
 }

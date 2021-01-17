@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -17,6 +18,7 @@ import DB.DBQueries;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -25,16 +27,19 @@ import javafx.stage.Stage;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+
 /**
  * @author bachir
  *
  */
-public class ResetPasswordController {
+public class ResetPasswordController extends PasswortZuruecksetzen1Controller {
 
 	Stage stage = new Stage();
+	static FXMLLoader loader;
+	PasswortZuruecksetzen1Controller pw = new PasswortZuruecksetzen1Controller();
 	
 	@FXML
-	private JFXTextField eMailAdresse1;
+	public JFXTextField eMailAdresse1;
 
 	@FXML
 	private Label labelText1;
@@ -44,12 +49,25 @@ public class ResetPasswordController {
 
 	@FXML
 	private Label labelText3;
+	
+    @FXML
+    private Label lblErrors4;
 
 	@FXML
 	private Label lblErrors;
 
 	@FXML
 	private JFXButton btnSenden;
+
+	@FXML
+	private Label VerifizierungscodeLabel;
+
+	@FXML
+	private JFXTextField Verifizierungscode;
+
+	@FXML
+	private JFXButton btnVerifizieren;
+	
 
 	public DBQueries dbQueries = new DBQueries(DBConn.connection);
 
@@ -58,17 +76,21 @@ public class ResetPasswordController {
 	PreparedStatement stmt = null;
 	ResultSet resultSet = null;
 
+
 	/**
 	 * The method sends an email to reset the password 
 	 * 
 	 * @param event
 	 */
+
+	int randomCode;
+	
+
 	@FXML
 	void SendenClick(ActionEvent event) {
 		String Empfäger = eMailAdresse1.getText().toString();
-
 		if (event.getSource() == btnSenden) {
-
+			
 			if (checkEmail().equals("E-Mail wurde erfolgreich versendent")) {
 				lblErrors.setTextFill(Color.GREEN);
 				lblErrors.setText("E-Mail wurde erfolgreich versendent");
@@ -121,6 +143,9 @@ public class ResetPasswordController {
 	 */
 	public void EmailSenden(String recipient) throws Exception {
 
+		Random rand = new Random();
+		randomCode = rand.nextInt(9999);
+
 		String host = "smtp.gmail.com";
 		final String from = "easyexam842@gmail.com";
 		final String password = "easyexam2020";
@@ -165,28 +190,59 @@ public class ResetPasswordController {
 			message.setFrom(new InternetAddress(from));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			message.setSubject("Passwort zurücksetzen");
-			message.setText("Hallo XY ,\n hier ist Ihre neue Passwort.................");
+			message.setText("Hallo,"+
+					        "\nhier ist Ihre Verifizierungscode: " + randomCode+"\n"+
+					        "Diese E-Mail wurde automatisch generiert"+"\n"+
+					        "Sollten Sie das Zurücksetzen Ihrer Zugangsdaten naicht angefordert haben, betrachten Sie diese E-Mail"+"\n"+
+					        "bitte als gegenstandslos"+"\n"+"\n"+
+					        "Mit freundlichen Grüßen,"+"\n"+
+					        "Ihr EasyExam Team");
 			return message;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 		return null;
 	}
+
 	/**
 	 * The method shows the ResetPassword GUI
 	 * 
 	 * @throws IOException
 	 */
-	 public void show () throws IOException  {
-		 FXMLLoader fxmlLoader = new FXMLLoader();
-			fxmlLoader.setLocation(getClass().getResource("/GUI/ResetPassword.fxml"));
-			Scene scene = new Scene(fxmlLoader.load());
-			stage.setTitle("ResetPassword");
-			stage.setScene(scene);
-			stage.centerOnScreen();
-			stage.setResizable(false);
-			stage.show();
-			
-		}
 
+	public void show() throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(getClass().getResource("/GUI/ResetPassword.fxml"));
+		Scene scene = new Scene(fxmlLoader.load());
+		stage.setTitle("ResetPassword");
+		stage.setScene(scene);
+		stage.centerOnScreen();
+		stage.setResizable(false);
+		stage.show();
+
+	}
+
+	@FXML
+	void btnVerifizierenClick(ActionEvent event) throws IOException {
+		try {
+			if (Integer.valueOf(Verifizierungscode.getText()) == randomCode) {
+				Node node = (Node) event.getSource();
+				Stage stage = (Stage) node.getScene().getWindow();
+				stage.close();
+				pw.show();
+				static_Label.setText(eMailAdresse1.getText());
+
+			}else {
+				
+				lblErrors4.setTextFill(Color.TOMATO);
+				lblErrors4.setText("Der Code ist nicht richtig ");
+			}
+
+			
+		} catch (Exception e) {
+			lblErrors4.setTextFill(Color.TOMATO);
+			lblErrors4.setText("Bitte geben Sie einen Code ein");
+		}
+	
+	}
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hftstuttgart.EasyExam.Controllers.PasswortZuruecksetzen1Controller">
+   <children>
+      <AnchorPane layoutX="-7.0" layoutY="-9.0" prefHeight="372.0" prefWidth="522.0">
+         <children>
+            <Label fx:id="lblErrors" layoutX="139.0" layoutY="260.0" prefHeight="18.0" prefWidth="242.0" textFill="#ea1414">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="eMail" layoutX="137.0" layoutY="106.0" prefHeight="18.0" prefWidth="230.0" textFill="#3f15e8">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <Pane layoutX="-2.0" prefHeight="387.0" prefWidth="126.0" style="-fx-background-color: #f54747;">
+         <effect>
+            <Glow />
+         </effect>
+      </Pane>
+      <Label fx:id="labelText1" layoutX="128.0" layoutY="67.0" text="Passwort zurücksetzen">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnSpeichern" layoutX="227.0" layoutY="293.0" onAction="#btnSpeichernClick" prefHeight="26.0" prefWidth="179.0" style="-fx-background-color: #f54747;" text="Speichern" textFill="WHITE">
+         <effect>
+            <Glow />
+         </effect>
+      </JFXButton>
+      <JFXPasswordField fx:id="NeuesPasswort" labelFloat="true" layoutX="128.0" layoutY="152.0" prefHeight="26.0" prefWidth="267.0" promptText="Neues Passwort" />
+      <JFXPasswordField fx:id="PasswortWiederholung" labelFloat="true" layoutX="128.0" layoutY="223.0" prefHeight="26.0" prefWidth="267.0" promptText="Passwort Wiederholung" />
+   </children>
+</AnchorPane>
