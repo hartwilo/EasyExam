@@ -64,9 +64,6 @@ public class StatistikController {
     private MenuItem FragekatalogErstellen;
 
     @FXML
-    private ComboBox<String> sortierenComboBox;
-
-    @FXML
     private Label katalogWaehlenLabel;
 
     @FXML
