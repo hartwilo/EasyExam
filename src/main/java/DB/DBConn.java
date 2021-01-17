@@ -14,10 +14,7 @@ public class DBConn {
 	private static final Logger log;
 	public static Connection connection = null;
 	
-    //Bachir Local
-	//connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC","root","Bachir1991");
-	
-	String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+    static String DB_URL = "jdbc:sqlserver://easyexam.database.windows.net:1433;databaseName=EasyExam;user=hartwilo;password=easyexam1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
 
    	static String DbNameB = "jdbc:mysql://localhost:3306/easyexamdb?serverTimezone=UTC";
     static String DbUserB = "root";
@@ -36,7 +33,7 @@ public class DBConn {
 		try {
 			log.info("Connecting to the database ");
 
-			connection = DriverManager.getConnection(DbName, DbUser, DbPass);
+			connection = DriverManager.getConnection(DB_URL);
 			// connection = DriverManager.getConnection(DB_URL);
 			
 			log.info("Connected to: " + connection.getCatalog());

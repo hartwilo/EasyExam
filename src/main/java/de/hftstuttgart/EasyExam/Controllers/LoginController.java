@@ -234,7 +234,6 @@ public class LoginController implements Initializable {
 
 			} else {
 				vergleichsPW = resultSet.getString("Passwort");
-				System.out.println(vergleichsPW);
 				if (!vergleichsPW.equals(Password)) {
 					lblErrors.setTextFill(Color.TOMATO);
 					lblErrors.setText("Das Passwort ist falsch");
