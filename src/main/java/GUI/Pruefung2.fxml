@@ -95,7 +95,7 @@
          </font>
       </Label>
       <Button fx:id="pruefungBeendenButton" layoutX="800.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#endPruefung" prefHeight="25.0" prefWidth="125.0" text="Prüfung beenden" />
-      <Button fx:id="reset" layoutX="936.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#reset" prefHeight="26.0" prefWidth="49.0" text="Res" />
+      <Button fx:id="reset" layoutX="936.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#reset" prefHeight="26.0" prefWidth="49.0" text="Reset" />
       <JFXButton fx:id="uebersicht" buttonType="RAISED" layoutX="1217.0" layoutY="74.0" onMouseClicked="#uebersichtAnzeigen" prefHeight="25.0" prefWidth="89.0" ripplerFill="#408dd4" text="Übersicht" />
    </children>
 </AnchorPane>

@@ -37,20 +37,14 @@
           <NumberAxis fx:id="studentenAnzahlLbl" label="Anzahl an Studenten" side="LEFT" />
         </yAxis>
       </BarChart>
-      <ComboBox fx:id="katalogWaehlenComboBox" layoutX="196.0" layoutY="87.0" onAction="#showData" onMousePressed="#showKataloge" prefHeight="12.0" prefWidth="164.0" promptText="Katalog wählen" />
+      <ComboBox fx:id="katalogWaehlenComboBox" layoutX="360.0" layoutY="87.0" onAction="#showData" onMousePressed="#showKataloge" prefHeight="12.0" prefWidth="164.0" promptText="Katalog wählen" />
       <MenuButton layoutX="729.0" layoutY="6.0" mnemonicParsing="false" text="Navigation">
         <items>
           <MenuItem fx:id="PrüfungStarten" mnemonicParsing="false" onAction="#PrüfungStartenClick" text="Prüfung Starten" />
           <MenuItem fx:id="FragekatalogErstellen" mnemonicParsing="false" onAction="#FrageKatalogErstellenClick" text="Fragekatalog Erstellen" />
         </items>
       </MenuButton>
-      <ComboBox fx:id="sortierenComboBox" layoutX="556.0" layoutY="86.0" onAction="#showDataPunkte" onMouseClicked="#showSortierauswahl" prefHeight="28.0" prefWidth="164.0" promptText="Ansicht wählen" />
-      <Label fx:id="katalogWaehlenLabel" layoutX="137.0" layoutY="91.0" prefHeight="20.0" prefWidth="51.0" text="Katalog:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="sortierenLabel" layoutX="466.0" layoutY="90.0" text="Sortiert nach:">
+      <Label fx:id="katalogWaehlenLabel" layoutX="301.0" layoutY="91.0" prefHeight="20.0" prefWidth="51.0" text="Katalog:">
          <font>
             <Font size="14.0" />
          </font>
