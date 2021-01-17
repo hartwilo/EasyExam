@@ -335,5 +335,23 @@ public class FrageController {
 		katalogLabel.setText("Selektierter Katalog: " + KatalogController.katalogName);
     }
 	
+	/**
+	 * Methode for testing
+	 * @param i
+	 * @return
+	 */
+	
+	public boolean punkteValidieren(String i) {
+		Pattern p = Pattern.compile("^[+]?(([1-9]\\d*))(\\.\\d+)?");
+		Matcher m = p.matcher(i);
+
+		if (m.find() && m.group().equals(i)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	
 
 }
