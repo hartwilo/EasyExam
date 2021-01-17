@@ -673,8 +673,6 @@ public void writeExcel(int note) throws IOException {
 	    					    if (cell != null) {
 	    					      // Found column and there is value in the cell.
 	    					      double cellValueMaybeNull = cell.getNumericCellValue();
-	    					    	//String cellValueMaybeNull = cell.getStringCellValue();
-	    					    	//int matrikel = Integer.parseInt(cellValueMaybeNull);
 	    					      System.out.println(cellValueMaybeNull);
 	    					    	if(cellValueMaybeNull == matrk) {	    					    	 
 	    					    	  Cell cellNote = row.getCell(6);
@@ -691,8 +689,6 @@ public void writeExcel(int note) throws IOException {
 	    					    	
 	    					    	 
 	    					      } 
-	    					      // Do something with the cellValueMaybeNull here ...
-	    					      // break; ???
 	    					    }
 	    					  }		
 	    	}
