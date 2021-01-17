@@ -46,9 +46,9 @@ Note FLOAT,
 Punkte_gesamt FLOAT null,
 Matrikelnr INTEGER,
 PersNr INTEGER,
-CONSTRAINT fk_Bezeichnung FOREIGN Key (Bezeichnung) REFERENCES Frage (Fragekatalog) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT fk_PersNr FOREIGN KEY (PersNr) REFERENCES Pruefer (PersNr) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT fk_Matrikelnr FOREIGN KEY (Matrikelnr) REFERENCES Student (Matrikelnr) ON DELETE CASCADE ON UPDATE CASCADE);
+CONSTRAINT fk_Bezeichnung FOREIGN Key (Bezeichnung) REFERENCES Frage (Fragekatalog),
+CONSTRAINT fk_PersNr FOREIGN KEY (PersNr) REFERENCES Pruefer (PersNr),
+CONSTRAINT fk_Matrikelnr FOREIGN KEY (Matrikelnr) REFERENCES Student (Matrikelnr));
 
 CREATE TABLE Fragenloesung
 (idFragenloesung INTEGER PRIMARY KEY, 
