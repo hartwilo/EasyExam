@@ -688,7 +688,8 @@ public void writeExcel(int note) throws IOException {
 	    					    	  cellDate.setCellValue(new Date());
 	    					    	  cellDate.setCellStyle(cellStyle);
 	    					    	  
-	    					    	  System.out.println("Note: "+note);
+	    					    	
+	    					    	 
 	    					      } 
 	    					      // Do something with the cellValueMaybeNull here ...
 	    					      // break; ???
@@ -718,7 +719,6 @@ public void writeExcel(int note) throws IOException {
 			drawer.close();
 		} else {
 			drawer.setOverLayVisible(false);
-			System.out.println(drawer.isOverLayVisible());
 			drawer.open();
 		}
 
@@ -949,7 +949,7 @@ public void writeExcel(int note) throws IOException {
 
 			fxmlLoader.setLocation(getClass().getResource("/GUI/Notizien.fxml"));
 			Scene scene = new Scene(fxmlLoader.load());
-			NotizienController nController = fxmlLoader.getController();
+			NotizenController nController = fxmlLoader.getController();
 
 			noteStage.setTitle("Übersicht - Alle gestellte fragen ");
 			noteStage.setScene(scene);
@@ -1048,9 +1048,6 @@ public void writeExcel(int note) throws IOException {
 		UebersichtController ue = new UebersichtController();
 		
 		double floatNote = ue.gesPunktzahl/ue.maxPunktzahl;
-		System.out.println("erreichte Punkte: " + ue.gesPunktzahl);
-		System.out.println("max Punkte: " + ue.maxPunktzahl);
-		System.out.println("FloatNote: " + floatNote);
 
  		
 		if(floatNote>=0.95) {

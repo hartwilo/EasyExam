@@ -22,8 +22,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 
 
-public class NotizienController implements Initializable {
-	private final static Logger log = Logger.getLogger(NotizienController.class.getName());
+public class NotizenController implements Initializable {
+	private final static Logger log = Logger.getLogger(NotizenController.class.getName());
 	
 	
 	//DBqueries Instance
@@ -81,7 +81,6 @@ public class NotizienController implements Initializable {
 					
 					//Bind the StringProperty to the input field -> automatically updated on input
 					text_output.set(note_input.getText());
-					System.out.println(text_output.getValue());
 					
 				}
 		    });
