@@ -29,6 +29,7 @@ import org.controlsfx.control.PopOver;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.log.SysoCounter;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
@@ -1502,11 +1503,17 @@ public void writeExcel(int note) throws IOException {
     	StudentController st = new StudentController();
  
     	
-    	String bez = katalogName;
+    	String bez = katalogeComboBox.getValue();
     	float note = (float)noteBerechnen();
     	float punkteGes = ue.gesPunktzahl ;
-    	int studMatr = st.selectedStudent.getMatrikelnr();
+    	int studMatr = st.globStud.getMatrikelnr();
     	int persNr = lc.globPruef.getPersNr();
+    	
+    	System.out.println("Bez: " + bez);
+    	System.out.println("Note: " + note);
+    	System.out.println("PunkteGes: " + punkteGes);
+    	System.out.println("StudMat: " + studMatr);
+    	System.out.println("PersNr: " + persNr);
     	
     	Pruefung pruefung = new Pruefung(bez, note, punkteGes, studMatr, persNr);
     	

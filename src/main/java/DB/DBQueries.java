@@ -560,11 +560,11 @@ public class DBQueries {
 		int matrikelnr = pruefung.getStudent_mtkr();
 		int persnr = pruefung.getPrueferNr();
 				
-		stmt.setString(2, bezeichnung);
-		stmt.setFloat(3, note);
-		stmt.setFloat(4, punkte_gesamt);
-		stmt.setInt(5, matrikelnr);
-		stmt.setInt(6, persnr);
+		stmt.setString(1, bezeichnung);
+		stmt.setFloat(2, note);
+		stmt.setFloat(3, punkte_gesamt);
+		stmt.setInt(4, matrikelnr);
+		stmt.setInt(5, persnr);
 	
 
 		return stmt.executeUpdate();
