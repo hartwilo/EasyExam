@@ -42,8 +42,8 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="erreichte_punkte" focusColor="#408dd4" layoutX="947.0" layoutY="572.0" prefHeight="25.0" prefWidth="25.0" />
-      <Label layoutX="779.0" layoutY="582.0" text="Erreichte Punkte eingeben :">
+      <JFXTextField fx:id="erreichte_punkte" focusColor="#408dd4" layoutX="947.0" layoutY="572.0" opacity="0.0" prefHeight="25.0" prefWidth="25.0" />
+      <Label layoutX="779.0" layoutY="582.0" opacity="0.0" text="Erreichte Punkte eingeben :">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>    
