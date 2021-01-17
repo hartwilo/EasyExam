@@ -304,6 +304,8 @@ public void initialize(URL location, ResourceBundle resources) {
 	 */
 	@FXML 
 	void frageLoeschen(MouseEvent event) throws SQLException {
+		String frageStellung = fragetabelle.getSelectionModel().getSelectedItem().getFrageStellung();
+		Frage frage = dbQuery.getFrageId(frageStellung);
 		int ID = fragetabelle.getSelectionModel().getSelectedItem().getID();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("");
@@ -313,7 +315,7 @@ public void initialize(URL location, ResourceBundle resources) {
 		Optional<ButtonType> ok = alert.showAndWait();
 
 		if (ok.get() == ButtonType.OK) {
-			dbQuery.frageLoeschen(ID);
+			dbQuery.frageLoeschen(frage.getID());
 		}
 
 		fragenAnzeigen(); // Reload new, updated set of data into TableView

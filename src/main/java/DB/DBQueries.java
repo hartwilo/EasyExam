@@ -597,6 +597,21 @@ public class DBQueries {
 		
 		
 	}
+	
+	public Frage getFrageId(String frageStellung) throws SQLException {
+		
+		Statement stmt = connection.createStatement();
+		String query = "SELECT * FROM Frage where Fragestellung =" + "'" + frageStellung + "'";
+		ResultSet rs = stmt.executeQuery(query);
+		Frage frage = null;
+		
+		while(rs.next()) {
+			frage = new Frage(rs.getInt("idFrage"), rs.getString("Fragestellung"), rs.getString("Musterloesung"), rs.getInt("Niveau"), rs.getString("Themengebiet"), rs.getString("Fragekatalog"), rs.getFloat("Punkte"), rs.getBoolean("gestellt"), rs.getString("Modul"), rs.getFloat("Punkte_erreicht"));
+		}
+		
+		return frage;
+		
+	}
 
 	public void passwortZuruecksetzen(String passwort, String email) throws SQLException {
 		
