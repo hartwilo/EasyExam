@@ -133,9 +133,8 @@ public class PDFCreate {
 
 	        subPara = new Paragraph("Anhang", subFont);
 	        subCatPart = catPart.addSection(subPara);
-	        subCatPart.add(new Paragraph("Anhang 1"));
-	        subCatPart.add(new Paragraph("Anhang 2"));
-	        subCatPart.add(new Paragraph("Anhang 3"));
+	        subCatPart.add(new Paragraph("Anhang"));
+
 
 	        // now add all this to the document
 	        protokoll.add(catPart);
@@ -185,9 +184,9 @@ public class PDFCreate {
 	 public static void add_prof_notes(Document document, Note note) {
 
 		 
-		 Anchor anchor = new Anchor("Notizien", catFont);
+		 Anchor anchor = new Anchor("Notizen", catFont);
 		 Chapter catPart = new Chapter(new Paragraph(anchor), 3);
-		 Paragraph subPara = new Paragraph("Notizien - Prof", subFont);
+		 Paragraph subPara = new Paragraph("Notizen - Prof", subFont);
 		 Section subCatPart = catPart.addSection(subPara);	
 		 
 		 //subCatPart.add(note.getText());
