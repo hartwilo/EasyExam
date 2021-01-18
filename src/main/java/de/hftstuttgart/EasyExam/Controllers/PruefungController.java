@@ -681,7 +681,6 @@ public void writeExcel(int note) throws IOException {
 	    					    	  CreationHelper createHelper = wb.getCreationHelper();
 	    					    	  cellStyle.setDataFormat(
 	    					    	      createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
-	    					    	  System.out.println("CellNeu: "+cellNote);
 	    					    	  cellNote.setCellValue(note);
 	    					    	  cellDate.setCellValue(new Date());
 	    					    	  cellDate.setCellStyle(cellStyle);
